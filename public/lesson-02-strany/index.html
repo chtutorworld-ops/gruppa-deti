@@ -536,13 +536,15 @@ function showCountry(w){
   $('#cpop').classList.add('show');$('#cpPlay').onclick=e=>speak(w.hz,{btn:e.currentTarget});speak(w.hz,{btn:$('#cpPlay')});
   visited.add(w.hz);if(visited.size>=4)stamp('globe');
 }
-(function globe(){
+try{(function globe(){
   const cv=$('#globe'),pinsEl=$('#pins'),places=W.filter(w=>w.lat!==undefined);
-  if(!window.THREE){$('#globeFallback').style.display='block';cv.style.display='none';
+  const fallback=()=>{$('#globeFallback').style.display='block';cv.style.display='none';
     pinsEl.style.cssText='position:absolute;inset:auto 0 70px 0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;z-index:4';
     pinsEl.innerHTML=places.map(w=>`<button class="pin ${w.city?'city':''}" style="position:static;transform:none" data-h="${w.hz}"><span>${w.hz}</span></button>`).join('');
-    pinsEl.onclick=e=>{const p=e.target.closest('.pin');if(p)showCountry(byHz(p.dataset.h))};return}
-  const R=1,renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});renderer.setPixelRatio(Math.min(2,devicePixelRatio));
+    pinsEl.onclick=e=>{const p=e.target.closest('.pin');if(p)showCountry(byHz(p.dataset.h))}};
+  if(!window.THREE)return fallback();
+  let renderer;try{renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){return fallback()}
+  const R=1;renderer.setPixelRatio(Math.min(2,devicePixelRatio));
   const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(36,1,.1,100);cam.position.set(0,0,3.6);
   const group=new THREE.Group();scene.add(group);
   const loader=new THREE.TextureLoader();loader.crossOrigin='anonymous';
@@ -576,7 +578,7 @@ function showCountry(w){
       const s=1+.35*Math.sin(t/400+d.pos.x*9);d.ring.scale.set(s,s,s);
       v.project(cam);d.el.style.left=((v.x+1)/2*r.width)+'px';d.el.style.top=((1-v.y)/2*r.height-6)+'px';d.el.classList.toggle('hidden',facing<.25)});
     renderer.render(scene,cam)})(0);
-})();
+})()}catch(e){console.warn('globe',e)}
 
 /* ============ 01 CARDS ============ */
 let flipped=new Set(),cardMode='hz';
