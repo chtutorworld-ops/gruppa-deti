@@ -142,7 +142,7 @@ img.fit{object-fit:contain;background:#fff}
 /* QR for the tone trainer */
 const ART_TRAINER='https://claude.ai/artifact/CqbGzsoe4k4sXXYeCWZxiV';
 const hosted=/^https?:$/.test(location.protocol)&&!/claude/i.test(location.hostname)&&!window.claude;
-const TRAINER=hosted?location.origin+'/trainer/':ART_TRAINER;
+const TRAINER=hosted?new URL('../trainer/',location.href).href:ART_TRAINER;
 try{ if(window.QRCode) new QRCode(document.getElementById('qr'),{text:TRAINER,width:340,height:340,colorDark:'#33315F',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); else document.getElementById('qr').innerHTML='<p class="lead" style="text-align:center;padding:20px">QR-код не загрузился. Проверьте интернет и обновите страницу.</p>'; }catch(e){}
 
 /* quiz */
@@ -784,7 +784,7 @@ stage.addEventListener('change',e=>{const inp=e.target.closest('[data-vslot]');i
 /* QR for the tone trainer */
 const ART_TRAINER='https://claude.ai/artifact/CqbGzsoe4k4sXXYeCWZxiV';
 const hosted=/^https?:$/.test(location.protocol)&&!/claude/i.test(location.hostname)&&!window.claude;
-const TRAINER=hosted?location.origin+'/trainer/':ART_TRAINER;
+const TRAINER=hosted?new URL('../trainer/',location.href).href:ART_TRAINER;
 try{ if(window.QRCode) new QRCode(document.getElementById('qr'),{text:TRAINER,width:340,height:340,colorDark:'#33315F',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); else document.getElementById('qr').innerHTML='<p class="lead" style="text-align:center;padding:20px">QR-код не загрузился. Проверьте интернет и обновите страницу.</p>'; }catch(e){}
 
 /* quiz */
