@@ -59,6 +59,32 @@ export default {
         if (!value) return json({ error: 'none' }, 404);
         return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'audio/webm', ...CORS } });
       }
+      // Голос учителя: эталонные записи слогов
+      const okV = (s) => typeof s === 'string' && /^[a-z]{1,6}[1-4]$/.test(s);
+      if (p === '/api/voice/put' && req.method === 'POST') {
+        if (q.get('key') !== env.TEACHER_KEY) return json({ error: 'key' }, 403);
+        const id = q.get('id'); if (!okV(id)) return json({ error: 'bad' }, 400);
+        const buf = await req.arrayBuffer();
+        if (buf.byteLength < 500 || buf.byteLength > 2_000_000) return json({ error: 'size' }, 413);
+        await env.DZ.put(`voice:${id}`, buf, { metadata: { type: req.headers.get('Content-Type') || 'audio/wav', size: buf.byteLength, ts: Date.now() } });
+        return json({ ok: true });
+      }
+      if (p === '/api/voice/del' && req.method === 'POST') {
+        if (q.get('key') !== env.TEACHER_KEY) return json({ error: 'key' }, 403);
+        const id = q.get('id'); if (!okV(id)) return json({ error: 'bad' }, 400);
+        await env.DZ.delete(`voice:${id}`); return json({ ok: true });
+      }
+      if (p === '/api/voice/list') {
+        const out = []; let cur;
+        do { const r = await env.DZ.list({ prefix: 'voice:', cursor: cur }); for (const k of r.keys) out.push({ id: k.name.slice(6), ...(k.metadata || {}) }); cur = r.list_complete ? null : r.cursor; } while (cur);
+        return json({ items: out });
+      }
+      if (p === '/api/voice/get') {
+        const id = q.get('id'); if (!okV(id)) return json({ error: 'bad' }, 400);
+        const { value, metadata } = await env.DZ.getWithMetadata(`voice:${id}`, 'arrayBuffer');
+        if (!value) return json({ error: 'none' }, 404);
+        return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'audio/wav', 'Cache-Control': 'no-store', ...CORS } });
+      }
       return json({ error: 'not found' }, 404);
     } catch (e) {
       return json({ error: String(e && e.message || e) }, 500);
