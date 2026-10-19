@@ -1,9 +1,19 @@
 {
   "name": "gruppa-deti",
+  "main": "src/worker.js",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./public",
+    "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "none"
+    "not_found_handling": "none",
+    "run_worker_first": ["/api/*"]
+  },
+  "kv_namespaces": [
+    { "binding": "DZ", "id": "854133e3baa447918d6d2e23c7de6ea8" }
+  ],
+  "vars": {
+    // Ключ учителя для просмотра ответов (репозиторий приватный)
+    "TEACHER_KEY": "Xw7CkZIZprxZ4taX"
   }
 }
