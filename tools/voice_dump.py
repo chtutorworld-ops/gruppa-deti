@@ -11,11 +11,11 @@ if not os.path.exists(cache):
     for it in json.loads(get(API + "list")).get("items", []):
         w = wave.open(io.BytesIO(get(API + "get?id=" + it["id"])))
         sr = w.getframerate(); x = np.frombuffer(w.readframes(w.getnframes()), "<i2").astype(np.float32) / 32768
-        x = np.interp(np.arange(0, len(x), sr / 16000), np.arange(len(x)), x)
-        mu = np.sign(x) * np.log1p(255 * np.abs(np.clip(x, -1, 1))) / np.log1p(255)       # 8-bit µ-law, 16 kHz
+        x = np.interp(np.arange(0, len(x), sr / 8000), np.arange(len(x)), x)
+        mu = np.sign(x) * np.log1p(255 * np.abs(np.clip(x, -1, 1))) / np.log1p(255)       # 8-bit µ-law, 8 kHz
         out[it["id"]] = base64.b64encode(((mu + 1) * 127.5).round().astype(np.uint8).tobytes()).decode()
     open(cache, "w").write(base64.b64encode(zlib.compress(json.dumps(out).encode(), 9)).decode())
-blob = open(cache).read(); C = 40000
+blob = open(cache).read(); C = 4000
 chunks = [blob[i:i + C] for i in range(0, len(blob), C)]
 for i in range(part, len(chunks), parts):
     print(f"::notice title=vd {i}/{len(chunks)}::{chunks[i]}")
