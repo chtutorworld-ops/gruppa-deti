@@ -60,7 +60,7 @@ export default {
         return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'audio/webm', ...CORS } });
       }
       // Голос учителя: эталонные записи слогов
-      const okV = (s) => typeof s === 'string' && /^[a-z]{1,6}[1-4]$/.test(s);
+      const okV = (s) => typeof s === 'string' && /^[a-z]{1,6}[0-4]$/.test(s);
       if (p === '/api/voice/put' && req.method === 'POST') {
         if (q.get('key') !== env.TEACHER_KEY) return json({ error: 'key' }, 403);
         const id = q.get('id'); if (!okV(id)) return json({ error: 'bad' }, 400);
