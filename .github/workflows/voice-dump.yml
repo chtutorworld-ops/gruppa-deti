@@ -3,7 +3,7 @@ on: workflow_dispatch
 jobs:
   dump:
     runs-on: ubuntu-latest
-    strategy: {matrix: {j: [0, 1, 2, 3]}}
+    strategy: {fail-fast: false, max-parallel: 2, matrix: {j: [0, 1, 2, 3]}}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

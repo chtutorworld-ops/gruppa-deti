@@ -3,7 +3,13 @@ import base64, io, json, os, sys, urllib.request, wave, zlib
 import numpy as np
 API = "https://gruppa-deti.ch-tutor-world.workers.dev/api/voice/"
 UA = {"User-Agent": "Mozilla/5.0 (gruppa-deti check)"}
-get = lambda u: urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=30).read()
+import time
+def get(u):
+    for k in range(6):
+        try: return urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=30).read()
+        except Exception as e:
+            if k == 5: raise
+            time.sleep(2 + 3 * k)
 part, parts = int(sys.argv[1]), int(sys.argv[2])
 cache = "/tmp/voice_blob.txt"
 if not os.path.exists(cache):
