@@ -1,0 +1,279 @@
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Тренажёр тонов</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=Manrope:wght@500;600;700;800&display=swap">
+<style>
+@font-face{font-family:'LXGW WenKai GB';src:url(data:font/woff;base64,__FONT_GB__) format('woff');font-display:block}
+/* Layout: one phone-width column on cream paper, same system as the lesson deck:
+   indigo hanzi, italic jade pinyin, Lora headings, gold hairlines. Single light look by choice. */
+:root{
+  color-scheme:light;
+  --ink:#191B2E; --ink-3:#3E4262; --muted:#6C6982;
+  --vio:#4E4C8E; --vio-2:#33315F; --jade:#2E7F6C; --jade-2:#1A5748; --jade-tint:#E3F0EC;
+  --gold:#BE9760; --gold-2:#8A6B34; --gold-tint:#FAF3E6; --rose:#A8456A; --rose-tint:#F6E6EC; --paper:#FAF5EA; --card:#FFFDF8;
+  --serif:'Lora',Georgia,serif; --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --han:'LXGW WenKai GB','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{background:var(--paper);background-image:radial-gradient(120% 70% at 50% 0%,#FFFCF4 0%,var(--paper) 60%,#F1E8D6 100%);background-attachment:fixed;
+  color:var(--ink);font-family:var(--sans);-webkit-tap-highlight-color:transparent;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:520px;margin:0 auto;display:grid;gap:18px}
+.z{font-family:var(--han);color:var(--vio-2)}
+.p{font-style:italic;font-weight:700;color:var(--jade-2)}
+h1,h2{font-family:var(--serif);font-weight:600;color:var(--vio-2);line-height:1.15;text-wrap:balance}
+h1{font-size:30px}h2{font-size:22px}
+.lead{font-size:16px;line-height:1.55;color:var(--ink-3)}
+.mut{color:var(--muted);font-size:14px;line-height:1.5}
+.card{background:var(--card);border:1px solid rgba(190,151,96,.55);border-radius:20px;box-shadow:0 10px 26px -18px rgba(40,30,15,.7);padding:20px}
+.pill{display:inline-flex;align-items:baseline;gap:10px;padding:8px 20px;border-radius:999px;border:1px solid rgba(190,151,96,.85);background:rgba(252,249,241,.95)}
+.btn{font:inherit;font-size:16px;font-weight:700;padding:13px 22px;border-radius:999px;border:1px solid rgba(190,151,96,.85);background:var(--card);color:var(--vio-2);cursor:pointer;min-height:48px}
+.btn.solid{background:var(--vio);border-color:var(--vio);color:#F6F4FC}
+.btn:focus-visible,.tone:focus-visible,.combo:focus-visible,input:focus-visible{outline:3px solid var(--jade);outline-offset:2px}
+.btn[disabled]{opacity:.45}
+input[type=text]{font:inherit;font-size:18px;font-weight:600;width:100%;padding:14px 16px;border-radius:14px;border:1px solid rgba(190,151,96,.8);background:#fff;color:var(--ink)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grow{flex:1}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.link{background:none;border:0;font:inherit;font-size:14px;font-weight:700;color:var(--gold-2);cursor:pointer;padding:8px 4px;text-decoration:underline;text-underline-offset:3px}
+
+/* stats */
+.bars{display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:86px 1fr 46px;align-items:center;gap:10px;font-size:14px;font-weight:700;color:var(--ink-3)}
+.bar .tr{height:10px;border-radius:5px;background:rgba(190,151,96,.2);overflow:hidden}
+.bar .tr i{display:block;height:100%;border-radius:5px;background:var(--jade)}
+.bar b{font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
+.modes{display:grid;gap:12px}
+.mode{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;text-align:left;font:inherit;padding:16px;border-radius:18px;border:1px solid rgba(190,151,96,.6);background:var(--card);cursor:pointer;color:var(--ink)}
+.mode .ic{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#FFFDF7,#EFE4CF);box-shadow:inset 0 0 0 1px rgba(190,151,96,.55)}
+.mode b{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--vio-2);display:block}
+.mode span{font-size:14px;color:var(--muted)}
+
+/* game */
+.prog{display:flex;gap:5px}
+.prog span{flex:1;height:5px;border-radius:3px;background:rgba(190,151,96,.25)}
+.prog span.ok{background:var(--jade)}.prog span.no{background:var(--rose)}.prog span.cur{background:var(--gold)}
+.listen{display:grid;justify-items:center;gap:12px;padding:26px 20px}
+.orb{width:132px;height:132px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;
+  background:linear-gradient(145deg,#FFFDF7 0%,#F6EEDF 48%,#E9DCC4 100%);box-shadow:-10px -10px 26px rgba(255,255,255,.9),12px 16px 34px rgba(120,96,58,.32),inset 0 0 0 1px rgba(190,151,96,.5)}
+.orb svg{width:46px;height:46px;color:var(--vio-2)}
+.orb.playing{box-shadow:0 0 0 6px rgba(46,127,108,.25),12px 16px 34px rgba(120,96,58,.32),inset 0 0 0 1px rgba(46,127,108,.6)}
+.reveal{min-height:64px;display:grid;justify-items:center;gap:2px;text-align:center}
+.reveal .big{font-size:38px;font-style:italic;font-weight:800;color:var(--jade-2)}
+.tones{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.tone,.combo{font:inherit;display:grid;justify-items:center;gap:4px;padding:12px 8px;border-radius:16px;border:1px solid rgba(120,112,150,.25);background:var(--card);cursor:pointer;color:var(--ink);min-height:92px;align-content:center;transition:background .2s,border-color .2s}
+.tone svg{width:64px;height:34px}
+.tone b{font-size:15px}.tone span{font-size:12px;color:var(--muted);font-weight:600}
+.combo{min-height:64px;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--vio-2)}
+.tone.ok,.combo.ok{background:var(--jade-tint);border-color:var(--jade);color:var(--jade-2)}
+.tone.no,.combo.no{background:var(--rose-tint);border-color:var(--rose);color:#8C3555}
+.combos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.fb{display:grid;gap:10px}
+.fb .msg{font-size:16px;line-height:1.55;color:var(--ink-3)}
+.fb .msg b{color:var(--ink)}
+.cmp{display:flex;gap:8px;flex-wrap:wrap}
+.cmp button{font:inherit;font-size:15px;font-weight:700;padding:9px 14px;border-radius:999px;border:1px solid rgba(190,151,96,.7);background:var(--gold-tint);color:var(--vio-2);cursor:pointer}
+.ai{border-left:2px solid var(--jade);padding:4px 0 4px 14px;font-size:15px;line-height:1.55;color:var(--ink-3);white-space:pre-wrap}
+.score{font-family:var(--serif);font-size:56px;font-weight:600;color:var(--vio-2);line-height:1}
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--vio-2);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;z-index:9;max-width:90vw;text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap" id="app"></div>
+<div id="toast" hidden></div>
+
+<script src="audio-map.js"></script>
+<script>
+(function(){
+const app=document.getElementById('app');
+const PLAY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/></svg>';
+const TN={1:{name:'1-й тон',nick:'певучий',hint:'ровный и высокий, как будто поёшь одну ноту: мааа.'},
+          2:{name:'2-й тон',nick:'вопросительный',hint:'поднимается вверх, как удивлённое «А?» или «Да?».'},
+          3:{name:'3-й тон',nick:'довольный',hint:'сначала опускается вниз, а потом чуть поднимается — как довольное «м-м-м».'},
+          4:{name:'4-й тон',nick:'ругательный',hint:'резко падает сверху вниз, как команда «Стой!» или «Нет!».'}};
+const CURVE={1:'M6 8 L58 8',2:'M6 24 L58 6',3:'M6 14 Q22 32 34 28 Q46 22 58 8',4:'M6 6 L58 28'};
+const CCOL={1:'#2E7F6C',2:'#8A6B34',3:'#4E4C8E',4:'#A8456A'};
+const icon=t=>`<svg viewBox="0 0 64 34" aria-hidden="true"><path d="${CURVE[t]}" stroke="${CCOL[t]}" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const WORDS=[['中国','Zhōngguó','Китай',[1,2]],['老师','lǎoshī','учитель',[3,1]],['北京','Běijīng','Пекин',[3,1]],['熊猫','xióngmāo','панда',[2,1]],['足球','zúqiú','футбол',[2,2]],['牛奶','niúnǎi','молоко',[2,3]],
+ ['面包','miànbāo','хлеб',[4,1]],['咖啡','kāfēi','кофе',[1,1]],['唱歌','chànggē','петь',[4,1]],['上海','Shànghǎi','Шанхай',[4,3]],['美国','Měiguó','Америка',[3,2]],['汉语','Hànyǔ','китайский язык',[4,3]],
+ ['中文','Zhōngwén','китайский язык',[1,2]],['火车','huǒchē','поезд',[3,1]],['电视','diànshì','телевизор',[4,4]],['手机','shǒujī','телефон',[3,1]],['学校','xuéxiào','школа',[2,4]],['医生','yīshēng','врач',[1,1]],
+ ['天气','tiānqì','погода',[1,4]],['地图','dìtú','карта',[4,2]],['太阳','tàiyáng','солнце',[4,2]],['大米','dàmǐ','рис',[4,3]],['公园','gōngyuán','парк',[1,2]],['汽车','qìchē','машина',[4,1]],
+ ['西瓜','xīguā','арбуз',[1,1]],['蛋糕','dàngāo','торт',[4,1]],['飞机','fēijī','самолёт',[1,1]],['苹果','píngguǒ','яблоко',[2,3]],['米饭','mǐfàn','рис (варёный)',[3,4]],['汉字','hànzì','иероглиф',[4,4]],
+ ['拼音','pīnyīn','пиньинь',[1,1]],['电话','diànhuà','телефонный звонок',[4,4]],['茶杯','chábēi','чашка',[2,1]],['黄色','huángsè','жёлтый',[2,4]],['北方','běifāng','север',[3,1]],['熊','xióng','медведь',[2]]].filter(w=>w[3].length===2);
+let POOL=SYL.all().filter(x=>!/^[aoeiuyw]/.test(x.base)); // только слоги с инициалью
+/* use only recordings whose tone was verified (audio/check.json) */
+try{fetch((/^https?:$/.test(location.protocol)&&!/claude/i.test(location.hostname)&&!/workers\.dev$/.test(location.hostname)?new URL('../audio/',location.href).href:'https://chtutorworld-ops.github.io/gruppa-deti-sait/audio/')+'check.json').then(r=>r.json()).then(j=>{const bad=new Set();for(const k in j.items)if(!j.items[k].ok)bad.add(j.items[k].c);const p=POOL.filter(x=>!bad.has(x.c));if([1,2,3,4].every(t=>p.some(x=>x.t===t)))POOL=p;}).catch(()=>{});}catch(e){}
+
+/* ---------- storage (this device) ---------- */
+const KEY='tone-trainer-v1';
+const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{cur:null,kids:{}};}catch(e){return {cur:null,kids:{}};}};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
+let S=load();
+const me=()=>S.kids[S.cur];
+const blank=()=>({t:{1:[0,0],2:[0,0],3:[0,0],4:[0,0]},w:[0,0],best:0,rounds:0});
+
+/* ---------- speech ---------- */
+let voice=null;
+const VPREF=[/Xiaoxiao.*(Natural|Online)/i,/Yunxi.*(Natural|Online)/i,/(Natural|Online|Neural).*(zh|Chinese|Xiao|Yun)/i,/Tingting.*(Enhanced|Premium|улучш)/i,/(Lilian|Yu-?shu|Meijia).*(Enhanced|Premium)/i,/Google\s*普通话/,/Google/,/Xiaoxiao|Yunxi|Yunyang|Xiaoyi/i,/Tingting|Ting-Ting|Lilian|Yu-?shu/i,/Huihui|Kangkang|Yaoyao|Lili/i];
+const pick=()=>{if(!('speechSynthesis' in window))return;const all=speechSynthesis.getVoices();const vs=all.filter(v=>/^(zh[-_]CN|cmn)/i.test(v.lang));
+  voice=null;for(const r of VPREF){voice=vs.find(v=>r.test(v.name));if(voice)break;} voice=voice||vs.find(v=>!v.localService)||vs[0]||all.find(v=>/^zh/i.test(v.lang))||null;};
+if('speechSynthesis' in window){pick();speechSynthesis.onvoiceschanged=pick;}
+
+/* Real neural voice: pre-made mp3 in ../audio/, browser voice only as a fallback */
+const AUDIO_BASE=(/^https?:$/.test(location.protocol)&&!/claude/i.test(location.hostname)&&!window.claude)&&!/workers\.dev$/.test(location.hostname)?new URL('../audio/',location.href).href:'https://chtutorworld-ops.github.io/gruppa-deti-sait/audio/';
+let curA=null;
+function playMp3(text,rate,el,cls,fallback){
+  const h=[...String(text)].filter(c=>/[一-鿿]/.test(c));if(!h.length)return fallback();
+  try{curA&&curA.pause();}catch(e){} if('speechSynthesis' in window)speechSynthesis.cancel();
+  const a=new Audio(AUDIO_BASE+h.map(c=>c.codePointAt(0).toString(16)).join('-')+'.mp3');curA=a;
+  a.preservesPitch=true;a.playbackRate=rate&&rate<.85?.78:1;let done=false;
+  const off=()=>{el&&el.classList.remove(cls);};const fail=()=>{if(done)return;done=true;off();fallback();};
+  if(el)el.classList.add(cls);a.onended=off;a.onerror=fail;a.play().then(()=>{done=true;}).catch(fail);
+}
+function say(text,el,rate){playMp3(text,rate,el,"playing",()=>sayTTS(text,el,rate));}
+function sayTTS(text,el,rate){
+  if(!('speechSynthesis' in window)){toast('Этот браузер не умеет произносить слова');return;}
+  if(!voice)pick(); if(!voice){toast('На телефоне нет китайского голоса. Попробуй Chrome или Safari');return;}
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.voice=voice;u.lang=voice.lang;u.rate=rate||.9;u.pitch=1;
+  if(el){el.classList.add('playing');u.onend=u.onerror=()=>el.classList.remove('playing');}
+  speechSynthesis.speak(u);
+}
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,3400);}
+
+/* ---------- AI (only where this viewer can use Claude) ---------- */
+let sample=null;
+
+
+/* ---------- screens ---------- */
+function home(){
+  if(!S.cur||!me()){ return hello(); }
+  const k=me(); const pct=t=>{const [a,b]=k.t[t];return b?Math.round(a/b*100):null;};
+  const wp=k.w[1]?Math.round(k.w[0]/k.w[1]*100):null;
+  app.innerHTML=`
+   <div class="top"><span class="pill"><span class="z" style="font-size:24px">声调</span><span class="p" style="font-size:14px">shēngdiào</span></span><button class="link" id="who">Это не я</button></div>
+   <div><h1>你好, ${esc(S.cur)}!</h1><p class="lead" style="margin-top:6px">Это твоя комната. Здесь видно, какие тоны ты уже слышишь хорошо, а какие стоит потренировать.</p></div>
+   <div class="card"><h2 style="margin-bottom:14px">Мои тоны</h2>
+     <div class="bars">${[1,2,3,4].map(t=>`<div class="bar"><span>${TN[t].name}</span><span class="tr"><i style="width:${pct(t)??0}%;background:${CCOL[t]}"></i></span><b>${pct(t)==null?'—':pct(t)+'%'}</b></div>`).join('')}
+       <div class="bar"><span>Слова</span><span class="tr"><i style="width:${wp??0}%"></i></span><b>${wp==null?'—':wp+'%'}</b></div></div>
+     <p class="mut" style="margin-top:12px">Раундов сыграно: ${k.rounds}. Лучшая серия без ошибок: ${k.best}.</p></div>
+   <div class="modes">
+     <button class="mode" data-mode="syl"><span class="ic">${icon(3)}</span><span><b>Угадай тон</b><span>Слушаешь слог и выбираешь, какой у него тон</span></span></button>
+     <button class="mode" data-mode="word"><span class="ic"><span class="z" style="font-size:24px">中国</span></span><span><b>Тоны в словах</b><span>Слово из двух слогов: найди сочетание тонов</span></span></button>
+   </div>
+   <p class="mut">Звук идёт из динамика телефона. Если тихо — проверь громкость и беззвучный режим.</p>`;
+  document.getElementById('who').onclick=()=>{S.cur=null;save();hello();};
+  app.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>start(b.dataset.mode));
+}
+function hello(){
+  const names=Object.keys(S.kids);
+  app.innerHTML=`
+   <div style="display:grid;justify-items:center;gap:10px;text-align:center;padding-top:20px">
+     <div class="orb" style="cursor:default"><span class="z" style="font-size:52px;line-height:1">声调</span></div>
+     <h1 style="margin-top:10px">Тренажёр тонов</h1>
+     <p class="lead">Слушай китайские слоги и учись различать четыре тона.</p></div>
+   <form class="card" id="f" style="display:grid;gap:12px"><label for="nm" style="font-weight:700">Как тебя зовут?</label>
+     <input type="text" id="nm" maxlength="24" autocomplete="off" placeholder="Например, Аня">
+     <button class="btn solid" type="submit">Войти в свою комнату</button></form>
+   ${names.length?`<div class="card"><p style="font-weight:700;margin-bottom:10px">Уже были здесь на этом телефоне:</p><div class="row">${names.map(n=>`<button class="btn" data-n="${esc(n)}">${esc(n)}</button>`).join('')}</div></div>`:''}`;
+  document.getElementById('f').onsubmit=e=>{e.preventDefault();const n=document.getElementById('nm').value.trim();if(!n){document.getElementById('nm').focus();return;}
+    if(!S.kids[n])S.kids[n]=blank();S.cur=n;save();home();};
+  app.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{S.cur=b.dataset.n;save();home();});
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- game ---------- */
+let G=null;
+function weightTone(){ // more practice on tones the child misses
+  const k=me(); const w=[1,2,3,4].map(t=>{const [a,b]=k.t[t];return 1+(b?(1-a/b)*3:1);}); const sum=w.reduce((x,y)=>x+y);
+  let r=Math.random()*sum; for(let i=0;i<4;i++){r-=w[i];if(r<=0)return i+1;} return 4;}
+function makeQ(mode){
+  if(mode==='syl'){let t=weightTone();for(let k=0;k<8&&t===window._lastT;k++)t=weightTone();window._lastT=t;const c=POOL.filter(x=>x.t===t);return {mode,item:c[Math.floor(Math.random()*c.length)]};}
+  const w=WORDS[Math.floor(Math.random()*WORDS.length)];const right=w[3].join('+');
+  const opts=new Set([right]);while(opts.size<4){opts.add((1+Math.floor(Math.random()*4))+'+'+(1+Math.floor(Math.random()*4)));}
+  return {mode,word:w,right,opts:[...opts].sort(()=>Math.random()-.5)};
+}
+function start(mode){G={mode,i:0,n:10,res:[],streak:0,q:makeQ(mode),done:false};renderGame();setTimeout(()=>playQ(),250);}
+function playQ(){const el=document.getElementById('orb');say(G.q.mode==='syl'?G.q.item.c:G.q.word[0],el);}
+function renderGame(){
+  const q=G.q;
+  app.innerHTML=`
+   <div class="top"><button class="link" id="back">← В комнату</button><span class="mut" style="font-weight:700">${G.i+1} из ${G.n}</span></div>
+   <div class="prog">${Array.from({length:G.n},(_,i)=>`<span class="${i<G.res.length?(G.res[i]?'ok':'no'):i===G.i?'cur':''}"></span>`).join('')}</div>
+   <div class="card listen">
+     <button class="orb" id="orb" aria-label="Послушать ещё раз">${PLAY}</button>
+     <span class="mut">${q.mode==='syl'?'Нажми, чтобы послушать ещё раз':'Послушай слово и выбери тоны двух слогов'}</span>
+     <div class="reveal" id="rev">${G.done?(q.mode==='syl'?`<span class="big">${q.item.s}</span>`:`<span class="z" style="font-size:40px">${q.word[0]}</span><span class="p" style="font-size:20px">${q.word[1]}</span><span class="mut">${q.word[2]}</span>`):''}</div>
+   </div>
+   ${q.mode==='syl'?`<div class="tones">${[1,2,3,4].map(t=>`<button class="tone" data-a="${t}">${icon(t)}<b>${TN[t].name}</b><span>${TN[t].nick}</span></button>`).join('')}</div>`
+     :`<div class="combos">${q.opts.map(o=>`<button class="combo" data-a="${o}">${o.replace('+',' + ')}</button>`).join('')}</div>`}
+   <div id="fb" class="fb"></div>`;
+  document.getElementById('orb').onclick=playQ;
+  document.getElementById('back').onclick=()=>{speechSynthesis?.cancel();home();};
+  app.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>answer(b.dataset.a));
+  if(G.done) showFeedback();
+}
+function answer(a){
+  if(G.done)return; G.done=true; const q=G.q; const k=me();
+  if(q.mode==='syl'){G.ok=(+a===q.item.t);G.pick=+a;k.t[q.item.t][1]++;if(G.ok)k.t[q.item.t][0]++;}
+  else{G.ok=(a===q.right);G.pick=a;k.w[1]++;if(G.ok)k.w[0]++;}
+  G.res.push(G.ok);G.streak=G.ok?G.streak+1:0;if(G.streak>k.best)k.best=G.streak;save();
+  renderGame();
+}
+function showFeedback(){
+  const q=G.q,fb=document.getElementById('fb');
+  app.querySelectorAll('[data-a]').forEach(b=>{b.disabled=true;const v=b.dataset.a;
+    if(q.mode==='syl'){if(+v===q.item.t)b.classList.add('ok');else if(+v===G.pick)b.classList.add('no');}
+    else{if(v===q.right)b.classList.add('ok');else if(v===G.pick)b.classList.add('no');}});
+  let html='';
+  if(q.mode==='syl'){
+    const t=q.item.t;
+    if(G.ok) html=`<p class="msg"><b>Верно!</b> ${q.item.s} — ${TN[t].name}: ${TN[t].hint}</p>`;
+    else{const alt=SYL.variant(q.item.base,G.pick);
+      html=`<p class="msg">Это <b>${TN[t].name}</b>: ${TN[t].hint} А ${TN[G.pick].name} ${TN[G.pick].hint}</p>
+        <div class="cmp"><button data-say="${q.item.c}">Послушать ${q.item.s}</button>${alt?`<button data-say="${alt.c}">Послушать ${alt.s}</button>`:''}</div>`;}
+  } else {
+    html=G.ok?`<p class="msg"><b>Верно!</b> ${q.word[1]} — это ${q.right.replace('+',' + ')}.</p>`
+      :`<p class="msg">Здесь <b>${q.right.replace('+',' + ')}</b>: ${q.word[3].map((t,i)=>`${i?'второй':'первый'} слог — ${TN[t].nick}`).join(', ')}.</p>
+        <div class="cmp"><button data-say="${q.word[0]}" data-rate=".7">Послушать медленно</button></div>`;
+  }
+  if(!G.ok&&sample) html+=`<div><button class="btn" id="askAi">Спросить ИИ, как услышать разницу</button></div><div class="ai" id="aiOut" hidden></div>`;
+  html+=`<button class="btn solid" id="nx">${G.i===G.n-1?'Посмотреть результат':'Дальше'}</button>`;
+  fb.innerHTML=html;
+  fb.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>say(b.dataset.say,null,+b.dataset.rate||.72));
+  document.getElementById('nx').onclick=next;
+  const ask=document.getElementById('askAi'); if(ask) ask.onclick=()=>askAI(ask);
+}
+async function askAI(btn){
+  const out=document.getElementById('aiOut');out.hidden=false;out.textContent='Думаю…';btn.disabled=true;const q=G.q;
+  const what=q.mode==='syl'?`Ученик услышал слог ${q.item.s} (${q.item.c}), это ${q.item.t}-й тон, а выбрал ${G.pick}-й тон.`
+    :`Ученик услышал слово ${q.word[0]} (${q.word[1]}, «${q.word[2]}»), тоны ${q.right}, а выбрал ${G.pick}.`;
+  try{await sample(`Ты добрый учитель китайского для ребёнка 11–12 лет. ${what} Объясни по-русски в 2–3 коротких предложениях, как на слух отличить правильный тон от выбранного, и дай простой образ, чтобы запомнить. Без markdown, без списков.`,
+      {modelTier:'quick',onText:({text})=>{out.textContent=text;}});}
+  catch(e){ if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(e.code)){sample=null;out.hidden=true;btn.remove();}
+    else{out.textContent=e.text||'Не получилось спросить ИИ. Попробуй позже.';btn.disabled=false;}}
+}
+function next(){
+  G.i++;
+  if(G.i>=G.n){return finish();}
+  G.q=makeQ(G.mode);G.done=false;renderGame();setTimeout(playQ,200);
+}
+function finish(){
+  const k=me();k.rounds++;save();const sc=G.res.filter(Boolean).length;
+  app.innerHTML=`
+   <div class="card" style="display:grid;justify-items:center;gap:10px;text-align:center;padding:30px 20px">
+     <span class="z" style="font-size:34px">${sc>=8?'太棒了！':sc>=5?'很好！':'加油！'}</span>
+     <span class="p">${sc>=8?'tài bàng le!':sc>=5?'hěn hǎo!':'jiāyóu!'}</span>
+     <div class="score" style="margin-top:8px">${sc} / ${G.n}</div>
+     <p class="lead">${sc>=8?'Отлично! Ты хорошо слышишь тоны.':sc>=5?'Хорошо! Ещё пара раундов — и будет отлично.':'Ничего страшного: 犯错不可怕, 不试才可惜!'}</p>
+   </div>
+   <div class="row"><button class="btn solid grow" id="again">Ещё раунд</button><button class="btn grow" id="room">В мою комнату</button></div>`;
+  document.getElementById('again').onclick=()=>start(G.mode);
+  document.getElementById('room').onclick=home;
+}
+home();
+(async()=>{try{sample=window.claude?await window.claude.use('sample'):null;}catch(e){sample=null;} if(sample&&G&&G.done&&!G.ok)renderGame();})();
+})();
+</script>

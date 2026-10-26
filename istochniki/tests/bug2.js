@@ -1,0 +1,7 @@
+const {chromium}=require('playwright');const fs=require('fs');(async()=>{const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.route('**/*',r=>{const u=r.request().url();if(u.startsWith('file:'))return r.continue();if(u.includes('voice/index.json'))return r.fulfill({status:200,contentType:'application/json',body:fs.readFileSync(__dirname+'/vk.json','utf8')});return r.fulfill({status:200,body:'{}',headers:{'Access-Control-Allow-Origin':'*'}});});
+const U='file:///tmp/claude-0/site/dz-2/index.html';await p.goto(U+'#china');await p.waitForTimeout(500);await p.fill('#nm','Тест');await p.click('#go');await p.waitForTimeout(600);
+console.log('new kid with #china link:',await p.evaluate(()=>location.hash+' | '+document.querySelector('h2').innerText));
+await p.goto('about:blank');await p.goto(U+'#china');await p.waitForTimeout(600);console.log('returning kid with #china link:',await p.evaluate(()=>location.hash+' | '+document.querySelector('h2').innerText));
+await p.click('[data-go="air"]');await p.waitForTimeout(800);console.log('menu click:',await p.evaluate(()=>location.hash+' | '+document.querySelector('h2').innerText));
+await p.goBack();await p.waitForTimeout(500);console.log('back:',await p.evaluate(()=>document.querySelector('h2').innerText));console.log(errs);await b.close();})();

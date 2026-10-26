@@ -1,0 +1,380 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>补课 — Догоняем урок</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Nunito:wght@700;800;900&display=swap">
+<style>
+@font-face{font-family:'LXGW WenKai GB';src:url(data:font/woff;base64,__FONT_GB__) format('woff');font-display:block}
+:root{--bg:#E9EDF4;--ink:#1E2350;--t:#3D4560;--mu:#7D86A3;--ac:#5B6BD8;--ac2:#2B3270;--ok:#2DBE8C;--no:#FF5C8A;--sh1:#C5CBD8;--sh2:#fff;
+ --t1:#2DBE8C;--t2:#F5A524;--t3:#7C6FFF;--t4:#FF5C8A;--t0:#9AA2BC;--han:'LXGW WenKai GB','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg)}
+body{font-family:Manrope,system-ui,-apple-system,sans-serif;color:var(--t);min-height:100vh;padding:max(14px,env(safe-area-inset-top)) 14px 40px}
+button{font:inherit;border:0;cursor:pointer;color:inherit;background:none}
+.zh{font-family:var(--han);font-weight:400}.py{font-family:Nunito,Manrope,sans-serif;font-weight:800}
+.n{background:var(--bg);border-radius:24px;box-shadow:8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2)}
+.in{background:var(--bg);border-radius:18px;box-shadow:inset 5px 5px 10px var(--sh1),inset -5px -5px 10px var(--sh2)}
+.app{max-width:860px;margin:0 auto}
+.top{display:flex;align-items:center;gap:14px;padding:14px 18px;margin-bottom:16px}
+.top .zh{font-size:34px;color:var(--ac2);line-height:1;white-space:nowrap}
+.top h1{font-size:19px;font-weight:800;color:var(--ink);line-height:1.15}
+.top small{display:block;font-size:13px;color:var(--mu);font-weight:600}
+.prog{margin-left:auto;min-width:120px;font-size:13px;font-weight:800;color:var(--mu);text-align:right}
+.prog .bar{height:8px;border-radius:5px;background:#D6DBE6;margin-top:6px;overflow:hidden}.prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--ok));border-radius:5px;transition:width .4s}
+@media(max-width:600px){.top small{display:none}.top .zh{font-size:28px}.top h1{font-size:16px}.prog{min-width:90px}}
+.main{padding:24px 24px 22px}
+@media(max-width:600px){.main{padding:18px 14px}}
+.part{display:inline-flex;gap:8px;align-items:center;font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
+.part b{color:#fff;background:var(--ac);padding:3px 9px;border-radius:9px;letter-spacing:.04em}
+.part b.l1{background:var(--t2)}
+h2{font-size:28px;font-weight:800;color:var(--ink);line-height:1.15;letter-spacing:-.01em;margin-top:10px}
+@media(max-width:600px){h2{font-size:23px}}
+.hz{display:flex;align-items:baseline;gap:12px;margin-top:6px;flex-wrap:wrap}.hz .zh{font-size:34px;color:var(--ac2)}.hz .py{font-size:18px;color:var(--ac)}
+.lead{font-size:17px;line-height:1.55;margin-top:12px}
+.lead b{color:var(--ink)}
+.lead em,.zh-i{font-family:var(--han);font-style:normal;color:var(--ac2);font-size:1.15em}
+.ipy{font-family:Nunito;font-weight:800;color:var(--ac)}
+h3{font-size:18px;font-weight:800;color:var(--ink);margin:22px 0 10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:18px;font-weight:800;font-size:16.5px;background:var(--ac);color:#fff;box-shadow:6px 6px 14px var(--sh1),-6px -6px 14px var(--sh2);transition:transform .1s;text-decoration:none}
+.btn:active{transform:scale(.97)}.btn.g{background:var(--bg);color:var(--ac2)}.btn.okb{background:var(--ok)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
+.cards{display:grid;gap:14px;margin-top:16px}@media(min-width:700px){.cards.c2{grid-template-columns:1fr 1fr}.cards.c3{grid-template-columns:repeat(3,1fr)}.cards.c4{grid-template-columns:repeat(4,1fr)}}
+.card{padding:16px 18px;border-radius:22px;font-size:15.5px;line-height:1.5}
+.card b.h{display:block;font-size:18px;color:var(--ac2);margin-bottom:4px;line-height:1.25}
+.card .ic{font-size:26px;display:block;margin-bottom:4px}
+.tip{margin-top:16px;padding:12px 16px;border-radius:16px;background:#FFF6DC;color:#6B5310;font-size:15.5px;line-height:1.5}
+.say{display:inline-flex;align-items:center;gap:8px}
+.say:after{content:'🔊';font-size:.6em;opacity:.55}
+.say.on{color:var(--ok)!important}
+/* check */
+.chk{margin-top:22px;padding:18px;border-radius:22px}
+.chk .q{font-size:17px;font-weight:800;color:var(--ink);line-height:1.4}
+.chk .q:before{content:'✏️ Проверь себя';display:block;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:6px}
+.mcq{display:grid;gap:10px;margin-top:12px}@media(min-width:700px){.mcq.two{grid-template-columns:1fr 1fr}}
+.opt{padding:13px 16px;border-radius:18px;font-size:16px;font-weight:700;text-align:left;line-height:1.35;box-shadow:6px 6px 14px var(--sh1),-6px -6px 14px var(--sh2)}
+.opt.ok{background:#DDF5EC;box-shadow:inset 3px 3px 8px #B9DCCD}.opt.no{background:#FFE3EB;box-shadow:inset 3px 3px 8px #F0C2D0}
+.opt .zh{font-size:1.25em}
+.fb{margin-top:12px;font-size:15.5px;font-weight:700;line-height:1.45;min-height:22px}.fb.ok{color:#14855E}.fb.no{color:#D9366A}
+/* nav */
+.nextbar{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:26px;padding-top:18px;border-top:1px solid #D6DBE6;flex-wrap:wrap}
+.nextbar .btn{flex:1 1 auto}.nextbar .btn.nx{flex:2 1 240px}
+/* pieces */
+.motto{text-align:center;padding:26px 10px 10px}
+.motto .zh{font-size:46px;line-height:1.3;color:var(--ac2);letter-spacing:.04em}
+.motto .py{font-size:19px;color:var(--ac);margin-top:8px}
+.motto .ru{font-size:22px;font-weight:800;color:var(--ink);margin-top:12px}
+@media(max-width:600px){.motto .zh{font-size:34px}}
+.sys{padding:20px;border-radius:26px;color:#fff;text-align:center;display:grid;gap:4px;justify-items:center}
+.sys .zh{font-size:58px;line-height:1.1;color:#fff}.sys .py{font-size:22px}.sys small{font-size:14.5px;font-weight:700;opacity:.92;line-height:1.4}
+.phone{width:290px;max-width:100%;margin:18px auto 0;border-radius:40px;padding:12px;background:#1E2350;box-shadow:10px 10px 24px var(--sh1),-8px -8px 18px var(--sh2)}
+.phone .sc{background:#F2F3F7;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;min-height:440px}
+.phone .hd{text-align:center;font-weight:800;font-size:14px;padding:14px 0 8px;color:#111}
+.chat{flex:1;padding:8px 12px;display:flex;flex-direction:column;gap:8px}
+.bub{max-width:80%;padding:9px 13px;border-radius:18px;font-size:19px;font-family:var(--han);line-height:1.3}
+.bub.l{background:#fff;align-self:flex-start;border-bottom-left-radius:6px}.bub.r{background:#5B6BD8;color:#fff;align-self:flex-end;border-bottom-right-radius:6px;animation:pop .3s}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.kbd{background:#D5D8E0;padding:8px 5px 12px}
+.ipt{background:#fff;border-radius:10px;padding:8px 10px;font-size:18px;font-weight:800;font-family:Nunito;min-height:38px;color:#111}
+.ipt i{color:var(--ac);font-style:normal;animation:bl 1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+.cand{display:flex;gap:6px;padding:7px 2px;min-height:44px;overflow-x:auto}
+.cand button{padding:4px 12px;border-radius:9px;font-family:var(--han);font-size:22px;background:#fff;white-space:nowrap}
+.cand button.best{background:#5B6BD8;color:#fff;animation:pop .3s}
+.kr{display:flex;justify-content:center;gap:4px;margin-top:6px}
+.kr button{flex:1;max-width:25px;height:38px;border-radius:6px;background:#fff;font-size:15px;font-weight:700;color:#222;box-shadow:0 1px 0 #9A9EA8}
+.kr button.hot{background:#FFE7A8;box-shadow:0 0 0 2px #F5A524}
+.kr button:active{background:#C9CEDB}
+.kr .wide{max-width:none;flex:3;font-size:13px}
+.cube{padding:14px 12px;border-radius:22px;text-align:center;display:grid;gap:6px;justify-items:center}
+.cube .bx{display:flex;gap:4px}
+.cube .bx span{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-family:var(--han);font-size:28px;color:#fff}
+.cube small{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--mu);text-transform:uppercase}
+.cube b{font-size:16px;color:var(--ink)}
+.syl3{display:flex;justify-content:center;align-items:flex-end;gap:10px;margin-top:20px;flex-wrap:wrap}
+.part3{padding:14px 18px 12px;border-radius:22px;text-align:center;min-width:110px}
+.part3 .big{font-family:Nunito;font-weight:900;font-size:76px;line-height:1}
+.part3 .lb{font-size:13px;font-weight:800;color:var(--mu);margin-top:4px;letter-spacing:.04em}
+.part3 .lb2{font-size:14px;font-weight:700;color:var(--t);max-width:140px;margin-top:2px;min-height:20px;transition:opacity .3s}
+.part3.hide .lb2{opacity:0}
+.plus{font-family:Nunito;font-weight:900;font-size:40px;color:var(--mu);padding-bottom:40px}
+@media(max-width:600px){.syl3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:6px;align-items:center}.part3{min-width:0;padding:10px 4px}.part3 .big{font-size:46px}.part3 .lb{font-size:10.5px}.part3 .lb2{font-size:11.5px}.plus{font-size:22px;padding:0}.syl3 .eq{display:none}.syl3 .res{grid-column:1/-1;justify-self:center;min-width:160px;margin-top:6px}}
+.tones{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}
+@media(max-width:600px){.tones{grid-template-columns:repeat(3,1fr)}}
+.tone{padding:14px 6px 12px;border-radius:22px;display:grid;justify-items:center;gap:6px}
+.tone svg{width:70px;height:46px}
+.tone .py{font-size:34px;line-height:1}
+.tone .zh{font-size:34px;color:var(--ac2)}
+.tone small{font-size:13px;font-weight:700;color:var(--mu)}
+.tone.on{box-shadow:inset 5px 5px 10px var(--sh1),inset -5px -5px 10px var(--sh2)}
+.vid{border-radius:22px;overflow:hidden;background:#000;aspect-ratio:9/16;max-height:520px;margin:0 auto;display:block;width:auto;max-width:100%}
+.vids{display:grid;gap:18px;margin-top:16px}@media(min-width:700px){.vids{grid-template-columns:1fr 1fr}}
+.vids figure{padding:12px;border-radius:24px}.vids figcaption{font-size:15px;font-weight:700;margin-top:10px;line-height:1.4;text-align:center}
+.vids video{width:100%;border-radius:16px;display:block;background:#000;max-height:460px}
+.flip{padding:16px 18px;border-radius:20px;text-align:left;font-size:16px;font-weight:700;line-height:1.4;width:100%}
+.flip .a{display:block;margin-top:8px;color:#14855E;font-size:18px;font-weight:800;visibility:hidden}
+.flip.open .a{visibility:visible}
+.vow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}
+.vow .col{padding:12px 4px;border-radius:22px;display:grid;gap:4px;justify-items:center}
+.vow .col .ru{font-size:14px;font-weight:800;color:var(--mu)}
+.vow button{font-family:Nunito;font-weight:900;font-size:34px;line-height:1.2;padding:2px 8px;border-radius:12px}
+.vow button.on{color:var(--ok)}
+@media(max-width:600px){.vow{gap:6px}.vow button{font-size:27px;padding:2px 4px}}
+.ep{display:grid;gap:12px;margin-top:16px}@media(min-width:700px){.ep{grid-template-columns:repeat(4,1fr)}}
+.ep .card .w1{font-size:21px;font-weight:800;color:var(--ink)}.ep .card .w2{font-size:19px;font-weight:800;color:#17936A;margin-top:2px}
+.ep .card small{display:block;color:var(--mu);font-size:13.5px;margin-top:6px;line-height:1.4}
+.pic{display:block;max-width:100%;border-radius:18px;margin:16px auto 0}
+.toc{display:grid;gap:10px;margin-top:18px}
+.toc div{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:18px;font-weight:700;font-size:16px}
+.toc span{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex:none}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.chip{padding:9px 16px;border-radius:15px;font-family:Nunito;font-weight:900;font-size:22px;line-height:1.1}
+.chip.on{box-shadow:inset 3px 3px 7px var(--sh1),inset -3px -3px 7px var(--sh2)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ac2);color:#fff;padding:12px 18px;border-radius:16px;font-weight:700;font-size:15px;z-index:9;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1}
+</style></head><body>
+<div class="app" id="app"></div><div class="toast" id="toast"></div>
+<script>
+/* ===================== audio ===================== */
+const AUDIO=(/^https?:$/.test(location.protocol)&&!/claude/i.test(location.hostname))&&!/workers\.dev$/.test(location.hostname)?new URL('../audio/',location.href).href:'https://chtutorworld-ops.github.io/gruppa-deti-sait/audio/';
+const VOICE=AUDIO+'voice/';let VOK=null;fetch(VOICE+'index.json?'+Date.now()).then(r=>r.json()).then(j=>VOK=j).catch(()=>{});
+const fn=t=>AUDIO+[...t].map(c=>c.codePointAt(0).toString(16)).join('-')+'.mp3';
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2600);}
+let curA=null;
+function playURL(u,el){return new Promise(res=>{try{curA&&curA.pause()}catch(e){}const a=new Audio(u);curA=a;el&&el.classList.add('on');
+ const end=()=>{el&&el.classList.remove('on');res();};a.onended=end;let tried=0;
+ const fail=()=>{if(tried++<2){setTimeout(()=>{if(curA!==a)return end();a.load();a.play().catch(fail);},350);return;}end();};
+ a.onerror=fail;a.play().catch(fail);});}
+// the teacher's own voice for syllables (audio/voice/<syl><tone>.wav); words — the course word voice
+const CH={ma:'妈麻马骂',mi:'眯迷米密',ni:'妮泥你逆',bi:'逼鼻笔必',da:'搭达打大',di:'低敌底地',tu:'突图土兔',mo:'摸魔抹默',a:'阿阿阿阿',o:'哦哦哦哦',e:'鹅鹅鹅饿',u:'乌无五物',yi:'衣移以意',ba:'八拔把爸'};
+function playSyl(b,t,el){const k=b+t;if(VOK&&VOK[k])return playURL(VOICE+k+'.wav',el);return playURL(fn(t?((CH[b]||'')[t-1]||b):({ma:'吗'}[b]||b)),el);}   // t=0: neutral tone
+const playWord=(w,el)=>playURL(fn(w),el);
+const V={a:'āáǎà',o:'ōóǒò',e:'ēéěè',i:'īíǐì',u:'ūúǔù'};
+const mark=(b,t)=>{if(!t)return b;let k=b.search(/a|e/);if(k<0)k=b.indexOf('ou');if(k<0){for(let j=b.length-1;j>=0;j--)if('aeiou'.includes(b[j])){k=j;break;}}return b.slice(0,k)+V[b[k]][t-1]+b.slice(k+1);};
+const TCOL={1:'var(--t1)',2:'var(--t2)',3:'var(--t3)',4:'var(--t4)',0:'var(--t0)'};
+const TPATH={1:'M8 10 H62',2:'M8 38 L62 8',3:'M8 16 Q34 52 62 8',4:'M8 8 L62 38'};
+const tsvg=t=>`<svg viewBox="0 0 70 46">${t?`<path d="${TPATH[t]}" stroke="${TCOL[t]}" stroke-width="6" fill="none" stroke-linecap="round"/>`:`<circle cx="35" cy="23" r="7" fill="${TCOL[0]}"/>`}</svg>`;
+const IMG=(/^https?:$/.test(location.protocol)&&!/claude/i.test(location.hostname))?new URL('../urok-1/',location.href).href:'https://chtutorworld-ops.github.io/gruppa-deti-sait/urok-1/';
+
+/* ===================== small building blocks ===================== */
+// a "check yourself" question: [question, [options], correctIndex, explanation]
+function chk(q,opts,c,ex,two){const id='c'+Math.random().toString(36).slice(2,7);
+ const order=shuffle(opts.map((o,i)=>i));
+ return `<div class="chk in" id="${id}" data-c="${c}"><div class="q">${q}</div><div class="mcq ${two?'two':''}">${order.map(i=>`<button class="opt n" data-i="${i}">${opts[i]}</button>`).join('')}</div><div class="fb" data-ex="${encodeURIComponent(ex||'')}"></div></div>`;}
+function bindChecks(){document.querySelectorAll('.chk').forEach(box=>{const c=+box.dataset.c,fb=box.querySelector('.fb');let done=false;
+ box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(done)return;const ok=+b.dataset.i===c;
+  if(ok){done=true;b.classList.add('ok');fb.className='fb ok';fb.innerHTML='✓ Верно! '+decodeURIComponent(fb.dataset.ex);}
+  else{b.classList.add('no');fb.className='fb no';fb.textContent='Не совсем — попробуй ещё раз. 犯错不可怕!';}});});
+ document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>playWord(b.dataset.w,b));
+ document.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const [s,t]=b.dataset.s.split(':');playSyl(s,+t,b);});}
+
+
+// how each tone is said (5-step pitch scale) + examples in the teacher's voice
+const TONES=[
+ {t:1,lv:'5–5',name:'высокий ровный',how:'Голос стоит <b>высоко и ровно</b>, как долгая нота. Не поднимай и не опускай его до конца слога.',like:'Как будто долго поёшь «ааа» на одной высокой ноте 🎵',ex:[['ma',1,'mā'],['ba',1,'bā'],['mi',1,'mī']],pts:[[0,5],[1,5]]},
+ {t:2,lv:'3–5',name:'восходящий',how:'Голос идёт <b>снизу вверх</b>: начинаешь со средней высоты и поднимаешься наверх.',like:'Как удивлённое «А?» или переспрашиваешь «Да?» 🤨',ex:[['ma',2,'má'],['ba',2,'bá'],['ni',2,'ní']],pts:[[0,3],[1,5]]},
+ {t:3,lv:'2–1–4',name:'нисходяще-восходящий',how:'Голос опускается <b>вниз, до самого низа</b>, задерживается там (может появиться хрипотца) и потом <b>поднимается</b>. Это «галочка» — самый длинный тон.',like:'Как задумчивое «Ну-у?..», когда сомневаешься 🤔',ex:[['ma',3,'mǎ'],['bi',3,'bǐ'],['ni',3,'nǐ']],pts:[[0,2],[.5,1],[.65,1],[1,4]]},
+ {t:4,lv:'5–1',name:'нисходящий',how:'Голос <b>резко падает сверху вниз</b>. Коротко и энергично.',like:'Как строгое «Нет!» или команда «Стоп!» ✋',ex:[['ma',4,'mà'],['da',4,'dà'],['tu',4,'tù']],pts:[[0,5],[1,1]]},
+ {t:0,lv:'',name:'лёгкий и короткий',how:'У него <b>нет своей мелодии</b>: слог звучит легко и коротко, без нажима. Значок тона не пишут.',like:'Как <span class="zh-i">吗</span> ma в конце вопроса',ex:[['ma',0,'ma']],pts:null}];
+function chao(t){const T=TONES.find(x=>x.t===t),W=74,H=64,y=v=>H-6-(v-1)*(H-12)/4,x=u=>10+u*(W-16);
+ return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" style="flex:none">${[1,2,3,4,5].map(v=>`<line x1="8" x2="${W-4}" y1="${y(v)}" y2="${y(v)}" stroke="#D0D5E2" stroke-width="1"/><text x="0" y="${y(v)+3.5}" font-size="9" font-family="Nunito" font-weight="800" fill="#9AA2BC">${v}</text>`).join('')}
+  ${T.pts?`<path d="${T.pts.map((p,i)=>(i?'L':'M')+x(p[0]).toFixed(1)+' '+y(p[1]).toFixed(1)).join(' ')}" stroke="${TCOL[t]}" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`:`<circle cx="${W/2}" cy="${y(2)}" r="5" fill="${TCOL[0]}"/>`}</svg>`;}
+/* ===================== the steps ===================== */
+const L1='<span class="part"><b class="l1">Урок 1</b> вспоминаем</span>',L2='<span class="part"><b>Урок 2</b> новое</span>';
+const STEPS=[
+ {t:'Начало',h:()=>`<span class="part"><b>补课</b> bǔkè · догоняем</span>
+  <h2>Привет! Догоняем группу 👋</h2>
+  <p class="lead">Ты пропустил урок — ничего страшного. Здесь всё самое важное, по шагам. Читай, нажимай на слова со значком 🔊 — услышишь, как они звучат. После каждого шага — короткая проверка.</p>
+  <div class="toc">
+   <div class="n"><span style="background:#FFF1D6">🗺️</span>Шаг 1 — вспоминаем урок 1 (3 минуты)</div>
+   <div class="n"><span style="background:#E4E8FF">✍️</span>Шаги 2–15 — урок 2: пиньинь, как китайцы печатают, слог и его части, тоны, финали (20–25 минут)</div>
+   <div class="n"><span style="background:#DDF5EC">🏁</span>Финиш — и можно делать домашнее задание</div>
+  </div>
+  <div class="tip">🎧 Включи звук. Если что-то не понятно — ничего, на следующем уроке спросишь учителя.</div>`},
+
+ {t:'Урок 1 за 3 минуты',h:()=>`${L1}<h2>Урок 1 за 3 минуты</h2>
+  <div class="cards c2">
+   <div class="card n"><span class="ic">🐢</span><b class="h">Больше 3500 лет</b>Самые древние надписи — на костях животных и панцирях черепах. Они называются <em>甲骨文</em> <span class="ipy">jiǎgǔwén</span>.</div>
+   <div class="card n"><span class="ic">🐎</span><b class="h">От рисунка к знаку</b>Иероглифы были рисунками. <span class="say zh-i" data-w="马">马</span> <span class="ipy">mǎ</span> «лошадь» когда-то рисовали как лошадь.<img src="${IMG}img/horse-row.webp" alt="Иероглиф «лошадь»: от рисунка к знаку" style="width:100%;display:block;margin-top:8px;border-radius:10px"></div>
+   <div class="card n"><span class="ic">🗣️</span><b class="h">Путунхуа и диалекты</b><em>普通话</em> <span class="ipy">pǔtōnghuà</span> — общий язык Китая, его учат в школах. Диалектов десятки, и люди с разных диалектов устно друг друга не понимают.</div>
+   <div class="card n"><span class="ic">✂️</span><b class="h">Упрощённые и традиционные</b>В КНР и Сингапуре пишут упрощёнными: <em>马</em>. На Тайване, в Гонконге и Макао — традиционными: <em>馬</em>.</div>
+   <div class="card n"><span class="ic">🧩</span><b class="h">Грамматика проще</b>Нет спряжений, падежей и родов. Порядок слов как в русском: я люблю чай — <span class="say zh-i" data-w="我爱茶">我爱茶</span>.</div>
+   <div class="card n"><span class="ic">🔑</span><b class="h">Иероглиф = ключ + фонетик</b><span class="say zh-i" data-w="妈">妈</span> «мама» = <em>女</em> (ключ «женщина», подсказывает смысл) + <em>马</em> (подсказывает звучание «ма»). Ключей всего 214.</div>
+  </div>
+  ${chk('На чём делали самые древние китайские надписи?',['На костях животных и панцирях черепах','На бамбуковых дощечках','На шёлке','На глиняных табличках'],0,'Это и есть <em>甲骨文</em>.')}
+  ${chk('Что такое путунхуа?',['Общий государственный язык Китая, его учат в школах','Древний письменный язык','Один из южных диалектов','Вид каллиграфии'],0,'')}
+  ${chk('Из каких частей состоит иероглиф <span class="zh">妈</span>?',['Ключ <span class="zh">女</span> «женщина» + фонетик <span class="zh">马</span> «ма»','Два ключа','Он не делится на части','Ключ <span class="zh">马</span> + фонетик <span class="zh">女</span>'],0,'Ключ подсказывает смысл, фонетик — звучание.')}
+  <div class="row"><a class="btn g" href="../povtor/" target="_blank">🗺️ Пройти всю карту урока 1 (по желанию)</a></div>`},
+
+ {t:'Ошибаться не страшно',h:()=>`${L2}<h2>Девиз нашего урока</h2>
+  <div class="motto"><div class="zh say" data-w="犯错不可怕，不试才可惜" style="cursor:pointer">犯错不可怕，<br>不试才可惜</div>
+   <div class="py">fàn cuò bù kěpà, bù shì cái kěxī</div><div class="ru">Ошибаться не страшно — жалко не пробовать</div></div>
+  <p class="lead" style="text-align:center">Нажми на иероглифы, чтобы послушать. Тоны и новые звуки сначала у всех получаются с ошибками — это нормально.</p>`},
+
+ {t:'Две системы записи',h:()=>`${L2}<h2>Две системы записи</h2>
+  <p class="lead">Китайское слово можно записать двумя способами: <b>иероглифами</b> или <b>пиньинем</b> — латинскими буквами.</p>
+  <div class="cards c2">
+   <button class="sys say-b" data-w="汉字" style="background:linear-gradient(150deg,#FF5E7E,#FF9F6B)"><span class="zh">汉字</span><span class="py">hànzì 🔊</span><small>Иероглифы — тысячи знаков, у каждого есть значение. Это основная запись.</small></button>
+   <button class="sys say-b" data-w="拼音" style="background:linear-gradient(150deg,#4C7DFF,#9B6BFF)"><span class="zh">拼音</span><span class="py">pīnyīn 🔊</span><small>Пиньинь — латинские буквы. Показывает, как слово звучит. Значки над гласными — тоны.</small></button>
+  </div>
+  <div class="tip">Например, <em>中国</em> «Китай» пиньинем пишется <span class="ipy">zhōngguó</span>.</div>
+  ${chk('Что показывает пиньинь?',['Как слово звучит (и его тоны)','Значение слова','Как пишется иероглиф','Из скольких черт иероглиф'],0,'Пиньинь — это запись звучания.',true)}`},
+
+ {t:'Пиньинь — твой помощник',h:()=>`${L2}<h2>Пиньинь — твой помощник</h2><div class="hz"><span class="zh say" data-w="拼音是什么" style="cursor:pointer">拼音是什么？</span><span class="py">pīnyīn shì shénme?</span></div>
+  <div class="cards c2">
+   <div class="card n"><b class="h">📛 Откуда название</b><span class="say zh-i" data-w="拼音">拼音</span> <span class="ipy">pīnyīn</span>: <em>拼</em> — «складывать», <em>音</em> — «звук». Пиньинь — это «складывание звуков»: слог собирают из букв.</div>
+   <div class="card n"><b class="h">🔤 Что это</b>Запись китайских слов <b>латинскими буквами</b>. Она показывает, как слово звучит. Например, <span class="say zh-i" data-w="中国">中国</span> «Китай» = <span class="ipy">zhōngguó</span>. Значки над гласными — это <b>тоны</b>.</div>
+  </div>
+  <p class="lead">Пиньинь — это <b>не отдельный язык</b>, не транслитерация и не замена иероглифам. Это <b>инструмент</b>, который показывает произношение. Без него ты как слепой котёнок 🐱</p>
+  <div class="cards c2">
+   <div class="card n"><b class="h">🌍 Как используют иностранцы</b>• учат произношение — не нужно сразу браться за иероглифы<br>• читают китайские слова, не выучив тысячу знаков<br>• смотрят в субтитрах, как звучит фраза</div>
+   <div class="card n"><b class="h">🇨🇳 Как используют китайцы</b>• дети в школе учат иероглифы через пиньинь<br>• на телефоне и компьютере китайцы <b>печатают</b> пиньинем, а программа превращает его в иероглифы</div>
+  </div>
+  <div class="tip"><b>Вывод:</b> пиньинь — твой главный помощник на старте. Он делает китайский язык доступным.</div>
+  ${chk('Пиньинь — это…',['Запись звучания китайских слов латинскими буквами','Отдельный язык','Упрощённые иероглифы','Один из диалектов'],0,'Это инструмент, а не язык.')}
+  ${chk('Как китайские дети учат иероглифы в школе?',['Через пиньинь','Только переписывая иероглифы','По-английски','Без всякой записи звучания'],0,'',true)}`},
+ {t:'Как китайцы печатают',h:()=>`${L2}<h2>Как китайцы печатают</h2><div class="hz"><span class="zh">打字</span><span class="py">dǎzì</span></div>
+  <p class="lead">Набирают <b>пиньинь латиницей — без тонов</b>. Программа предлагает иероглифы, остаётся выбрать нужный. <b>Попробуй сам:</b> набери на клавиатуре <span class="ipy">nihao</span> и выбери <em>你好</em>.</p>
+  <div class="phone"><div class="sc"><div class="hd">李明 Ли Мин 🇨🇳</div>
+   <div class="chat" id="chat"><div class="bub l">你好！我叫李明。</div></div>
+   <div class="kbd"><div class="ipt" id="ipt"><i>|</i></div><div class="cand" id="cand"></div>
+    ${['qwertyuiop','asdfghjkl','zxcvbnm'].map(r=>`<div class="kr">${[...r].map(c=>`<button data-k="${c}">${c}</button>`).join('')}${r==='zxcvbnm'?'<button class="wide" data-k="del">⌫</button>':''}</div>`).join('')}
+   </div></div></div>
+  <p class="lead" id="tyhint" style="text-align:center;font-weight:700">Подсветка подскажет, какую букву нажать</p>
+  <div class="tip">💻 На компьютере так же: включаешь китайскую раскладку, печатаешь пиньинь, выбираешь иероглиф цифрой или пробелом. Как установить раскладку — в первом задании ДЗ.</div>`,
+  on:()=>{const T='nihao',C={n:['你','能','年','呢'],ni:['你','尼','泥','逆'],nih:['你好','你会','你和'],niha:['你好','你哈'],nihao:['你好','你','尼','泥']};let s='',sent=0;
+   const paint=()=>{$('#ipt').innerHTML=s+'<i>|</i>';const c=C[s]||[];$('#cand').innerHTML=c.map((x,i)=>`<button class="${s===T&&!i?'best':''}" data-c="${x}">${x}</button>`).join('');
+    document.querySelectorAll('.kr button').forEach(b=>b.classList.toggle('hot',!sent&&b.dataset.k===T[s.length]&&T.startsWith(s)));
+    $('#tyhint').textContent=sent?'Готово! Вот так китайцы и печатают 🎉':s===T?'Теперь нажми на 你好 в строке подсказок':T.startsWith(s)?'Подсветка подскажет, какую букву нажать':'Ой, не та буква — нажми ⌫';
+    document.querySelectorAll('#cand button').forEach(b=>b.onclick=()=>{if(b.dataset.c!=='你好'){toast('Нам нужно 你好 — «привет»');return;}
+     $('#chat').insertAdjacentHTML('beforeend','<div class="bub r">你好！</div>');sent=1;s='';paint();playWord('你好');
+     setTimeout(()=>$('#chat').insertAdjacentHTML('beforeend','<div class="bub l">😊👍</div>'),900);});};
+   document.querySelectorAll('.kr button').forEach(b=>b.onclick=()=>{if(sent)return;const k=b.dataset.k;if(k==='del')s=s.slice(0,-1);else if(s.length<8)s+=k;paint();});paint();}},
+
+ {t:'Слог — это основа',h:()=>`${L2}<h2>Слог — это основа</h2><div class="hz"><span class="zh">音节是基础</span><span class="py">yīnjié shì jīchǔ</span></div>
+  <div class="cards c3">
+   <div class="card n"><b class="h">1 слог = 1 иероглиф</b>Всё, что ты говоришь по-китайски, — цепочка слогов. У каждого слога свой тон.</div>
+   <div class="card n"><b class="h">~400 слогов</b>Столько всего в китайском (без тонов). В русском — тысячи!</div>
+   <div class="card n"><b class="h">Миф ✗</b>«Один иероглиф — это целое предложение» — неправда.</div>
+  </div>
+  <h3>Нажми на слово — послушай. Каждый кубик — один слог.</h3>
+  <div class="cards c4">
+   ${[['我','wǒ','я','#F2678E'],['老师','lǎo shī','учитель','#6E7BF2'],['外国人','wài guó rén','иностранец','#38C08B'],['电子邮件','diàn zǐ yóu jiàn','e-mail','#F5A524']].map(([w,p,r,c])=>`<button class="cube n" data-w="${w}"><small>${[...w].length} ${[...w].length===1?'слог':'слога'}</small><span class="bx">${[...w].map(ch=>`<span style="background:${c}">${ch}</span>`).join('')}</span><span class="ipy">${p}</span><b>${r} 🔊</b></button>`).join('')}
+  </div>
+  ${chk('Сколько слогов в слове <span class="zh">外国人</span> wàiguórén «иностранец»?',['3','1','2','6'],0,'Три иероглифа — три слога.',true)}`},
+
+ {t:'Инициаль + финаль + тон',h:()=>`${L2}<h2>Каждый слог — из трёх частей</h2><div class="hz"><span class="zh">声母 + 韵母 + 声调</span><span class="py">shēngmǔ + yùnmǔ + shēngdiào</span></div>
+  <p class="lead">Нажми на каждую часть слога <span class="say ipy" data-s="ma:1" style="cursor:pointer">mā</span> «мама».</p>
+  <div class="syl3">
+   <button class="part3 n hide" data-p><div class="big" style="color:#5B6BD8">m</div><div class="lb">ИНИЦИАЛЬ <span class="zh">声母</span></div><div class="lb2">начало слога, согласный звук</div></button>
+   <div class="plus">+</div>
+   <button class="part3 n hide" data-p><div class="big" style="color:#2DBE8C">a</div><div class="lb">ФИНАЛЬ <span class="zh">韵母</span></div><div class="lb2">конец слога, гласная</div></button>
+   <div class="plus">+</div>
+   <button class="part3 n hide" data-p><div class="big" style="color:#FF5C8A">ˉ</div><div class="lb">ТОН <span class="zh">声调</span></div><div class="lb2">мелодия — меняет смысл</div></button>
+   <div class="plus eq">=</div>
+   <button class="part3 n res" data-s="ma:1"><div class="big" style="color:var(--ac2)">mā</div><div class="lb"><span class="zh" style="font-size:22px">妈</span> мама 🔊</div><div class="lb2"></div></button>
+  </div>
+  <h3>Почему их так назвали?</h3>
+  <div class="cards c3">
+   <div class="card n" style="border-top:5px solid #5B6BD8"><b class="h">Инициаль</b>От латинского <i>initialis</i> — «начальный». Это то, с чего слог <b>начинается</b>: согласный звук <b>b, p, m, f, d…</b><br><br>По-китайски <span class="say zh-i" data-w="声母">声母</span> <span class="ipy">shēngmǔ</span> — «мать звука».</div>
+   <div class="card n" style="border-top:5px solid #2DBE8C"><b class="h">Финаль</b>От латинского <i>finalis</i> — «конечный». Это то, чем слог <b>заканчивается</b>: гласная <b>a, o, e, i, u…</b> (бывают и длиннее: <b>ai, ao, an…</b>).<br><br>По-китайски <span class="say zh-i" data-w="韵母">韵母</span> <span class="ipy">yùnmǔ</span> — «мать рифмы»: в стихах рифмуются именно финали.</div>
+   <div class="card n" style="border-top:5px solid #FF5C8A"><b class="h">Тон</b>Мелодия всего слога. Пишется <b>значком над гласной</b> финали: <b>ā á ǎ à</b>.<br><br>По-китайски <span class="say zh-i" data-w="声调">声调</span> <span class="ipy">shēngdiào</span>.</div>
+  </div>
+  <div class="tip">💡 Инициали может и не быть: слог <span class="say ipy" data-s="a:1" style="cursor:pointer">ā</span> — это только финаль и тон. А вот <b>финаль и тон есть в каждом слоге</b>.</div>`,
+  on:()=>document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>b.classList.remove('hide'))},
+
+ {t:'Квиз: где что?',h:()=>`${L2}<h2>Квиз: где инициаль, где финаль, где тон?</h2>
+  <p class="lead">Нажми на ту часть слога, которую просят. Инициаль — <b style="color:#5B6BD8">в начале</b>, финаль — <b style="color:#17936A">в конце</b>, тон — <b style="color:#E2456E">значок над гласной</b>.</p>
+  <div id="pq"></div>`,
+  on:()=>{const SY=shuffle([['b','ā',1],['m','á',2],['d','ǎ',3],['t','ù',4],['n','ǐ',3],['m','ì',4],['b','í',2],['d','ī',1],['m','ò',4],['t','ú',2],['','ǎ',3],['','é',2]]).slice(0,8);
+   const AS=['ini','fin','ton'],NM={ini:'инициаль',fin:'финаль',ton:'тон'};const base=v=>v.normalize('NFD').replace(/[̀-ͯ]/g,'');
+   const MARK={1:'ˉ',2:'ˊ',3:'ˇ',4:'ˋ'};let i=0,ok=0,WANT=[];
+   const plan=()=>{for(let k=0;k<500;k++){const w=shuffle(['ini','ini','ini','fin','fin','fin','ton','ton']);
+     if(w.some((x,j)=>j>=2&&x===w[j-1]&&x===w[j-2]))continue;if(w.some((x,j)=>x==='ini'&&!SY[j][0]))continue;WANT=w;return;}
+    WANT=SY.map((s,j)=>s[0]?['ini','fin','ton'][j%3]:'fin');};plan();
+   const ask=()=>{const box=$('#pq');if(i>=SY.length){box.innerHTML=`<div class="chk in"><div class="q">Итог</div><div class="res" style="font-size:40px;font-weight:900;font-family:Nunito;color:var(--ac2)">${ok} / ${SY.length}</div><div class="fb ok">${ok>=7?'Отлично! Ты разбираешься в слоге 🎉':'Хорошо! Пройди ещё раз — станет лучше.'}</div><div class="row"><button class="btn g" id="pqa">Ещё раз</button></div></div>`;$('#pqa').onclick=()=>{i=0;ok=0;plan();ask();};return;}
+    const [ini,fin,t]=SY[i];const want=WANT[i];let first=true;
+    box.innerHTML=`<div class="chk in"><div class="q">${i+1} из ${SY.length} · Нажми на <b style="color:${want==='ini'?'#5B6BD8':want==='fin'?'#17936A':'#E2456E'}">${NM[want].toUpperCase()}</b></div>
+     <div style="display:flex;justify-content:center;align-items:flex-end;gap:6px;margin:18px 0 6px">
+      ${ini?`<button class="opt n" data-a="ini" style="font-family:Nunito;font-weight:900;font-size:64px;line-height:1;padding:10px 18px">${ini}</button>`:''}
+      <div style="display:grid;justify-items:center;gap:6px"><button class="opt n" data-a="ton" style="font-family:Nunito;font-weight:900;font-size:60px;line-height:.75;padding:12px 20px 0;color:${TCOL[t]}">${MARK[t]}</button>
+      <button class="opt n" data-a="fin" style="font-family:Nunito;font-weight:900;font-size:64px;line-height:1;padding:10px 18px">${base(fin)}</button></div></div>
+     <div style="text-align:center;font-size:15px;font-weight:700;color:var(--mu)">слог <span class="say ipy" data-s="${ini+base(fin)}:${t}" style="cursor:pointer;font-size:20px">${ini}${fin}</span></div><div class="fb"></div></div>`;
+    box.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const [s,tt]=b.dataset.s.split(':');playSyl(s,+tt,b);});
+    box.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const fb=box.querySelector('.fb');
+     if(b.dataset.a===want){b.classList.add('ok');if(first)ok++;fb.className='fb ok';fb.innerHTML=`✓ Верно! В слоге <b>${ini}${fin}</b>: ${ini?`инициаль <b>${ini}</b>, `:'инициали нет, '}финаль <b>${base(fin)}</b>, ${t}-й тон.`;i++;setTimeout(ask,1600);}
+     else{first=false;b.classList.add('no');fb.className='fb no';fb.textContent=`Это ${NM[b.dataset.a]}. Найди ${NM[want]}!`;}});};
+   ask();}},
+
+ {t:'Нет стечений согласных',h:()=>`${L2}<h2>В китайском языке нет стечений согласных</h2>
+  <p class="lead">Два согласных звука подряд в китайском произнести нельзя. Китайский слог устроен просто: в начале — <b>не больше одного согласного</b> (инициаль), потом гласная (финаль). Поэтому, когда китаец слышит русское слово с несколькими согласными подряд, он <b>автоматически вставляет между ними гласный</b>. Это явление называется <b>эпентеза</b>.</p>
+  <div class="ep">${[['Спутник','сыпутыник','Между [с] и [п] вставляется [ы], между [т] и [н] — тоже [ы].'],['Люблю','лубалу','Между [б] и [л] вставляется гласная.'],['Спорт','сыпот','Между [с] и [п] вставляется [ы].'],['Школа','сыкуола','Между [ш] и [к] вставляется [ы].']].map(([a,b,c])=>`<div class="card n"><div class="w1">${a}</div><div class="w2">→ ${b}</div><small>${c}</small></div>`).join('')}</div>
+  <div class="tip">Со словом <b>«здравствуйте»</b> происходит то же самое, только в несколько раз сильнее. Четыре согласных подряд — [з], [д], [р], [в] — китаец не может произнести в принципе. Поэтому он вставляет гласные после каждой согласной. Получается что-то вроде <b>«цзэдаласывуйцзе»</b> 😄 Это уже не просто эпентеза, а полная переделка слова под китайский слог.</div>
+  <p class="lead">👉 И наоборот: нам, русским, легко говорить согласные подряд — а в китайском так нельзя. Не добавляй лишних согласных в слоги!</p>
+  ${chk('Как китаец скорее всего произнесёт слово «стол»?',['сытол','стол','тол','столь'],0,'Между «с» и «т» появляется гласный.',true)}
+  ${chk('Как называется вставка гласного между согласными?',['Эпентеза','Инициаль','Тон','Пиньинь'],0,'',true)}`},
+
+ {t:'Тоны',h:()=>`${L2}<h2>Тоны</h2><div class="hz"><span class="zh say" data-w="声调" style="cursor:pointer">声调</span><span class="py">shēngdiào</span></div>
+  <p class="lead">Тон — это <b>мелодия слога</b>: голос идёт ровно, вверх, вниз-вверх или вниз. Один и тот же слог с разным тоном — это <b>разные слова</b>! В путунхуа <b>4 тона + нейтральный</b>. Нажимай и слушай — это голос учителя.</p>
+  <div class="tones">
+   ${[[1,'mā','妈','мама'],[2,'má','麻','конопля'],[3,'mǎ','马','лошадь'],[4,'mà','骂','ругать'],[0,'ma','吗','вопрос']].map(([t,p,h,r])=>`<button class="tone n" data-s="ma:${t}"><small>${t?t+'-й тон':'нейтральный'}</small>${tsvg(t)}<span class="py" style="color:${TCOL[t]}">${p}</span><span class="zh">${h}</span><small><b style="color:var(--ink)">${r}</b> 🔊</small></button>`).join('')}
+  </div>
+  <div class="tip">Цвет тона везде одинаковый: 1-й зелёный, 2-й жёлтый, 3-й фиолетовый, 4-й розовый — и в ДЗ тоже.</div>`},
+
+ {t:'Как произносить тоны',h:()=>`${L2}<h2>Как произносить каждый тон</h2>
+  <p class="lead">Представь, что твой голос может стоять на <b>5 ступеньках</b>: 1 — самый низкий, 5 — самый высокий. Тон показывает, по каким ступенькам идёт голос. Нажимай на слоги — это голос учителя.</p>
+  <div class="cards c2">${TONES.map(T=>`<div class="card n tcard" style="border-left:6px solid ${TCOL[T.t]}">
+    <div style="display:flex;gap:14px;align-items:center">${chao(T.t)}<div><b class="h" style="color:${TCOL[T.t]};margin:0">${T.t?T.t+'-й тон':'Нейтральный тон'} <span style="font-family:Nunito">${T.lv}</span></b><div style="font-weight:800;color:var(--ink);font-size:16px">${T.name}</div></div></div>
+    <div style="margin-top:10px">${T.how}</div>
+    <div style="margin-top:6px;color:var(--mu);font-weight:700">${T.like}</div>
+    <div class="chips" style="justify-content:flex-start;margin-top:10px">${T.ex.map(([s,t,lab])=>`<button class="chip n" data-s="${s}:${t}" style="color:${TCOL[T.t]}">${lab} 🔊</button>`).join('')}</div></div>`).join('')}</div>
+  <div class="tip">💡 Если не получается 3-й тон — опусти голос <b>ниже, чем тебе кажется нужным</b>, и не торопись. Это самый длинный тон.</div>
+  <div id="lt"></div>`,
+  on:()=>{// listening check with the teacher's voice
+   const qs=shuffle([['ma',3],['ba',4],['ma',2],['ba',1],['mi',3],['di',2]]).slice(0,4);let i=0,ok=0;
+   const ask=()=>{const box=$('#lt');if(i>=qs.length){box.innerHTML=`<div class="chk in"><div class="q">Угадай тон на слух</div><div class="fb ok">Готово: ${ok} из ${qs.length} с первого раза. ${ok===qs.length?'Отличные уши! 🎧':'Тоны — это тренировка, в ДЗ будет ещё!'}</div></div>`;return;}
+    const [b,t]=qs[i];let first=true;
+    box.innerHTML=`<div class="chk in"><div class="q">Угадай тон на слух · ${i+1} из ${qs.length}</div><div class="row" style="justify-content:center"><button class="btn" id="lp">▶ Послушать</button></div>
+     <div class="mcq" style="grid-template-columns:repeat(4,1fr)">${[1,2,3,4].map(x=>`<button class="opt n" data-t="${x}" style="text-align:center;font-family:Nunito;font-size:22px">${mark(b,x)}</button>`).join('')}</div><div class="fb"></div></div>`;
+    const lp=$('#lp');lp.onclick=()=>playSyl(b,t,lp);
+    box.querySelectorAll('[data-t]').forEach(o=>o.onclick=()=>{const fb=box.querySelector('.fb');
+     if(+o.dataset.t===t){o.classList.add('ok');if(first)ok++;fb.className='fb ok';fb.innerHTML=`✓ Да, это ${t}-й тон: <b>${mark(b,t)}</b>`;i++;setTimeout(ask,1300);}
+     else{first=false;o.classList.add('no');fb.className='fb no';fb.textContent='Не совсем. Послушай ещё раз ▶';}});};
+   ask();}},
+ {t:'Видео о тонах',h:()=>`${L2}<h2>Посмотри видео о тонах</h2>
+  <div class="vids">
+   <figure class="n"><video src="${IMG}media/tones-mouth.mp4" poster="${IMG}img/tones-mouth-poster.jpg" controls playsinline preload="none"></video><figcaption>Посмотри на губы: один и тот же слог с четырьмя тонами.</figcaption></figure>
+   <figure class="n"><video src="${IMG}media/tones-funny.mp4" poster="${IMG}img/tones-funny-poster.jpg" controls playsinline preload="none"></video><figcaption>Почему тоны — это сложно: что бывает, когда их путаешь 😄</figcaption></figure>
+  </div>
+  <div class="row"><a class="btn g" href="../trainer/" target="_blank">🎯 Тренажёр тонов — потренируйся ещё (по желанию)</a></div>`},
+
+ {t:'Проверь-ка',h:()=>`${L2}<h2>测一测 — Проверь-ка</h2><p class="lead">Сначала ответь в уме, потом нажми на вопрос — увидишь ответ.</p>
+  <div class="cards c2">${[['Что является основной единицей китайского языка?','Слог'],['Чему равен слог?','Один слог = один иероглиф'],['Из чего состоит слог?','Инициаль + финаль + тон'],['Что такое инициаль?','Согласная в начале слога'],['Что такое финаль?','Гласная в конце слога'],['Сколько тонов в путунхуа (без нейтрального)?','Четыре']].map(([q,a],i)=>`<button class="flip n"><span>${i+1}. ${q}</span><span class="a">${a}</span></button>`).join('')}</div>`,
+  on:()=>document.querySelectorAll('.flip').forEach(b=>b.onclick=()=>b.classList.add('open'))},
+
+ {t:'Базовые финали',h:()=>`${L2}<h2>Базовые финали</h2><div class="hz"><span class="zh">基本韵母</span><span class="py">jīběn yùnmǔ</span></div>
+  <p class="lead">Пять главных гласных: <b>a o u i e</b>. Каждую можно сказать четырьмя тонами. Нажимай по столбику сверху вниз и повторяй вслух за учителем.</p>
+  <div class="vow">${[['a','а','a'],['o','о','o'],['u','у','u'],['i','и','yi'],['e','э','e']].map(([v,r,k])=>`<div class="col n"><span class="ru">как «${r}»</span>${[1,2,3,4].map(t=>`<button data-s="${k}:${t}" style="color:${TCOL[t]}">${V[v][t-1]}</button>`).join('')}</div>`).join('')}</div>
+  <div class="tip">💡 Слушай голос учителя и повторяй вслух — так тоны запоминаются быстрее.</div>
+  ${chk('Сколько базовых финалей мы выучили?',['5: a o u i e','4','6','10'],0,'',true)}`},
+
+ {t:'Финиш',h:()=>`<span class="part"><b style="background:var(--ok)">🏁</b> финиш</span>
+  <h2>Ты догнал группу! 🎉</h2>
+  <p class="lead">Теперь ты знаешь всё, что нужно для домашнего задания: что такое пиньинь, как устроен слог, какие бывают тоны и базовые финали.</p>
+  <div class="cards c2">
+   <div class="card n"><b class="h">✅ Ты повторил</b>урок 1: история, путунхуа, иероглифы</div>
+   <div class="card n"><b class="h">✅ Ты прошёл</b>урок 2: пиньинь, печать, слог, тоны, финали</div>
+  </div>
+  <div class="row" style="justify-content:center;margin-top:24px"><a class="btn okb" href="../dz-1/" style="font-size:19px;padding:18px 30px">Делать домашнее задание →</a></div>
+  <p class="lead" style="text-align:center;font-size:15px;color:var(--mu)">В ДЗ напиши своё имя и первую букву фамилии — так учитель увидит твою работу.</p>`}
+];
+
+/* ===================== shell ===================== */
+let cur=0;try{cur=Math.min(STEPS.length-1,+localStorage.getItem('zh-dogon2')||0);}catch(e){}
+function render(){const s=STEPS[cur];try{localStorage.setItem('zh-dogon2',cur)}catch(e){}
+ $('#app').innerHTML=`<div class="top n"><span class="zh">补课</span><div><h1>Догоняем урок</h1><small>Повторение урока 1 + урок 2</small></div>
+   <div class="prog">Шаг ${cur} из ${STEPS.length-1}<div class="bar"><i style="width:${cur/(STEPS.length-1)*100}%"></i></div></div></div>
+  <div class="main n">${s.h()}
+   <div class="nextbar">${cur?'<button class="btn g" id="pv">‹ Назад</button>':''}${cur<STEPS.length-1?`<button class="btn nx" id="nx">${cur?'Дальше: '+STEPS[cur+1].t+' →':'Начать →'}</button>`:''}</div></div>`;
+ bindChecks();document.querySelectorAll('.say-b').forEach(b=>b.onclick=()=>playWord(b.dataset.w,b));s.on&&s.on();
+ const nx=$('#nx'),pv=$('#pv');nx&&(nx.onclick=()=>{cur++;render();scrollTo({top:0,behavior:'smooth'});});pv&&(pv.onclick=()=>{cur--;render();scrollTo({top:0,behavior:'smooth'});});}
+render();
+</script></body></html>

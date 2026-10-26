@@ -1,0 +1,37 @@
+/* ===== lesson 3 additions ===== */
+.mode{position:absolute;right:34px;top:26px;z-index:13;display:flex;gap:8px;align-items:center;padding:10px 18px;border-radius:999px;font-weight:800;font-size:15px;box-shadow:6px 6px 14px #C5CBD8,-6px -6px 14px #fff}
+.mode.ch{background:#E4E8FF;color:#2B3270}.mode.ind{background:#FFE3EB;color:#B0284F}
+.t2 .hd{left:64px;transform:none}
+.six{position:absolute;left:80px;right:80px;top:120px;bottom:70px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px 30px;align-content:center}
+.sx{display:flex;align-items:center;gap:18px;padding:22px 22px;min-height:150px}
+.sxn{flex:none;width:64px;height:64px;border-radius:50%;border:0;cursor:pointer;font:800 28px var(--sans);color:#B0284F;background:#E9EDF4;box-shadow:5px 5px 12px #C5CBD8,-5px -5px 12px #fff;transition:all .2s}
+.sxn.on{background:#2DBE8C;color:#fff;box-shadow:inset 3px 3px 8px rgba(0,0,0,.15)}
+.sxn.on::after{content:' ✓';font-size:18px}
+.sxg{display:flex;flex-wrap:wrap;gap:.25em;align-items:center;font-family:Nunito;font-weight:800;font-size:40px;color:#2B3270}
+.sxg .dash{color:#AEB7CC}
+.tk{position:absolute;left:64px;right:64px;top:104px;bottom:44px;display:grid;grid-template-columns:470px 1fr;gap:34px}
+.tkL{padding:26px 28px;display:grid;gap:14px;align-content:start}
+.tkN{display:flex;align-items:baseline;gap:14px}.tkN span{font-size:26px;font-weight:800;color:#7D86A3}.tkN b{font-size:86px;line-height:1;font-weight:900;color:#B0284F;font-family:Nunito}
+.tkQ{display:flex;gap:18px;align-items:center}
+.tkR{align-self:center}
+.dl2{display:grid;grid-template-columns:1fr 1fr;gap:14px 44px}
+.dl2 .db .s{min-width:110px;font-size:34px}
+.nt3{position:absolute;left:72px;right:72px;top:120px;bottom:56px;display:grid;gap:22px;align-content:center}
+.ntc{display:flex;gap:22px;align-items:center;padding:20px 26px;font-size:24px;line-height:1.45;color:var(--ink-3)}
+.nti{flex:none;width:78px;height:78px;border-radius:22px;display:grid;place-items:center;color:#fff;font:900 24px Nunito}
+.pg{position:absolute;left:64px;right:64px;top:112px;bottom:34px;display:grid;grid-template-columns:1fr 1.15fr 1fr;grid-template-rows:1fr 176px;grid-template-areas:"a b c" "d d d";gap:22px}
+.pgc{position:relative;padding:20px 22px 18px;font-size:16px;line-height:1.5;color:var(--ink-3)}
+.pgc p{margin-top:6px}
+.pgc ul{margin:6px 0 0 18px;display:grid;gap:3px}
+.pgi{position:absolute;right:16px;top:16px;width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:24px}
+.pgh{font-weight:800;font-size:22px;color:#2B3270;padding-right:56px}
+.pgs{list-style:none;display:grid;gap:9px;margin-top:10px}
+.pgs li{display:grid;grid-template-columns:28px 28px 1fr;gap:8px;align-items:center;font-size:15.5px;line-height:1.35}
+.pgn{width:28px;height:28px;border-radius:50%;background:#5B6BD8;color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
+.pge{font-size:22px}
+.pgw{border-radius:26px;background:linear-gradient(120deg,#5B6BD8,#7C6FFF 55%,#FF7FA2);color:#fff;display:grid;grid-template-columns:1fr 170px 170px;gap:18px;align-items:center;padding:16px 26px;box-shadow:10px 10px 22px #C5CBD8,-10px -10px 22px #fff}
+.pgwt{display:grid;gap:6px}.pgwt b{color:#fff;font-size:23px;line-height:1.3}.pgwt span{font-size:16px;opacity:.92}
+.pgp{background:rgba(255,255,255,.92);border-radius:20px;padding:8px 10px 6px;display:grid;justify-items:center;gap:2px;color:#2B3270;font-weight:800;font-size:14px}
+.ini{position:absolute;left:72px;right:72px;top:104px;bottom:64px;display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:26px 22px}
+.ini .syl{width:162px}
+.ini.one .syl{width:168px}
