@@ -9,6 +9,22 @@ const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, header
 const okId = (s) => typeof s === 'string' && /^[a-z0-9-]{1,40}$/i.test(s);
 const okItem = (s) => typeof s === 'string' && /^[a-z0-9_-]{1,30}$/i.test(s);
 
+// Список сдавших хранится в ключе `${hw}:idx`, чтобы кабинет учителя не тратил
+// дневной лимит операций list в KV (на бесплатном тарифе их 1000 в сутки).
+// Полный list делаем не чаще раза в 10 минут — он подхватывает то, что могло потеряться.
+const FULL_EVERY = 10 * 60 * 1000;
+const readIdx = async (env, hw) => JSON.parse((await env.DZ.get(`${hw}:idx`)) || '{"sids":[],"aud":{}}');
+const writeIdx = async (env, hw, idx) => { try { await env.DZ.put(`${hw}:idx`, JSON.stringify(idx)); } catch (e) { /* лимит 1 запись/с на ключ: следующий полный list всё догонит */ } };
+async function fullIdx(env, hw) {
+  const idx = { sids: [], aud: {}, full: Date.now() };
+  let cur;
+  do { const r = await env.DZ.list({ prefix: `${hw}:sub:`, cursor: cur }); for (const k of r.keys) idx.sids.push(k.name.split(':')[2]); cur = r.list_complete ? null : r.cursor; } while (cur);
+  cur = undefined;
+  do { const r = await env.DZ.list({ prefix: `${hw}:aud:`, cursor: cur }); for (const k of r.keys) { const [, , sid, item] = k.name.split(':'); (idx.aud[sid] = idx.aud[sid] || {})[item] = k.metadata || {}; } cur = r.list_complete ? null : r.cursor; } while (cur);
+  await writeIdx(env, hw, idx);
+  return idx;
+}
+
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
@@ -29,6 +45,8 @@ export default {
         const s = JSON.stringify(cur);
         if (s.length > 60000) return json({ error: 'too big' }, 413);
         await env.DZ.put(key, s);
+        const idx = await readIdx(env, b.hw);
+        if (!idx.sids.includes(b.sid)) { idx.sids.push(b.sid); await writeIdx(env, b.hw, idx); }
         return json({ ok: true });
       }
       // Ученик отправляет аудиозапись
@@ -38,19 +56,30 @@ export default {
         const buf = await req.arrayBuffer();
         if (buf.byteLength < 200 || buf.byteLength > 3_000_000) return json({ error: 'size' }, 413);
         const type = (req.headers.get('Content-Type') || 'audio/webm').slice(0, 60);
-        await env.DZ.put(`${hw}:aud:${sid}:${item}`, buf, { metadata: { type, size: buf.byteLength, ts: Date.now() } });
+        const meta = { type, size: buf.byteLength, ts: Date.now() };
+        await env.DZ.put(`${hw}:aud:${sid}:${item}`, buf, { metadata: meta });
+        const idx = await readIdx(env, hw);
+        (idx.aud[sid] = idx.aud[sid] || {})[item] = meta;
+        await writeIdx(env, hw, idx);
         return json({ ok: true });
       }
       // Учитель: список всех сдавших
       if (p === '/api/dz/list') {
         if (q.get('key') !== env.TEACHER_KEY) return json({ error: 'key' }, 403);
         const hw = q.get('hw'); if (!okId(hw)) return json({ error: 'bad' }, 400);
-        const subs = [], aud = {};
-        let cur;
-        do { const r = await env.DZ.list({ prefix: `${hw}:sub:`, cursor: cur }); for (const k of r.keys) { const v = await env.DZ.get(k.name); if (v) subs.push(JSON.parse(v)); } cur = r.list_complete ? null : r.cursor; } while (cur);
-        cur = undefined;
-        do { const r = await env.DZ.list({ prefix: `${hw}:aud:`, cursor: cur }); for (const k of r.keys) { const [, , sid, item] = k.name.split(':'); (aud[sid] = aud[sid] || {})[item] = k.metadata || {}; } cur = r.list_complete ? null : r.cursor; } while (cur);
+        let idx = await readIdx(env, hw);
+        if (!idx.full || Date.now() - idx.full > FULL_EVERY) { try { idx = await fullIdx(env, hw); } catch (e) { /* лимит list исчерпан: отдаём то, что есть в индексе, и пробуем снова через 10 минут */ idx.full = Date.now(); await writeIdx(env, hw, idx); } }
+        const subs = (await Promise.all(idx.sids.map((sid) => env.DZ.get(`${hw}:sub:${sid}`)))).filter(Boolean).map((v) => JSON.parse(v));
+        const aud = idx.aud;
         return json({ subs, aud });
+      }
+      // Слайд «Наши имена»: только имена тех, кто прописал своё имя (без результатов и без ключа)
+      if (p === '/api/dz/board') {
+        const hw = q.get('hw'); if (!okId(hw)) return json({ error: 'bad' }, 400);
+        const idx = await readIdx(env, hw);
+        const subs = (await Promise.all(idx.sids.map((sid) => env.DZ.get(`${hw}:sub:${sid}`)))).filter(Boolean).map((v) => JSON.parse(v));
+        const names = [...new Set(subs.map((x) => x.parts && x.parts.name && x.parts.name.done && x.parts.name.me).filter((x) => typeof x === 'string'))];
+        return json({ names });
       }
       // Учитель: прослушать запись
       if (p === '/api/dz/play') {
