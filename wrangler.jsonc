@@ -11,9 +11,6 @@
   },
   "kv_namespaces": [
     { "binding": "DZ", "id": "854133e3baa447918d6d2e23c7de6ea8" }
-  ],
-  "vars": {
-    // Ключ учителя для просмотра ответов (репозиторий приватный)
-    "TEACHER_KEY": "Xw7CkZIZprxZ4taX"
-  }
+  ]
+  // Ключ учителя хранится как секрет Cloudflare (TEACHER_KEY), не в репозитории
 }
