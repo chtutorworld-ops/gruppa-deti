@@ -717,7 +717,7 @@ function playMp3(text,rate,el,cls,fallback){
 const VOICE=AUDIO_BASE+'voice/';
 function say(t,el){const v=el&&el.dataset&&el.dataset.v;
   if(v&&window.VOK&&VOK[v]){try{curA&&curA.pause();}catch(e){}const a=new Audio(VOICE+v+'.wav');curA=a;el.classList.add('play');const off=()=>el.classList.remove('play');a.onended=off;a.onerror=()=>{off();t?playMp3(t,1,el,'play',()=>{}):0;};a.play().catch(a.onerror);return;}
-  if(t)playMp3(t,1,el,"play",()=>toast('Нет записи этого слога'));}
+  if(t)playMp3(t,1,el,"play",()=>sayTTS(t,el));}
 function sayTTS(t,el){
   if(!('speechSynthesis' in window)){toast('Этот браузер не умеет произносить текст');return;}
   if(!voice)pick(); if(!voice){toast('Нет китайского голоса. Откройте урок в Chrome или Edge');return;}
