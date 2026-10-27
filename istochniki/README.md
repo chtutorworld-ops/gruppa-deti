@@ -7,6 +7,7 @@
 |---|---|---|
 | urok-1 | Урок 1 «Привет, китайский!» (33 слайда) | site/urok-1/ |
 | dogon-urok-2 | «Догоняем урок» — повторение уроков 1–2 для пропустившего | site/dogon-urok-2/ |
+| dogon-urok-4 | «Догоняем урок 4» — для пропустивших урок 4 (Султан, Владимир), в конце переход в ДЗ 3 | site/dogon-urok-4/ |
 | urok-3 | Урок 3 «Инициали»: презентация (src.html + slides.js + extra.css), zadaniya/ — задания урока по номерам, uchitel/ — кабинет урока | site/urok-3/ |
 | dz-1 | ДЗ 1 (пиньинь, тоны, анализатор голоса), uchitel/ — кабинет | site/dz-1/ |
 | dz-2 | ДЗ 2 «Инициали» (10 заданий + итоги), uchitel/ — кабинет с досье и отчётом для родителей | site/dz-2/ |
@@ -21,7 +22,7 @@
 
 - урок 3, ДЗ 2, ДЗ 3, задания урока 3: `cd urok-3 && python3 build.py ../dz-2` (или `../dz-3`) (build.py читает audio-map.js из текущей папки,
   поэтому запускать из urok-3; без аргумента собирает сам урок; `python3 build.py zadaniya` — задания).
-- догоняем: `cd dogon-urok-2 && python3 build.py`; урок 1: `cd urok-1 && python3 build.py` (шрифт уже в fonts/).
+- догоняем: `cd dogon-urok-2 && python3 build.py` (так же dogon-urok-4); урок 1: `cd urok-1 && python3 build.py` (шрифт уже в fonts/).
 - trainer, zapis, кабинеты — без сборки, файл как есть.
 - ДЗ 2: картинка img/yazyk.jpg копируется рядом с index.html.
 
