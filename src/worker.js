@@ -89,7 +89,8 @@ export default {
         return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'audio/webm', ...CORS } });
       }
       // Голос учителя: эталонные записи слогов
-      const okV = (s) => typeof s === 'string' && /^[a-z]{1,6}[0-4]$/.test(s);
+      // один слог (ba1, b0) или слово/фраза из 2–6 слогов с номерами тонов (da3gu3, wo3jiao4ma3ke3)
+      const okV = (s) => typeof s === 'string' && (/^[a-z]{1,6}[0-4]$/.test(s) || /^(?:[a-z]{1,6}[0-4]){2,6}$/.test(s));
       if (p === '/api/voice/put' && req.method === 'POST') {
         if (q.get('key') !== env.TEACHER_KEY) return json({ error: 'key' }, 403);
         const id = q.get('id'); if (!okV(id)) return json({ error: 'bad' }, 400);
