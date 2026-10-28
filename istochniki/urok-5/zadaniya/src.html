@@ -1,0 +1,509 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>课堂任务 — Задания урока 5</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Nunito:wght@700;800;900&display=swap">
+<style>
+@font-face{font-family:'LXGW WenKai GB';src:url(data:font/woff;base64,__FONT_GB__) format('woff');font-display:block}
+:root{--bg:#E9EDF4;--ink:#1E2350;--t:#3D4560;--mu:#7D86A3;--ac:#5B6BD8;--ac2:#2B3270;--ok:#2DBE8C;--no:#FF5C8A;--sh1:#C5CBD8;--sh2:#fff;
+ --t1:#2DBE8C;--t2:#F5A524;--t3:#7C6FFF;--t4:#FF5C8A;--t0:#9AA2BC;--han:'LXGW WenKai GB','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg)}
+body{font-family:Manrope,system-ui,-apple-system,sans-serif;color:var(--t);min-height:100vh;padding:max(14px,env(safe-area-inset-top)) 14px 40px}
+button{font:inherit;border:0;cursor:pointer;color:inherit;background:none}
+.zh{font-family:var(--han);font-weight:400}.py{font-family:Nunito,Manrope,sans-serif;font-weight:800}
+.n{background:var(--bg);border-radius:24px;box-shadow:8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2)}
+.in{background:var(--bg);border-radius:18px;box-shadow:inset 5px 5px 10px var(--sh1),inset -5px -5px 10px var(--sh2)}
+.app{max-width:760px;margin:0 auto}
+.top{display:flex;align-items:center;gap:14px;padding:14px 18px;margin-bottom:16px}
+.top .zh{font-size:32px;color:var(--ac2);line-height:1;white-space:nowrap}
+.top h1{font-size:18px;font-weight:800;color:var(--ink);line-height:1.15}.top small{display:block;font-size:13px;color:var(--mu);font-weight:600}
+.main{padding:22px 20px}
+@media(max-width:600px){.main{padding:18px 14px}}
+h2{font-size:25px;font-weight:800;color:var(--ink);line-height:1.15;margin-top:6px}
+.lead{font-size:16.5px;line-height:1.5;margin-top:10px}
+.lead b{color:var(--ink)}
+h3{font-size:18px;font-weight:800;color:var(--ink);margin:22px 0 10px}
+.list{display:grid;gap:12px;margin-top:16px}
+.ti{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:20px;text-align:left;width:100%}
+.ti .no{flex:none;width:50px;height:50px;border-radius:16px;display:grid;place-items:center;font:900 22px Nunito;color:#fff;background:var(--ac)}
+.ti b{display:block;font-size:16.5px;color:var(--ink);line-height:1.25}.ti small{display:block;font-size:13px;color:var(--mu);font-weight:600;margin-top:2px}
+.ti .st{margin-left:auto;font-size:13px;font-weight:800;color:var(--ok);white-space:nowrap}
+.ti.hot{box-shadow:0 0 0 3px var(--t2),8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2)}
+.back{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:15px;color:var(--ac);padding:8px 14px;border-radius:14px;margin-bottom:12px}
+.tag{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:#B0284F;padding:4px 10px;border-radius:9px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:18px;font-weight:800;font-size:16.5px;background:var(--ac);color:#fff;box-shadow:6px 6px 14px var(--sh1),-6px -6px 14px var(--sh2)}
+.btn.g{background:var(--bg);color:var(--ac2)}.btn:active{transform:scale(.97)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
+.qcard{padding:20px;margin-top:16px;text-align:center}
+.qhead{display:flex;justify-content:space-between;font-size:13px;font-weight:800;color:var(--mu);letter-spacing:.06em;text-transform:uppercase}
+.dots{display:flex;gap:5px;justify-content:center;margin:12px 0 4px}.dots i{width:22px;height:6px;border-radius:3px;background:#D6DBE6}.dots i.ok{background:var(--ok)}.dots i.no{background:var(--no)}.dots i.cur{background:var(--ac)}
+.play{width:100px;height:100px;border-radius:50%;display:grid;place-items:center;margin:16px auto 6px;font-size:38px;color:var(--ac)}
+.play.on{color:var(--ok);box-shadow:inset 6px 6px 12px var(--sh1),inset -6px -6px 12px var(--sh2)}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.opts.o3{grid-template-columns:repeat(3,1fr)}
+.opt{padding:16px 8px;border-radius:18px;font-family:Nunito;font-weight:900;font-size:30px;color:var(--ac2);box-shadow:6px 6px 14px var(--sh1),-6px -6px 14px var(--sh2)}
+.opt.ok{background:#DDF5EC;box-shadow:inset 3px 3px 8px #B9DCCD;color:#14855E}.opt.no{background:#FFE3EB;box-shadow:inset 3px 3px 8px #F0C2D0;color:#B0284F}
+.fb{margin-top:12px;font-size:16px;font-weight:700;line-height:1.45;min-height:24px}.fb.ok{color:#14855E}.fb.no{color:#D9366A}
+.res{font-size:46px;font-weight:900;font-family:Nunito;color:var(--ac2);margin-top:8px}
+.ans{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.ans span{padding:8px 4px;border-radius:12px;font-family:Nunito;font-weight:800;font-size:18px;text-align:center}
+.ans .ok{background:#DDF5EC;color:#14855E}.ans .no{background:#FFE3EB;color:#B0284F}
+@media(max-width:480px){.ans{grid-template-columns:repeat(4,1fr)}}
+.cards{display:grid;gap:12px;margin-top:14px}@media(min-width:640px){.cards{grid-template-columns:1fr 1fr}}
+.card{padding:14px 16px;border-radius:20px;font-size:15px;line-height:1.45}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.chip{padding:8px 15px;border-radius:15px;font-family:Nunito;font-weight:900;font-size:21px;line-height:1.1}
+.chip.on{box-shadow:inset 3px 3px 7px var(--sh1),inset -3px -3px 7px var(--sh2)}
+.vow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.vow .col{padding:10px 2px;border-radius:20px;display:grid;gap:2px;justify-items:center}
+.vow .col small{font-size:13px;font-weight:800;color:var(--mu)}
+.vow button{font-family:Nunito;font-weight:900;font-size:30px;line-height:1.2;padding:2px 6px;border-radius:12px}
+.vow button.on{box-shadow:inset 3px 3px 7px var(--sh1),inset -3px -3px 7px var(--sh2)}
+@media(max-width:480px){.vow button{font-size:25px}}
+.tip{margin-top:14px;padding:12px 16px;border-radius:16px;background:#FFF6DC;color:#6B5310;font-size:15px;line-height:1.45}
+.holes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.hole{position:relative;height:170px;border-radius:22px;overflow:hidden;background:linear-gradient(180deg,#E9EDF4 0 55%,#D3D9E6 55%)}
+.hole::after{content:'';position:absolute;left:10%;right:10%;bottom:14px;height:34px;border-radius:50%;background:#2B3270;opacity:.85}
+.ml{position:absolute;left:50%;bottom:-150px;transform:translateX(-50%);width:96px;transition:bottom .22s ease-out;z-index:1;cursor:pointer;border:0;background:none;padding:0}
+.ml.up{bottom:26px}.ml svg{width:96px;height:110px;display:block}
+.ml b{position:absolute;left:50%;top:44px;transform:translateX(-50%);background:#fff;border-radius:10px;padding:2px 8px;font:900 22px Nunito;color:#2B3270;white-space:nowrap;box-shadow:0 2px 0 #C5CBD8}
+.ml.hit b{background:#2DBE8C;color:#fff}.ml.bad b{background:#FF5C8A;color:#fff}
+.tbar{height:8px;border-radius:5px;background:#D6DBE6;margin-top:14px;overflow:hidden}.tbar i{display:block;height:100%;background:linear-gradient(90deg,#F5A524,#FF5C8A);width:100%}
+@media(max-width:600px){.top small{display:none}.top .zh{font-size:26px}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ac2);color:#fff;padding:12px 18px;border-radius:16px;font-weight:700;font-size:15px;z-index:9;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1}
+.ti.lk{opacity:.5}.ti.lk .no{background:#AEB5C8!important}
+.ti .st.lk{color:var(--mu)}
+/* shooter */
+.arena{position:relative;height:min(62vh,430px);border-radius:22px;overflow:hidden;margin-top:12px;background:linear-gradient(180deg,#DCE6FF,#F3E9FF 70%,#FFE9F1);touch-action:manipulation}
+.bub{position:absolute;bottom:-110px;width:74px;height:74px;margin-left:-37px;border-radius:50%;display:grid;place-items:center;font:900 23px Nunito;color:#2B3270;
+ background:radial-gradient(circle at 32% 28%,#fff 0 12%,rgba(255,255,255,.55) 13% 30%,rgba(255,255,255,.18) 60%),var(--bc,#9FB4FF);box-shadow:inset -6px -8px 14px rgba(43,50,112,.18),0 6px 14px rgba(43,50,112,.15)}
+.bub.pop{transform:scale(1.5);opacity:0;transition:transform .25s,opacity .25s}
+.bub.bad{animation:shake .35s}.bub.show{outline:4px solid var(--ok);outline-offset:3px}
+@keyframes shake{25%{translate:-8px 0}75%{translate:8px 0}}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font:900 18px Nunito;color:var(--ac2)}
+.hud .cmb{color:var(--t4)}
+/* dictation keyboard */
+.kb h4{font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin:14px 0 6px;text-align:left}
+.keys{display:flex;flex-wrap:wrap;gap:8px}
+.key{min-width:52px;padding:10px 10px;border-radius:14px;font:900 23px Nunito;color:var(--ac2);box-shadow:4px 4px 10px var(--sh1),-4px -4px 10px var(--sh2)}
+.key.on{background:var(--ac);color:#fff;box-shadow:inset 3px 3px 7px #3D4BB0}
+.key.tn{min-width:66px;font-size:26px}.key.tn small{display:block;font:800 11px Manrope}
+.prev{font:900 54px Nunito;color:var(--ac2);min-height:66px;margin-top:6px}
+.prev i{color:#C5CBD8;font-style:normal}
+.cmp{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;text-align:left;margin-top:10px;font-size:16px;align-items:center}
+.cmp .py{font-size:28px}
+.why{text-align:left;margin-top:10px;display:grid;gap:8px}
+.why div{padding:10px 14px;border-radius:14px;background:#FFF0F4;color:#7A1F3D;font-size:15px;line-height:1.45}
+.why div.ok{background:#E6F7EF;color:#14674A}
+/* cards to say aloud */
+.say{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+.sc{padding:14px 10px;border-radius:20px;text-align:center}
+.sc .zh{font-size:44px;color:var(--ac2);line-height:1.1}.sc .py{font-size:19px;color:var(--ac)}.sc small{display:block;font-size:13px;color:var(--mu);font-weight:700}
+.sc .row{justify-content:center;margin-top:8px;gap:8px}.sc .btn{padding:9px 14px;font-size:14.5px}
+.sc.done{box-shadow:0 0 0 3px var(--ok),8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2)}
+/* radicals */
+.radq{font-size:96px;line-height:1.1;margin:12px 0 4px}
+.radq.zh{color:var(--ac2)}
+.opts .opt.em{font-size:46px;font-family:inherit}.opts .opt.zh{font-family:var(--han);font-size:48px;font-weight:400}
+/* writing */
+.wbox{position:relative;width:min(300px,78vw);height:min(300px,78vw);margin:14px auto 0;border-radius:18px;background:#fff;box-shadow:inset 0 0 0 3px #FF8FA8;touch-action:none}
+.wbox svg.grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.wbox .hw{position:absolute;inset:0}
+.wch{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.wch span{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-family:var(--han);font-size:30px;color:var(--ac2)}
+.wch span.cur{box-shadow:0 0 0 3px var(--ac)}.wch span.ok{background:#DDF5EC;color:#14855E}
+/* name */
+.nmch{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+.nmch button{padding:12px 18px;border-radius:16px;font-weight:800;font-size:17px;box-shadow:5px 5px 12px var(--sh1),-5px -5px 12px var(--sh2)}
+.bigname{font-family:var(--han);font-size:64px;color:var(--ac2);line-height:1.15;margin-top:6px}
+/* xiaoming */
+.xm{display:grid;gap:12px;margin-top:14px}
+.xm .ln{display:flex;gap:10px;align-items:flex-end}
+.xm .ln.me{flex-direction:row-reverse}
+.xm .av{flex:none;width:58px;height:58px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px #fff,0 4px 10px rgba(43,50,112,.2)}
+.xm .av.me{display:grid;place-items:center;background:var(--t2);color:#fff;font:900 22px Nunito}
+.xm .bb{padding:12px 16px;border-radius:20px 20px 20px 6px;background:#fff;max-width:78%;text-align:left;box-shadow:0 4px 10px rgba(43,50,112,.08)}
+.xm .me .bb{border-radius:20px 20px 6px 20px;background:#E3E8FF}
+.xm .bb .zh{font-size:30px;color:var(--ink);line-height:1.25}.xm .bb .py{display:block;color:var(--ac);font-size:16px}.xm .bb small{display:block;color:var(--mu);font-weight:700;font-size:13.5px}
+.xm .bb .nw{display:inline-block;font-size:11.5px;font-weight:800;color:#fff;background:var(--t4);border-radius:8px;padding:2px 7px;margin-bottom:4px}
+.mic{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;margin:16px auto 4px;font-size:44px;background:var(--bg);box-shadow:8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2);transform:scale(var(--lvl,1));transition:transform .08s}
+.mic.rec{background:#FFE3EB;box-shadow:0 0 0 6px rgba(255,92,138,.35)}.mic.busy{opacity:.5}
+.hint2{font-size:14.5px;font-weight:700;color:var(--mu)}
+</style></head><body>
+<div class="app" id="app"></div><div class="toast" id="toast"></div>
+<script src="../audio-map.js"></script>
+<script>__HW__</script>
+<script>window.HZDATA=__HZDATA__;</script>
+<script>
+/* ===================== audio ===================== */
+const AUDIO=(/^https?:$/.test(location.protocol)&&!/claude/i.test(location.hostname))&&!/workers\.dev$/.test(location.hostname)?new URL('../../audio/',location.href).href:'https://chtutorworld-ops.github.io/gruppa-deti-sait/audio/';
+const VOICE=AUDIO+'voice/';let VOK=null;const VOKP=fetch(VOICE+'index.json?'+Date.now()).then(r=>r.json()).then(j=>VOK=j).catch(()=>{});
+const fn=t=>AUDIO+[...t].map(c=>c.codePointAt(0).toString(16)).join('-')+'.mp3';
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2600);}
+let curA=null;
+function playURL(u,el){return new Promise(res=>{try{curA&&curA.pause()}catch(e){}const a=new Audio(u);curA=a;el&&el.classList.add('on');
+ const end=()=>{el&&el.classList.remove('on');res();};a.onended=end;let tried=0;
+ const fail=()=>{if(tried++<2){setTimeout(()=>{if(curA!==a)return end();a.load();a.play().catch(fail);},350);return;}end();};
+ a.onerror=fail;a.play().catch(fail);});}
+const V={a:'āáǎà',o:'ōóǒò',e:'ēéěè',i:'īíǐì',u:'ūúǔù'};
+const mark=(b,t)=>{if(!t)return b;let k=b.search(/a|e/);if(k<0)k=b.indexOf('ou');if(k<0){for(let j=b.length-1;j>=0;j--)if('aeiou'.includes(b[j])){k=j;break;}}return b.slice(0,k)+V[b[k]][t-1]+b.slice(k+1);};
+// the teacher's own recording first ('bā' -> ba1), then the course word voice
+const vkey=s=>{const t=SYL.tone(s);let b=SYL.plain(s);if(b==='i')b='yi';return t?b+t:b+'0';};
+function playS(s,el){const k=vkey(s);if(VOK&&VOK[k])return playURL(VOICE+k+'.wav',el);const c=SYL.char(s)||({ma0:'吗'}[k]);if(c)return playURL(fn(c),el);toast('Нет записи этого слога');return Promise.resolve();}
+const TCOL={1:'var(--t1)',2:'var(--t2)',3:'var(--t3)',4:'var(--t4)',0:'var(--t0)'};
+const say=t=>playW(t);
+/* ===================== tasks ===================== */
+const D2=['zhǎ','sū','cí','shè','zā','chě','zhì','sè','shù','cè'],D3=['zú','chē','sì','zhě','cā','bó','tè','gǔ','shū','kě'],D4=['chǐ','zè','shǔ','cā','zhē','sù','tì','pǔ','shū','fó'];
+const DICT={9:D2,10:D3,11:D4};
+const CH3=[['tǎ','tà','tā'],['zì','zǐ','zī'],['bǎ','bā','bà'],['shí','shī','shǐ'],['cā','cǎ','cá'],['dà','dǎ','dā'],['sè','sǐ','sà'],['gé','gě','gē'],['chè','chě','chē'],['zhù','zhū','zhǔ']];
+const TASKS=[null,
+ {t:'🎯 Шутер: лови слог',d:'Разогрев перед диктантом · 75 секунд',run:shooter},
+ {t:'📝 Контрольный диктант',d:'Набери слог: инициаль + финаль + тон · исправить нельзя',run:kdict},
+ {t:'Повторяем урок 4',d:'Скажи вслух · 3 + 3 или 3 + 4 на слух',run:review4},
+ {t:'🔑 Ключи',d:'Что значит ключ? · полминутки',run:radicals},
+ {t:'✍️ Пропись 你 我 好 叫',d:'Обведи пальцем по порядку черт',run:writing},
+ {t:'✍️ Моё имя по-китайски',d:'Послушай, скажи 我叫… и пропиши',run:myname},
+ {t:'👋 Поговори с 小明',d:'Разговор в микрофон',run:xiaoming},
+ {t:'Выбери слог на слух',d:'Из трёх вариантов · 10 вопросов',run:choose},
+ {t:'Диктант 2',d:'z c s zh ch sh',run:()=>dict(9)},
+ {t:'Диктант 3',d:'Все пройденные инициали',run:()=>dict(10)},
+ {t:'Диктант 4',d:'Повторяем всё пройденное',run:()=>dict(11)}];
+let DONE={};try{DONE=JSON.parse(localStorage.getItem('zh-u5-done')||'{}')}catch(e){}
+const keep=()=>{try{localStorage.setItem('zh-u5-done',JSON.stringify(DONE))}catch(e){}};
+/* ---- who is playing + results to the teacher's cabinet ---- */
+const HW='u5';
+const API=/workers\.dev$/.test(location.hostname)?'/api/dz/':'https://gruppa-deti.ch-tutor-world.workers.dev/api/dz/';
+let S={};try{S=JSON.parse(localStorage.getItem('zh-u5')||'{}')}catch(e){}
+const keepS=()=>{try{localStorage.setItem('zh-u5',JSON.stringify(S))}catch(e){}};S.queue=S.queue||[];
+const isTest=()=>/^(учитель|учительница|teacher|тест)$/i.test((S.name||'').trim());
+function send(part,data){S.queue=S.queue.filter(q=>q.part!==part);S.queue.push({part,data:Object.assign({},data,{ts:Date.now()})});keepS();flush();}
+async function flush(){if(isTest()){S.queue=[];keepS();return;}if(!S.sid||!S.queue.length)return;const q=S.queue[0];
+ try{const r=await fetch(API+'save',{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({hw:HW,sid:S.sid,name:S.name,part:q.part,data:q.data})});
+  if(!r.ok)throw 0;S.queue.shift();keepS();if(S.queue.length)flush();}catch(e){clearTimeout(flush._t);flush._t=setTimeout(flush,15000);}}
+addEventListener('online',flush);
+async function upload(item,blob){if(isTest()||!S.sid)return;try{await fetch(API+'audio?hw='+HW+'&sid='+encodeURIComponent(S.sid)+'&item='+item,{method:'POST',headers:{'Content-Type':blob.type||'audio/wav'},body:blob});}catch(e){}}
+function finish(n,ok,of,extra){DONE[n]=ok+'/'+of;keep();send('t'+n,Object.assign({score:ok,of},extra||{}));}
+const TOP='Задания урока 5';
+function login(){$('#app').innerHTML=`<div class="top n"><span class="zh">课堂任务</span><div><h1>${TOP}</h1><small>Сначала напиши своё имя</small></div></div>
+ <div class="main n" style="text-align:center"><h2>Как тебя зовут?</h2><p class="lead">Имя и первая буква фамилии, например <b>Маша П.</b> Так учитель увидит твои результаты.</p>
+ <input id="nm" class="in" style="width:100%;font:inherit;font-size:20px;padding:14px 18px;border:0;outline:none;margin-top:16px;color:var(--ink)" placeholder="Имя и буква фамилии" maxlength="40">
+ <div class="row" style="justify-content:center"><button class="btn" id="go">Начать →</button></div></div>`;
+ const go=()=>{const v=$('#nm').value.trim();if(v.length<2){toast('Напиши имя');return;}S.name=v;S.sid=S.sid||(Date.now().toString(36)+Math.random().toString(36).slice(2,8));keepS();route();};
+ $('#go').onclick=go;$('#nm').onkeydown=e=>{if(e.key==='Enter')go();};}
+const shell=(h)=>{stopAll();$('#app').innerHTML=`<div class="top n"><span class="zh">课堂任务</span><div><h1>${TOP}</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'Задания открываются по порядку'}</small></div><button class="back n" style="margin:0 0 0 auto;font-size:13px" onclick="S.name='';keepS();login()">${(S.name||'').replace(/[<>&]/g,'')} ✎</button></div><div class="main n">${h}</div>`;scrollTo(0,0);};
+const backBtn='<button class="back n" onclick="location.hash=\'\'">‹ Все задания</button>';
+const tag=n=>`<span class="tag">Задание № ${n}</span>`;
+/* timers of the running task stop when the page changes */
+let TM=[];const later=(f,ms)=>{const t=setTimeout(f,ms);TM.push(t);return t;};
+function stopAll(){TM.forEach(clearTimeout);TM=[];try{curA&&curA.pause()}catch(e){}}
+/* the teacher closes the page between lessons; with the teacher key it stays open */
+const LOCKED=false,TKEY=(k=>{let h=0x811c9dc5;for(const c of new TextEncoder().encode(k||'')){h^=c;h=Math.imul(h,0x01000193)>>>0;}return h.toString(16).padStart(8,'0');})(new URLSearchParams(location.search).get('key'))==='6521a6d8';
+// a task opens only when the one before it is done
+const open_=n=>n===1||TKEY||!!DONE[n-1];
+function home(){const nx=TASKS.findIndex((x,i)=>x&&!DONE[i]);
+ shell(`<h2>Задания по порядку</h2><p class="lead">Следующее задание откроется, когда сделаешь предыдущее. Учитель скажет, какое делать сейчас.</p>
+ <div class="list">${TASKS.map((x,i)=>{if(!x)return '';const lk=!open_(i);return `<button class="ti n${lk?' lk':''}${i===nx&&!lk?' hot':''}" data-n="${i}"><span class="no" style="background:${DONE[i]?'var(--ok)':'var(--ac)'}">${i}</span><span><b>${x.t}</b><small>${x.d}</small></span><span class="st${lk?' lk':''}">${lk?'🔒':DONE[i]?'✓ '+DONE[i]:''}</span></button>`;}).join('')}</div>`);
+ document.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{const n=+b.dataset.n;if(!open_(n)){toast('🔒 Сначала сделай задание № '+(n-1));return;}location.hash='#'+n;});}
+function route(){if(LOCKED&&!TKEY){$('#app').innerHTML=`<div class="top n"><span class="zh">课堂任务</span><div><h1>${TOP}</h1></div></div><div class="main n" style="text-align:center"><div style="font-size:64px">🔒</div><h2>Задания пока закрыты</h2><p class="lead">Учитель откроет их на следующем уроке. До встречи! 再见！</p></div>`;return;}
+ if(!S.name)return login();const n=+location.hash.slice(1);if(TASKS[n]&&open_(n))TASKS[n].run();else{if(TASKS[n])toast('🔒 Сначала сделай задание № '+(n-1));home();}}
+addEventListener('hashchange',route);
+const wait=()=>Promise.race([VOKP,new Promise(r=>setTimeout(r,3000))]);
+const doneBox=(n,inner,again)=>`${backBtn}${tag(n)}<h2>${TASKS[n].t} — готово!</h2>${inner}<div class="row">${n<11?`<button class="btn" onclick="location.hash='#${n+1}'">Задание № ${n+1} →</button>`:''}<button class="btn g" onclick="location.hash=''">‹ Все задания</button>${again?'<button class="btn g" id="again">↺ Ещё раз</button>':''}</div>`;
+
+/* ---- 1. shooter: a syllable sounds, shoot the bubble with it. 75 s ---- */
+const L3I='b p m f d t n l g k h'.split(' '),L3F='a o e i u'.split(' ');
+const OKSYL={b:'a o i u',p:'a o i u',m:'a o e i u',f:'a o u',d:'a e i u',t:'a e i u',n:'a e i u',l:'a e i u',g:'a e u',k:'a e u',h:'a e u'};
+const hasAudio=s=>(VOK&&VOK[vkey(s)])||SYL.char(s);
+const PAIRA={b:'p',p:'b',d:'t',t:'d',g:'k',k:'g',f:'h',h:'f',n:'l',l:'n',m:'n'};
+const BCOL=['#9FB4FF','#FFB3C8','#A8E6CF','#FFD59E','#C9B6FF'];
+async function shooter(){await wait();const n=1,T=75;
+ const pool=[];L3I.forEach(i=>OKSYL[i].split(' ').forEach(f=>[1,2,3,4].forEach(t=>{const s=mark(i+f,t);if(hasAudio(s))pool.push(s);})));
+ const best=+(localStorage.getItem('zh-u5-best')||0);
+ shell(`${backBtn}${tag(n)}<h2>🎯 Шутер: лови слог</h2><p class="lead">Звучит слог — <b>стреляй</b> по шарику, на котором он написан. Пока шарики летят, можно нажать 🔊. У тебя <b>${T} секунд</b>. Включи звук!</p>
+  ${best?`<p class="lead">Твой рекорд: <b>${best}</b></p>`:''}<div class="row" style="justify-content:center"><button class="btn" id="st" style="font-size:20px;padding:18px 34px">▶ Начать</button></div>`);
+ $('#st').onclick=()=>play();
+ function play(){let hits=0,tot=0,cmb=0,miss=[],prev='',t0=Date.now(),over=false;
+  shell(`${backBtn}${tag(n)}<div class="hud"><span>🎯 <span id="hs">0</span></span><span class="cmb" id="hc"></span><span>⏱ <span id="ht">${T}</span></span></div><div class="tbar"><i id="tb"></i></div>
+   <div class="arena" id="ar"></div><div class="row" style="justify-content:center;margin-top:10px"><button class="btn g" id="rp">🔊 Ещё раз</button></div>`);
+  const ar=$('#ar'),tb=$('#tb');tb.style.transition=`width ${T}s linear`;requestAnimationFrame(()=>requestAnimationFrame(()=>tb.style.width='0%'));
+  const tick=()=>{if(over)return;const left=Math.max(0,T-Math.floor((Date.now()-t0)/1000));$('#ht').textContent=left;if(left<=0)return end();later(tick,250);};tick();
+  let cur=null;$('#rp').onclick=()=>cur&&playS(cur);
+  const round=()=>{if(over)return;let s;do{s=pool[Math.random()*pool.length|0];}while(s===prev&&pool.length>1);prev=s;cur=s;tot++;
+   const b=SYL.plain(s),t=SYL.tone(s),[ini,fin]=split(b),opts=[s];
+   const add=x=>{if(opts.length<4&&x&&!opts.includes(x)&&pool.includes(x))opts.push(x);};
+   if(PAIRA[ini])add(mark(PAIRA[ini]+fin,t));shuffle([1,2,3,4].filter(x=>x!==t)).forEach(x=>add(mark(b,x)));
+   while(opts.length<4)add(pool[Math.random()*pool.length|0]);
+   const ms=Math.max(3000,5200-hits*120),xs=shuffle([13,37,63,87]);
+   ar.innerHTML=shuffle(opts).map((x,k)=>`<button class="bub" data-o="${x}" style="left:${xs[k]}%;bottom:${-90-k*70}px;--bc:${BCOL[(k+tot)%5]};transition:bottom ${ms+k*250}ms linear">${x}</button>`).join('');
+   const bs=[...ar.querySelectorAll('.bub')];let done=false;
+   requestAnimationFrame(()=>requestAnimationFrame(()=>bs.forEach(e=>e.style.bottom='105%')));
+   later(()=>playS(s),150);
+   const next=(hit,got)=>{if(done)return;done=true;if(hit){hits++;cmb++;}else{cmb=0;miss.push(s);}
+    $('#hs').textContent=hits;$('#hc').textContent=cmb>=3?'🔥 '+cmb+' подряд':'';
+    bs.forEach(e=>{if(e.dataset.o===s)e.classList.add(hit?'pop':'show');});
+    if(!hit)toast(got?'Мимо! Это был '+s:'Улетел! Это был '+s);later(round,hit?350:1100);};
+   later(()=>next(false,null),ms+600);
+   bs.forEach(e=>e.onclick=()=>{if(done)return;if(e.dataset.o===s)next(true,s);else{e.classList.add('bad');next(false,e.dataset.o);}});};
+  round();
+  function end(){if(over)return;over=true;stopAll();const rec=hits>best;if(rec)try{localStorage.setItem('zh-u5-best',hits)}catch(e){}
+   finish(n,hits,tot,{sec:T,miss:[...new Set(miss)]});
+   shell(doneBox(n,`<div class="res">🎯 ${hits} из ${tot}</div><p class="lead">${rec?'Новый рекорд! 🏆 ':''}${hits>=14?'Снайпер! Уши готовы к диктанту 🎧':hits>=8?'Хорошо! Уши разогреты.':'Ничего, сейчас в диктанте послушаем внимательно.'}</p>
+    ${miss.length?`<p class="lead">Было трудно: <span class="py">${[...new Set(miss)].slice(0,8).join(', ')}</span></p>`:''}`,true));$('#again').onclick=play;}}}
+
+/* ---- 2. control dictation: type initial + final + tone; no redo; points ---- */
+const DK=['pō','dǐ','hú','tà','mǐ','gē','fù','ná','kǔ','lè'];
+const ASP={p:1,t:1,k:1},IDESC={b:'b — без выдоха, мягко, как «б» (только глухо)',p:'p — с сильным выдохом: ладонь у рта чувствует струю воздуха',d:'d — без выдоха, как «д» (только глухо)',t:'t — с сильным выдохом',g:'g — без выдоха, как «г» (только глухо)',k:'k — с сильным выдохом',
+ m:'m — губы сомкнуты, звук идёт в нос, как «м»',f:'f — верхние зубы касаются нижней губы, как «ф»',n:'n — кончик языка у зубов, звук в нос, как «н»',l:'l — как «л», звук идёт через рот',h:'h — шершавый звук из горла, как «х»'};
+const FDESC={a:'a — рот широко открыт, как «а»',o:'o — губы кругом, как «о» (bo, po, mo, fo)',e:'e — губы не округлены, звук глубоко в горле, похож на «ыэ»',i:'i — как «и», губы в улыбке',u:'u — губы трубочкой, как «у»'};
+const TDESC={1:'1-й тон — высокий и ровный (ā)',2:'2-й тон — снизу вверх, как удивлённое «А?» (á)',3:'3-й тон — вниз до самого низа и чуть вверх, самый длинный (ǎ)',4:'4-й тон — резко сверху вниз, как строгое «Нет!» (à)'};
+const TPAIR={'2-3':'Во 2-м тоне голос сразу идёт вверх, а в 3-м сначала опускается вниз.','1-4':'1-й тон держится наверху, а 4-й падает вниз.','1-2':'1-й ровный, а 2-й поднимается.','3-4':'3-й опускается и задерживается внизу, а 4-й падает резко и коротко.','2-4':'2-й идёт вверх, 4-й — вниз: движения противоположные.','1-3':'1-й высокий и ровный, а 3-й низкий.'};
+function parts(s){const t=SYL.tone(s),[i,f]=split(SYL.plain(s));return [i,f,t];}
+function explain(r,g){const out=[];
+ if(r[0]!==g[0]){let x=`Инициаль: звучала <b>${r[0]}</b>, а у тебя <b>${g[0]}</b>. ${IDESC[r[0]]||''}.`;if(PAIRA[r[0]]===g[0]&&(ASP[r[0]]||ASP[g[0]]))x+=' Различаем по выдоху!';else if(IDESC[g[0]])x+=' А '+IDESC[g[0]]+'.';out.push(x);}
+ if(r[1]!==g[1])out.push(`Финаль: звучала <b>${r[1]}</b>, а у тебя <b>${g[1]}</b>. ${FDESC[r[1]]}, а ${FDESC[g[1]]}.`);
+ if(r[2]!==g[2]){const k=[r[2],g[2]].sort().join('-');out.push(`Тон: звучал <b>${r[2]}-й</b>, а у тебя <b>${g[2]}-й</b>. ${TDESC[r[2]]}. ${TPAIR[k]||''}`);}
+ return out;}
+let DKS={};try{DKS=JSON.parse(localStorage.getItem('zh-u5-dk')||'{}')}catch(e){}
+const keepDK=()=>{try{localStorage.setItem('zh-u5-dk',JSON.stringify(DKS))}catch(e){}};
+async function kdict(){await wait();const n=2;DKS.ans=DKS.ans||[];
+ const pts=()=>DKS.ans.reduce((a,x)=>a+x.p,0);
+ const result=()=>{const p=pts();
+  shell(doneBox(n,`<div class="res">${p} / 30 баллов</div><p class="lead">${p>=27?'Отлично! 🏆 Настоящие китайские уши.':p>=21?'Хорошо! Пара ошибок — разберём вместе.':p>=15?'Неплохо! Посмотри объяснения ниже.':'犯错不可怕! Ошибки — это чтобы учиться. Посмотри объяснения.'}</p>
+   <p class="lead">За каждый слог 3 балла: инициаль, финаль и тон.</p>
+   <div class="ans">${DK.map((s,j)=>{const a=DKS.ans[j];return `<span class="${a&&a.p===3?'ok':'no'}">${j+1}. ${s}${a&&a.p<3?`<br><small style="font:700 12px Manrope">у тебя ${a.g} · ${a.p}/3</small>`:''}</span>`;}).join('')}</div>
+   ${TKEY?'<div class="row"><button class="btn g" id="rs">🧑‍🏫 Сбросить диктант (учитель)</button></div>':''}`));
+  const rs=$('#rs');if(rs)rs.onclick=()=>{DKS={};keepDK();delete DONE[n];keep();kdict();};};
+ if(DKS.ans.length>=DK.length)return result();
+ if(!DKS.ans.length&&!DKS.go){shell(`${backBtn}${tag(n)}<h2>📝 Контрольный диктант</h2><p class="lead">10 слогов. Слушай сколько угодно раз и набери слог: <b>инициаль + финаль + тон</b>.</p>
+   <div class="tip">⚠️ Это контрольный диктант: ответ можно отправить <b>только один раз</b>, исправить нельзя. После ответа покажем ошибки и объясним их. В конце — баллы: по 3 за слог.</div>
+   <div class="row" style="justify-content:center"><button class="btn" id="st" style="font-size:20px;padding:18px 34px">▶ Начать диктант</button></div>`);
+  $('#st').onclick=()=>{DKS.go=1;keepDK();ask();};return;}
+ ask();
+ function ask(){const i=DKS.ans.length;if(i>=DK.length){finish(n,pts(),30,{ans:DKS.ans});return result();}
+  const s=DK[i];let g=['','',0];
+  shell(`${backBtn}${tag(n)}<h2>📝 Контрольный диктант</h2><div class="qcard in"><div class="qhead"><span>Слог ${i+1} из ${DK.length}</span><span>${pts()} баллов</span></div>
+   <div class="dots">${DK.map((_,j)=>`<i class="${j<i?(DKS.ans[j].p===3?'ok':'no'):j===i?'cur':''}"></i>`).join('')}</div>
+   <button class="play n" id="pl">▶</button><div id="zone"><div class="prev" id="pv"></div>
+   <div class="kb"><h4>Инициаль</h4><div class="keys">${L3I.map(x=>`<button class="key" data-i="${x}">${x}</button>`).join('')}</div>
+   <h4>Финаль</h4><div class="keys">${L3F.map(x=>`<button class="key" data-f="${x}">${x}</button>`).join('')}</div>
+   <h4>Тон</h4><div class="keys">${[1,2,3,4].map(t=>`<button class="key tn" data-t="${t}" style="color:${TCOL[t]}">${mark('a',t)}<small>${t}-й тон</small></button>`).join('')}</div></div>
+   <div class="row" style="justify-content:center"><button class="btn" id="ok" disabled style="opacity:.45">Ответить ✓</button></div></div></div>`);
+  const pl=$('#pl');pl.onclick=()=>playS(s,pl);later(()=>playS(s,pl),300);
+  const draw=()=>{$('#pv').innerHTML=(g[0]||'<i>_</i>')+(g[1]?(g[2]?mark(g[1],g[2]):g[1]):'<i>_</i>')+(g[2]&&!g[1]?'<i>'+g[2]+'</i>':'');
+   const full=g[0]&&g[1]&&g[2],b=$('#ok');b.disabled=!full;b.style.opacity=full?1:.45;
+   document.querySelectorAll('[data-i]').forEach(k=>k.classList.toggle('on',k.dataset.i===g[0]));document.querySelectorAll('[data-f]').forEach(k=>k.classList.toggle('on',k.dataset.f===g[1]));document.querySelectorAll('[data-t]').forEach(k=>k.classList.toggle('on',+k.dataset.t===g[2]));};
+  draw();
+  document.querySelectorAll('[data-i]').forEach(k=>k.onclick=()=>{g[0]=k.dataset.i;draw();});
+  document.querySelectorAll('[data-f]').forEach(k=>k.onclick=()=>{g[1]=k.dataset.f;draw();});
+  document.querySelectorAll('[data-t]').forEach(k=>k.onclick=()=>{g[2]=+k.dataset.t;draw();});
+  $('#ok').onclick=()=>{if(!(g[0]&&g[1]&&g[2]))return;const r=parts(s),gs=mark(g[0]+g[1],g[2]),p=(r[0]===g[0])+(r[1]===g[1])+(r[2]===g[2]);
+   DKS.ans.push({q:s,g:gs,p});keepDK();send('t2',{score:pts(),of:30,ans:DKS.ans,part:true});
+   const ex=explain(r,g);
+   $('#zone').innerHTML=`<div class="cmp"><span>Звучало:</span><span class="py" style="color:#14855E">${s}</span><span>Твой ответ:</span><span class="py" style="color:${p===3?'#14855E':'#B0284F'}">${[0,1,2].map(k=>`<span style="${(k===1?r[1]===g[1]&&r[2]===g[2]:r[k]===g[k])?'':'text-decoration:underline wavy #FF5C8A'}">${k===0?g[0]:k===1?mark(g[1],g[2]):''}</span>`).join('')}</span></div>
+    <div class="res" style="font-size:30px">+${p} ${p===1?'балл':'балла'}${p===0?'ов':''}</div>
+    <div class="why">${p===3?'<div class="ok">✓ Всё верно: и инициаль, и финаль, и тон!</div>':ex.map(x=>`<div>${x}</div>`).join('')}</div>
+    <p class="hint2" style="margin-top:10px">Можно послушать ещё раз ▶ — но ответ уже не изменить.</p>
+    <div class="row" style="justify-content:center"><button class="btn" id="nx">${i+1<DK.length?'Дальше →':'Мои баллы →'}</button></div>`;
+   $('#nx').onclick=ask;};}}
+
+/* ---- 3. lesson 4 review: say aloud + 3+3 or 3+4 by ear ---- */
+const SAY4=[['你好','nǐ hǎo','звучит ní hǎo · привет'],['我叫','wǒ jiào','меня зовут'],['打鼓','dǎ gǔ','звучит dá gǔ · бить в барабан'],['可怕','kě pà','страшно']];
+const EAR=[['打鼓','dǎ gǔ',33],['可怕','kě pà',34],['马路','mǎ lù',34],['马匹','mǎ pǐ',33],['母马','mǔ mǎ',33],['可乐','kě lè',34],['你好','nǐ hǎo',33],['土地','tǔ dì',34]];
+async function review4(){await wait();const n=3,said={};
+ shell(`${backBtn}${tag(n)}<h2>Повторяем урок 4</h2><h3>1. Скажи вслух</h3><p class="lead" style="margin-top:0">Послушай 🔊 и повтори вслух. Сказал — нажми «Готово».</p>
+  <div class="say">${SAY4.map(([hz,py,ru],k)=>`<div class="sc n" id="sc${k}"><div class="zh">${hz}</div><div class="py">${py}</div><small>${ru}</small><div class="row"><button class="btn g" data-l="${hz}">🔊</button><button class="btn" data-k="${k}">✓ Готово</button></div></div>`).join('')}</div>
+  <div id="p2"></div>`);
+ document.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>say(b.dataset.l));
+ document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{said[b.dataset.k]=1;$('#sc'+b.dataset.k).classList.add('done');b.textContent='✓';if(Object.keys(said).length===SAY4.length&&!$('#q2'))ear();});
+ function ear(){let i=0,ok=0,res=[];$('#p2').innerHTML='<h3 id="q2">2. 3 + 3 или 3 + 4?</h3><p class="lead" style="margin-top:0">Послушай слово и реши, какие тоны у него <b>записаны</b>.</p><div id="eq"></div>';$('#q2').scrollIntoView({behavior:'smooth'});
+  const ask=()=>{const box=$('#eq');if(!box)return;if(i>=EAR.length){finish(n,ok,EAR.length,{miss:EAR.filter((x,j)=>!res[j]).map(x=>x[0])});
+    box.innerHTML=`<div class="qcard in"><div class="res">${ok} / ${EAR.length}</div><div class="fb ok">${ok>=7?'Супер-уши! 🎧':'Хорошо! Помни: 3 + 3 звучит как 2 + 3.'}</div><div class="row" style="justify-content:center"><button class="btn" onclick="location.hash='#4'">Задание № 4 →</button><button class="btn g" onclick="location.hash=''">‹ Все задания</button></div></div>`;return;}
+   const [hz,py,t]=EAR[i];let lock=false;
+   box.innerHTML=`<div class="qcard in"><div class="qhead"><span>Слово ${i+1} из ${EAR.length}</span><span>${ok} ✓</span></div><div class="dots">${EAR.map((_,j)=>`<i class="${j<i?(res[j]?'ok':'no'):j===i?'cur':''}"></i>`).join('')}</div>
+    <button class="play n" id="pl">▶</button><div class="opts"><button class="opt" data-a="33">3 + 3</button><button class="opt" data-a="34">3 + 4</button></div><div class="fb" id="fb"></div></div>`;
+   const pl=$('#pl');pl.onclick=()=>playW(hz,pl);later(()=>playW(hz,pl),300);
+   box.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{if(lock)return;lock=true;const right=+b.dataset.a===t;if(right)ok++;res[i]=right;b.classList.add(right?'ok':'no');const fb=$('#fb');
+    fb.className='fb '+(right?'ok':'no');fb.innerHTML=`${right?'✓':'✗'} <span class="zh">${hz}</span> ${py} — ${t===33?'3 + 3: первый слог звучит как 2-й тон':'3 + 4: третий тон неполный, только вниз'}`;later(()=>{i++;ask();},right?1500:2600);});};
+  ask();}}
+
+/* ---- 4. radicals: radical -> picture, picture -> radical ---- */
+const RQ=[['氵',['💧','🔥','🌳','👄'],'вода'],['🐴',['马','口','氵','木'],'лошадь'],['亻',['🧍','🐴','☀️','💧'],'человек'],['🌳',['木','亻','口','女'],'дерево'],
+ ['口',['👄','🌳','🌙','🧍'],'рот'],['💧',['氵','亻','马','日'],'вода'],['女',['👩','⛰️','💧','🐴'],'женщина'],['☀️',['日','口','女','山'],'солнце']];
+const isHz=x=>/[㐀-鿿⺀-⿟]/.test(x);
+function radicals(){const n=4;let i=0,ok=0,res=[],h=[];const items=RQ.map(([q,o,ru])=>{const [a,ix]=arrange(o,o[0],h);h=h.concat(ix);return {q,o:a,r:o[0],ru};});
+ const ask=()=>{if(i>=items.length){finish(n,ok,items.length,{miss:items.filter((x,j)=>!res[j]).map(x=>x.q)});
+   shell(doneBox(n,`<div class="res">${ok} / ${items.length}</div><p class="lead">${ok>=7?'Ты знаешь ключи! 🔑':'Хорошо! Ключи подсказывают смысл иероглифа.'}</p>`,true));$('#again').onclick=radicals;return;}
+  const it=items[i],qh=isHz(it.q);let lock=false;
+  shell(`${backBtn}${tag(n)}<h2>🔑 ${qh?'Что значит этот ключ?':'Какой ключ подходит?'}</h2><div class="qcard in"><div class="qhead"><span>${i+1} из ${items.length}</span><span>${ok} ✓</span></div>
+   <div class="radq${qh?' zh':''}">${it.q}</div><div class="opts">${it.o.map(x=>`<button class="opt ${isHz(x)?'zh':'em'}" data-o="${x}">${x}</button>`).join('')}</div><div class="fb" id="fb"></div></div>`);
+  document.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>{if(lock)return;lock=true;const right=b.dataset.o===it.r;if(right)ok++;res[i]=right;b.classList.add(right?'ok':'no');
+   if(!right)document.querySelector(`[data-o="${it.r}"]`).classList.add('ok');const fb=$('#fb');fb.className='fb '+(right?'ok':'no');fb.innerHTML=`${right?'✓ Да!':'Правильно:'} <span class="zh">${qh?it.q:it.r}</span> — ${it.ru}`;later(()=>{i++;ask();},right?900:1800);});};
+ ask();}
+
+/* ---- 5, 6. writing with Hanzi Writer ---- */
+const HZW='你我好叫拉德米尔苏坦弗基阿菲娜谢苗达莉娅';
+const GRID='<svg class="grid" viewBox="0 0 100 100"><g stroke="#FFB3C8" stroke-width=".6" stroke-dasharray="2 2"><line x1="0" y1="0" x2="100" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></g></svg>';
+// trace the characters one by one; cb(mistakes) when all are written
+function tracer(box,chars,cb){let k=0,mist=0,w=null;
+ box.innerHTML=`<div class="wch">${[...chars].map((c,j)=>`<span class="n" data-j="${j}">${c}</span>`).join('')}</div><div class="wbox">${GRID}<div class="hw" id="hw"></div></div>
+  <p class="hint2" id="wh" style="text-align:center;margin-top:8px"></p><div class="row" style="justify-content:center"><button class="btn g" id="wa">▶ Покажи порядок черт</button><button class="btn g" id="wr">↺ Заново</button></div>`;
+ const one=()=>{const c=chars[k];box.querySelectorAll('[data-j]').forEach(s=>{s.classList.toggle('cur',+s.dataset.j===k);s.classList.toggle('ok',+s.dataset.j<k);});
+  const el=box.querySelector('#hw');el.innerHTML='';const sz=el.clientWidth||280;
+  if(!window.HanziWriter||!HZDATA[c]){$('#wh').textContent='Пропиши '+c+' пальцем в воздухе 🙂';later(()=>{k++;k<chars.length?one():cb(mist);},1500);return;}
+  w=HanziWriter.create(el,c,{width:sz,height:sz,padding:sz*.08,showOutline:true,showCharacter:false,outlineColor:'#E1E5EE',strokeColor:'#2B3270',radicalColor:'#FF5C8A',drawingColor:'#5B6BD8',drawingWidth:Math.round(sz/16),highlightColor:'#2DBE8C',strokeAnimationSpeed:1.2,delayBetweenStrokes:250,charDataLoader:(ch,ok)=>ok(HZDATA[ch])});
+  const quiz=()=>{$('#wh').innerHTML=`Обведи <span class="zh" style="font-size:20px">${c}</span> пальцем — по порядку черт`;w.quiz({showHintAfterMisses:2,highlightOnComplete:true,onMistake:()=>{mist++;},onComplete:()=>{$('#wh').textContent='✓ Отлично!';later(()=>{k++;if(k<chars.length)one();else{box.querySelectorAll('[data-j]').forEach(s=>{s.classList.remove('cur');s.classList.add('ok');});cb(mist);}},1100);}});};
+  $('#wa').onclick=()=>{w.cancelQuiz();$('#wh').textContent='Смотри порядок черт…';w.showCharacter();w.hideCharacter({duration:0});w.animateCharacter({onComplete:()=>later(()=>{w.hideCharacter();quiz();},600)});};
+  $('#wr').onclick=()=>{w.cancelQuiz();quiz();};
+  w.animateCharacter({onComplete:()=>later(()=>{w.hideCharacter();quiz();},500)});$('#wh').textContent='Смотри порядок черт…';};
+ one();}
+function writing(){const n=5;
+ shell(`${backBtn}${tag(n)}<h2>✍️ Пропись 你 我 好 叫</h2><p class="lead">Сначала смотри, как пишется, потом <b>обведи пальцем</b>. Ключ светится розовым. Ошибёшься два раза — черта подскажет себя.</p><div id="tr"></div>`);
+ tracer($('#tr'),'你我好叫',m=>{finish(n,4,4,{mist:m});shell(doneBox(n,`<div class="res" style="font-family:var(--han);font-weight:400">你 我 好 叫</div><p class="lead">Все четыре иероглифа прописаны! ${m<=4?'Почти без ошибок 🏆':'Порядок черт приходит с практикой 💪'}</p>`,true));$('#again').onclick=writing;});}
+
+/* ---- 6. my name: listen, say 我叫…, trace it ---- */
+const NAMES=[{ru:'Радмир',hz:'拉德米尔',py:['lā','dé','mǐ','ěr'],t:[1,2,3,3]},{ru:'Султан',hz:'苏尔坦',py:['sū','ěr','tǎn'],t:[1,3,3]},{ru:'Вова',full:'Владимир',hz:'弗拉基米尔',py:['fú','lā','jī','mǐ','ěr'],t:[2,1,1,3,3]},
+ {ru:'Афина',hz:'阿菲娜',py:['ā','fēi','nà'],t:[1,1,4]},{ru:'Семён',hz:'谢苗',py:['xiè','miáo'],t:[4,2]},{ru:'Дарья',hz:'达莉娅',py:['dá','lì','yà'],t:[2,4,4],tch:1}];
+const pyHtml=n=>n.py.map((s,i)=>`<span style="color:${TCOL[n.t[i]]}">${s}</span>`).join(' ');
+const guessName=()=>{const v=(S.name||'').toLowerCase();return NAMES.find(n=>!n.tch&&(v.startsWith(n.ru.toLowerCase().slice(0,3))||(n.full&&v.startsWith(n.full.toLowerCase().slice(0,4)))));};
+function myname(pick){const n=6;const me=pick===0?null:(pick||NAMES.find(x=>x.ru===S.me)||guessName());
+ if(!me){shell(`${backBtn}${tag(n)}<h2>✍️ Моё имя по-китайски</h2><p class="lead">Выбери своё имя:</p><div class="nmch">${NAMES.filter(x=>!x.tch||TKEY||isTest()).map((x,k)=>`<button data-k="${k}">${x.full||x.ru}</button>`).join('')}</div>`);
+  document.querySelectorAll('.nmch [data-k]').forEach(b=>b.onclick=()=>myname(NAMES[+b.dataset.k]));return;}
+ S.me=me.ru;keepS();let said=false,traced=false;const fem=me.ru==='Афина'||me.tch,ed=fem?'а':'';
+ shell(`${backBtn}${tag(n)}<h2>✍️ Моё имя по-китайски</h2><div class="qcard in"><div class="bigname">${me.hz}</div><div class="py" style="font-size:24px">${pyHtml(me)}</div><small style="font-weight:700;color:var(--mu)">${me.full||me.ru}</small>
+  <div class="row" style="justify-content:center"><button class="btn g" id="l1">🔊 Моё имя</button><button class="btn g" id="l2">🔊 我叫${me.hz}</button><button class="btn g" id="ch" style="font-size:13px">Не моё имя</button></div></div>
+  <h3>1. Скажи вслух</h3><div class="sc n" id="scm" style="text-align:center"><div class="zh" style="font-size:34px">我叫${me.hz}。</div><div class="py">wǒ jiào ${me.py.join(' ')}</div><small>Меня зовут ${me.full||me.ru}</small><div class="row"><button class="btn" id="sd">✓ Сказал${ed} вслух</button></div></div>
+  <h3>2. Пропиши своё имя</h3><div id="tr"></div>`);
+ $('#l1').onclick=()=>say(me.hz);$('#l2').onclick=()=>say('我叫'+me.hz);$('#ch').onclick=()=>{S.me='';keepS();myname(0);};
+ const fin=()=>{if(!(said&&traced))return;if(!me.tch)send('name',{me:me.ru,done:true});finish(n,1,1,{me:me.ru});
+  shell(doneBox(n,`<div class="bigname">${me.hz}</div><div class="py" style="font-size:22px">${pyHtml(me)}</div><p class="lead">Ты прописал${ed} своё имя! Сейчас увидишь его на общем экране 👀</p>`,false));};
+ $('#sd').onclick=()=>{said=true;$('#scm').classList.add('done');$('#sd').textContent='✓';fin();};
+ tracer($('#tr'),me.hz,()=>{traced=true;if(!said)toast('Осталось сказать вслух: 我叫'+me.hz);fin();});}
+
+/* ---- 7. talk with 小明: scripted dialog, the kid speaks into the mic ---- */
+const II='https://kitai-ii.ch-tutor-world.workers.dev';const TTSC=new Map();
+async function ttsURL(text,voice){const k=voice+'|'+text;if(TTSC.has(k))return TTSC.get(k);const r=await fetch(II+'/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,voice})});if(!r.ok)throw 0;const u=URL.createObjectURL(await r.blob());TTSC.set(k,u);return u;}
+function tryURL(u,el){return new Promise(res=>{try{curA&&curA.pause()}catch(e){}const a=new Audio(u);curA=a;el&&el.classList.add('on');const end=ok=>{el&&el.classList.remove('on');res(ok);};a.onended=()=>end(true);a.onerror=()=>end(false);a.play().catch(()=>end(false));});}
+function speech(t,el){return new Promise(res=>{if(!('speechSynthesis' in window))return res();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=.8;const v=speechSynthesis.getVoices().find(v=>/^zh[-_]CN/i.test(v.lang));if(v)u.voice=v;el&&el.classList.add('on');u.onend=u.onerror=()=>{el&&el.classList.remove('on');res();};speechSynthesis.cancel();speechSynthesis.speak(u);});}
+// course mp3 first, then the AI voice, then the browser voice
+async function playW(hz,el){if(await tryURL(fn(hz),el))return;try{if(await tryURL(await ttsURL(hz,'xiaoyi'),el))return;}catch(e){}await speech(hz,el);}
+async function xmSay(t,el){try{if(await tryURL(await ttsURL(t,'yunxia'),el))return;}catch(e){}if(await tryURL(fn(t.replace(/[！？。，]/g,'')),el))return;await speech(t,el);}
+let stream=null;
+async function getMic(){if(stream&&stream.active)return stream;stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,channelCount:1}});return stream;}
+function wav16(f32,sr){const n=f32.length,buf=new ArrayBuffer(44+n*2),v=new DataView(buf);const w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};
+ w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
+ for(let i=0;i<n;i++){const s=Math.max(-1,Math.min(1,f32[i]));v.setInt16(44+i*2,s<0?s*0x8000:s*0x7fff,true);}return new Blob([buf],{type:'audio/wav'});}
+async function toWav(blob){const AC=window.AudioContext||window.webkitAudioContext;const ac=new AC();const src=await ac.decodeAudioData(await blob.arrayBuffer());ac.close&&ac.close();
+ const len=Math.ceil(src.duration*16000);const OAC=window.OfflineAudioContext||window.webkitOfflineAudioContext;const oc=new OAC(1,len,16000);const b=oc.createBufferSource();b.buffer=src;b.connect(oc.destination);b.start();return wav16((await oc.startRendering()).getChannelData(0),16000);}
+// tap = start, tap again = stop (or hold and release)
+function talkBtn(btn,onAudio,onFail){let rec=null,chunks=[],t0=0,toggle=false,raf=0,ac=null;
+ async function start(){try{curA&&curA.pause()}catch(e){}try{await getMic();}catch(e){onFail();return false;}
+  chunks=[];const type=['audio/webm;codecs=opus','audio/mp4','audio/webm'].find(t=>window.MediaRecorder&&MediaRecorder.isTypeSupported(t));
+  try{rec=new MediaRecorder(stream,type?{mimeType:type}:undefined);}catch(e){onFail();return false;}rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);rec.start();t0=performance.now();btn.classList.add('rec');btn.textContent='⏹';
+  try{const AC=window.AudioContext||window.webkitAudioContext;ac=new AC();const an=ac.createAnalyser();an.fftSize=512;ac.createMediaStreamSource(stream).connect(an);const d=new Uint8Array(an.fftSize);
+   const loop=()=>{an.getByteTimeDomainData(d);let s=0;for(const x of d){const y=(x-128)/128;s+=y*y;}btn.style.setProperty('--lvl',(1+Math.min(.3,Math.sqrt(s/d.length)*2.5)).toFixed(3));raf=requestAnimationFrame(loop);};loop();}catch(e){}
+  return true;}
+ function stop(){if(!rec)return;const r=rec;rec=null;btn.classList.remove('rec');btn.textContent='🎤';cancelAnimationFrame(raf);btn.style.removeProperty('--lvl');if(ac){ac.close();ac=null;}const dur=performance.now()-t0;
+  r.onstop=async()=>{if(dur<500){toast('Слишком коротко. Скажи фразу целиком.');return;}btn.classList.add('busy');
+   try{const raw=new Blob(chunks,{type:r.mimeType});await onAudio(await toWav(raw),raw);}catch(e){toast('Не расслышал. Попробуй ещё раз, чуть громче.');}finally{btn.classList.remove('busy');}};r.stop();}
+ btn.addEventListener('pointerdown',async e=>{e.preventDefault();if(btn.classList.contains('busy'))return;if(rec&&toggle){toggle=false;stop();return;}const ok=await start();if(!ok)return;
+  const up=()=>{btn.removeEventListener('pointerup',up);btn.removeEventListener('pointercancel',up);if(performance.now()-t0<400)toggle=true;else stop();};btn.addEventListener('pointerup',up);btn.addEventListener('pointercancel',up);});}
+const clean=t=>String(t||'').replace(/[,]/g,'，').replace(/[?]/g,'？').replace(/[!]/g,'！').replace(/[.]/g,'。').replace(/[^㐀-鿿，。？！、]/g,'').trim();
+async function stt(wav){const r=await fetch(II+'/stt',{method:'POST',headers:{'Content-Type':'audio/wav'},body:wav});const j=await r.json();if(j.error)throw new Error(j.error);return clean(j.text);}
+function xiaoming(pick){const n=7;const me=pick||NAMES.find(x=>x.ru===S.me)||guessName();
+ if(!me){shell(`${backBtn}${tag(n)}<h2>👋 Поговори с 小明</h2><p class="lead">Как тебя зовут? Выбери имя:</p><div class="nmch">${NAMES.filter(x=>!x.tch||TKEY||isTest()).map((x,k)=>`<button data-k="${k}">${x.full||x.ru}</button>`).join('')}</div>`);
+  document.querySelectorAll('.nmch [data-k]').forEach(b=>b.onclick=()=>{S.me=NAMES[+b.dataset.k].ru;keepS();xiaoming(NAMES[+b.dataset.k]);});return;}
+ const STEPS=[{xm:'你好！',py:'nǐ hǎo!',ru:'Привет!'},{me:'hi',zh:'你好！',py:'nǐ hǎo!',ru:'Привет!'},
+  {xm:'我叫小明。',py:'wǒ jiào Xiǎo Míng.',ru:'Меня зовут Сяо Мин.'},{xm:'你叫什么名字？',py:'nǐ jiào shénme míngzi?',ru:'Как тебя зовут?',nw:1},
+  {me:'name',zh:'我叫'+me.hz+'。',py:'wǒ jiào '+me.py.join(' ')+'.',ru:'Меня зовут '+(me.full||me.ru)+'.'},{xm:'好！',py:'hǎo!',ru:'Хорошо!'}];
+ let k=0,ok=0,log=[],notes=[],noMic=false;
+ shell(`${backBtn}${tag(n)}<h2>👋 Поговори с 小明</h2><p class="lead">小明 Xiǎo Míng — мальчик из Китая. Он поздоровается и спросит, как тебя зовут. Отвечай <b>в микрофон</b>: нажми 🎤, скажи фразу, нажми ⏹.</p>
+  <div class="xm" id="xc"></div><div id="ctl"></div>`);
+ const line=(who,st,extra)=>{const d=document.createElement('div');d.className='ln'+(who==='me'?' me':'');
+  d.innerHTML=(who==='me'?`<span class="av me">${(me.full||me.ru)[0]}</span>`:'<img class="av" src="../img/xiaoming.jpg" alt="小明">')+`<div class="bb">${st.nw?'<span class="nw">✨ новая фраза</span><br>':''}<span class="zh">${st.zh||st.xm}</span>${st.py?`<span class="py">${st.py}</span>`:''}${st.ru?`<small>${st.ru}</small>`:''}${extra||''}</div>`;
+  $('#xc').appendChild(d);d.scrollIntoView({behavior:'smooth',block:'end'});return d;};
+ const next=async()=>{if(!$('#xc'))return;if(k>=STEPS.length)return end();const st=STEPS[k];
+  if(st.xm){const d=line('xm',st,' <button class="btn g" style="padding:4px 10px;font-size:13px;margin-top:6px">🔊</button>');log.push({who:'xm',text:st.xm});const b=d.querySelector('button');b.onclick=()=>xmSay(st.xm);
+   $('#ctl').innerHTML='<p class="hint2" style="text-align:center;margin-top:14px">小明 говорит…</p>';await xmSay(st.xm);await new Promise(r=>later(r,st.nw?900:450));k++;return next();}
+  turn(st,0);};
+ const turn=(st,tries)=>{const say1=st.zh;
+  $('#ctl').innerHTML=`<div class="qcard in"><div class="hint2">Твоя очередь! Скажи:</div><div class="zh" style="font-size:34px;color:var(--ac2);margin-top:4px">${say1}</div><div class="py" style="color:var(--ac)">${st.py}</div><small style="font-weight:700;color:var(--mu)">${st.ru}</small>
+   ${noMic?'':'<button class="mic" id="mic" aria-label="Говорить">🎤</button><div class="hint2">Нажми 🎤 и говори, потом ⏹</div>'}<div class="fb" id="xf"></div>
+   <div class="row" style="justify-content:center"><button class="btn g" id="hl">🔊 Как сказать</button>${noMic||tries>=2?`<button class="btn" id="tp">${noMic?'Сказал вслух ✓':'Дальше →'}</button>`:''}</div></div>`;
+  $('#hl').onclick=()=>playW(say1.replace(/[！。]/g,''));
+  const goOn=(text,good,note)=>{if(good)ok++;if(note)notes.push(note);log.push({who:'me',text:text||'—',ok:good});line('me',{zh:text||say1,py:'',ru:good?'✓':''});k++;later(next,500);};
+  const tp=$('#tp');if(tp)tp.onclick=()=>goOn(noMic?say1:'',noMic,noMic?'без микрофона: '+(st.me==='hi'?'приветствие':'представился')+' вслух':'не распознано: '+say1);
+  const mic=$('#mic');if(!mic)return;
+  talkBtn(mic,async(wav,raw)=>{upload(st.me==='hi'?'ii1':'ii2',raw.size<2900000?raw:wav);let t='';try{t=await stt(wav);}catch(e){toast('Распознавание не ответило. Попробуй ещё раз.');return;}
+   const fb=$('#xf');if(!t){fb.className='fb no';fb.textContent='Не расслышал. Скажи чуть громче 🙂';if(tries>=1)turn(st,tries+1);return;}
+   if(st.me==='hi'){const good=/好/.test(t)&&/[你您尼泥妳]/.test(t);if(good)return goOn(t,true);
+    fb.className='fb no';fb.innerHTML=`Услышал: <span class="zh">${t}</span>. ${/好/.test(t)?'Начни с 你 nǐ.':'Скажи 你好 — nǐ hǎo, второй слог с 好.'} Попробуй ещё раз!`;notes.push('привет: «'+t+'»');if(tries>=1)later(()=>turn(st,tries+1),1600);return;}
+   const jiao=/叫/.test(t),hit=[...me.hz].filter(c=>t.includes(c)).length;
+   if(jiao){if(hit<Math.ceil(me.hz.length/2))notes.push('имя распознано как «'+t+'» — проверь запись');return goOn(t,true);}
+   fb.className='fb no';fb.innerHTML=`Услышал: <span class="zh">${t}</span>. Начни с <b>我叫</b> wǒ jiào — «меня зовут». Попробуй ещё раз!`;notes.push('имя: «'+t+'»');if(tries>=1)later(()=>turn(st,tries+1),1600);},
+  ()=>{noMic=true;toast('Микрофон недоступен — скажи вслух и нажми кнопку');turn(st,tries);});};
+ const end=()=>{finish(n,ok,2,{log,notes});
+  $('#ctl').innerHTML=`<div class="qcard in"><div style="font-size:54px">🎉</div><div class="res" style="font-size:30px">Вы познакомились!</div><p class="lead">${ok===2?'小明 понял тебя с первого раза. 好！':'Молодец! Учитель послушает запись.'}</p>
+   <div class="row" style="justify-content:center"><button class="btn" onclick="location.hash='#8'">Задание № 8 →</button><button class="btn g" onclick="location.hash=''">‹ Все задания</button><button class="btn g" id="again">↺ Ещё раз</button></div></div>`;$('#again').onclick=()=>xiaoming(me);};
+ next();}
+
+/* ---- dictation: listen and choose from 4 ---- */
+// right answer never under the same button as in the last 1-2 questions
+function arrange(opts,right,prev){const av=[].concat(prev).slice(opts.length>=4?-2:-1);for(let k=0;k<40;k++){const a=shuffle(opts);const i=a.indexOf(right);if(!av.includes(i))return [a,i];}const a=shuffle(opts);return [a,a.indexOf(right)];}
+const fair=(list,get)=>{let h=[];return list.map(x=>{const [o,i]=arrange(get(x),x.s||x,h);h=h.concat(i);return o;});};
+const PAIR={b:'p',p:'b',d:'t',t:'d',g:'k',k:'g',z:'c',c:'z',zh:'ch',ch:'zh',s:'sh',sh:'s',j:'q',q:'j',x:'s',n:'l',l:'n',f:'h',h:'f',m:'n',r:'l',y:'w',w:'y'};
+const PAIR2={z:'zh',zh:'z',c:'ch',ch:'c',s:'sh',sh:'s',j:'zh',q:'ch',x:'sh',b:'d',p:'t',g:'d',k:'t',d:'b',t:'p',n:'m',l:'r',f:'b',h:'g',m:'b',r:'sh',y:'j',w:'h'};
+const split=b=>{const m=b.match(/^(zh|ch|sh|[bpmfdtnlgkhjqxrzcsyw])?(.*)$/);return [m[1]||'',m[2]];};
+function opts4(s){const t=SYL.tone(s),b=SYL.plain(s),[ini,fin]=split(b);const out=[s];
+ const tryAdd=(bb,tt)=>{if(out.length>=4||!bb||!tt)return;const x=mark(bb,tt);if(!out.includes(x))out.push(x);};
+ const other=shuffle([1,2,3,4].filter(x=>x!==t));
+ const swap=ini&&PAIR[ini]?PAIR[ini]+fin:'',swap2=ini&&PAIR2[ini]?PAIR2[ini]+fin:'';
+ const real=(bb,tt)=>bb&&SYL.char(mark(bb,tt));
+ // prefer real syllables: same sound other tone, partner initial same tone, partner initial other tone
+ if(swap&&real(swap,t))tryAdd(swap,t);
+ tryAdd(b,other[0]);
+ if(swap2&&real(swap2,t))tryAdd(swap2,t);
+ tryAdd(b,other[1]);
+ if(swap)tryAdd(swap,other[0]);
+ tryAdd(b,other[2]);
+ return shuffle(out.slice(0,4));}
+async function dict(n){await Promise.race([VOKP,new Promise(r=>setTimeout(r,3000))]);
+ const list=DICT[n],O=fair(list,opts4),items=list.map((s,j)=>({s,o:O[j]}));let i=0,ok=0,res=[];
+ const ask=()=>{if(i>=items.length){finish(n,ok,items.length,{miss:items.filter((x,j)=>!res[j]).map(x=>x.s)});
+   shell(`${backBtn}<span class="tag">Задание № ${n}</span><h2>${TASKS[n].t} — готово!</h2><div class="res">${ok} / ${items.length}</div>
+    <p class="lead">${ok>=9?'Супер-уши! 🎧':ok>=6?'Хорошо! Сверим ответы с учителем.':'犯错不可怕! Сейчас вместе разберём ответы.'}</p>
+    <div class="ans">${items.map((x,j)=>`<span class="${res[j]?'ok':'no'}">${j+1}. ${x.s}</span>`).join('')}</div>
+    <div class="row"><button class="btn g" onclick="location.hash=''">‹ Все задания</button><button class="btn" id="again">Ещё раз</button></div>`);
+   $('#again').onclick=()=>dict(n);return;}
+  const it=items[i];let first=true,lock=false;
+  shell(`${backBtn}<span class="tag">Задание № ${n}</span><h2>${TASKS[n].t}</h2><div class="qcard in"><div class="qhead"><span>Слог ${i+1} из ${items.length}</span><span>${ok} ✓</span></div>
+   <div class="dots">${items.map((_,j)=>`<i class="${j<i?(res[j]?'ok':'no'):j===i?'cur':''}"></i>`).join('')}</div>
+   <button class="play n" id="pl">▶</button><div style="font-size:14px;font-weight:700;color:var(--mu)">Слушай сколько нужно раз и выбери слог</div>
+   <div class="opts">${it.o.map(x=>`<button class="opt" data-o="${x}">${x}</button>`).join('')}</div><div class="fb" id="fb"></div></div>`);
+  const pl=$('#pl');pl.onclick=()=>playS(it.s,pl);setTimeout(()=>playS(it.s,pl),300);
+  document.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>{if(lock)return;const fb=$('#fb');
+   if(b.dataset.o===it.s){lock=true;b.classList.add('ok');if(first)ok++;res[i]=first;fb.className='fb ok';fb.textContent='✓ Верно: '+it.s;setTimeout(()=>{i++;ask();},1000);}
+   else{first=false;b.classList.add('no');fb.className='fb no';fb.textContent='Нет, это '+b.dataset.o+'. Послушай ещё раз ▶';playS(it.s,pl);}});};
+ ask();}
+
+/* ---- 4. choose one of three ---- */
+async function choose(){await Promise.race([VOKP,new Promise(r=>setTimeout(r,3000))]);
+ const n=8;let h=[];const items=CH3.map(o=>{const [a,ix]=arrange(o,o[0],h);h=h.concat(ix);return {s:o[0],o:a};});let i=0,ok=0,res=[];
+ const ask=()=>{if(i>=items.length){finish(n,ok,items.length,{miss:items.filter((x,j)=>!res[j]).map(x=>x.s)});
+   shell(`${backBtn}<span class="tag">Задание № ${n}</span><h2>Выбери слог — готово!</h2><div class="res">${ok} / ${items.length}</div>
+    <div class="ans">${items.map((x,j)=>`<span class="${res[j]?'ok':'no'}">${j+1}. ${x.s}</span>`).join('')}</div>
+    <div class="row"><button class="btn g" onclick="location.hash=''">‹ Все задания</button><button class="btn" id="again">Ещё раз</button></div>`);$('#again').onclick=choose;return;}
+  const it=items[i];let first=true,lock=false;
+  shell(`${backBtn}<span class="tag">Задание № ${n}</span><h2>Выбери слог на слух</h2><div class="qcard in"><div class="qhead"><span>Вопрос ${i+1} из ${items.length}</span><span>${ok} ✓</span></div>
+   <div class="dots">${items.map((_,j)=>`<i class="${j<i?(res[j]?'ok':'no'):j===i?'cur':''}"></i>`).join('')}</div>
+   <button class="play n" id="pl">▶</button><div class="opts o3">${it.o.map((x,k)=>`<button class="opt" data-o="${x}"><small style="display:block;font:800 13px Manrope;color:var(--mu)">${'ABC'[k]}</small>${x}</button>`).join('')}</div><div class="fb" id="fb"></div></div>`);
+  const pl=$('#pl');pl.onclick=()=>playS(it.s,pl);setTimeout(()=>playS(it.s,pl),300);
+  document.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>{if(lock)return;const fb=$('#fb');
+   if(b.dataset.o===it.s){lock=true;b.classList.add('ok');if(first)ok++;res[i]=first;fb.className='fb ok';fb.textContent='✓ Верно!';setTimeout(()=>{i++;ask();},1000);}
+   else{first=false;b.classList.add('no');fb.className='fb no';fb.textContent='Не этот. Послушай ещё раз ▶';playS(it.s,pl);}});};
+ ask();}
+
+
+route();
+</script></body></html>
