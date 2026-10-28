@@ -204,7 +204,7 @@ const LOCKED=false;let TKEY=(k=>{let h=0x811c9dc5;for(const c of new TextEncoder
 try{if(localStorage.getItem('zh-u5-t')==='1')TKEY=true;}catch(e){}
 (k=>{if(!k||TKEY)return;fetch(API+'list?hw='+HW+'&key='+encodeURIComponent(k)).then(r=>{if(!r.ok)return;TKEY=true;try{localStorage.setItem('zh-u5-t','1')}catch(e){}route();}).catch(()=>{});})(new URLSearchParams(location.search).get('key'));
 // a task opens only when the one before it is done
-const open_=n=>n===1||TKEY||!!DONE[n-1];
+const open_=n=>true;
 function home(){const nx=TASKS.findIndex((x,i)=>x&&!DONE[i]);
  shell(`<h2>Задания по порядку</h2><p class="lead">Следующее задание откроется, когда сделаешь предыдущее. Учитель скажет, какое делать сейчас.</p>
  <div class="list">${TASKS.map((x,i)=>{if(!x)return '';const lk=!open_(i);return `<button class="ti n${lk?' lk':''}${i===nx&&!lk?' hot':''}" data-n="${i}"><span class="no" style="background:${DONE[i]?'var(--ok)':'var(--ac)'}">${i}</span><span><b>${x.t}</b><small>${x.d}</small></span><span class="st${lk?' lk':''}">${lk?'🔒':DONE[i]?'✓ '+DONE[i]:''}</span></button>`;}).join('')}</div>`);
