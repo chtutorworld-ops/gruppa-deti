@@ -199,7 +199,10 @@ const tag=n=>`<span class="tag">Задание № ${n}</span>`;
 let TM=[];const later=(f,ms)=>{const t=setTimeout(f,ms);TM.push(t);return t;};
 function stopAll(){TM.forEach(clearTimeout);TM=[];try{curA&&curA.pause()}catch(e){}}
 /* the teacher closes the page between lessons; with the teacher key it stays open */
-const LOCKED=false,TKEY=(k=>{let h=0x811c9dc5;for(const c of new TextEncoder().encode(k||'')){h^=c;h=Math.imul(h,0x01000193)>>>0;}return h.toString(16).padStart(8,'0');})(new URLSearchParams(location.search).get('key'))==='6521a6d8';
+const LOCKED=false;let TKEY=(k=>{let h=0x811c9dc5;for(const c of new TextEncoder().encode(k||'')){h^=c;h=Math.imul(h,0x01000193)>>>0;}return h.toString(16).padStart(8,'0');})(new URLSearchParams(location.search).get('key'))==='6521a6d8';
+// opened from the teacher's cabinet: the key is checked by the server, then remembered on this device
+try{if(localStorage.getItem('zh-u5-t')==='1')TKEY=true;}catch(e){}
+(k=>{if(!k||TKEY)return;fetch(API+'list?hw='+HW+'&key='+encodeURIComponent(k)).then(r=>{if(!r.ok)return;TKEY=true;try{localStorage.setItem('zh-u5-t','1')}catch(e){}route();}).catch(()=>{});})(new URLSearchParams(location.search).get('key'));
 // a task opens only when the one before it is done
 const open_=n=>n===1||TKEY||!!DONE[n-1];
 function home(){const nx=TASKS.findIndex((x,i)=>x&&!DONE[i]);
@@ -223,14 +226,18 @@ async function shooter(){await wait();const n=1,T=75;
  const best=+(localStorage.getItem('zh-u5-best')||0);
  shell(`${backBtn}${tag(n)}<h2>🎯 Шутер: лови слог</h2><p class="lead">Звучит слог — <b>стреляй</b> по шарику, на котором он написан. Пока шарики летят, можно нажать 🔊. У тебя <b>${T} секунд</b>. Включи звук!</p>
   ${best?`<p class="lead">Твой рекорд: <b>${best}</b></p>`:''}<div class="row" style="justify-content:center"><button class="btn" id="st" style="font-size:20px;padding:18px 34px">▶ Начать</button></div>`);
+ // syllable audio is loaded ahead, so the bubbles start together with the sound
+ const sUrl=x=>{const k=vkey(x);return VOK&&VOK[k]?VOICE+k+'.wav':fn(SYL.char(x));},AC={};
+ const pre=x=>{if(!AC[x]){const a=new Audio(sUrl(x));a.preload='auto';try{a.load()}catch(e){}AC[x]=a;}return AC[x];};
+ let prev='';const pick=()=>{let x;do{x=pool[Math.random()*pool.length|0];}while((x===prev||Q.includes(x))&&pool.length>3);prev=x;pre(x);return x;};const Q=[];Q.push(pick(),pick(),pick());
  $('#st').onclick=()=>play();
- function play(){let hits=0,tot=0,cmb=0,miss=[],prev='',t0=Date.now(),over=false;
+ function play(){let hits=0,tot=0,cmb=0,miss=[],t0=Date.now(),over=false;
   shell(`${backBtn}${tag(n)}<div class="hud"><span>🎯 <span id="hs">0</span></span><span class="cmb" id="hc"></span><span>⏱ <span id="ht">${T}</span></span></div><div class="tbar"><i id="tb"></i></div>
    <div class="arena" id="ar"></div><div class="row" style="justify-content:center;margin-top:10px"><button class="btn g" id="rp">🔊 Ещё раз</button></div>`);
   const ar=$('#ar'),tb=$('#tb');tb.style.transition=`width ${T}s linear`;requestAnimationFrame(()=>requestAnimationFrame(()=>tb.style.width='0%'));
   const tick=()=>{if(over)return;const left=Math.max(0,T-Math.floor((Date.now()-t0)/1000));$('#ht').textContent=left;if(left<=0)return end();later(tick,250);};tick();
-  let cur=null;$('#rp').onclick=()=>cur&&playS(cur);
-  const round=()=>{if(over)return;let s;do{s=pool[Math.random()*pool.length|0];}while(s===prev&&pool.length>1);prev=s;cur=s;tot++;
+  let cur=null;$('#rp').onclick=()=>{if(!cur)return;const a=pre(cur);try{a.currentTime=0}catch(e){}a.play().catch(()=>playS(cur));};
+  const round=()=>{if(over)return;const s=Q.shift();Q.push(pick());cur=s;tot++;
    const b=SYL.plain(s),t=SYL.tone(s),[ini,fin]=split(b),opts=[s];
    const add=x=>{if(opts.length<4&&x&&!opts.includes(x)&&pool.includes(x))opts.push(x);};
    if(PAIRA[ini])add(mark(PAIRA[ini]+fin,t));shuffle([1,2,3,4].filter(x=>x!==t)).forEach(x=>add(mark(b,x)));
@@ -238,13 +245,13 @@ async function shooter(){await wait();const n=1,T=75;
    const ms=Math.max(3000,5200-hits*120),xs=shuffle([13,37,63,87]);
    ar.innerHTML=shuffle(opts).map((x,k)=>`<button class="bub" data-o="${x}" style="left:${xs[k]}%;bottom:${-90-k*70}px;--bc:${BCOL[(k+tot)%5]};transition:bottom ${ms+k*250}ms linear">${x}</button>`).join('');
    const bs=[...ar.querySelectorAll('.bub')];let done=false;
-   requestAnimationFrame(()=>requestAnimationFrame(()=>bs.forEach(e=>e.style.bottom='105%')));
-   later(()=>playS(s),150);
+   let flying=false;const fly=()=>{if(flying||done||over)return;flying=true;bs.forEach(e=>e.style.bottom='105%');later(()=>next(false,null),ms+600);};
+   const a=pre(s);try{curA&&curA!==a&&curA.pause()}catch(e){}curA=a;try{a.currentTime=0}catch(e){}
+   a.addEventListener('playing',fly,{once:true});a.addEventListener('error',fly,{once:true});a.play().catch(()=>{playS(s);later(fly,400);});later(fly,2500);
    const next=(hit,got)=>{if(done)return;done=true;if(hit){hits++;cmb++;}else{cmb=0;miss.push(s);}
     $('#hs').textContent=hits;$('#hc').textContent=cmb>=3?'🔥 '+cmb+' подряд':'';
     bs.forEach(e=>{if(e.dataset.o===s)e.classList.add(hit?'pop':'show');});
     if(!hit)toast(got?'Мимо! Это был '+s:'Улетел! Это был '+s);later(round,hit?350:1100);};
-   later(()=>next(false,null),ms+600);
    bs.forEach(e=>e.onclick=()=>{if(done)return;if(e.dataset.o===s)next(true,s);else{e.classList.add('bad');next(false,e.dataset.o);}});};
   round();
   function end(){if(over)return;over=true;stopAll();const rec=hits>best;if(rec)try{localStorage.setItem('zh-u5-best',hits)}catch(e){}
