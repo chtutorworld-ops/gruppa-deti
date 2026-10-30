@@ -1,4 +1,5 @@
 // API домашних заданий: ответы и аудио учеников хранятся в Cloudflare KV.
+// Ключа учителя нет: кабинеты учителя, записи учеников и запись голоса открываются по ссылке.
 // Всё остальное (уроки, тренажёр) отдаётся как обычные файлы из ./public.
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -65,7 +66,6 @@ export default {
       }
       // Учитель: список всех сдавших
       if (p === '/api/dz/list') {
-        if (q.get('key') !== env.TEACHER_KEY) return json({ error: 'key' }, 403);
         const hw = q.get('hw'); if (!okId(hw)) return json({ error: 'bad' }, 400);
         let idx = await readIdx(env, hw);
         if (!idx.full || Date.now() - idx.full > FULL_EVERY) { try { idx = await fullIdx(env, hw); } catch (e) { /* лимит list исчерпан: отдаём то, что есть в индексе, и пробуем снова через 10 минут */ idx.full = Date.now(); await writeIdx(env, hw, idx); } }
@@ -73,7 +73,7 @@ export default {
         const aud = idx.aud;
         return json({ subs, aud });
       }
-      // Слайд «Наши имена»: только имена тех, кто прописал своё имя (без результатов и без ключа)
+      // Слайд «Наши имена»: только имена тех, кто прописал своё имя (без результатов)
       if (p === '/api/dz/board') {
         const hw = q.get('hw'); if (!okId(hw)) return json({ error: 'bad' }, 400);
         const idx = await readIdx(env, hw);
@@ -83,7 +83,6 @@ export default {
       }
       // Учитель: прослушать запись
       if (p === '/api/dz/play') {
-        if (q.get('key') !== env.TEACHER_KEY) return json({ error: 'key' }, 403);
         const { value, metadata } = await env.DZ.getWithMetadata(`${q.get('hw')}:aud:${q.get('sid')}:${q.get('item')}`, 'arrayBuffer');
         if (!value) return json({ error: 'none' }, 404);
         return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'audio/webm', ...CORS } });
@@ -92,7 +91,6 @@ export default {
       // один слог (ba1, b0) или слово/фраза из 2–6 слогов с номерами тонов (da3gu3, wo3jiao4ma3ke3)
       const okV = (s) => typeof s === 'string' && (/^[a-z]{1,6}[0-4]$/.test(s) || /^(?:[a-z]{1,6}[0-4]){2,6}$/.test(s));
       if (p === '/api/voice/put' && req.method === 'POST') {
-        if (q.get('key') !== env.TEACHER_KEY) return json({ error: 'key' }, 403);
         const id = q.get('id'); if (!okV(id)) return json({ error: 'bad' }, 400);
         const buf = await req.arrayBuffer();
         if (buf.byteLength < 500 || buf.byteLength > 2_000_000) return json({ error: 'size' }, 413);
@@ -100,7 +98,6 @@ export default {
         return json({ ok: true });
       }
       if (p === '/api/voice/del' && req.method === 'POST') {
-        if (q.get('key') !== env.TEACHER_KEY) return json({ error: 'key' }, 403);
         const id = q.get('id'); if (!okV(id)) return json({ error: 'bad' }, 400);
         await env.DZ.delete(`voice:${id}`); return json({ ok: true });
       }

@@ -35,5 +35,5 @@
 - Страницы на workers.dev берут звук с GitHub Pages (на Cloudflare папки audio нет).
 
 ## API (src/worker.js, KV DZ)
-`/api/dz/save` · `/api/dz/audio` · `/api/dz/list?hw=&key=` · `/api/dz/play` · `/api/voice/put|list|get`.
+`/api/dz/save` · `/api/dz/audio` · `/api/dz/list?hw=` · `/api/dz/play` · `/api/voice/put|list|get`.
 Имя «учитель», «teacher», «тест» — ничего не сохраняется.
