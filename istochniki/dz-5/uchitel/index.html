@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Кабинет учителя — ДЗ 4</title>
+<title>Кабинет учителя — ДЗ 5</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Nunito:wght@800;900&display=swap">
 <style>
 :root{--bg:#E9EDF4;--ink:#1E2350;--t:#3D4560;--mu:#7D86A3;--ac:#5B6BD8;--ac2:#2B3270;--sh1:#C5CBD8;--sh2:#fff}
@@ -30,7 +30,7 @@ td small{display:block;font-size:11px;font-weight:700;opacity:.85}
 .rep{width:100%;min-height:230px;margin-top:8px;padding:12px 14px;border:0;border-radius:14px;font:500 14.5px/1.5 Manrope;color:var(--t);background:#F4F6FB;resize:vertical}
 .tip{margin-top:12px;padding:10px 14px;border-radius:14px;background:#FFF6DC;color:#6B5310;font-size:14px;line-height:1.45}
 </style></head><body><div class="app">
-<div class="box n top"><div><h1>🧑‍🏫 Кабинет учителя · ДЗ 4 «Тоны, придыхание, иероглифы 你 我 好 叫»</h1><small>Новые результаты — по кнопке «↻ Обновить» · <span id="st"></span></small></div>
+<div class="box n top"><div><h1>🧑‍🏫 Кабинет учителя · ДЗ 5 «Тоны, придыхание, иероглифы 你 我 好 叫»</h1><small>Новые результаты — по кнопке «↻ Обновить» · <span id="st"></span></small></div>
  <div style="margin-left:auto;display:flex;gap:10px"><button class="btn" id="ref" style="background:var(--ac);color:#fff">↻ Обновить</button><a class="btn" href="../" target="_blank">Открыть ДЗ как ученик ↗</a></div></div>
 <div class="box n"><h2>📊 Кто что сделал</h2><div class="kpi" id="kpi"></div><div style="overflow-x:auto"><table id="tb"></table></div>
  <div class="tip">Записи: p = pā…pà · t = tā…tà · k = kā…kà · 1 = kě pà · 2 = tǔ dì · 3 = dǎ pò. Нажмите на кружок, чтобы послушать. Прописи — сколько иероглифов из 8 написано не больше чем с одной ошибкой (в каждой прописи 2 круга по 你 我 好 叫). 小明 и Ли На — голосовые ответы ребёнка тоже можно послушать в досье. <b>Нажмите на имя ученика — откроется досье, мини-диалог ребёнка и готовый отчёт для родителей.</b> Имя «учитель» сюда не попадает.</div></div>
@@ -76,7 +76,7 @@ async function load(){const st=document.getElementById('st');
    const f=info(g,id);if(!f.done)return '<td class="e">—</td>';if(id==='brief')return '<td class="g">✓</td>';if(id==='game')return `<td class="g">🏆 ${g.parts.game.best}<small>игр: ${g.parts.game.games||1}</small></td>`;
    return `<td class="${f.l}">${f.v.replace(' / ','/')}${g.parts[id].tries>1?`<small>попыток: ${g.parts[id].tries}</small>`:''}</td>`;};
   document.getElementById('tb').innerHTML=`<tr><th class="nm">Ученик</th>${T.map(([id],i)=>`<th>${i+1} · ${SHORT[id]}</th>`).join('')}</tr>`+
-   (rows.length?rows.map((g,gi)=>`<tr><td class="nm"><button class="nmb" data-g="${gi}">${esc([...g.names].join(' / '))}</button><small>${new Date(g.upd).toLocaleString('ru',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</small></td>${T.map(([id])=>cell(g,id)).join('')}</tr>`).join(''):`<tr><td colspan="${T.length+1}" style="font-family:Manrope;color:var(--mu);font-weight:600;padding:20px">Пока никто не начал ДЗ 4.</td></tr>`);
+   (rows.length?rows.map((g,gi)=>`<tr><td class="nm"><button class="nmb" data-g="${gi}">${esc([...g.names].join(' / '))}</button><small>${new Date(g.upd).toLocaleString('ru',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</small></td>${T.map(([id])=>cell(g,id)).join('')}</tr>`).join(''):`<tr><td colspan="${T.length+1}" style="font-family:Manrope;color:var(--mu);font-weight:600;padding:20px">Пока никто не начал ДЗ 5.</td></tr>`);
   document.querySelectorAll('#tb .pl[data-sid]').forEach(b=>b.onclick=()=>play(b.dataset.sid,b.dataset.it,b));
   ROWS=rows;document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>dossier(rows[+b.dataset.g]));
   const done=f=>rows.filter(f).length;
@@ -108,7 +108,7 @@ function dossier(g,keep){const nm=[...g.names].join(' / ');OPEN=first([...g.name
  const dn=T.filter(([id])=>info(g,id).done).length;
  const prev=document.getElementById('rep');const keepTxt=keep&&prev?prev.value:null;
  document.getElementById('mbox').innerHTML=`<button class="x" id="mx">✕</button><h3>📁 ${esc(nm)}</h3>
-  <div class="ds" style="color:var(--mu);font-weight:700;margin-top:4px">ДЗ 4 · сделано ${dn} из ${T.length} · последний раз ${dt(g.upd)} · устройств: ${Math.max(1,g.sids.length)}</div>
+  <div class="ds" style="color:var(--mu);font-weight:700;margin-top:4px">ДЗ 5 · сделано ${dn} из ${T.length} · последний раз ${dt(g.upd)} · устройств: ${Math.max(1,g.sids.length)}</div>
   ${secs}
   <div class="sec" style="background:#F0F3FF"><div class="hd">📄 Отчёт для родителей<button class="btn" id="cp" style="margin-left:auto;padding:8px 14px">Скопировать</button></div><div class="ds">Текст можно поправить прямо здесь перед копированием.</div><textarea class="rep" id="rep">${esc(keepTxt!=null?keepTxt:report(g,nm,dn))}</textarea></div>
   <div style="margin-top:14px;text-align:right"><button class="btn" id="hide" style="color:#B0284F">🙈 Это не ученик — скрыть из кабинета</button></div>`;
@@ -118,7 +118,7 @@ function dossier(g,keep){const nm=[...g.names].join(' / ');OPEN=first([...g.name
  document.getElementById('cp').onclick=async()=>{const t=document.getElementById('rep');try{await navigator.clipboard.writeText(t.value);}catch(e){t.select();document.execCommand('copy');}document.getElementById('cp').textContent='✓ Скопировано';};
  document.getElementById('hide').onclick=()=>{if(!confirm('Скрыть «'+nm+'» из кабинета на этом устройстве?'))return;HIDE_LS=HIDE_LS.concat(g.sids);try{localStorage.setItem('dz4-hide',JSON.stringify(HIDE_LS))}catch(e){}close();load();};}
 function report(g,nm,dn){const P=g.parts,L=[];const name=[...g.names][0];
- L.push(`${name} — домашнее задание 4 «Тоны, придыхание и первые иероглифы 你 我 好 叫»`);L.push(`Выполнено заданий: ${dn} из ${T.length}.`);L.push('');
+ L.push(`${name} — домашнее задание 5 «Тоны, придыхание и первые иероглифы 你 我 好 叫»`);L.push(`Выполнено заданий: ${dn} из ${T.length}.`);L.push('');
  const good=[],ok=[],todo=[];
  T.forEach(([id,e,t])=>{const f=info(g,id);if(id==='rec')return;if(!f.done){todo.push(t);return;}
   if(id==='brief')good.push(`${t} — изучено`);else if(id==='game')good.push(`${t} — рекорд ${P.game.best||0}`);else if(f.l==='g')good.push(`${t} — ${f.v}`);else ok.push(`${t} — ${f.v}`);});

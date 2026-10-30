@@ -1,4 +1,4 @@
-# ДЗ 4: font subset + Hanzi Writer with stroke data for the writing practice (你 我 好 叫)
+# ДЗ 5: font subset + Hanzi Writer with stroke data for the writing practice (你 我 好 叫)
 # needs: /root/.fonts/LXGWWenKaiGB-Regular.ttf, `npm pack hanzi-writer@3.7.3 hanzi-writer-data@2.0.1` unpacked into HWD
 import base64, json, sys
 from fontTools.ttLib import TTFont
