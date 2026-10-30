@@ -672,16 +672,13 @@ function myname(){let said=false,traced=false;
 /* ===================== the steps ===================== */
 const P1='<span class="part"><b class="l1">Разминка</b> слоги и тоны</span>',P2='<span class="part"><b class="l1">Урок 4</b> вспоминаем</span>',
  P3='<span class="part"><b>汉字</b> иероглифы</span>',P4='<span class="part"><b>部首</b> ключи</span>',P5='<span class="part"><b>写</b> пишем</span>',
- P6='<span class="part"><b>名字</b> имена</span>',P7='<span class="part"><b>声母</b> новые инициали</span>';
+ P6='<span class="part"><b>名字</b> имена</span>';
 const task=(n,t,what)=>`${taskHd(n,t)}<p class="lead">${what}</p><div class="tk" id="tk"></div>`;
 const CHAINS=[['bā','bá','bǎ','bà'],['dī','dí','dǐ','dì'],['pū','pú','pǔ','pù'],['mō','mó','mǒ','mò']];
 const PICT=[['ren','人','rén','человек'],['ri','日','rì','солнце'],['yue','月','yuè','луна'],['shan','山','shān','гора'],['mu','木','mù','дерево'],['kou','口','kǒu','рот']];
 const IMG='../urok-5/img/';
 const RAD=[['亻','rén','человек','🧍',['你','他','们']],['口','kǒu','рот','👄',['叫','吃','喝']],['女','nǚ','женщина','👩',['好','妈','她']],['氵','shuǐ','вода','💧',['河','湖','海']]];
 const DET=[['河','hé','氵','💧 что-то про воду','река — вспомни 河马 hémǎ, «речная лошадь» = бегемот!'],['妈','mā','女','👩 что-то про женщину','мама'],['吃','chī','口','👄 что-то про рот','есть, кушать'],['你','nǐ','亻','🧍 что-то про человека','ты']];
-// the six new initials: name syllable as on the lesson slide, teacher's voice key first
-const ZI=[['z','дз','资','zī','zi1','как «дз», без выдоха'],['c','цх','词','cí','ci2','как «ц» с сильным выдохом'],['s','с','丝','sī','si1','как «с»'],['zh','дж','知','zhī','zhi1','твёрдое «дж», язык загнут, без выдоха'],['ch','чх','吃','chī','chi1','твёрдое «ч» с выдохом, язык загнут'],['sh','ш','诗','shī','shi1','как «ш», язык загнут']];
-const urlZ=z=>urlK(z[4])||fn(z[2]);
 const charStep=(c,py,ru,parts,rules)=>({t:c+' — '+ru,h:()=>`${P5}<h2>${c} — ${ru}</h2><div class="hz"><button class="zh say" data-w="${c}">${c}</button><span class="py">${py}</span></div>
   <div class="chl"><div class="lft">${hzcell(c,260)}<small class="hint2">${parts}</small></div><div>${rules.map(([ic,t])=>`<div class="rl n"><span class="ic">${ic}</span><span>${t}</span></div>`).join('')}</div></div>
   <h3>Теперь ты: обведи ${c}</h3><p class="lead" style="margin-top:0">Посмотри, как пишется, и обведи пальцем по порядку черт.</p><div class="tk" id="tr1"></div>`,
@@ -691,7 +688,7 @@ const zh=s=>`<span class="zh-i">${s}</span>`;
 const STEPS=[
  {t:'Начало',h:()=>`<span class="part"><b>补课</b> bǔkè · догоняем</span>
   <h2>Привет, Радмир! Догоняем урок 5 👋</h2>
-  <p class="lead">На уроке 5 группа узнала, <b>откуда взялись иероглифы</b>, что такое <b>ключи</b>, научилась писать ${zh('你 我 好 叫')}, прописала <b>свои имена</b> по-китайски и познакомилась с новыми инициалями <b>z c s zh ch sh</b>. Здесь всё то же самое — по шагам и подробно. Нажимай на всё со значком 🔊 и повторяй вслух. Задания урока ты делаешь <b>прямо здесь</b>, и учитель увидит твои результаты.</p>
+  <p class="lead">На уроке 5 группа узнала, <b>откуда взялись иероглифы</b>, что такое <b>ключи</b>, научилась писать ${zh('你 我 好 叫')}, прописала <b>свои имена</b> по-китайски и познакомилась с мальчиком 小明. Здесь всё то же самое — по шагам и подробно. Нажимай на всё со значком 🔊 и повторяй вслух. Задания урока ты делаешь <b>прямо здесь</b>, и учитель увидит твои результаты.</p>
   <h3>Кто занимается?</h3>
   <div class="who">${[['Радмир','это я'],['учитель','проверка, ничего не сохраняется']].map(([n,s])=>`<button class="n${ST.name===n?' on':''}" data-who="${n}">${n==='учитель'?'Учитель':n}<small>${s}</small></button>`).join('')}</div>
   <div class="toc">
@@ -701,7 +698,6 @@ const STEPS=[
    <div class="n"><span style="background:#F0E6FF">🔑</span>Ключи — подсказки смысла</div>
    <div class="n"><span style="background:#DDF5EC">✍️</span>Пишем 你 我 好 叫 и своё имя 拉德米尔</div>
    <div class="n"><span style="background:#FFF1D6">👋</span>Знакомимся: 你好！我叫… и мальчик 小明</div>
-   <div class="n"><span style="background:#E4E8FF">👅</span>Новые инициали z c s zh ch sh</div>
    <div class="n"><span style="background:#DDF5EC">🏁</span>Финиш — и сразу домашнее задание к уроку 5</div>
   </div>
   <div class="tip">🎧 Включи звук. 🎤 Иногда понадобится микрофон. ✍️ Прописи удобнее делать на телефоне или планшете пальцем. Можно делать в несколько заходов: страница запомнит, где ты остановился.</div>`,
@@ -824,39 +820,9 @@ const STEPS=[
   <div class="tip">🎤 Настоящий разговор с 小明 в микрофон — в <b>домашнем задании</b>. Там он сам поздоровается и спросит, как тебя зовут!</div>
   ${chk('小明 спрашивает: <span class="zh-i">你叫什么名字？</span> Что ты ответишь?',['<span class="zh">我叫拉德米尔。</span>','<span class="zh">你好！</span>','<span class="zh">好！</span>'],0,'Он спросил «Как тебя зовут?» — отвечаем 我叫… и имя.')}`},
 
- /* ---------- z c s zh ch sh (slides 25–27) ---------- */
- {t:'Инициали z c s zh ch sh',h:()=>`${P7}<h2>Новые инициали: z c s zh ch sh</h2><div class="hz"><span class="zh">声母</span><span class="py">shēngmǔ</span></div>
-  <p class="lead">Нажми на инициаль: прозвучит слог, которым её называют китайские школьники. Повтори вслух каждую 3 раза.</p>
-  <div class="ini">${ZI.map(z=>`<button class="n${'c ch'.split(' ').includes(z[0])?' asp':''}" data-z="${z[0]}"><b>${z[0]}</b><small>${z[1]}</small></button>`).join('')}</div>
-  <div class="cards c2">
-   <div class="card n"><span class="ic">🦷</span><b class="h">z c s — язык у зубов</b><b>z</b> — как «дз», <b>c</b> — как «ц» с <b>сильным выдохом</b> (цх), <b>s</b> — как «с».</div>
-   <div class="card n"><span class="ic">👅</span><b class="h">zh ch sh — язык загнут</b>Кончик языка поднимается и загибается назад: <b>zh</b> — твёрдое «дж», <b>ch</b> — «ч» с выдохом (чх), <b>sh</b> — как «ш».</div>
-   <div class="card n"><span class="ic">💨</span><b class="h">c и ch — с выдохом</b>Как p, t, k: листок бумаги у рта шевелится. А z и zh — без выдоха.</div>
-   <div class="card n"><span class="ic">👯</span><b class="h">Пары</b>z — zh, c — ch, s — sh: первая без загнутого языка, вторая — с загнутым.</div>
-  </div>
-  <div class="qbox in" id="qz"></div>`,
-  on:()=>{document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{const z=ZI.find(x=>x[0]===b.dataset.z);document.querySelectorAll('[data-z]').forEach(x=>x.classList.toggle('on',x===b));playList([urlZ(z)],b);});preload(ZI.map(urlZ));
-   const PR={z:['zh','c'],c:['ch','z'],s:['sh','z'],zh:['z','ch'],ch:['c','zh'],sh:['s','ch']};
-   quiz('#qz','zcs','Какая инициаль?',shuffle(ZI).map(z=>({play:[urlZ(z)],q:'Послушай слог. С какой инициали он начинается?',opts:[z[0],...PR[z[0]]].map(x=>`<span class="py">${x}</span>`),right:`<span class="py">${z[0]}</span>`,ok:`<span class="zh">${z[2]}</span> ${z[3]} — инициаль <b>${z[0]}</b>`})),3);}},
- {t:'Какая часть языка работает',h:()=>`${P7}<h2>Какая часть языка работает</h2><div class="hz"><span class="zh">舌头</span><span class="py">shétou</span></div>
-  <div class="tongue"><img src="${IMG}tongue.webp" alt="Открытый рот: на языке отмечены зоны 舌根, 舌面 и 舌尖">
-   <div>${[['舌根','shégēn','корень языка','g, k, h',0],['舌面','shémiàn','спинка языка','j, q, x',0],['舌尖','shéjiān','кончик языка','zh, ch, sh, r, d, t, n, l, z, c, s',1]].map(r=>`<div class="card n${r[4]?'':' off'}" style="margin-bottom:10px"><span class="zh" style="font-size:26px">${r[0]}</span> <span class="py" style="font-size:14px;color:var(--ac)">${r[1]}</span> · <b>${r[2]}</b><div class="py" style="font-size:19px;margin-top:2px">${r[3]}</div></div>`).join('')}
-   <p class="lead" style="font-size:15px">Все шесть новых инициалей <b>z c s zh ch sh</b> делает <b>кончик языка</b> ${zh('舌尖')}.</p></div></div>
-  ${chk('Какая часть языка делает z c s zh ch sh?',['Кончик языка 舌尖','Корень языка 舌根','Спинка языка 舌面'],0,'Кончик языка — 舌尖 shéjiān.')}`},
- {t:'Важно запомнить',h:()=>`${P7}<h2>Важно запомнить</h2><div class="hz"><span class="zh">注意</span><span class="py">zhùyì</span></div>
-  <div class="cards">
-   <div class="card n"><span class="ic" style="font-weight:900;color:var(--ac)">Ы</span><b class="h">i звучит как «Ы»</b>Со всей второй строчкой инициалей звук «i» звучит как <b>«Ы»</b>. Послушай:
-    <div class="chips">${[['zī','zi1','资'],['cí','ci2','词'],['sī','si1','丝'],['zhī','zhi1','知'],['chī','chi1','吃'],['shī','shi1','诗']].map(([s,k,c])=>`<button class="chip n" data-zv="${k}|${c}">${s}</button>`).join('')}</div></div>
-   <div class="card n"><span class="ic">💨</span><b class="h">c и ch перед i</b>В слогах с «i» у придыхательных <b>c</b> и <b>ch</b> придыхание исчезает: «c» читается как <b>«Ц»</b>, «ch» — как <b>«ЧШ»</b>.</div>
-   <div class="card n"><span class="ic">✗o</span><b class="h">Без «o»</b>Вся вторая строчка инициалей <b>не сочетается</b> с финалью «o»: нет слогов «zo», «cho», «sho».</div>
-  </div>
-  ${chk('Как звучит <span class="ipy">i</span> в слоге <span class="ipy">shī</span>?',['Как «Ы»: «шы»','Как «И»: «ши»','Как «Э»: «шэ»'],0,'После z c s zh ch sh звук i — это «Ы».')}
-  ${chk('Какого слога <b>не бывает</b> в китайском?',['<span class="ipy">zho</span>','<span class="ipy">zhu</span>','<span class="ipy">sha</span>'],0,'Вторая строчка инициалей не сочетается с «o».')}`,
-  on:()=>document.querySelectorAll('[data-zv]').forEach(b=>b.onclick=()=>{const [k,c]=b.dataset.zv.split('|');playList([urlK(k)||fn(c)],b);})},
-
  {t:'Финиш',h:()=>{const R=Object.values(ST.res);return `<span class="part"><b style="background:var(--ok)">🏁</b> финиш</span>
   <h2>Радмир, ты догнал группу! 🎉</h2>
-  <p class="lead">Теперь ты знаешь всё, что прошли на уроке 5: откуда взялись иероглифы, что такое ключи, как писать ${zh('你 我 好 叫')} и своё имя ${zh('拉德米尔')}, как знакомиться и новые инициали <b>z c s zh ch sh</b>.</p>
+  <p class="lead">Теперь ты знаешь всё, что прошли на уроке 5: откуда взялись иероглифы, что такое ключи, как писать ${zh('你 我 好 叫')} и своё имя ${zh('拉德米尔')} и как знакомиться.</p>
   ${R.length?`<h3>Мои результаты</h3><div class="sumr">${R.map(r=>`<div class="n"><span>${r.t}</span><b class="${r.ok>=r.of-1||r.of===30&&r.ok>=24?'g':'y'}">${r.ok} / ${r.of}${r.ok>=r.of-1||r.of===30&&r.ok>=24?' ✓':' · можно повторить для закрепления'}</b></div>`).join('')}</div>`:''}
   <div id="godz"></div>`;},
   on:()=>{send('dg',{done:true,res:ST.res});
@@ -872,7 +838,7 @@ const STEPS=[
 const wordBtns=(list,showSay)=>`<div class="wl">${list.map(([hz,py,say,ru])=>`<button class="n" data-w="${hz}"><span class="zh">${hz}</span><span class="py">${tpy(py)}</span>${showSay&&say?`<span class="snd">звучит: <span class="py" style="font-size:16px">${tpy(say)}</span></span>`:''}<small>${ru} 🔊</small></button>`).join('')}</div>`;
 let cur=0;try{cur=Math.min(STEPS.length-1,+localStorage.getItem('zh-dogon5-step')||0);}catch(e){}
 function render(){const s=STEPS[cur];try{localStorage.setItem('zh-dogon5-step',cur)}catch(e){}LASTPOS=[];stopAll();stopTM();
- $('#app').innerHTML=`<div class="top n"><span class="zh">补课</span><div><h1>Догоняем урок 5</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'Иероглифы, ключи, 你 我 好 叫, имена, z c s zh ch sh'}</small></div>
+ $('#app').innerHTML=`<div class="top n"><span class="zh">补课</span><div><h1>Догоняем урок 5</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'Иероглифы, ключи, 你 我 好 叫, имена, 小明'}</small></div>
    <div class="prog">Шаг ${cur} из ${STEPS.length-1}<div class="bar"><i style="width:${cur/(STEPS.length-1)*100}%"></i></div></div></div>
   <div class="main n">${s.h()}
    <div class="nextbar">${cur?'<button class="btn g" id="pv">‹ Назад</button>':''}${cur<STEPS.length-1?`<button class="btn nx" id="nx">${!cur?'Начать →':cur===STEPS.length-2?'Финиш →':'Дальше: '+STEPS[cur+1].t+' →'}</button>`:''}</div></div>`;
