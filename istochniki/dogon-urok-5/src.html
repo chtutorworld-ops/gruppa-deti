@@ -826,9 +826,9 @@ const STEPS=[
   ${R.length?`<h3>Мои результаты</h3><div class="sumr">${R.map(r=>`<div class="n"><span>${r.t}</span><b class="${r.ok>=r.of-1||r.of===30&&r.ok>=24?'g':'y'}">${r.ok} / ${r.of}${r.ok>=r.of-1||r.of===30&&r.ok>=24?' ✓':' · можно повторить для закрепления'}</b></div>`).join('')}</div>`:''}
   <div id="godz"></div>`;},
   on:()=>{send('dg',{done:true,res:ST.res});
-   fetch('../dz-4/',{method:'HEAD',cache:'no-store'}).then(r=>r.ok).catch(()=>false).then(ok=>{const g=$('#godz');if(!g)return;
+   fetch('../dz-5/',{method:'HEAD',cache:'no-store'}).then(r=>r.ok).catch(()=>false).then(ok=>{const g=$('#godz');if(!g)return;
     if(!ok){g.innerHTML='<div class="tip" style="text-align:center">📚 Домашнее задание к уроку 5 скоро появится — учитель пришлёт ссылку.</div>';return;}
-    const url='../dz-4/'+(isTest()?'':'?name='+encodeURIComponent('Радмир'));
+    const url='../dz-5/'+(isTest()?'':'?name='+encodeURIComponent('Радмир'));
     g.innerHTML=`<div class="row" style="justify-content:center;margin-top:24px"><a class="btn okb" href="${url}" style="font-size:19px;padding:18px 30px">Домашнее задание к уроку 5 → <span id="cd">через 10 с</span></a></div>
      <p class="lead" style="text-align:center;font-size:15px;color:var(--mu)">Сейчас откроется домашнее задание — его делает вся группа. Там будет много прописей, игры с ключами и разговор с 小明.</p>`;
     let n=10;const t=setInterval(()=>{const c=$('#cd');if(!c){clearInterval(t);return;}n--;c.textContent=n>0?'через '+n+' с':'';if(n<=0){clearInterval(t);location.href=url;}},1000);});}}
