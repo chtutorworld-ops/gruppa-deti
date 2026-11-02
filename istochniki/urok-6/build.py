@@ -23,6 +23,6 @@ def build(folder, need):
     open(os.path.join(HERE, folder, 'index.html'), 'w', encoding='utf-8').write(out)
     print(folder or 'урок', 'font KB', len(b64) * 3 // 4 // 1024, 'strokes', ''.join(sorted(hz)), 'total KB', len(out) // 1024)
 main = open(os.path.join(HERE, 'src.html'), encoding='utf-8').read()
-need = set(re.findall(r'data-hz="(.)"', main)) | set(re.findall(r"hzcell\('(.)'", main)) | set(re.findall(r"charSlide\('(.)'", main)) | set('妈爸')
+need = set(re.findall(r'data-hz="(.)"', main)) | set(re.findall(r"hzcell\('(.)'", main)) | set(re.findall(r"charSlide\('(.)'", main)) | set('妈爸吗骂码吧把爬好叫你女马父巴')
 build('', need)
 build('zadaniya', set('你我好叫妈爸'))

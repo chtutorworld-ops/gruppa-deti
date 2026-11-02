@@ -136,13 +136,34 @@ h3{font-size:18px;font-weight:800;color:var(--ink);margin:22px 0 10px}
 .scl button{display:grid;justify-items:center;gap:4px;padding:14px 6px;border-radius:20px}.scl span{font-size:40px;line-height:1}.scl small{font-size:13px;font-weight:800;color:var(--mu)}
 .scl button.on{box-shadow:0 0 0 3px var(--ac),inset 3px 3px 8px var(--sh1)}
 .chip.n{box-shadow:4px 4px 10px var(--sh1),-4px -4px 10px var(--sh2)}.chip.on{background:var(--ac);color:#fff;box-shadow:inset 3px 3px 7px #3D4BB0}
-.drg{position:relative;height:190px;display:grid;place-items:center;margin-top:8px;border-radius:24px;background:linear-gradient(180deg,#FFE9D6,#FFF6E8 60%,#E9EDF4)}
-.dgb{font-size:110px;line-height:1;transition:transform .3s}
-.dgs{position:absolute;right:16px;top:14px;padding:6px 14px;border-radius:14px;background:#fff;font:900 26px Nunito;color:var(--ac2);box-shadow:0 3px 8px rgba(43,50,112,.12)}
-.drg.eat .dgb{animation:eat .5s}.drg.sad .dgb{animation:shake .4s}
-@keyframes eat{30%{transform:scale(1.25) rotate(-8deg)}60%{transform:scale(.95)}}
+.fd{position:relative;height:300px;margin-top:8px;border-radius:26px;overflow:hidden;background:linear-gradient(180deg,rgba(10,6,40,.15),rgba(10,6,40,.35)),url(img/fon.jpg) 30% 50%/cover,#1A1050;box-shadow:inset 0 0 40px rgba(0,0,0,.45)}
+.fd::before{content:'';position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 12% 22%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 30% 12%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 48% 30%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 66% 8%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 22% 44%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 58% 52%,#fff 50%,transparent 51%);opacity:.8;animation:tw 3s ease-in-out infinite alternate}
+@keyframes tw{to{opacity:.4}}
+.fd .mt{position:absolute;left:0;right:0;bottom:0;height:120px}
+.fd .lan{position:absolute;font-size:22px;filter:drop-shadow(0 0 8px #FF7A3D);animation:lf 5s ease-in-out infinite alternate}
+@keyframes lf{to{transform:translateY(-14px) rotate(6deg)}}
+.fd .dr{position:absolute;left:-4%;bottom:34px;width:230px;height:160px;display:grid;place-items:center;font-size:118px;line-height:1;animation:dfl 2.4s ease-in-out infinite alternate;transform-origin:50% 60%}
+.fd .dr{mix-blend-mode:screen}.fd .dr img{width:100%;height:100%;object-fit:contain}
+@keyframes dfl{to{transform:translateY(-12px)}}
+.fd .orb{position:absolute;right:14%;top:-80px;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font:900 30px Nunito;color:#fff;background:radial-gradient(circle at 35% 30%,#FFFFFF 0,#9AE8FF 18%,#3B6BFF 55%,#1A1E7A 100%);box-shadow:0 0 30px #5BB8FF,0 0 70px rgba(91,184,255,.6);animation:fall var(--t,7s) linear forwards}
+@keyframes fall{to{top:200px}}
+.fd .fire{position:absolute;left:18%;bottom:120px;width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,#FFF7C2 0,#FFB23D 40%,#FF4D1A 75%,rgba(255,77,26,0) 100%);box-shadow:0 0 30px #FF7A1A;opacity:0}
+.fd.hit .fire{animation:shoot .45s ease-in forwards}
+@keyframes shoot{0%{opacity:1;transform:translate(0,0) scale(.6)}100%{opacity:1;transform:translate(var(--fx,220px),var(--fy,-60px)) scale(1.6)}}
+.fd.hit .orb{animation-play-state:paused;animation:boom .55s .4s forwards}
+@keyframes boom{50%{transform:scale(1.8);filter:brightness(2.5);opacity:1}100%{transform:scale(2.4);opacity:0}}
+.fd.hit .dr{animation:roar .5s}
+@keyframes roar{40%{transform:scale(1.18) rotate(-6deg)}}
+.fd.miss .orb{animation-play-state:paused}
+.fd.miss{animation:quake .45s}
+@keyframes quake{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
+.fd .tag{position:absolute;left:50%;top:14px;transform:translateX(-50%);padding:6px 16px;border-radius:14px;background:rgba(255,255,255,.14);backdrop-filter:blur(4px);color:#FFE59A;font:900 22px Nunito;letter-spacing:.04em;white-space:nowrap}
+.fd .wall{position:absolute;right:0;bottom:0;width:38%;height:62px;background:linear-gradient(180deg,#7A2E3A,#4A1A28);clip-path:polygon(0 30%,10% 30%,10% 0,20% 0,20% 30%,40% 30%,40% 0,50% 0,50% 30%,70% 30%,70% 0,80% 0,80% 30%,100% 30%,100% 100%,0 100%)}
 .zk{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
-.zk .opt{font-size:34px;padding:18px 6px}
+.zk .opt{font-size:34px;padding:18px 6px;background:linear-gradient(160deg,#1E5F4C,#0E3B30);color:#E9FFF6;box-shadow:0 6px 14px rgba(14,59,48,.35),inset 0 0 0 2px rgba(120,255,200,.35);text-shadow:0 0 10px rgba(120,255,200,.8)}
+.zk .opt.ok{background:linear-gradient(160deg,#2DBE8C,#16865F)}.zk .opt.no{background:linear-gradient(160deg,#FF5C8A,#C2335C)}
+.gst{background:linear-gradient(180deg,rgba(18,11,58,.25) 0,rgba(18,11,58,.92) 62%),url(img/dragon-hero.jpg) 50% 0/100% auto no-repeat,#120B3A;color:#fff;border-radius:26px;padding:210px 22px 22px;text-align:center}
+.gst h3{margin:0 0 6px;font-size:28px;color:#FFE59A}.gst p{margin:4px 0;color:#DCD6FF;font-size:17px;line-height:1.45}
 .xm .ln .btn{flex:none;align-self:center}
 </style></head><body>
 <div class="app" id="app"></div><div class="toast" id="toast"></div>
@@ -242,13 +263,13 @@ const pyCol=arr=>arr.map(s=>`<span style="color:${TCOL[toneOf(s)]}">${esc(s)}</s
 const TASKS=[null,
  {t:'✍️ Пропись 你 我 好 叫',d:'Повторяем: обведи пальцем по порядку черт',run:writing},
  {t:'🧠 Пишу по памяти',d:'你 我 好 叫 без образца · подсказки можно брать',run:memo},
- {t:'💨 Есть выдох или нет?',d:'Читаешь слог — решаешь: с выдохом или без',run:aspir},
+ {t:'💨 Предыхательный или нет?',d:'Читаешь слог — решаешь: предыхательный или непредыхательный',run:aspir},
  {t:'👨‍👩‍👧 Мама и папа по-китайски',d:'Напиши, как зовут родителей — увидишь их имена по-китайски',run:parents},
  {t:'🎙️ Расскажи о себе',d:'Запиши голосом: я, мама, папа',run:story},
  {t:'🤔 Помнишь ли ты?',d:'Тестик: правила иероглифов с прошлого урока',run:remember},
  {t:'🔍 Смысл или звучание?',d:'Какая часть иероглифа подсказывает смысл, а какая — чтение',run:parts},
  {t:'✍️ Пропись 妈 爸',d:'Обведи, а потом напиши по памяти',run:writing2},
- {t:'🐉 Дракон-слогоед',d:'Игра на слух: z c s zh ch sh',run:dragon},
+ {t:'🐉 Огненный дракон',d:'Игра на слух: z c s zh ch sh — защити крепость',run:dragon},
  {t:'💬 Как тебе уроки?',d:'Опрос для учителя · 3 минуты',run:survey}];
 let DONE={};try{DONE=JSON.parse(localStorage.getItem('zh-u6-done')||'{}')}catch(e){}
 const keep=()=>{try{localStorage.setItem('zh-u6-done',JSON.stringify(DONE))}catch(e){}};
@@ -347,17 +368,17 @@ function memo(){const n=2;
 
 /* ---- 3. aspiration: read the syllable (no sound) — with a puff or without ---- */
 const ASPQ=[['pà',1],['bō',0],['tǔ',1],['dé',0],['dì',0],['kǎ',1],['gē',0],['pí',1],['kù',1],['bù',0],['tè',1],['gǔ',0]];
-const ASPW={p:'p — с выдохом: листок у рта шевелится 💨',t:'t — с выдохом 💨',k:'k — с выдохом 💨',b:'b — без выдоха, мягко',d:'d — без выдоха',g:'g — без выдоха'};
+const ASPW={p:'p — предыхательный: листок у рта шевелится 💨',t:'t — предыхательный 💨',k:'k — предыхательный 💨',b:'b — непредыхательный, мягко',d:'d — непредыхательный',g:'g — непредыхательный'};
 function aspir(){const n=3;let i=0,ok=0,res=[];
  const ask=()=>{if(i>=ASPQ.length){finish(n,ok,ASPQ.length,{miss:ASPQ.filter((x,j)=>!res[j]).map(x=>x[0])});
    shell(doneBox(n,`<div class="res">💨 ${ok} / ${ASPQ.length}</div><div class="ans" style="grid-template-columns:repeat(4,1fr)">${ASPQ.map((x,j)=>`<span class="${res[j]?'ok':'no'}">${x[0]} ${x[1]?'💨':''}</span>`).join('')}</div>
-    <div class="tip">Запомни: <b>p t k</b> — с выдохом 💨, <b>b d g</b> — без. Скоро узнаем ещё две инициали с выдохом!</div>`,true));$('#again').onclick=aspir;return;}
+    <div class="tip">Запомни: <b>p t k</b> — предыхательные 💨, <b>b d g</b> — непредыхательные. Сегодня узнаем ещё две предыхательные!</div>`,true));$('#again').onclick=aspir;return;}
   const [s,a]=ASPQ[i];let lock=false;
-  shell(`${backBtn}${tag(n)}<h2>💨 Есть выдох или нет?</h2><p class="lead">Прочитай слог про себя (или шёпотом с ладонью у рта). Есть сильный выдох?</p>
+  shell(`${backBtn}${tag(n)}<h2>💨 Предыхательный или нет?</h2><p class="lead">Прочитай слог про себя (или шёпотом с ладонью у рта). Есть придыхание — сильный поток воздуха?</p>
    <div class="qcard in"><div class="qhead"><span>Слог ${i+1} из ${ASPQ.length}</span><span>${ok} ✓</span></div>
    <div class="dots">${ASPQ.map((_,j)=>`<i class="${j<i?(res[j]?'ok':'no'):j===i?'cur':''}"></i>`).join('')}</div>
    <div style="font:900 84px Nunito;color:var(--ac2);margin:14px 0 4px">${s}</div>
-   <div class="opts"><button class="opt" data-a="1" style="font-size:22px">💨<br>с выдохом</button><button class="opt" data-a="0" style="font-size:22px">🙂<br>без выдоха</button></div><div class="fb" id="fb"></div></div>`);
+   <div class="opts"><button class="opt" data-a="1" style="font-size:22px">💨<br>предыхательный</button><button class="opt" data-a="0" style="font-size:22px">🙂<br>непредыхательный</button></div><div class="fb" id="fb"></div></div>`);
   document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{if(lock)return;lock=true;const good=+b.dataset.a===a,fb=$('#fb');res[i]=good;if(good)ok++;
    b.classList.add(good?'ok':'no');if(!good)document.querySelector(`[data-a="${a}"]`).classList.add('ok');
    fb.className='fb '+(good?'ok':'no');fb.textContent=(good?'✓ Верно! ':'Не совсем: ')+ASPW[s[0]];later(()=>{i++;ask();},good?1100:2300);});};
@@ -486,38 +507,44 @@ function writing2(){const n=8;
 /* ---- 9. the dragon eats syllables: hear it, tap its initial (z c s zh ch sh) ---- */
 const ZI=['z','c','s','zh','ch','sh'];
 const ZF={z:'a e u i',c:'a e u i',s:'a e u i',zh:'a e u i',ch:'a e u i',sh:'a e u i'};
-const ZW={z:'z — «дз», без выдоха',c:'c — «цх», с выдохом 💨',s:'s — «с»',zh:'zh — «дж», язык загнут вверх',ch:'ch — «чх», с выдохом 💨, язык загнут вверх',sh:'sh — «ш», язык загнут вверх'};
+const ZW={z:'z — «дз», непредыхательный',c:'c — «цх», предыхательный 💨',s:'s — «с»',zh:'zh — «дж», язык загнут вверх',ch:'ch — «чх», предыхательный 💨, язык загнут вверх',sh:'sh — «ш», язык загнут вверх'};
+const DRG=`<div class="dr" id="drg"><img src="img/dragon.jpg" alt="" onerror="this.replaceWith(document.createTextNode('🐉'))"></div>`;
+const FD=(inner,cls='')=>`<div class="fd ${cls}" id="dg"><div class="wall"></div>${DRG}<div class="fire"></div>${inner}</div>`;
 const hasAudio=s=>(VOK&&VOK[vkey(s)])||SYL.char(s);
 async function dragon(){await wait();const n=9,R=15;
  const pool=[];ZI.forEach(i=>ZF[i].split(' ').forEach(f=>[1,2,3,4].forEach(t=>{const s=mark(i+f,t);if(hasAudio(s))pool.push(s);})));
  const best=+(localStorage.getItem('zh-u6-best')||0);
- shell(`${backBtn}${tag(n)}<h2>🐉 Дракон-слогоед</h2><p class="lead">Дракон голодный! Он ест только правильные слоги. Слушай слог и жми, <b>с какой инициали</b> он начинается: <b>z c s zh ch sh</b>.</p>
-  <div class="tip">🔥 3 правильных подряд — огненное комбо (×2 очков). ❤️ У дракона 3 жизни. ${R} слогов — и он сыт!</div>
-  ${best?`<p class="lead">Твой рекорд: <b>${best}</b> очков</p>`:''}<div class="row" style="justify-content:center"><button class="btn" id="st" style="font-size:20px;padding:18px 34px">▶ Покормить дракона</button></div>`);
+ shell(`${backBtn}${tag(n)}<h2>🐉 Огненный дракон</h2>
+  <div class="gst"><h3>Защити крепость!</h3><p>На крепость летят волшебные звуковые шары. Слушай слог и жми его инициаль: <b>z c s zh ch sh</b>.</p><p>Угадал — дракон сжигает шар 🔥. Не успел или ошибся — шар бьёт по стене.</p><p>🔥 3 подряд — комбо ×2 · 🏮 3 фонарика-жизни · ${R} волн</p></div>
+  ${best?`<p class="lead">Твой рекорд: <b>${best}</b> очков</p>`:''}<div class="row" style="justify-content:center"><button class="btn" id="st" style="font-size:20px;padding:18px 34px">🔥 В бой!</button></div>`);
  $('#st').onclick=play;
  function play(){let i=0,pts=0,hits=0,cmb=0,lives=3,miss=[],prev='',prevI='';
   const pick=()=>{let x,k=0;do{x=pool[Math.random()*pool.length|0];k++;}while((x===prev||split(SYL.plain(x))[0]===prevI)&&k<50);prev=x;prevI=split(SYL.plain(x))[0];return x;};
   const round=()=>{if(i>=R||lives<=0)return end();const s=pick(),ini=split(SYL.plain(s))[0];let lock=false;i++;
-   shell(`${backBtn}${tag(n)}<div class="hud"><span>⭐ ${pts}</span><span class="cmb">${cmb>=3?'🔥 ×2':''}</span><span>${'❤️'.repeat(lives)}${'🤍'.repeat(3-lives)}</span></div>
+   const spd=Math.max(4.5,8-i*.2);
+   shell(`${backBtn}${tag(n)}<div class="hud"><span>⭐ ${pts}</span><span class="cmb">${cmb>=3?'🔥 ×2':''}</span><span>${'🏮'.repeat(lives)}${'▫️'.repeat(3-lives)}</span></div>
     <div class="dots">${Array.from({length:R},(_,j)=>`<i class="${j<i-1?'ok':j===i-1?'cur':''}"></i>`).join('')}</div>
-    <div class="drg" id="dg"><div class="dgb" style="transform:scale(${(1+hits*.04).toFixed(2)})">🐉</div><div class="dgs" id="ds">?</div></div>
-    <div class="row" style="justify-content:center;margin-top:4px"><button class="btn g" id="rp">🔊 Ещё раз</button></div>
+    ${FD(`<div class="orb" id="orb" style="--t:${spd}s">?</div><div class="tag" id="ds">Волна ${i} из ${R}</div>`)}
+    <div class="row" style="justify-content:center;margin-top:8px"><button class="btn g" id="rp">🔊 Ещё раз</button></div>
     <div class="zk">${ZI.map(x=>`<button class="opt" data-i="${x}">${x}</button>`).join('')}</div><div class="fb" id="fb"></div>`);
    const rp=$('#rp');rp.onclick=()=>playS(s,rp);later(()=>playS(s,rp),250);
-   document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{if(lock)return;lock=true;const good=b.dataset.i===ini,fb=$('#fb');$('#ds').textContent=s;
-    if(good){hits++;cmb++;pts+=cmb>=3?2:1;b.classList.add('ok');$('#dg').classList.add('eat');fb.className='fb ok';fb.textContent=cmb>=3?'🔥 Ням! Комбо ×2!':'✓ Ням-ням!';}
-    else{cmb=0;lives--;miss.push(s);b.classList.add('no');document.querySelector(`[data-i="${ini}"]`).classList.add('ok');$('#dg').classList.add('sad');fb.className='fb no';fb.textContent='Это был '+s+'. '+ZW[ini];playS(s);}
-    later(round,good?900:2600);});};
+   const dg=$('#dg'),orb=$('#orb');
+   const answer=(b)=>{if(lock)return;lock=true;const good=!!b&&b.dataset.i===ini,fb=$('#fb');orb.textContent=s;$('#ds').textContent=s;
+    if(good){hits++;cmb++;pts+=cmb>=3?2:1;b.classList.add('ok');const o=orb.getBoundingClientRect(),f=dg.querySelector('.fire').getBoundingClientRect();dg.style.setProperty('--fx',(o.left-f.left+20)+'px');dg.style.setProperty('--fy',(o.top-f.top+20)+'px');dg.classList.add('hit');fb.className='fb ok';fb.textContent=cmb>=3?'🔥 Огненное комбо ×2!':'🔥 Шар сгорел!';}
+    else{cmb=0;lives--;miss.push(s);if(b)b.classList.add('no');document.querySelector(`[data-i="${ini}"]`).classList.add('ok');dg.classList.add('miss');fb.className='fb no';fb.textContent=(b?'':'Не успел! ')+'Это был '+s+'. '+ZW[ini];playS(s);}
+    later(round,good?1100:2700);};
+   orb.addEventListener('animationend',e=>{if(e.animationName==='fall')answer(null);});
+   document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>answer(b));};
   round();
   function end(){const full=lives>0;const rec=pts>best;if(rec)try{localStorage.setItem('zh-u6-best',pts)}catch(e){}
    finish(n,hits,i,{pts,miss:[...new Set(miss)]});
-   shell(doneBox(n,`<div class="drg"><div class="dgb" style="transform:scale(${(1+hits*.04).toFixed(2)})">${full?'🐉':'😴'}</div></div><div class="res">⭐ ${pts}</div>
-    <p class="lead">${rec?'Новый рекорд! 🏆 ':''}${full?'Дракон сыт и доволен!':'Дракон устал — но ты отлично потренировался(ась)!'} Угадано ${hits} из ${i}.</p>
+   shell(doneBox(n,`${FD(`<div class="tag">${full?'Крепость спасена! 🏯':'Дракон устал 😴'}</div>`)}<div class="res">⭐ ${pts}</div>
+    <p class="lead">${rec?'Новый рекорд! 🏆 ':''}${full?'Крепость спасена!':'Крепость устояла не до конца — можно повторить для закрепления!'} Угадано ${hits} из ${i}.</p>
     ${miss.length?`<p class="lead">Можно повторить для закрепления: <span class="py">${[...new Set(miss)].join(', ')}</span></p>`:''}`,true));$('#again').onclick=play;}}}
 
 /* ---- 10. survey (with the name: the teacher wants to know who says what) ---- */
 const LIKES=['🎮 Игры (шутер, дракон…)','✍️ Писать иероглифы','📜 История иероглифов','🗣️ Говорить по-китайски','🎙️ Записывать голос','📝 Диктанты','🤖 Разговор с 小明','👂 Слушать и угадывать слоги','🧩 Тестики','🎨 Как всё нарисовано'];
-const HARD=['🎵 Тоны','👂 Различать слоги на слух','💨 Выдох p t k','✍️ Порядок черт','🧠 Писать по памяти','🔤 Пиньинь','🗣️ Говорить вслух','📝 Диктант','⏱️ Всё слишком быстро'];
+const HARD=['🎵 Тоны','👂 Различать слоги на слух','💨 Предыхание p t k','✍️ Порядок черт','🧠 Писать по памяти','🔤 Пиньинь','🗣️ Говорить вслух','📝 Диктант','⏱️ Всё слишком быстро'];
 const MORE=['📜 Иероглифы и их история','💬 Больше слов и фраз','🇨🇳 Китай: школа, еда, праздники','🤖 Болтать с ИИ по-китайски','🎵 Тоны и произношение','🎮 Больше игр','🎬 Мультики и видео','🎵 Китайские песни'];
 const SQ=[
  {k:'mood',t:'😍 Как тебе вообще наши уроки китайского?',type:'scale',o:['😴 скучно','😐 так себе','🙂 нормально','😃 классно','🤩 обожаю']},
