@@ -94,7 +94,10 @@ export default {
         const id = q.get('id'); if (!okV(id)) return json({ error: 'bad' }, 400);
         const buf = await req.arrayBuffer();
         if (buf.byteLength < 500 || buf.byteLength > 2_000_000) return json({ error: 'size' }, 413);
-        await env.DZ.put(`voice:${id}`, buf, { metadata: { type: req.headers.get('Content-Type') || 'audio/wav', size: buf.byteLength, ts: Date.now() } });
+        // Страница записи шлёт text/plain (простой запрос без preflight — так надёжнее в Safari), тип звука — в ?type=
+        const hdr = req.headers.get('Content-Type') || '';
+        const vtype = (hdr && !/^text\//.test(hdr) ? hdr : (q.get('type') || 'audio/wav')).slice(0, 60);
+        await env.DZ.put(`voice:${id}`, buf, { metadata: { type: vtype, size: buf.byteLength, ts: Date.now() } });
         return json({ ok: true });
       }
       if (p === '/api/voice/del' && req.method === 'POST') {
@@ -110,7 +113,7 @@ export default {
         const id = q.get('id'); if (!okV(id)) return json({ error: 'bad' }, 400);
         const { value, metadata } = await env.DZ.getWithMetadata(`voice:${id}`, 'arrayBuffer');
         if (!value) return json({ error: 'none' }, 404);
-        return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'audio/wav', 'Cache-Control': 'no-store', ...CORS } });
+        return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type && !/^text\//.test(metadata.type) && metadata.type) || 'audio/wav', 'Cache-Control': 'no-store', ...CORS } });
       }
       return json({ error: 'not found' }, 404);
     } catch (e) {

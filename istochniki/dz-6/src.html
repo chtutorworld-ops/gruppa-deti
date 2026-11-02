@@ -142,12 +142,12 @@ h3{font-size:18px;font-weight:800;color:var(--ink);margin:22px 0 10px}
 .fd .mt{position:absolute;left:0;right:0;bottom:0;height:120px}
 .fd .lan{position:absolute;font-size:22px;filter:drop-shadow(0 0 8px #FF7A3D);animation:lf 5s ease-in-out infinite alternate}
 @keyframes lf{to{transform:translateY(-14px) rotate(6deg)}}
-.fd .dr{position:absolute;left:-4%;bottom:34px;width:230px;height:160px;display:grid;place-items:center;font-size:118px;line-height:1;animation:dfl 2.4s ease-in-out infinite alternate;transform-origin:50% 60%}
+.fd .dr{position:absolute;left:-14%;bottom:34px;width:310px;height:165px;display:grid;place-items:center;font-size:118px;line-height:1;animation:dfl 2.4s ease-in-out infinite alternate;transform-origin:50% 60%}
 .fd .dr img{width:100%;height:100%;object-fit:contain}
 @keyframes dfl{to{transform:translateY(-12px)}}
 .fd .orb{position:absolute;right:14%;top:-80px;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font:900 30px Nunito;color:#fff;background:radial-gradient(circle at 35% 30%,#FFFFFF 0,#9AE8FF 18%,#3B6BFF 55%,#1A1E7A 100%);box-shadow:0 0 30px #5BB8FF,0 0 70px rgba(91,184,255,.6);animation:fall var(--t,7s) linear forwards}
 @keyframes fall{to{top:200px}}
-.fd .fire{position:absolute;left:18%;bottom:120px;width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,#FFF7C2 0,#FFB23D 40%,#FF4D1A 75%,rgba(255,77,26,0) 100%);box-shadow:0 0 30px #FF7A1A;opacity:0}
+.fd .fire{position:absolute;left:calc(-14% + 278px);bottom:110px;width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,#FFF7C2 0,#FFB23D 40%,#FF4D1A 75%,rgba(255,77,26,0) 100%);box-shadow:0 0 30px #FF7A1A;opacity:0}
 .fd.hit .fire{animation:shoot .45s ease-in forwards}
 @keyframes shoot{0%{opacity:1;transform:translate(0,0) scale(.6)}100%{opacity:1;transform:translate(var(--fx,220px),var(--fy,-60px)) scale(1.6)}}
 .fd.hit .orb{animation-play-state:paused;animation:boom .55s .4s forwards}
@@ -324,7 +324,7 @@ h3{font-size:18px;font-weight:800;color:var(--ink);margin:22px 0 10px}
 .rr .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;overflow:hidden}.rr .ic img{width:100%;height:100%;object-fit:cover}
 .rr b{color:var(--ink)}.rr small{display:block;font-size:13px;color:var(--mu);font-weight:600;line-height:1.35;margin-top:2px}
 .rs{font:900 16px Nunito;padding:6px 10px;border-radius:12px;white-space:nowrap}.rs.l3{background:#DDF5EC;color:#14855E}.rs.l2{background:#E4E8FF;color:#2B3270}.rs.l1{background:#FFF1D6;color:#9A6400}.rs.l0{background:#EEF0F5;color:#A7AFC3}
-@media(max-width:600px){.fd{height:220px}.fd .dr{width:170px;height:120px;bottom:24px}.zk{gap:8px;margin-top:8px}.zk .opt{padding:12px 6px;font-size:28px}}
+@media(max-width:600px){.fd{height:220px}.fd .dr{width:230px;height:122px;bottom:24px}.fd .fire{left:calc(-14% + 200px);bottom:74px}.zk{gap:8px;margin-top:8px}.zk .opt{padding:12px 6px;font-size:28px}}
 .banner{margin-bottom:14px;padding:10px 14px;border-radius:14px;background:#FFF1D6;color:#7A5200;font-weight:800;font-size:14px;text-align:center}
 </style></head><body>
 <div class="app" id="app"></div><div class="toast" id="toast"></div>
