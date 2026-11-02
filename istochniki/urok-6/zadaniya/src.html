@@ -143,7 +143,7 @@ h3{font-size:18px;font-weight:800;color:var(--ink);margin:22px 0 10px}
 .fd .lan{position:absolute;font-size:22px;filter:drop-shadow(0 0 8px #FF7A3D);animation:lf 5s ease-in-out infinite alternate}
 @keyframes lf{to{transform:translateY(-14px) rotate(6deg)}}
 .fd .dr{position:absolute;left:-4%;bottom:34px;width:230px;height:160px;display:grid;place-items:center;font-size:118px;line-height:1;animation:dfl 2.4s ease-in-out infinite alternate;transform-origin:50% 60%}
-.fd .dr{mix-blend-mode:screen}.fd .dr img{width:100%;height:100%;object-fit:contain}
+.fd .dr img{width:100%;height:100%;object-fit:contain}
 @keyframes dfl{to{transform:translateY(-12px)}}
 .fd .orb{position:absolute;right:14%;top:-80px;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font:900 30px Nunito;color:#fff;background:radial-gradient(circle at 35% 30%,#FFFFFF 0,#9AE8FF 18%,#3B6BFF 55%,#1A1E7A 100%);box-shadow:0 0 30px #5BB8FF,0 0 70px rgba(91,184,255,.6);animation:fall var(--t,7s) linear forwards}
 @keyframes fall{to{top:200px}}
@@ -508,9 +508,11 @@ function writing2(){const n=8;
 const ZI=['z','c','s','zh','ch','sh'];
 const ZF={z:'a e u i',c:'a e u i',s:'a e u i',zh:'a e u i',ch:'a e u i',sh:'a e u i'};
 const ZW={z:'z — «дз», непредыхательный',c:'c — «цх», предыхательный 💨',s:'s — «с»',zh:'zh — «дж», язык загнут вверх',ch:'ch — «чх», предыхательный 💨, язык загнут вверх',sh:'sh — «ш», язык загнут вверх'};
-const DRG=`<div class="dr" id="drg"><img src="img/dragon.jpg" alt="" onerror="this.replaceWith(document.createTextNode('🐉'))"></div>`;
+const DRG=`<div class="dr" id="drg"><img src="img/dragon.png" alt="" onerror="this.replaceWith(document.createTextNode('🐉'))"></div>`;
 const FD=(inner,cls='')=>`<div class="fd ${cls}" id="dg"><div class="wall"></div>${DRG}<div class="fire"></div>${inner}</div>`;
-const hasAudio=s=>(VOK&&VOK[vkey(s)])||SYL.char(s);
+const hasAudio=s=>!!SYL.char(s);
+// the game speaks with the synthesized voice only (clearer than the teacher's single-syllable recordings): course mp3 by hanzi, then the AI voice
+async function playT(s,el){const c=SYL.char(s);if(!c)return playS(s,el);if(await tryURL(fn(c),el))return;try{if(await tryURL(await ttsURL(c,'xiaoxiao'),el))return;}catch(e){}return playS(s,el);}
 async function dragon(){await wait();const n=9,R=15;
  const pool=[];ZI.forEach(i=>ZF[i].split(' ').forEach(f=>[1,2,3,4].forEach(t=>{const s=mark(i+f,t);if(hasAudio(s))pool.push(s);})));
  const best=+(localStorage.getItem('zh-u6-best')||0);
@@ -527,11 +529,11 @@ async function dragon(){await wait();const n=9,R=15;
     ${FD(`<div class="orb" id="orb" style="--t:${spd}s">?</div><div class="tag" id="ds">Волна ${i} из ${R}</div>`)}
     <div class="row" style="justify-content:center;margin-top:8px"><button class="btn g" id="rp">🔊 Ещё раз</button></div>
     <div class="zk">${ZI.map(x=>`<button class="opt" data-i="${x}">${x}</button>`).join('')}</div><div class="fb" id="fb"></div>`);
-   const rp=$('#rp');rp.onclick=()=>playS(s,rp);later(()=>playS(s,rp),250);
+   const rp=$('#rp');rp.onclick=()=>playT(s,rp);later(()=>playT(s,rp),250);
    const dg=$('#dg'),orb=$('#orb');
    const answer=(b)=>{if(lock)return;lock=true;const good=!!b&&b.dataset.i===ini,fb=$('#fb');orb.textContent=s;$('#ds').textContent=s;
     if(good){hits++;cmb++;pts+=cmb>=3?2:1;b.classList.add('ok');const o=orb.getBoundingClientRect(),f=dg.querySelector('.fire').getBoundingClientRect();dg.style.setProperty('--fx',(o.left-f.left+20)+'px');dg.style.setProperty('--fy',(o.top-f.top+20)+'px');dg.classList.add('hit');fb.className='fb ok';fb.textContent=cmb>=3?'🔥 Огненное комбо ×2!':'🔥 Шар сгорел!';}
-    else{cmb=0;lives--;miss.push(s);if(b)b.classList.add('no');document.querySelector(`[data-i="${ini}"]`).classList.add('ok');dg.classList.add('miss');fb.className='fb no';fb.textContent=(b?'':'Не успел! ')+'Это был '+s+'. '+ZW[ini];playS(s);}
+    else{cmb=0;lives--;miss.push(s);if(b)b.classList.add('no');document.querySelector(`[data-i="${ini}"]`).classList.add('ok');dg.classList.add('miss');fb.className='fb no';fb.textContent=(b?'':'Не успел! ')+'Это был '+s+'. '+ZW[ini];playT(s);}
     later(round,good?1100:2700);};
    orb.addEventListener('animationend',e=>{if(e.animationName==='fall')answer(null);});
    document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>answer(b));};
