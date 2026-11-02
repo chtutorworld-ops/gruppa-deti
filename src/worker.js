@@ -87,6 +87,11 @@ export default {
         if (!value) return json({ error: 'none' }, 404);
         return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'audio/webm', ...CORS } });
       }
+      // Проверка связи (страница zapis/proverka.html): принимает тело и возвращает его размер, в KV ничего не пишет
+      if (p === '/api/ping') {
+        const n = req.method === 'POST' ? (await req.arrayBuffer()).byteLength : 0;
+        return json({ ok: true, n, m: req.method });
+      }
       // Голос учителя: эталонные записи слогов
       // один слог (ba1, b0) или слово/фраза из 2–6 слогов с номерами тонов (da3gu3, wo3jiao4ma3ke3)
       const okV = (s) => typeof s === 'string' && (/^[a-z]{1,6}[0-4]$/.test(s) || /^(?:[a-z]{1,6}[0-4]){2,6}$/.test(s));
