@@ -6,6 +6,7 @@
 | Папка | Что это | Собранная страница |
 |---|---|---|
 | urok-1 | Урок 1 «Привет, китайский!» (33 слайда) | site/urok-1/ |
+| urok-6 | Урок 6 «Мама и папа» (37 слайдов: повторение, 小美 и 我妈妈叫…, иероглифы 妈 爸 и правило «смысл слева — звук справа», z c s zh ch sh), zadaniya/ — 10 заданий (запись голоса, опрос), uchitel/ — кабинет; hw u6. Голос 小美 — tools/audio-girl.txt в gruppa-deti-sait | site/urok-6/ |
 | dogon-urok-2 | «Догоняем урок» — повторение уроков 1–2 для пропустившего | site/dogon-urok-2/ |
 | dogon-urok-4 | «Догоняем урок 4» — для пропустивших урок 4 (Султан, Владимир), в конце переход в ДЗ 4 | site/dogon-urok-4/ |
 | povtor-vladimir | Повторение уроков 4–5 для Владимира (24 шага: тоны и выдох, иероглифы, ключи, пропись 你 我 好 叫 и имени, 小明, z c s zh ch sh), hw=pv-vl; uchitel/ — кабинет с отчётом. Сборка: `python3 build.py <шрифт.ttf> <папка npm hanzi-writer>` | site/povtor-vladimir/ |
@@ -30,6 +31,7 @@
 - догоняем: `cd dogon-urok-2 && python3 build.py` (так же dogon-urok-4); урок 1: `cd urok-1 && python3 build.py` (шрифт уже в fonts/).
 - ДЗ 5: `cd dz-5 && python3 build.py /путь/к/hw/` (шрифт + Hanzi Writer 3.7.3 и данные черт из `npm pack hanzi-writer@3.7.3 hanzi-writer-data@2.0.1`).
 | dogon-urok-5 | «Догоняем урок 5» для Радмира: урок 5 до знакомства с 小明 по шагам (без z c s), задания № 1–6 внутри (результаты — в кабинет урока 5, hw u5), в конце переход в ДЗ 5 (../dz-5/?name=Радмир). Hanzi Writer и данные черт build.py берёт из собранных страниц урока 5 | site/dogon-urok-5/ |
+- урок 6: `cd urok-6 && python3 build.py /путь/к/LXGWWenKaiGB-Regular.ttf /путь/к/hw/` (hw — папка с hanzi-writer.min.js и hanzi-writer-data) → index.html и zadaniya/index.html.
 - trainer, zapis, кабинеты — без сборки, файл как есть.
 - ДЗ 3: картинка img/yazyk.jpg копируется рядом с index.html.
 
