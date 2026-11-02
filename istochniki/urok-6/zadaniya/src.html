@@ -533,7 +533,7 @@ async function dragon(){await wait();const n=9,R=15;
    const dg=$('#dg'),orb=$('#orb');
    const answer=(b)=>{if(lock)return;lock=true;const good=!!b&&b.dataset.i===ini,fb=$('#fb');orb.textContent=s;$('#ds').textContent=s;
     if(good){hits++;cmb++;pts+=cmb>=3?2:1;b.classList.add('ok');const o=orb.getBoundingClientRect(),f=dg.querySelector('.fire').getBoundingClientRect();dg.style.setProperty('--fx',(o.left-f.left+20)+'px');dg.style.setProperty('--fy',(o.top-f.top+20)+'px');dg.classList.add('hit');fb.className='fb ok';fb.textContent=cmb>=3?'🔥 Огненное комбо ×2!':'🔥 Шар сгорел!';}
-    else{cmb=0;lives--;miss.push(s);if(b)b.classList.add('no');document.querySelector(`[data-i="${ini}"]`).classList.add('ok');dg.classList.add('miss');fb.className='fb no';fb.textContent=(b?'':'Не успел! ')+'Это был '+s+'. '+ZW[ini];playT(s);}
+    else{cmb=0;lives--;miss.push(s);if(b)b.classList.add('no');document.querySelector(`[data-i="${ini}"]`).classList.add('ok');dg.classList.add('miss');fb.className='fb no';fb.textContent=(b?'':'Не успел! ')+'Это был '+s+'. '+(/^(c|ch)i/.test(SYL.plain(s))?(ini==='c'?'ci — «цы»: перед i предыхание исчезает!':'chi — «чшы»: перед i предыхание исчезает!'):ZW[ini]);playT(s);}
     later(round,good?1100:2700);};
    orb.addEventListener('animationend',e=>{if(e.animationName==='fall')answer(null);});
    document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>answer(b));};
