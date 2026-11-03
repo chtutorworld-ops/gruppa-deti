@@ -48,9 +48,12 @@ const STORE={subs:{},aud:{}};
   // try to go on without doing the task: must be locked
   const locked=await p.evaluate(()=>{const n=document.querySelector('#nx');return n?n.classList.contains('lock'):null;});
   if(await has('.qbox [data-k], .qbox .qq')||await has('.qbox')){for(const s of ['#q1','#q2','#q3','#q4','#q5','#q6','#q7','#q8'])if(await has(s))report.push([step,s,await solveQuiz(s)]);}
-  if(await has('#g1')||await has('#g2')){const g=await has('#g1')?'#g1':'#g2';await p.click(g+' .btn');let k=0;
-   while(k++<40){await wait(700);if(await has(g+' [id$="-again"]'))break;const bs=await p.$$(g+' [data-i]');if(bs.length){const i=k%3===0?1:0;await p.evaluate(([g,i])=>{const all=[...document.querySelectorAll(g+' [data-i]')];if(i===0){const t=document.querySelector('#orb');}all[(Math.random()*all.length)|0].click();},[g,i]);await wait(1500);}}
-   if(step===2||step===5)await p.screenshot({path:OUT+W+'-game-'+step+'.png'});report.push([step,'game',await has(g+' [id$="-again"]')]);}
+  if(await has('#g1')||await has('#g2')){const g=await has('#g1')?'#g1':'#g2';await p.click(g+' .btn');let k=0;await wait(600);
+   const fit=()=>p.evaluate(g=>{const e=document.querySelector(g);if(!e.classList.contains('gfs'))return 'NOT FULLSCREEN';const H=innerHeight,Wd=innerWidth;const bad=[...e.querySelectorAll('.gtop,.fd,.zk .opt,#rp,#fb')].filter(x=>{const r=x.getBoundingClientRect();return r.bottom>H+1||r.right>Wd+1||r.top<-1||r.left<-1||r.height<20;}).map(x=>x.className||x.id);return {W:Wd,H,bad,rot:getComputedStyle(e.querySelector('.rot')).display};},g);
+   {const r=[step,'fs',W,await fit()];console.log(JSON.stringify(r));report.push(r);}
+   if(W<600){await p.screenshot({path:OUT+W+'-rotate-'+step+'.png'});await p.setViewportSize({width:844,height:390});await wait(700);{const r=[step,'fs-landscape',await fit()];console.log(JSON.stringify(r));report.push(r);}await p.screenshot({path:OUT+'land-game-'+step+'.png'});}
+   while(k++<40){await wait(700);if(await has(g+' [id$="-again"]'))break;const bs=await p.$$(g+' [data-i]');if(bs.length){const i=k%3===0?1:0;await p.evaluate(([g,i])=>{const all=[...document.querySelectorAll(g+' [data-i]')];if(i===0){const t=document.querySelector('#orb');}all[(Math.random()*all.length)|0].click();},[g,i]);await wait(1500);if(k===3)await p.screenshot({path:OUT+W+'-game-'+step+'.png'});}}
+   if(W<600)await p.setViewportSize({width:W,height:844});report.push([step,'game',await has(g+' [id$="-again"]'),'after-close-gfs',await p.evaluate(()=>document.querySelectorAll('.gfs').length)]);}
   if(await has('#rw')){await p.click('#rw [data-rec]');await wait(2200);await p.click('#rw [data-rec]');await wait(1500);await p.click('#rw [data-wd="1"]');await wait(400);await p.click('#rw [data-rec]');await wait(2200);await p.click('#rw [data-rec]');await wait(1500);
    if(await p.evaluate(()=>document.querySelector('#nx').classList.contains('lock'))){report.push([step,'rec','melody not found → nomic']);await p.evaluate(()=>{const b=document.querySelector('[data-nomic]');b.style.display='inline-block';b.click();});}else report.push([step,'rec','ok']);
    await p.screenshot({path:OUT+W+'-rec.png',fullPage:true});}
