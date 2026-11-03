@@ -18,7 +18,9 @@ async function solveQuiz(p,wrongFirst){ // click options until the right one; re
 async function rec(p){await p.click('#mic');await sleep(2200);await p.click('#mic');await p.waitForSelector('#snd');await p.click('#snd');}
 const go=async(p,h)=>{await p.evaluate(h=>location.hash=h,h);await sleep(500);};
 const STEPS={
- async krot(p){await p.click('#st');for(let k=0;k<400;k++){if(await p.$('#again'))return;const up=await p.$$('.ml.up');for(const m of up){const s=await m.getAttribute('data-s');const rule=await p.textContent('.rule');const air=!/НЕпред/.test(rule);const isAir='ptk'.includes(s.normalize('NFD')[0]);if((isAir===air)!==(k%11===5))await m.click().catch(()=>{});}await sleep(250);}throw new Error('krot');},
+ async krot(p){await p.click('.kstage button:has-text("Начать")');for(let k=0;k<600;k++){const d=await p.evaluate(()=>S.done.krot&&S.done.krot.tries);if(d)return;
+  const h=await p.evaluate(k=>{const st=document.querySelector('.kstage');const g=st&&st._inst&&st._inst._dbg&&st._inst._dbg();if(!g||!g.wave||g.wave.done)return -1;const ms=st.querySelectorAll('.ml-mole');for(let i=0;i<9;i++){const o=g.occ[i];if(o&&!o.hit&&ms[i].classList.contains('up')&&((o.tone===g.wave.tone)!==(k%13===6)))return i;}return -1;},k);
+  if(h>=0){await p.evaluate(h=>{const m=document.querySelectorAll('.kstage .ml-mole')[h];const r=m.getBoundingClientRect();m.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true,clientX:r.left+r.width/2,clientY:r.top+r.height/2}));},h);}await sleep(200);}throw new Error('krot');},
  async para(p){for(let k=0;k<20;k++){if(await p.$('#again'))return;const q=(await p.textContent('.big1')).trim();const P={b:'p',p:'b',d:'t',t:'d',g:'k',k:'g'};await p.fill('#ti',k===1?'x':P[q]);await p.press('#ti','Enter');await sleep(k===1?400:1900);}throw new Error('para');},
  async row(p){await rec(p);await p.waitForSelector('#again');},
  async light(p){await p.click('#st');await solveQuiz(p,true);},
@@ -26,9 +28,12 @@ const STEPS={
  async tree(p){await rec(p);await p.waitForSelector('#again');},
  async facts(p){await p.click('#ok');},
  async sost(p){await p.click('#st');await solveQuiz(p,true);},
- async alch(p){const R={'мама':['女','马'],'папа':['父','巴'],'вопрос «ma?»':['口','马'],'«давай!» ba':['口','巴']};
-  for(let k=0;k<10;k++){if(await p.$('#again'))return;const t=(await p.textContent('.qcard .lead b')).replace(/^«|»$/g,'');const ing=R[t];if(k===0){await p.click('[data-g="亻"]');await p.click('[data-g="女"]');await sleep(1600);}
-   await p.click(`[data-g="${ing[0]}"]`);await p.click(`[data-g="${ing[1]}"]`);await sleep(2500);}throw new Error('alch');},
+ async alch(p){await p.click('.kstage button:has-text("Начать")');await sleep(1500);const plan=[['亻','女','口'],['父','口']];let used={};
+  for(let k=0;k<80;k++){if(await p.evaluate(()=>S.done.alch))return;
+   const b=await p.$('.kstage .al-res.show .al-go, .kstage .al-over:not(.hide) .al-next');if(b){await b.click().catch(()=>{});await sleep(1500);continue;}
+   const st=await p.evaluate(()=>document.querySelector('.kstage')._dbg.state());if(st.busy){await sleep(500);continue;}
+   const ks=plan[st.si]||[];const n=used[st.si]||0;if(n<ks.length){used[st.si]=n+1;await p.evaluate(k=>document.querySelector('.kstage')._dbg.brew(k),ks[n]);}await sleep(1200);}
+  throw new Error('alch '+JSON.stringify(await p.evaluate(()=>document.querySelector('.kstage')._dbg.state())));},
  async fam(p){await p.click('#st');await solveQuiz(p,true);},
  async prop(p){for(const ch of ['妈','爸']){await p.waitForFunction(()=>/Обведи/.test(document.querySelector('#wh')&&document.querySelector('#wh').textContent),null,{timeout:20000});const c=await p.$eval('.wch .cur',e=>e.textContent);await draw(p,c);await sleep(1500);}
   for(let k=0;k<2;k++){await p.waitForFunction(k=>{const q=document.querySelector('.qhead');return q&&q.textContent.includes('Иероглиф '+(k+1)+' ');},k);await sleep(300);if(k===0){await p.click('#h1');await p.click('#h2');}const py=(await p.textContent('.qcard .py')).trim();await draw(p,PYC[py]);await sleep(1500);}await p.waitForSelector('#again');},
@@ -46,6 +51,7 @@ const STEPS={
   await type('zaijian');await send();await p.waitForSelector('#again',{timeout:8000});},
  async cells(p){await p.click('#st');for(let k=0;k<12;k++){await p.waitForFunction(k=>{const q=document.querySelector('.qhead');return q&&q.textContent.includes('Клетка '+(k+1)+' ');},k);await sleep(300);if(k===3)await p.click('#h3'),await sleep(4000);const py=(await p.textContent('.qcard div[style*="font-size:26px"]')).trim();await draw(p,PYC[py]);await sleep(1500);}await p.waitForSelector('#again');},
  async zt(p){await p.click('#ok');},
+ async yi(p){await p.click('#go');await solveQuiz(p,true);},
  async ztip(p){await solveQuiz(p,true);}, async zair(p){await solveQuiz(p,true);}, async zi(p){await solveQuiz(p,true);},
  async tt(p){await p.click('#ok');},
  async trec(p){for(let k=0;k<4;k++){await p.waitForSelector('#mic');await rec(p);await sleep(800);}await p.waitForSelector('[data-re]');},
