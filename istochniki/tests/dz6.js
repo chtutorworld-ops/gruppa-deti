@@ -55,7 +55,9 @@ const STEPS={
  async ztip(p){await solveQuiz(p,true);}, async zair(p){await solveQuiz(p,true);}, async zi(p){await solveQuiz(p,true);},
  async tt(p){await p.click('#ok');},
  async trec(p){for(let k=0;k<4;k++){await p.waitForSelector('#mic');await rec(p);await sleep(800);}await p.waitForSelector('[data-re]');},
- async drag(p){await p.click('#st');for(let k=0;k<200;k++){if(await p.$('#again'))return;const o=await p.$('#orb');if(o&&!(await p.$('.zk .opt.ok,.zk .opt.no'))){const a=await o.getAttribute('data-a');const b=k%6===2?await p.$(`.zk .opt:not([data-i="${a}"])`):await p.$(`.zk [data-i="${a}"]`);await b.click();await sleep(1500);continue;}await sleep(300);}throw new Error('drag');},
+ async drag(p){await p.click('.kstage #dgo');let na=0;for(let k=0;k<400;k++){if(await p.evaluate(()=>S.done.drag&&S.done.drag.tries))return;
+  const a=await p.evaluate(()=>{const st=document.querySelector('.kstage');return st&&st._dbg?st._dbg.cur():null;});
+  if(a){await sleep(400);const sel=(na++)%6===2?`.kstage .dkeys button:not([data-i="${a}"])`:`.kstage .dkeys button[data-i="${a}"]`;await p.evaluate(sel=>document.querySelector(sel).click(),sel);await sleep(300);}else await sleep(250);}throw new Error('drag');},
  async ninja(p){await p.click('#st');await sleep(2800);const box=await (await p.$('#cv')).boundingBox();
   for(let k=0;k<400;k++){if(await p.$('#again'))return;const its=await p.evaluate(()=>{const b=document.querySelector('#nj');return b&&b._it?b._it.filter(i=>!i.dead&&i.y>60&&i.y<b.clientHeight-60).map(i=>({x:i.x,y:i.y,ok:i.ok})):[];});
    const t=its.find(i=>i.ok)||(k%25===7?its[0]:null);if(t){await p.mouse.move(box.x+t.x-60,box.y+t.y-20);await p.mouse.down();await p.mouse.move(box.x+t.x+60,box.y+t.y+20,{steps:6});await p.mouse.up();}await sleep(120);}throw new Error('ninja');}};
