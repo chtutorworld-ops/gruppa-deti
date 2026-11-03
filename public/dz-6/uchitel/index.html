@@ -123,5 +123,5 @@ async function load(){const st=document.getElementById('st');
  }catch(e){st.textContent='· нет связи с хранилищем, нажмите «Обновить» ещё раз';}}
 const refBtn=document.getElementById('ref');
 refBtn.onclick=async()=>{refBtn.disabled=true;refBtn.textContent='↻ Обновляю…';await load();refBtn.disabled=false;refBtn.textContent='↻ Обновить';};
-load();
+(function(){const n=document.createElement('div');n.textContent='Результаты загружаются только по кнопке «↻ Обновить» — нажмите её, чтобы увидеть свежие данные';n.style.cssText='margin:10px auto;max-width:1000px;padding:10px 16px;border-radius:12px;background:#FFF4D6;color:#5a4300;font:600 15px system-ui,sans-serif;text-align:center';document.body.prepend(n);const r=document.getElementById('ref');if(r)r.addEventListener('click',()=>n.remove());})();
 </script></body></html>

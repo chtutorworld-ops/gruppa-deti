@@ -39,5 +39,5 @@ async function load(){$('#app').innerHTML=`<div class="top n"><div><h1>Повт�
   ${xm&&xm.log?`<h2>Разговор с 小明</h2><div class="box n log">${xm.log.map(l=>`<div>${l.who==='xm'?'小明':'Владимир'}: <span class="zh">${esc(l.text)}</span>${l.who==='me'?(l.ok?' ✓':' ·'):''}</div>`).join('')}${xm.notes&&xm.notes.length?`<div class="e" style="margin-top:6px">Заметки: ${xm.notes.map(esc).join('; ')}</div>`:''}</div>`:''}
   <h2>Отчёт для родителей</h2><div class="box n"><div class="rep" id="rep">${esc(rep)}</div><button id="cp" style="margin-top:10px">Скопировать</button></div>`;
  $('#cp').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(rep);$('#cp').textContent='✓ Скопировано';};}
-load();
+document.getElementById('app').innerHTML='<div style="min-height:60vh;display:grid;place-items:center;text-align:center;font:600 16px system-ui,sans-serif"><div><p>Результаты загружаются только по кнопке</p><button id="rf0" style="font:700 16px system-ui;padding:12px 22px;border-radius:999px;border:none;background:#2B3270;color:#fff;cursor:pointer">↻ Загрузить результаты</button></div></div>';document.getElementById('rf0').onclick=load;
 </script></body></html>
