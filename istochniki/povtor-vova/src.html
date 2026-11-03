@@ -269,7 +269,7 @@ h3{font-size:18px;font-weight:800;color:var(--ink);margin:22px 0 10px}
 .blk b{color:#fff;padding:3px 9px;border-radius:9px;letter-spacing:.04em}
 .hud{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font:900 18px Nunito;color:var(--ac2)}
 .hud .cmb{color:var(--t4)}
-.fd{position:relative;height:300px;margin-top:8px;border-radius:26px;overflow:hidden;background:linear-gradient(180deg,rgba(10,6,40,.15),rgba(10,6,40,.35)),url(../urok-6/zadaniya/img/fon.jpg) 30% 50%/cover,#1A1050;box-shadow:inset 0 0 40px rgba(0,0,0,.45)}
+.fd{position:relative;height:420px;margin-top:8px;border-radius:26px;overflow:hidden;background:linear-gradient(180deg,rgba(10,6,40,.15),rgba(10,6,40,.35)),url(../urok-6/zadaniya/img/fon.jpg) 30% 50%/cover,#1A1050;box-shadow:inset 0 0 40px rgba(0,0,0,.45)}
 .fd::before{content:'';position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 12% 22%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 30% 12%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 48% 30%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 66% 8%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 22% 44%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 58% 52%,#fff 50%,transparent 51%);opacity:.8;animation:tw 3s ease-in-out infinite alternate}
 @keyframes tw{to{opacity:.4}}
 .fd .mt{position:absolute;left:0;right:0;bottom:0;height:120px}
@@ -279,7 +279,13 @@ h3{font-size:18px;font-weight:800;color:var(--ink);margin:22px 0 10px}
 .fd .dr img{width:100%;height:100%;object-fit:contain}
 @keyframes dfl{to{transform:translateY(-12px)}}
 .fd .orb{position:absolute;right:14%;top:-80px;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font:900 30px Nunito;color:#fff;background:radial-gradient(circle at 35% 30%,#FFFFFF 0,#9AE8FF 18%,#3B6BFF 55%,#1A1E7A 100%);box-shadow:0 0 30px #5BB8FF,0 0 70px rgba(91,184,255,.6);animation:fall var(--t,7s) linear forwards}
-@keyframes fall{to{top:200px}}
+@keyframes fall{to{top:calc(100% - 170px)}}
+@media(max-width:600px){.fd{height:340px}}
+.fd .orb{width:96px!important;height:96px!important;font-size:32px!important}
+.fd .dr{width:300px!important;height:210px!important}@media(max-width:600px){.fd .dr{width:220px!important;height:150px!important}}
+.zk .opt{font-size:38px!important;min-height:76px;border-radius:20px}
+.hud{font-size:20px!important}
+#fb{min-height:48px}
 .fd .fire{position:absolute;left:18%;bottom:120px;width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,#FFF7C2 0,#FFB23D 40%,#FF4D1A 75%,rgba(255,77,26,0) 100%);box-shadow:0 0 30px #FF7A1A;opacity:0}
 .fd.hit .fire{animation:shoot .45s ease-in forwards}
 @keyframes shoot{0%{opacity:1;transform:translate(0,0) scale(.6)}100%{opacity:1;transform:translate(var(--fx,220px),var(--fy,-60px)) scale(1.6)}}
@@ -337,6 +343,10 @@ h3{font-size:18px;font-weight:800;color:var(--ink);margin:22px 0 10px}
 .qcard{padding:12px;border-radius:18px;margin-top:12px}
 .qhead{display:flex;justify-content:space-between;font-size:13px;font-weight:800;color:var(--mu)}
 
+.rule{margin-top:14px;padding:18px 20px;border-radius:24px;color:#fff;font-size:20px;line-height:1.5;font-weight:700;background:linear-gradient(135deg,#5B6BD8,#7C4FD8);box-shadow:0 10px 24px rgba(91,107,216,.35)}
+.rule b{color:#FFE59A;font-weight:900}.rule .zh-i{color:#FFE59A}.rule .big{display:block;font:900 26px Nunito,Manrope,sans-serif;margin-bottom:6px;color:#fff}
+.rule.pink{background:linear-gradient(135deg,#FF5C8A,#E0533D);box-shadow:0 10px 24px rgba(255,92,138,.35)}.rule.green{background:linear-gradient(135deg,#2DBE8C,#178A7A);box-shadow:0 10px 24px rgba(45,190,140,.35)}.rule.orange{background:linear-gradient(135deg,#F5A524,#E0533D);box-shadow:0 10px 24px rgba(245,165,36,.35)}
+@media(max-width:600px){.rule{font-size:18px;padding:16px}.rule .big{font-size:22px}}
 </style></head><body>
 <div class="app" id="app"></div><div class="toast" id="toast"></div>
 <script src="../urok-5/audio-map.js"></script>
@@ -370,7 +380,7 @@ async function playList(urls,el,gap){urls=urls.filter(Boolean);if(!urls.length)r
  if(!bufs){for(const u of urls){if(tok!==playTok)return;await playOld(u);}el&&el.classList.remove('on');return;}
  let t=ctx.currentTime+0.02;const g=gap==null?0.25:gap;curSrc=bufs.map(b=>{const x=ctx.createBufferSource();x.buffer=b;x.connect(ctx.destination);x.start(t);t+=b.duration+g;return x;});
  await new Promise(r=>setTimeout(r,Math.max(0,(t-g-ctx.currentTime)*1000)));if(tok===playTok)el&&el.classList.remove('on');}
-const urlS=s=>{const k=vkey(s);if(VOK&&VOK[k])return VOICE+k+'.wav';const c=SYL.char(s);return c?fn(c):null;};
+const urlS=s=>{const c=SYL.char(s);if(c)return fn(c);const k=vkey(s);return VOK&&VOK[k]?VOICE+k+'.wav':null;};   // one voice: the course synthesizer (female); the teacher's recording only if there is no mp3
 const urlK=k=>VOK&&VOK[k]?VOICE+k+'.wav':null;              // b0, p0 …: the teacher's pure initial sound
 const playS=(s,el)=>playList([urlS(s)],el);
 // a training pair of syllables in the teacher's voice, said with the tone change:
@@ -390,7 +400,7 @@ const pairQuiz=list=>noTriple(list,x=>x[0]).map(py=>{const [a,b]=py.split(' ');c
  return {play:el=>playPair(py,el),q:'Какую пару ты услышал?',opts:o.map(x=>`<span class="py">${tpy(x)}</span>`),right:`<span class="py">${tpy(py)}</span>`,ok:tpy(py)};});
 // a word in the teacher's voice if she recorded it on zapis/ (id da3gu3), otherwise the course mp3
 const wid=py=>py.split(' ').map(x=>SYL.plain(x)+SYL.tone(x)).join('');
-const urlW=hz=>{const w=[...W33,...W34,['你好','nǐ hǎo'],['我叫','wǒ jiào']].find(x=>x[0]===hz);const k=w&&wid(w[1]);return k&&VOK&&VOK[k]?VOICE+k+'.wav':fn(hz);};
+const urlW=hz=>fn(hz);   // words and pairs: always the course synthesizer, whole word
 const playW=(hz,el)=>playList(hz.split(' ').map(urlW),el);      // '你好 我叫 达莉娅' = a phrase from pieces
 
 /* ===================== pitch (YIN), as in ДЗ 3 ===================== */
@@ -454,7 +464,7 @@ function arrange(opts,right){const av=LASTPOS.slice(opts.length>=4?-2:-1);for(le
 const txt=h=>{const d=document.createElement('div');d.innerHTML=String(h);d.querySelectorAll('svg').forEach(s=>s.remove());return d.textContent.replace(/\s+/g,' ').trim();};
 // items: {play:url list or fn, q, opts:[...], right, ok:html, lab:'what was asked'}
 function quiz(box,key,title,items,cols){const el=$(box);if(!el)return;LASTPOS=[];
- const N=items.length;const Q=items.map((it,n)=>Object.assign({},it,{n}));let ok=0;const res=[],log=[],miss=[];
+ preload(items.flatMap(it=>Array.isArray(it.play)?it.play:[]));const N=items.length;const Q=items.map((it,n)=>Object.assign({},it,{n}));let ok=0;const res=[],log=[],miss=[];
  const fin=()=>{ST.res[key]={t:title,ok,of:N,miss};keep();send(key,{t:title,score:ok,of:N,miss,log});gate();
   el.innerHTML=`<div class="qh"><span>${title}</span><span>готово</span></div><div class="res">${ok} / ${N}</div>
    <div class="fb ${ok===N?'ok':''}" style="color:${ok===N?'':'var(--ac2)'}">${ok===N?'Отлично! Всё с первого раза 🎉':ok>=N-1?'Хорошо! Почти всё с первого раза 👍':'Ошибки ты уже исправил 💪 Можно повторить для закрепления — «Ещё раз»'}</div>
@@ -468,7 +478,7 @@ function quiz(box,key,title,items,cols){const el=$(box);if(!el)return;LASTPOS=[]
    ${it.play?'<button class="play n" data-pl aria-label="Послушать">▶</button>':''}<div class="qq">${it.q}</div>
    <div class="opts c${cols||o.length}">${o.map((x,k)=>`<button class="opt n" data-k="${k}">${x}</button>`).join('')}</div><div class="fb"></div>`;
   const pl=el.querySelector('[data-pl]'),fb=el.querySelector('.fb');const go=()=>it.play&&(typeof it.play==='function'?it.play(pl):playList(it.play,pl));
-  if(pl){pl.onclick=go;later(go,250);}
+  if(pl){pl.onclick=go;later(go,30);}
   el.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{if(lock)return;const x=o[+b.dataset.k];
    if(x===it.right){lock=true;b.classList.add('ok');if(first&&!it.retry){ok++;res[it.n]=true;}log.push({q:lab,a:txt(x),ok:1,again:it.retry?1:0});
     fb.className='fb ok';fb.innerHTML='✓ '+(it.ok||'Верно!');Q.shift();later(ask,it.ok?1600:1000);}
@@ -623,18 +633,20 @@ function dragon(box,key,mode){const el=$(box);if(!el)return;const R=12;const TON
  const BTN=TONE?['1','2','3','4']:['b','p','d','t','g','k'];
  const bl=x=>TONE?`${curve([+x],70,46)}<small>${x}-й тон</small>`:x;
  const why=s=>TONE?`${s} — ${SYL.tone(s)}-й тон`:`${s} — ${'ptk'.includes(s[0])?'предыхательный 💨':'непредыхательный'}`;
+ preload(pool.map(urlS));
  const intro=()=>{el.innerHTML=`<div class="gst"><h3>Защити крепость!</h3><p>Летят волшебные звуковые шары. Слушай слог и жми ${TONE?'<b>его тон</b>':'<b>первый звук</b>: b p d t g k'}.</p><p>Угадал — дракон сжигает шар 🔥. Ошибся или не успел — шар бьёт по стене.</p><p>🔥 3 подряд — комбо ×2 · 🏮 3 фонарика-жизни · ${R} волн</p></div>
   <div class="row" style="justify-content:center"><button class="btn" id="${key}-st" style="font-size:20px;padding:18px 34px">🔥 В бой!</button></div>`;$('#'+key+'-st').onclick=play;};
  function play(){let i=0,pts=0,hits=0,cmb=0,lives=3;const miss=[],log=[];let prev='',prevA='';
   const pick=()=>{let x,k=0;do{x=pool[Math.random()*pool.length|0];k++;}while((x===prev||ans(x)===prevA)&&k<60);prev=x;prevA=ans(x);return x;};
-  const round=()=>{if(i>=R||lives<=0)return end();const s=pick(),a=ans(s);let lock=false;i++;const spd=Math.max(5,8.5-i*.25);
+  const round=()=>{if(i>=R||lives<=0)return end();el.style.minHeight=el.offsetHeight+'px';const s=pick(),a=ans(s);let lock=false;i++;const spd=Math.max(5,8.5-i*.25);
    el.innerHTML=`<div class="hud"><span>⭐ ${pts}</span><span class="cmb">${cmb>=3?'🔥 ×2':''}</span><span>${'🏮'.repeat(lives)}${'▫️'.repeat(3-lives)}</span></div>
     <div class="dots">${Array.from({length:R},(_,j)=>`<i class="${j<i-1?'ok':j===i-1?'cur':''}"></i>`).join('')}</div>
     ${FD(`<div class="orb" id="orb" style="--t:${spd}s">?</div><div class="tag" id="ds">Волна ${i} из ${R}</div>`)}
     <div class="row" style="justify-content:center;margin-top:8px"><button class="btn g" id="rp">🔊 Ещё раз</button></div>
     <div class="zk ${TONE?'c4 tn':''}">${BTN.map(x=>`<button class="opt" data-i="${x}">${bl(x)}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
-   const rp=$('#rp');rp.onclick=()=>playS(s,rp);later(()=>playS(s,rp),250);
-   const dg=$('#dg'),orb=$('#orb');
+   const rp=$('#rp');rp.onclick=()=>playS(s,rp);
+   const dg=$('#dg'),orb=$('#orb');orb.style.animationPlayState='paused';
+   const go=()=>{if(!lock){orb.style.animationPlayState='running';playS(s,rp);}};loadB(urlS(s)).then(go,go);
    const answer=b=>{if(lock)return;lock=true;const got=b?b.dataset.i:'—',good=got===a,fb=$('#fb');orb.textContent=s;$('#ds').textContent=s;log.push({q:s,a:got,ok:good?1:0});
     if(good){hits++;cmb++;pts+=cmb>=3?2:1;b.classList.add('ok');const o=orb.getBoundingClientRect(),f=dg.querySelector('.fire').getBoundingClientRect();dg.style.setProperty('--fx',(o.left-f.left+20)+'px');dg.style.setProperty('--fy',(o.top-f.top+20)+'px');dg.classList.add('hit');fb.className='fb ok';fb.textContent=cmb>=3?'🔥 Огненное комбо ×2!':'🔥 Шар сгорел! '+why(s);}
     else{cmb=0;lives--;miss.push(s);if(b)b.classList.add('no');const r=el.querySelector(`[data-i="${a}"]`);r&&r.classList.add('ok');dg.classList.add('miss');fb.className='fb no';fb.textContent=(b?'':'Не успел! ')+'Это был '+why(s)+'.';playS(s);}
@@ -741,7 +753,7 @@ const STEPS=[
 
  /* ---------- level 1: tones ---------- */
  {lv:0,need:['tone1'],t:'Четыре тона',h:()=>`${BL(0)}<h2>Четыре тона 四声</h2>
-  <p class="lead">В китайском один и тот же слог с разным тоном — <b>разные слова</b>. Нажимай и повторяй вслух, рисуя тон рукой в воздухе.</p>
+  <div class="rule orange"><span class="big">🎵 Правило: тон меняет слово</span>В китайском один и тот же слог с разным тоном — <b>разные слова</b>. Нажимай и повторяй вслух, рисуя тон рукой в воздухе.</div>
   <div class="tones">${[1,2,3,4].map(t=>`<button class="tone n" data-s="${mark('ma',t)}"><span class="py" style="color:${TCOL[t]}">${mark('ma',t)}</span>${curve([t],70,46)}<small>${['ровно и высоко','вверх, как «а?»','вниз и вверх','резко вниз'][t-1]}</small></button>`).join('')}</div>
   <div class="chn">${['bā bá bǎ bà','dī dí dǐ dì','kū kú kǔ kù'].map((g,i)=>`<div class="card n"><b>${i+1}</b><div class="chips" style="margin:0">${g.split(' ').map(s=>`<button class="chip n" data-s="${s}" style="color:${TCOL[SYL.tone(s)]}">${s}</button>`).join('')}</div></div>`).join('')}</div>
   <h3>👂 Какой тон?</h3><div class="qbox in" id="q1"></div>`,
@@ -750,7 +762,7 @@ const STEPS=[
 
  /* ---------- level 2: initials and aspiration ---------- */
  {lv:1,need:['ini'],t:'Звуки b p m f d t n l g k h',h:()=>`${BL(1)}<h2>Первые звуки слога 声母</h2>
-  <p class="lead">Слог = <b>первый звук</b> (инициаль) + <b>гласная</b> (финаль) + <b>тон</b>. Нажимай и слушай чистые звуки, повторяй вслух.</p>
+  <div class="rule "><span class="big">🧩 Правило: из чего слог</span>Слог = <b>первый звук</b> (инициаль) + <b>гласная</b> (финаль) + <b>тон</b>. Нажимай и слушай чистые звуки, повторяй вслух.</div>
   <div class="ini">${INI.map(x=>`<button class="n${'ptk'.includes(x)?' asp':''}" data-k0="${x}" data-alt="${mark(x+(x==='f'?'u':'a'),1)}"><b>${x}</b><small>${INIW[x]}</small></button>`).join('')}</div>
   <div class="tip">💨 Розовые <b>p t k</b> — <b>предыхательные</b>: со струёй воздуха. Их пары <b>b d g</b> — <b>непредыхательные</b>, глухо и мягко, без воздуха.</div>
   <h3>👂 Какой первый звук?</h3><div class="qbox in" id="q2"></div>`,
@@ -758,7 +770,7 @@ const STEPS=[
    quiz('#q2','ini','Какой первый звук?',S.map(s=>{const i=SYL.plain(s)[0];const o=[i,PART[i],...shuffle(INI.filter(x=>x!==i&&x!==PART[i])).slice(0,2)];
     return {play:[urlS(s)],lab:s,q:'Послушай слог. С какого звука он начинается?',opts:o.map(x=>`<span class="py" style="font-size:30px">${x}</span>`),right:`<span class="py" style="font-size:30px">${i}</span>`,ok:`${s} — начинается с ${i}`};}),4);}},
  {lv:1,need:['asp'],t:'Предыхательный или нет?',h:()=>`${BL(1)}<h2>💨 Предыхательный или нет?</h2>
-  <p class="lead">Частая ошибка — читать <b>p</b> как русское «п», а <b>b</b> как русское «б». В китайском <b>p t k</b> — <b>предыхательные</b>: «пх», «тх», «кх». <b>b d g</b> — <b>непредыхательные</b>: глухо, без воздуха.</p>
+  <div class="rule pink"><span class="big">💨 Правило: p t k — предыхательные</span>Частая ошибка — читать <b>p</b> как русское «п», а <b>b</b> как русское «б». В китайском <b>p t k</b> — <b>предыхательные</b>: «пх», «тх», «кх». <b>b d g</b> — <b>непредыхательные</b>: глухо, без воздуха.</div>
   <div class="cards c2">
    <div class="card n"><span class="ic">📄</span><b class="h">Проверь листком бумаги</b>Поднеси листок ко рту. На <b>pā</b> он отлетает, на <b>bā</b> не шевелится.</div>
    <div class="card n"><span class="ic">✋</span><b class="h">Или ладонью</b>На <b>p t k</b> ладонь у рта чувствует струю воздуха.</div>
@@ -779,7 +791,7 @@ const STEPS=[
    <div class="card n"><span class="k">Пишем</span><div class="tn"><span style="color:var(--t3)">3</span> + <span style="color:var(--t3)">3</span></div>${curve([3,3],100,80,0)}</div>
    <div class="card n"><span class="k">Говорим</span><div class="tn"><span style="color:var(--t2)">2</span> + <span style="color:var(--t3)">3</span></div>${curve([2,3],100,80)}</div>
   </div>
-  <p class="lead">Две «галочки» подряд говорить трудно, поэтому <b>первый 3-й тон звучит как 2-й</b> (голос вверх). Пишем при этом <b>как в словаре</b>: значок не меняем.</p>
+  <div class="rule "><span class="big">🎵 Правило: 3 + 3 → звучит 2 + 3</span>Две «галочки» подряд говорить трудно, поэтому <b>первый 3-й тон звучит как 2-й</b> (голос вверх). Пишем при этом <b>как в словаре</b>: значок не меняем.</div>
   <div class="motto"><div class="zh say" data-w="你好" style="cursor:pointer;font-size:76px">你好</div><div class="py">nǐ hǎo · звучит <span style="color:var(--t2)">ní</span> <span style="color:var(--t3)">hǎo</span></div><div class="ru">Привет! Здравствуй!</div></div>
   <h3>Нажми и повтори вслух 2–3 раза</h3>${wordBtns(W33.slice(0,4),true)}
   ${chk('Как <b>звучит</b> <span class="ipy">nǐ hǎo</span>?',['<span class="ipy">ní hǎo</span> — первый слог вверх','<span class="ipy">nǐ hǎo</span> — две «галочки»','<span class="ipy">nì hǎo</span> — первый слог вниз'],0,'3 + 3 говорим как 2 + 3.')}
@@ -789,7 +801,7 @@ const STEPS=[
    <div class="card n"><span class="k">Один 3-й тон</span>${curve([3],120,80)}<div>вниз — и вверх</div></div>
    <div class="card n"><span class="k">3-й перед 4-м</span>${curve(['h',4],100,80)}<div>только <b>вниз</b>, потом резкий 4-й</div></div>
   </div>
-  <p class="lead">Перед 1-м, 2-м и 4-м тоном 3-й тон звучит <b>наполовину</b>: голос опускается низко-низко и <b>не поднимается</b>.</p>
+  <div class="rule "><span class="big">🎵 Правило: неполный 3-й тон</span>Перед 1-м, 2-м и 4-м тоном 3-й тон звучит <b>наполовину</b>: голос опускается низко-низко и <b>не поднимается</b>.</div>
   <div class="motto"><div class="zh say" data-w="我叫" style="cursor:pointer;font-size:76px">我叫</div><div class="py"><span style="color:var(--t3)">wǒ</span> <span style="color:var(--t4)">jiào</span></div><div class="ru">Меня зовут…</div></div>
   <h3>Нажми и повтори вслух 2–3 раза</h3>${wordBtns(W34.slice(0,4))}
   ${chk('Что делает голос на <span class="ipy">wǒ</span> в <span class="ipy">wǒ jiào</span>?',['Опускается вниз и не поднимается','Делает полную «галочку»','Поднимается, как 2-й тон'],0,'Это неполный 3-й тон.')}`},
@@ -805,11 +817,12 @@ const STEPS=[
 
  /* ---------- level 4: pinyin and meaning ---------- */
  {lv:3,need:['mean'],t:'好 или 叫?',h:()=>`${BL(3)}<h2>好 или 叫? Не перепутай!</h2>
+  <div class="rule orange"><span class="big">🧠 Правило: 叫 jiào ≠ 好 hǎo</span><b>wǒ jiào</b> 我叫 = «меня зовут». <b>nǐ hǎo</b> 你好 = «привет», 好 — «хорошо». Если сказать «wǒ hǎo» — получится «мне хорошо», а не «меня зовут»!</div>
   <div class="cards c2">
    <div class="card n" style="text-align:center"><button class="zh say" data-hz="你好" style="font-size:64px;color:var(--ac2)">你好</button><div class="py" style="font-size:20px">${tpy('nǐ hǎo')}</div><b>Привет!</b><br><span class="zh-i">好</span> <span class="ipy">hǎo</span> — «хорошо»</div>
    <div class="card n" style="text-align:center"><button class="zh say" data-hz="我叫" style="font-size:64px;color:var(--ac2)">我叫</button><div class="py" style="font-size:20px">${tpy('wǒ jiào')}</div><b>Меня зовут…</b><br><span class="zh-i">叫</span> <span class="ipy">jiào</span> — «зваться»</div>
   </div>
-  <div class="tip">🧠 Запомни: <b>wǒ jiào</b> = «я зовусь». Если сказать «wǒ hǎo» — получится «я хороший», а не «меня зовут».</div>
+  
   <div class="qbox in" id="q6"></div>`,
   on:()=>{const P=x=>`<span class="py" style="font-size:22px">${x}</span>`,Z=x=>`<span class="zh" style="font-size:34px">${x}</span>`;
    const L=[
@@ -828,10 +841,10 @@ const STEPS=[
 
  /* ---------- level 5: radicals, meaning and sound ---------- */
  {lv:4,t:'Ключи 部首',h:()=>`${BL(4)}<h2>Ключи — подсказки смысла</h2><div class="hz"><span class="zh">部首</span><span class="py">bùshǒu</span></div>
-  <p class="lead">🔑 <b>Ключ</b> — часть иероглифа, которая подсказывает, <b>о чём он</b>. Увидел 氵 — значит, что-то про воду.</p>
+  <div class="rule green"><span class="big">🔑 Правило: ключ = подсказка смысла</span>🔑 <b>Ключ</b> — часть иероглифа, которая подсказывает, <b>о чём он</b>. Увидел 氵 — значит, что-то про воду.</div>
   <div class="rad">${[['亻','rén','человек','🧍',['你','他','们']],['口','kǒu','рот','👄',['叫','吃','喝']],['女','nǚ','женщина','👩',['好','妈','她']],['氵','shuǐ','вода','💧',['河','湖','海']]].map(([r,p,ru,e,ex])=>`<div class="card n"><div class="e">${e}</div><div class="k">${r}</div><div class="py" style="font-size:16px">${p} · ${ru}</div><div class="ex">${ex.map(c=>`<button class="n" data-hz="${c}">${c}</button>`).join('')}</div></div>`).join('')}</div>
   <h3>🔍 Слева — смысл, справа — звук</h3>
-  <p class="lead" style="margin-top:0">Во многих иероглифах две части. <b>Слева</b> часто стоит ключ — он подсказывает <b>смысл</b>. <b>Справа</b> — часть, которая подсказывает, <b>как он звучит</b>.</p>
+  <div class="rule green"><span class="big">👈 смысл слева · звук справа 👉</span>Во многих иероглифах две части. <b>Слева</b> часто стоит ключ — он подсказывает <b>смысл</b>. <b>Справа</b> — часть, которая подсказывает, <b>как он звучит</b>.</div>
   <div class="lr">
    <div class="card n"><div class="big"><i>女</i>马</div><b>妈 mā — мама</b><div style="font-size:14.5px;margin-top:4px"><span style="color:var(--t4);font-weight:800">女</span> «женщина» — смысл, <b>马</b> — звучит <b>ma</b></div></div>
    <div class="card n"><div class="big"><i>口</i>马</div><b>吗 ma — вопрос?</b><div style="font-size:14.5px;margin-top:4px"><span style="color:var(--t4);font-weight:800">口</span> «рот» — что-то говорим, <b>马</b> — звучит <b>ma</b></div></div>
