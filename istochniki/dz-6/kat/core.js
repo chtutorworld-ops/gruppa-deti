@@ -53,6 +53,8 @@
   K.register = g => { K.GAMES.push(g); };
   // координаты указателя на сцене 1280×720 (сцена может быть повёрнута на телефоне)
   K.toXY = (stage, e) => { const q = stage._rot; if (q) return [(e.clientY - q.ty) / q.k, (q.tx - e.clientX) / q.k]; const r = stage.getBoundingClientRect(); return [(e.clientX - r.left) * 1280 / r.width, (e.clientY - r.top) * 720 / r.height]; };
+  // прямоугольник элемента в координатах сцены 1280×720 (и когда сцена повёрнута)
+  K.rectIn = (stage, el) => { const r = el.getBoundingClientRect(), [x1, y1] = K.toXY(stage, {clientX: r.left, clientY: r.top}), [x2, y2] = K.toXY(stage, {clientX: r.right, clientY: r.bottom}); return {x: Math.min(x1, x2), y: Math.min(y1, y2), w: Math.abs(x2 - x1), h: Math.abs(y2 - y1)}; };
   K.game = id => K.GAMES.find(g => g.id === id);
   // черты иероглифов: из данных Hanzi Writer, которые вшиты в страницу
   K.HZ = K.HZ || {};

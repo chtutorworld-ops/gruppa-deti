@@ -377,8 +377,8 @@
         const s = SETS[si], kc = KEYS[k].c;
         res.classList.remove('show'); res.innerHTML = '';
         const o = orbEl || orb(k, kc, sx, sy);
-        const mr = med.getBoundingClientRect(), sr = stage.getBoundingClientRect(), sc = 1280 / sr.width;
-        const px = (mr.left - sr.left + mr.width / 2) * sc, py = (mr.top - sr.top + mr.height / 2) * sc;
+        const mr = K.rectIn(stage, med);
+        const px = mr.x + mr.w / 2, py = mr.y + mr.h / 2;
         const po = orb(s.part, '', px, py, 'part');
         K.sfx('whoosh');
         await Promise.all([fly(o, sx, sy, CX - 24, CY - 8, 620), fly(po, px, py, CX + 24, CY - 8, 680)]);
@@ -422,11 +422,11 @@
         renderSlots();
         const slot = slots.children[idx];
         if (card && slot && !R && card.animate) {
-          const a = card.getBoundingClientRect(), b = slot.getBoundingClientRect(), sr = stage.getBoundingClientRect(), sc = 1280 / sr.width;
-          const ghost = card.cloneNode(true); ghost.style.cssText = `position:absolute;left:${(a.left - sr.left) * sc}px;top:${(a.top - sr.top) * sc}px;width:${a.width * sc}px;height:${a.height * sc}px;z-index:25;pointer-events:none`;
+          const a = K.rectIn(stage, card), b = K.rectIn(stage, slot);
+          const ghost = card.cloneNode(true); ghost.style.cssText = `position:absolute;left:${a.x}px;top:${a.y}px;width:${a.w}px;height:${a.h}px;z-index:25;pointer-events:none`;
           stage.appendChild(ghost); res.classList.remove('show'); slot.style.opacity = '0';
-          const dx = (b.left - a.left) * sc + (b.width * sc - a.width * sc) / 2, dy = (b.top - a.top) * sc - 20;
-          const an = ghost.animate([{transform: 'none', opacity: 1}, {transform: `translate(${dx}px,${dy}px) scale(${52 / (a.width * sc)})`, opacity: .9}], {duration: 650, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'forwards'});
+          const dx = (b.x - a.x) + (b.w - a.w) / 2, dy = (b.y - a.y) - 20;
+          const an = ghost.animate([{transform: 'none', opacity: 1}, {transform: `translate(${dx}px,${dy}px) scale(${52 / a.w})`, opacity: .9}], {duration: 650, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'forwards'});
           await new Promise(r => { an.onfinish = r; later(r, 750); });
           ghost.remove(); slot.style.opacity = ''; slot.style.animation = '';
         } else res.classList.remove('show');
@@ -544,7 +544,7 @@
 
       goSet(0); intro();
       // для тестов
-      stage._dbg = {brew: k => { const f = grid.querySelector(`[data-k="${k}"]`); const r = f.getBoundingClientRect(), sr = stage.getBoundingClientRect(), sc = 1280 / sr.width; return brew(k, (r.left - sr.left + r.width / 2) * sc, (r.top - sr.top) * sc + 62); }, state: () => ({si, found: [...found], busy, misses}), burst: c => burst(c || '#E4608C'), goSet, finale, collect: () => { const b = res.querySelector('.al-go'); if (b) b.click(); }};
+      stage._dbg = {brew: k => { const f = grid.querySelector(`[data-k="${k}"]`); const r = K.rectIn(stage, f); return brew(k, r.x + r.w / 2, r.y + 62); }, state: () => ({si, found: [...found], busy, misses}), burst: c => burst(c || '#E4608C'), goSet, finale, collect: () => { const b = res.querySelector('.al-go'); if (b) b.click(); }};
       return { destroy(){ alive = false; cancelAnimationFrame(raf); timers.forEach(clearTimeout); timers.clear(); window.removeEventListener('pointermove', onMove); window.removeEventListener('pointerup', onUp); K.stopVoice(); } };
     }
   });
