@@ -564,10 +564,14 @@ img.fit{object-fit:contain;background:#fff}
 .kg7 .kstage{position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;font-family:var(--sans);
  --ink:#191B2E;--ink-3:#3E4262;--muted:#6C6982;--vio:#4E4C8E;--vio-2:#33315F;--jade:#2E7F6C;--rose:#A8456A;--serif:'Lora',Georgia,serif;--sans:'Manrope',system-ui,sans-serif;--ease-out:cubic-bezier(.22,.9,.3,1)}
 .kg7 .kstage *{box-sizing:border-box}
-.nb7{top:112px!important;bottom:92px!important;gap:20px 22px!important}
-.nb7c{padding:18px 20px 18px 84px!important;gap:8px!important;min-height:200px;align-content:center}
-.nb7c .sxn{width:56px!important;height:56px!important;font-size:26px!important;top:18px!important}
-.nb7n{font-size:30px!important}.nb7l .w{font-size:17px!important;width:64px!important}.nb7l .z{font-size:40px!important}.nb7l .pyn{font-size:20px!important}
+.nb7{top:104px!important;bottom:84px!important;gap:14px 18px!important}
+.nb7c{padding:12px 16px 12px 70px!important;gap:6px!important;min-height:0;align-content:start}
+.nb7c .sxn{width:46px!important;height:46px!important;font-size:22px!important;top:12px!important;left:12px!important}
+.nb7n{font-size:24px!important;display:flex;align-items:center;gap:8px;overflow:visible!important;line-height:1.2}
+.nb7l{align-items:center!important;white-space:normal!important;overflow:visible!important;gap:10px!important}
+.nb7l .w{font-size:26px!important;width:34px!important;text-align:center}
+.nb7v{display:grid;min-width:0;line-height:1.05}
+.nb7l .z{font-size:34px!important;line-height:1.05!important}.nb7l .pyn{font-size:19px!important;font-weight:800;overflow-wrap:anywhere;overflow:visible!important;text-overflow:clip!important}
 .ft7{top:94px!important;bottom:14px!important;gap:6px 10px!important}
 .ft7.ftb .ft7i,.ft7.ftb .ft7c{height:72px}.ft7.ftb .ft7c .syl,.ft7.ftb .ft7i{font-size:42px}
 .ft7i,.ft7c{height:42px}.ft7i{font-size:28px}.ft7c .syl{font-size:30px}.ft7h{font-size:36px}
@@ -1036,9 +1040,9 @@ try{const hosted=/^https?:$/.test(location.protocol)&&!/claude/i.test(location.h
 /* ===== lesson 7: «Каждый рассказывает о себе» — names from task 5 (hw u7), parents from lesson 6 (hw u6) as a fallback ===== */
 const KIDS7=[{ru:'Радмир',hz:'拉德米尔',py:['lā','dé','mǐ','ěr']},{ru:'Султан',hz:'苏尔坦',py:['sū','ěr','tǎn']},{ru:'Вова',hz:'弗拉基米尔',py:['fú','lā','jī','mǐ','ěr']},{ru:'Афина',hz:'阿菲娜',py:['ā','fēi','nà']},{ru:'Семён',hz:'谢苗',py:['xiè','miáo']},{ru:'Дарья',hz:'达莉娅',py:['dá','lì','yà']}];
 const pyJ=a=>(a||[]).join('');
-function nbCard(i,name,me,mom,dad){const ln=(w,x)=>`<div class="nb7l"><span class="w">${w}</span>${x?`<span class="z">${escH(x.hz)}</span><span class="pyn">${escH(pyJ(x.py))}</span>`:'<span class="pyn" style="color:#C5CBD8">……</span>'}</div>`;
+function nbCard(i,name,me,mom,dad){const ln=(w,x)=>`<div class="nb7l"><span class="w">${w}</span>${x?`<span class="nb7v"><span class="z">${escH(x.hz)}</span><span class="pyn">${escH(pyJ(x.py))}</span></span>`:'<span class="pyn" style="color:#C5CBD8">……</span>'}</div>`;
   const all=me&&mom&&dad?`你好！我叫${me.hz}。我妈妈叫${mom.hz}。我爸爸叫${dad.hz}。`:'';
-  return `<div class="nb7c nk"><button class="sxn" data-tick aria-label="Отметить ученика ${i+1}">${i+1}</button><div class="nb7n">${escH(name)}${all?` <button class="ear" data-free="${escH(all)}" aria-label="Послушать рассказ" style="width:34px;height:34px;vertical-align:middle">${EAR}</button>`:''}</div>${ln('我叫',me)}${ln('妈妈',mom)}${ln('爸爸',dad)}</div>`;}
+  return `<div class="nb7c nk"><button class="sxn" data-tick aria-label="Отметить ученика ${i+1}">${i+1}</button><div class="nb7n">${escH(name)}${all?` <button class="ear" data-free="${escH(all)}" aria-label="Послушать рассказ" style="width:34px;height:34px;vertical-align:middle">${EAR}</button>`:''}</div>${ln('🙂',me)}${ln('👩',mom)}${ln('👨',dad)}</div>`;}
 function nbDefault(){const g=document.getElementById('nbGrid');if(g&&!g.innerHTML)g.innerHTML=KIDS7.slice(0,5).map((k,i)=>nbCard(i,k.ru,k,null,null)).join('');}
 async function nboard(force){const g=document.getElementById('nbGrid');if(!g)return;nbDefault();if(window.nbLoaded&&!force)return;
   try{const get=async hw=>{const r=await fetch(DZAPI+'list?hw='+hw+'&_='+Date.now());if(!r.ok)throw 0;return ((await r.json()).subs||[]).filter(s=>!/^(учитель|teacher|тест)/i.test(s.name||''));};
