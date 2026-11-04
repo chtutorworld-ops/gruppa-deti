@@ -56,14 +56,14 @@ async function run(view){const [nm,w,h,mobile]=view;const br=await chromium.laun
  await p.waitForSelector('.lgd',{timeout:6000});await overflow(p,'test');await p.screenshot({path:`${OUT}/${nm}-t6-end.png`,fullPage:true});
  // 7 krot on the whole screen
  await go(7);await sleep(400);await p.screenshot({path:`${OUT}/${nm}-t7.png`});
- if(mobile){await p.tap('.kst');}else{await p.click('.kbig');}
+ if(mobile){await p.evaluate(()=>document.querySelector('.kstage .ml-go').scrollIntoView({block:'center'}));await sleep(300);const bb=await (await p.$('.kstage .ml-go')).boundingBox();await p.touchscreen.tap(bb.x+bb.width/2,bb.y+bb.height/2);await sleep(900);if(await p.evaluate(()=>document.querySelector('.kstage')._inst._dbg().state)!=='play')throw new Error('first tap on «Начать» did not start the game');}else{await p.click('.kbig');}
  await sleep(700);
  const cover=await p.evaluate(()=>{const s=document.querySelector('.kstage').getBoundingClientRect();return {full:document.querySelector('.kst').classList.contains('kfull'),w:Math.round(s.width),h:Math.round(s.height),vw:innerWidth,vh:innerHeight};});
  console.log(nm,'game box',JSON.stringify(cover));
  {if(!cover.full)throw new Error('game did not open full screen');const fr=Math.max(cover.w/cover.vw,cover.h/cover.vh);if(fr<.97)throw new Error('game is not on the whole screen: '+JSON.stringify(cover));
   if(Math.min(cover.w,cover.h)/Math.min(cover.vw,cover.vh)<.5)throw new Error('half screen');}
  await p.screenshot({path:`${OUT}/${nm}-t7-full.png`});
- await p.evaluate(()=>document.querySelector('.kstage .ml-go').click());let hits=0,miss=0;
+ if(!mobile)await p.evaluate(()=>document.querySelector('.kstage .ml-go').click());let hits=0,miss=0;
  for(let k=0;k<700;k++){const done=await p.evaluate(()=>!!DONE[7]);if(done)break;
   const pt=await p.evaluate(k=>{const st=document.querySelector('.kstage');const g=st._inst._dbg();if(g.state!=='play'||!g.wave||g.wave.done)return null;const ms=st.querySelectorAll('.ml-mole');
    for(let i=0;i<9;i++){const o=g.occ[i];if(o&&!o.hit&&ms[i].classList.contains('up')&&((o.tone===g.wave.tone)!==(k%11===5))){const r=ms[i].getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height*.45,ok:o.tone===g.wave.tone};}}return null;},k);
