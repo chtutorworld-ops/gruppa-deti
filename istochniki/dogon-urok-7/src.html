@@ -1,0 +1,858 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>补课 — Догоняем урок 7</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Nunito:wght@700;800;900&display=swap">
+<style>
+@font-face{font-family:'LXGW WenKai GB';src:url(data:font/woff;base64,__FONT_GB__) format('woff');font-display:block}
+:root{--bg:#E9EDF4;--ink:#1E2350;--t:#3D4560;--mu:#7D86A3;--ac:#5B6BD8;--ac2:#2B3270;--ok:#2DBE8C;--no:#FF5C8A;--sh1:#C5CBD8;--sh2:#fff;
+ --t1:#2DBE8C;--t2:#F5A524;--t3:#7C6FFF;--t4:#FF5C8A;--t0:#9AA2BC;--han:'LXGW WenKai GB','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg)}
+body{font-family:Manrope,system-ui,-apple-system,sans-serif;color:var(--t);min-height:100vh;padding:max(14px,env(safe-area-inset-top)) 14px 40px}
+button{font:inherit;border:0;cursor:pointer;color:inherit;background:none}
+.zh{font-family:var(--han);font-weight:400}.py{font-family:Nunito,Manrope,sans-serif;font-weight:800}
+.n{background:var(--bg);border-radius:24px;box-shadow:8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2)}
+.in{background:var(--bg);border-radius:18px;box-shadow:inset 5px 5px 10px var(--sh1),inset -5px -5px 10px var(--sh2)}
+.app{max-width:760px;margin:0 auto}
+.top{display:flex;align-items:center;gap:14px;padding:14px 18px;margin-bottom:16px}
+.top .zh{font-size:32px;color:var(--ac2);line-height:1;white-space:nowrap}
+.top h1{font-size:18px;font-weight:800;color:var(--ink);line-height:1.15}.top small{display:block;font-size:13px;color:var(--mu);font-weight:600}
+.main{padding:22px 20px}
+@media(max-width:600px){.main{padding:18px 14px}}
+h2{font-size:25px;font-weight:800;color:var(--ink);line-height:1.15;margin-top:6px}
+.lead{font-size:16.5px;line-height:1.5;margin-top:10px}
+.lead b{color:var(--ink)}
+h3{font-size:18px;font-weight:800;color:var(--ink);margin:22px 0 10px}
+.list{display:grid;gap:12px;margin-top:16px}
+.ti{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:20px;text-align:left;width:100%}
+.ti .no{flex:none;width:50px;height:50px;border-radius:16px;display:grid;place-items:center;font:900 22px Nunito;color:#fff;background:var(--ac)}
+.ti b{display:block;font-size:16.5px;color:var(--ink);line-height:1.25}.ti small{display:block;font-size:13px;color:var(--mu);font-weight:600;margin-top:2px}
+.ti .st{margin-left:auto;font-size:13px;font-weight:800;color:var(--ok);white-space:nowrap}
+.ti.hot{box-shadow:0 0 0 3px var(--t2),8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2)}
+.back{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:15px;color:var(--ac);padding:8px 14px;border-radius:14px;margin-bottom:12px}
+.tag{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:#B0284F;padding:4px 10px;border-radius:9px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:18px;font-weight:800;font-size:16.5px;background:var(--ac);color:#fff;box-shadow:6px 6px 14px var(--sh1),-6px -6px 14px var(--sh2)}
+.btn.g{background:var(--bg);color:var(--ac2)}.btn:active{transform:scale(.97)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
+.qcard{padding:20px;margin-top:16px;text-align:center}
+.qhead{display:flex;justify-content:space-between;font-size:13px;font-weight:800;color:var(--mu);letter-spacing:.06em;text-transform:uppercase}
+.dots{display:flex;gap:5px;justify-content:center;margin:12px 0 4px}.dots i{width:22px;height:6px;border-radius:3px;background:#D6DBE6}.dots i.ok{background:var(--ok)}.dots i.no{background:var(--no)}.dots i.cur{background:var(--ac)}
+.play{width:100px;height:100px;border-radius:50%;display:grid;place-items:center;margin:16px auto 6px;font-size:38px;color:var(--ac)}
+.play.on{color:var(--ok);box-shadow:inset 6px 6px 12px var(--sh1),inset -6px -6px 12px var(--sh2)}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.opts.o3{grid-template-columns:repeat(3,1fr)}
+.opt{padding:16px 8px;border-radius:18px;font-family:Nunito;font-weight:900;font-size:30px;color:var(--ac2);box-shadow:6px 6px 14px var(--sh1),-6px -6px 14px var(--sh2)}
+.opt.ok{background:#DDF5EC;box-shadow:inset 3px 3px 8px #B9DCCD;color:#14855E}.opt.no{background:#FFE3EB;box-shadow:inset 3px 3px 8px #F0C2D0;color:#B0284F}
+.fb{margin-top:12px;font-size:16px;font-weight:700;line-height:1.45;min-height:24px}.fb.ok{color:#14855E}.fb.no{color:#D9366A}
+.res{font-size:46px;font-weight:900;font-family:Nunito;color:var(--ac2);margin-top:8px}
+.ans{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.ans span{padding:8px 4px;border-radius:12px;font-family:Nunito;font-weight:800;font-size:18px;text-align:center}
+.ans .ok{background:#DDF5EC;color:#14855E}.ans .no{background:#FFE3EB;color:#B0284F}
+@media(max-width:480px){.ans{grid-template-columns:repeat(4,1fr)}}
+.cards{display:grid;gap:12px;margin-top:14px}@media(min-width:640px){.cards{grid-template-columns:1fr 1fr}}
+.card{padding:14px 16px;border-radius:20px;font-size:15px;line-height:1.45}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.chip{padding:8px 15px;border-radius:15px;font-family:Nunito;font-weight:900;font-size:21px;line-height:1.1}
+.chip.on{box-shadow:inset 3px 3px 7px var(--sh1),inset -3px -3px 7px var(--sh2)}
+.vow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.vow .col{padding:10px 2px;border-radius:20px;display:grid;gap:2px;justify-items:center}
+.vow .col small{font-size:13px;font-weight:800;color:var(--mu)}
+.vow button{font-family:Nunito;font-weight:900;font-size:30px;line-height:1.2;padding:2px 6px;border-radius:12px}
+.vow button.on{box-shadow:inset 3px 3px 7px var(--sh1),inset -3px -3px 7px var(--sh2)}
+@media(max-width:480px){.vow button{font-size:25px}}
+.tip{margin-top:14px;padding:12px 16px;border-radius:16px;background:#FFF6DC;color:#6B5310;font-size:15px;line-height:1.45}
+.holes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.hole{position:relative;height:170px;border-radius:22px;overflow:hidden;background:linear-gradient(180deg,#E9EDF4 0 55%,#D3D9E6 55%)}
+.hole::after{content:'';position:absolute;left:10%;right:10%;bottom:14px;height:34px;border-radius:50%;background:#2B3270;opacity:.85}
+.ml{position:absolute;left:50%;bottom:-150px;transform:translateX(-50%);width:96px;transition:bottom .22s ease-out;z-index:1;cursor:pointer;border:0;background:none;padding:0}
+.ml.up{bottom:26px}.ml svg{width:96px;height:110px;display:block}
+.ml b{position:absolute;left:50%;top:44px;transform:translateX(-50%);background:#fff;border-radius:10px;padding:2px 8px;font:900 22px Nunito;color:#2B3270;white-space:nowrap;box-shadow:0 2px 0 #C5CBD8}
+.ml.hit b{background:#2DBE8C;color:#fff}.ml.bad b{background:#FF5C8A;color:#fff}
+.tbar{height:8px;border-radius:5px;background:#D6DBE6;margin-top:14px;overflow:hidden}.tbar i{display:block;height:100%;background:linear-gradient(90deg,#F5A524,#FF5C8A);width:100%}
+@media(max-width:600px){.top small{display:none}.top .zh{font-size:26px}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ac2);color:#fff;padding:12px 18px;border-radius:16px;font-weight:700;font-size:15px;z-index:9;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1}
+.ti.lk{opacity:.5}.ti.lk .no{background:#AEB5C8!important}
+.ti .st.lk{color:var(--mu)}
+/* shooter */
+.arena{position:relative;height:min(62vh,430px);border-radius:22px;overflow:hidden;margin-top:12px;background:linear-gradient(180deg,#DCE6FF,#F3E9FF 70%,#FFE9F1);touch-action:manipulation}
+.bub{position:absolute;bottom:-110px;width:74px;height:74px;margin-left:-37px;border-radius:50%;display:grid;place-items:center;font:900 23px Nunito;color:#2B3270;
+ background:radial-gradient(circle at 32% 28%,#fff 0 12%,rgba(255,255,255,.55) 13% 30%,rgba(255,255,255,.18) 60%),var(--bc,#9FB4FF);box-shadow:inset -6px -8px 14px rgba(43,50,112,.18),0 6px 14px rgba(43,50,112,.15)}
+.bub.pop{transform:scale(1.5);opacity:0;transition:transform .25s,opacity .25s}
+.bub.bad{animation:shake .35s}.bub.show{outline:4px solid var(--ok);outline-offset:3px}
+@keyframes shake{25%{translate:-8px 0}75%{translate:8px 0}}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font:900 18px Nunito;color:var(--ac2)}
+.hud .cmb{color:var(--t4)}
+/* dictation keyboard */
+.kb h4{font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin:14px 0 6px;text-align:left}
+.keys{display:flex;flex-wrap:wrap;gap:8px}
+.key{min-width:52px;padding:10px 10px;border-radius:14px;font:900 23px Nunito;color:var(--ac2);box-shadow:4px 4px 10px var(--sh1),-4px -4px 10px var(--sh2)}
+.key.on{background:var(--ac);color:#fff;box-shadow:inset 3px 3px 7px #3D4BB0}
+.key.tn{min-width:66px;font-size:26px}.key.tn small{display:block;font:800 11px Manrope}
+.prev{font:900 54px Nunito;color:var(--ac2);min-height:66px;margin-top:6px}
+.prev i{color:#C5CBD8;font-style:normal}
+.cmp{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;text-align:left;margin-top:10px;font-size:16px;align-items:center}
+.cmp .py{font-size:28px}
+.why{text-align:left;margin-top:10px;display:grid;gap:8px}
+.why div{padding:10px 14px;border-radius:14px;background:#FFF0F4;color:#7A1F3D;font-size:15px;line-height:1.45}
+.why div.ok{background:#E6F7EF;color:#14674A}
+/* cards to say aloud */
+.say{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+.sc{padding:14px 10px;border-radius:20px;text-align:center}
+.sc .zh{font-size:44px;color:var(--ac2);line-height:1.1}.sc .py{font-size:19px;color:var(--ac)}.sc small{display:block;font-size:13px;color:var(--mu);font-weight:700}
+.sc .row{justify-content:center;margin-top:8px;gap:8px}.sc .btn{padding:9px 14px;font-size:14.5px}
+.sc.done{box-shadow:0 0 0 3px var(--ok),8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2)}
+/* radicals */
+.radq{font-size:96px;line-height:1.1;margin:12px 0 4px}
+.radq.zh{color:var(--ac2)}
+.opts .opt.em{font-size:46px;font-family:inherit}.opts .opt.zh{font-family:var(--han);font-size:48px;font-weight:400}
+/* writing */
+.wbox{position:relative;width:min(300px,78vw);height:min(300px,78vw);margin:14px auto 0;border-radius:18px;background:#fff;box-shadow:inset 0 0 0 3px #FF8FA8;touch-action:none}
+.wbox svg.grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.wbox .hw{position:absolute;inset:0}
+.wch{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.wch span{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-family:var(--han);font-size:30px;color:var(--ac2)}
+.wch span.cur{box-shadow:0 0 0 3px var(--ac)}.wch span.ok{background:#DDF5EC;color:#14855E}
+/* name */
+.nmch{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+.nmch button{padding:12px 18px;border-radius:16px;font-weight:800;font-size:17px;box-shadow:5px 5px 12px var(--sh1),-5px -5px 12px var(--sh2)}
+.bigname{font-family:var(--han);font-size:64px;color:var(--ac2);line-height:1.15;margin-top:6px}
+/* xiaoming */
+.xm{display:grid;gap:12px;margin-top:14px}
+.xm .ln{display:flex;gap:10px;align-items:flex-end}
+.xm .ln.me{flex-direction:row-reverse}
+.xm .av{flex:none;width:58px;height:58px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px #fff,0 4px 10px rgba(43,50,112,.2)}
+.xm .av.me{display:grid;place-items:center;background:var(--t2);color:#fff;font:900 22px Nunito}
+.xm .bb{padding:12px 16px;border-radius:20px 20px 20px 6px;background:#fff;max-width:78%;text-align:left;box-shadow:0 4px 10px rgba(43,50,112,.08)}
+.xm .me .bb{border-radius:20px 20px 6px 20px;background:#E3E8FF}
+.xm .bb .zh{font-size:30px;color:var(--ink);line-height:1.25}.xm .bb .py{display:block;color:var(--ac);font-size:16px}.xm .bb small{display:block;color:var(--mu);font-weight:700;font-size:13.5px}
+.xm .bb .nw{display:inline-block;font-size:11.5px;font-weight:800;color:#fff;background:var(--t4);border-radius:8px;padding:2px 7px;margin-bottom:4px}
+.mic{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;margin:16px auto 4px;font-size:44px;background:var(--bg);box-shadow:8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2);transform:scale(var(--lvl,1));transition:transform .08s}
+.mic.rec{background:#FFE3EB;box-shadow:0 0 0 6px rgba(255,92,138,.35)}.mic.busy{opacity:.5}
+.hint2{font-size:14.5px;font-weight:700;color:var(--mu)}
+/* lesson 6 */
+.pc2 .row{gap:6px}.pc2 .btn{padding:9px 12px;font-size:14px}
+.pc2{min-width:0}.say:has(.pc2){grid-template-columns:repeat(2,minmax(0,1fr))}
+.scl{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px}
+.scl button{display:grid;justify-items:center;gap:4px;padding:14px 6px;border-radius:20px}.scl span{font-size:40px;line-height:1}.scl small{font-size:13px;font-weight:800;color:var(--mu)}
+.scl button.on{box-shadow:0 0 0 3px var(--ac),inset 3px 3px 8px var(--sh1)}
+.chip.n{box-shadow:4px 4px 10px var(--sh1),-4px -4px 10px var(--sh2)}.chip.on{background:var(--ac);color:#fff;box-shadow:inset 3px 3px 7px #3D4BB0}
+.fd{position:relative;height:300px;margin-top:8px;border-radius:26px;overflow:hidden;background:linear-gradient(180deg,rgba(10,6,40,.15),rgba(10,6,40,.35)),url(img/fon.jpg) 30% 50%/cover,#1A1050;box-shadow:inset 0 0 40px rgba(0,0,0,.45)}
+.fd::before{content:'';position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 12% 22%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 30% 12%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 48% 30%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 66% 8%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 22% 44%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 58% 52%,#fff 50%,transparent 51%);opacity:.8;animation:tw 3s ease-in-out infinite alternate}
+@keyframes tw{to{opacity:.4}}
+.fd .mt{position:absolute;left:0;right:0;bottom:0;height:120px}
+.fd .lan{position:absolute;font-size:22px;filter:drop-shadow(0 0 8px #FF7A3D);animation:lf 5s ease-in-out infinite alternate}
+@keyframes lf{to{transform:translateY(-14px) rotate(6deg)}}
+.fd .dr{position:absolute;left:-4%;bottom:34px;width:230px;height:160px;display:grid;place-items:center;font-size:118px;line-height:1;animation:dfl 2.4s ease-in-out infinite alternate;transform-origin:50% 60%}
+.fd .dr img{width:100%;height:100%;object-fit:contain}
+@keyframes dfl{to{transform:translateY(-12px)}}
+.fd .orb{position:absolute;right:14%;top:-80px;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font:900 30px Nunito;color:#fff;background:radial-gradient(circle at 35% 30%,#FFFFFF 0,#9AE8FF 18%,#3B6BFF 55%,#1A1E7A 100%);box-shadow:0 0 30px #5BB8FF,0 0 70px rgba(91,184,255,.6);animation:fall var(--t,7s) linear forwards}
+@keyframes fall{to{top:200px}}
+.fd .fire{position:absolute;left:18%;bottom:120px;width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,#FFF7C2 0,#FFB23D 40%,#FF4D1A 75%,rgba(255,77,26,0) 100%);box-shadow:0 0 30px #FF7A1A;opacity:0}
+.fd.hit .fire{animation:shoot .45s ease-in forwards}
+@keyframes shoot{0%{opacity:1;transform:translate(0,0) scale(.6)}100%{opacity:1;transform:translate(var(--fx,220px),var(--fy,-60px)) scale(1.6)}}
+.fd.hit .orb{animation-play-state:paused;animation:boom .55s .4s forwards}
+@keyframes boom{50%{transform:scale(1.8);filter:brightness(2.5);opacity:1}100%{transform:scale(2.4);opacity:0}}
+.fd.hit .dr{animation:roar .5s}
+@keyframes roar{40%{transform:scale(1.18) rotate(-6deg)}}
+.fd.miss .orb{animation-play-state:paused}
+.fd.miss{animation:quake .45s}
+@keyframes quake{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
+.fd .tag{position:absolute;left:50%;top:14px;transform:translateX(-50%);padding:6px 16px;border-radius:14px;background:rgba(255,255,255,.14);backdrop-filter:blur(4px);color:#FFE59A;font:900 22px Nunito;letter-spacing:.04em;white-space:nowrap}
+.fd .wall{position:absolute;right:0;bottom:0;width:38%;height:62px;background:linear-gradient(180deg,#7A2E3A,#4A1A28);clip-path:polygon(0 30%,10% 30%,10% 0,20% 0,20% 30%,40% 30%,40% 0,50% 0,50% 30%,70% 30%,70% 0,80% 0,80% 30%,100% 30%,100% 100%,0 100%)}
+.zk{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.zk .opt{font-size:34px;padding:18px 6px;background:linear-gradient(160deg,#1E5F4C,#0E3B30);color:#E9FFF6;box-shadow:0 6px 14px rgba(14,59,48,.35),inset 0 0 0 2px rgba(120,255,200,.35);text-shadow:0 0 10px rgba(120,255,200,.8)}
+.zk .opt.ok{background:linear-gradient(160deg,#2DBE8C,#16865F)}.zk .opt.no{background:linear-gradient(160deg,#FF5C8A,#C2335C)}
+.gst{background:linear-gradient(180deg,rgba(18,11,58,.25) 0,rgba(18,11,58,.92) 62%),url(img/dragon-hero.jpg) 50% 0/100% auto no-repeat,#120B3A;color:#fff;border-radius:26px;padding:210px 22px 22px;text-align:center}
+.gst h3{margin:0 0 6px;font-size:28px;color:#FFE59A}.gst p{margin:4px 0;color:#DCD6FF;font-size:17px;line-height:1.45}
+.xm .ln .btn{flex:none;align-self:center}
+/* ===== lesson 7 ===== */
+.rbox{margin-top:14px;padding:16px 18px;border-radius:24px;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;font-size:18px;font-weight:700;line-height:1.45;box-shadow:0 12px 28px rgba(30,35,80,.18)}
+.rbox>b:first-child{display:block;font:900 23px Nunito,sans-serif;margin-bottom:4px}.rbox b{color:#fff}
+.rr2{display:grid;gap:8px;margin-top:10px}.rr2>span{display:block;background:rgba(255,255,255,.2);border-radius:16px;padding:10px 14px}
+.mhud{display:flex;justify-content:space-between;gap:8px;margin-top:14px;font:800 15px Manrope;color:var(--mu)}.mhud b{font:900 18px Nunito;color:var(--ac2)}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px;perspective:900px}
+.mc{position:relative;aspect-ratio:1/1;border-radius:18px;transform-style:preserve-3d;transition:transform .4s}
+.mc .mcb,.mc .mcf{position:absolute;inset:0;border-radius:18px;display:grid;place-items:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:4px;text-align:center}
+.mcb{background:linear-gradient(140deg,#5B6BD8,#8E5BE8);box-shadow:5px 5px 12px var(--sh1),-5px -5px 12px var(--sh2)}
+.mcb i{font-style:normal;font-family:var(--han);font-size:34px;color:rgba(255,255,255,.35)}
+.mcf{transform:rotateY(180deg);background:#fff;box-shadow:inset 0 0 0 3px #D6DBE6;color:var(--ac2);line-height:1.1;word-break:break-word}
+.mcf.py{font:900 22px Nunito}.mcf.zh{font-family:var(--han);font-size:40px}.mcf.ru{font:800 17px Manrope;color:var(--ink)}.mcf.long{font-size:14px}
+.mc.up{transform:rotateY(180deg)}
+.mc.ok .mcf{background:#DDF5EC;box-shadow:inset 0 0 0 3px var(--ok)}.mc.no .mcf{background:#FFE3EB;box-shadow:inset 0 0 0 3px var(--no)}
+@media(max-width:480px){.mem{gap:7px}.mcf.py{font-size:17px}.mcf.zh{font-size:30px}.mcf.ru{font-size:13px}.mcf.long{font-size:11.5px}}
+.mlist{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+.mlist button{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:16px;text-align:left}.mlist .py{font-size:20px;color:var(--ac2)}.mlist .zh{font-size:28px;color:var(--ac2)}.mlist small{flex:1;font-weight:700;color:var(--mu)}
+.bqq{font-size:21px;font-weight:700;color:var(--ink);line-height:1.4;margin-top:14px}.bqq b{color:#B0284F}
+.bq{display:block;font-size:92px;line-height:1.1;color:var(--ac2);margin-bottom:6px}.bk{font-size:46px;color:#FF5C8A;vertical-align:middle}
+.opt.tx{font:800 19px Manrope;padding:16px 8px}
+.cells{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:12px}
+.cells span{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-family:var(--han);font-size:26px;color:var(--ac2);background:#fff;box-shadow:inset 0 0 0 2px #FFB3C8}
+.cells span.nm{color:#9AA2BC;box-shadow:inset 0 0 0 2px #D6DBE6;background:#F4F6FB}
+.cells span.cur{box-shadow:inset 0 0 0 3px var(--ac);background:#EEF0FF}.cells span.ok{background:#DDF5EC;box-shadow:none;color:#14855E}
+.cells span.hn{background:#FFF1D6;box-shadow:none;color:#9A6400}.cells span.sk{background:#FFE3EB;box-shadow:none;color:#B0284F}
+.cells span.pn{width:16px;box-shadow:none;background:none}.cells .br{flex-basis:100%;height:0}
+.lgd{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px;font-size:13px;font-weight:800}.lgd span{padding:4px 10px;border-radius:10px}
+.lgd .ok{background:#DDF5EC;color:#14855E}.lgd .hn{background:#FFF1D6;color:#9A6400}.lgd .sk{background:#FFE3EB;color:#B0284F}
+.nmi{width:100%;font:inherit;font-size:20px;padding:14px 18px;border:0;outline:none;color:var(--ink)}
+.ab{display:grid;gap:10px;margin-top:14px}
+.abr{position:relative;padding:12px 64px 12px 16px;border-radius:20px}
+.abz{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px}.abz .zh{font-size:40px;color:var(--ac2);line-height:1.15}.abz .abn{color:#FF5C8A}
+.abp{font-size:18px;margin-top:2px}.abnp{color:#FF5C8A}.abr small{display:block;font-size:14px;font-weight:700;color:var(--mu)}
+.abs{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:10px 12px;font-size:18px}
+/* game on the whole screen */
+.app:has(.kst){max-width:1120px}
+.kst{position:relative;width:min(100%,calc((100vh - 24px) * 16 / 9));margin-left:auto!important;margin-right:auto!important;aspect-ratio:16/9;border-radius:22px;overflow:hidden;margin:14px 0;background:#191B2E;box-shadow:0 10px 30px rgba(30,35,80,.25);
+ --ink:#191B2E;--ink-3:#3E4262;--muted:#6C6982;--vio:#4E4C8E;--vio-2:#33315F;--jade:#2E7F6C;--rose:#A8456A;--serif:'Lora',Georgia,serif;--sans:'Manrope',system-ui,sans-serif;--ease-out:cubic-bezier(.22,.9,.3,1)}
+.kst.kfull{position:fixed;inset:0;z-index:1000;margin:0!important;border-radius:0;aspect-ratio:auto;width:100vw;height:100vh;height:100dvh}
+html.knoscroll,html.knoscroll body{overflow:hidden;overscroll-behavior:none}
+.kstage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;overflow:hidden;font-family:var(--sans)}
+.kstage *{box-sizing:border-box}
+.kfs,.kx{position:absolute;right:8px;bottom:8px;z-index:50;width:40px;height:40px;border:0;border-radius:12px;background:rgba(255,255,255,.85);font-size:20px;cursor:pointer;color:#2B3270}
+.kx{display:none;top:10px;left:10px;right:auto;bottom:auto;width:44px;height:44px;font-size:22px}
+.kst.kfull .kx{display:block}.kst.kfull .kfs{display:none}
+.kbig{display:flex;width:100%;font-size:19px;padding:16px;margin-top:14px;background:linear-gradient(135deg,#2DBE8C,#5B6BD8)}
+.khint{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:55;display:none;align-items:center;gap:10px;padding:10px 18px;border-radius:18px;background:rgba(18,14,50,.85);color:#fff;font:900 18px Nunito;pointer-events:none;white-space:nowrap}
+.kst.hinted .khint{display:flex;animation:khint 2.6s forwards}
+@keyframes khint{0%,80%{opacity:1}100%{opacity:0}}
+.khint .kph{font-size:30px;display:inline-block;animation:kturn 1.3s ease-in-out infinite}
+@keyframes kturn{0%,20%{transform:rotate(0)}60%,100%{transform:rotate(90deg)}}
+.kst:fullscreen,.kst:-webkit-full-screen{width:100vw;height:100vh}
+/* ===== Догоняем урок 7 ===== */
+.pg{padding:12px 16px;margin-bottom:14px}
+.pgt{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:var(--mu)}.pgt b{color:var(--ink);font-size:15px}.pgt span{font:900 20px Nunito;color:var(--ac2)}
+.pgb{height:12px;border-radius:8px;background:#D6DBE6;margin-top:6px;overflow:hidden}.pgb i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#2DBE8C,#5B6BD8);transition:width .5s}
+.pgd{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}.pgd a{flex:1;min-width:24px;text-align:center;padding:3px 0;border-radius:8px;background:#DDE2EC;color:#7D86A3;font:900 13px Nunito;text-decoration:none}.pgd a.ok{background:#2DBE8C;color:#fff}
+.ti .st.nd{color:var(--t2)}
+.btn.fin{width:100%;margin-top:18px;background:linear-gradient(135deg,#FF8A3D,#FF5C8A)}
+.itg{display:flex;align-items:center;gap:18px;margin-top:14px}
+.itp{flex:none;width:120px;height:120px;border-radius:50%;display:grid;place-items:center;align-content:center;background:conic-gradient(#2DBE8C calc(var(--p)*1%),#D6DBE6 0);position:relative}
+.itp::before{content:'';position:absolute;inset:12px;border-radius:50%;background:var(--bg)}
+.itp b,.itp small{position:relative}.itp b{font:900 30px Nunito;color:var(--ac2);line-height:1}.itp small{font-weight:800;color:var(--mu);font-size:12px}
+.nd2{margin-top:18px;padding:16px;border-radius:22px;background:#FFE3EB}
+.nd2h{font:900 21px Nunito;color:#B0284F;margin-bottom:10px}
+.nd2i{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:16px;background:#fff;margin-top:8px;font-size:16px;color:var(--ink)}
+.nd2i .no,.dn2 .no{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font:900 18px Nunito;color:#fff;background:#FF5C8A}
+.nd2i .go{margin-left:auto;font-weight:800;color:#B0284F;white-space:nowrap;font-size:14px}
+.dn2{margin-top:16px;display:grid;gap:6px}.dn2h{font:900 18px Nunito;color:#14855E}
+.dn2 div{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:14px;background:#E6F7EF;color:#14674A;font-weight:700;font-size:15px}.dn2 .no{background:#2DBE8C;width:30px;height:30px;font-size:15px}.dn2 div b{margin-left:auto;font-family:Nunito}
+.pdots{display:flex;align-items:center;gap:5px;margin:4px 0 2px}.pdots i{width:26px;height:7px;border-radius:4px;background:#D6DBE6}.pdots i.ok{background:var(--ok)}.pdots i.cur{background:var(--ac)}.pdots span{margin-left:8px;font-size:13px;font-weight:800;color:var(--mu)}
+.big1{margin-top:14px;padding:14px 16px;border-radius:20px;background:#FFF1D6;color:#6B4A00;font-size:19px;font-weight:700;line-height:1.45;text-align:center}
+.tv{display:grid;gap:12px;margin-top:14px}
+.tvc{position:relative;padding:14px 16px 12px 58px;border-radius:22px}.tvc.hot{box-shadow:0 0 0 4px #5B6BD8,8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2)}
+.tvn{position:absolute;left:14px;top:14px;width:34px;height:34px;border-radius:12px;display:grid;place-items:center;color:#fff;font:900 18px Nunito}
+.tvc>b{font-size:19px;color:var(--ink)}.tvc p{font-size:16px;line-height:1.4;margin-top:4px}.tvc .zh{font-size:24px;color:var(--ac2)}
+.tve{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}.tva{font:900 26px Nunito;color:var(--mu)}
+.rk{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}@media(max-width:520px){.rk{grid-template-columns:1fr}}
+.rkc{padding:12px 14px;border-radius:20px}.rkt{display:flex;align-items:center;gap:10px}.rke{font-size:30px}.rkr{font-size:52px;color:#FF5C8A;line-height:1}
+.rkx{display:flex;gap:6px;margin-top:6px}.rkx button{border-radius:14px;background:#fff;padding:4px}
+.vr{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-top:14px}
+.vrl{text-align:center}.vrl p{font-size:15.5px;line-height:1.35;margin-top:8px;font-weight:700}.vrl small{display:block;color:var(--mu);font-weight:700;margin-top:4px}
+.vrt{display:inline-block;padding:7px 12px;border-radius:14px;color:#fff;font:900 15px Nunito}
+.vrc{background:#fff;border-radius:22px;padding:8px;box-shadow:inset 0 0 0 3px #FFB3C8}
+@media(max-width:520px){.vr{grid-template-columns:1fr 1fr}.vrc{grid-column:1/-1;grid-row:1;justify-self:center}}
+.exr{display:flex;justify-content:center;gap:14px;margin-top:12px}.exr button{background:#fff;border-radius:18px;padding:6px}
+.fm{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+.fmh{display:grid;justify-items:center;padding:10px 14px;border-radius:20px;background:#E4E8FF}.fmh b{font:900 17px Nunito;color:var(--ac2)}
+.fmc{display:grid;justify-items:center;padding:10px 18px;border-radius:20px}.fmc .py{font-size:22px}.fmc small{font-weight:800;color:var(--mu)}
+.so{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}@media(max-width:560px){.so{grid-template-columns:1fr}}
+.soc{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:20px;text-align:left}
+.sow{flex:none;width:84px;height:84px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 2px #FFB3C8}
+.soc small{display:block;font-size:12px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.06em}.soc b{display:block;font-size:17px;color:var(--ink);line-height:1.3}.soc em{font-style:normal;font-size:13px;font-weight:800;color:var(--ac)}
+.bh{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}@media(max-width:420px){.bh{grid-template-columns:repeat(2,1fr)}}
+.bhc{display:grid;justify-items:center;gap:2px;padding:10px 6px;border-radius:20px}.bhc b{font-size:15px;color:var(--ink)}.bhc small{font-size:15px;color:#FF5C8A}
+.ini{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.ini.i6{grid-template-columns:repeat(3,1fr)}
+.inic{display:grid;justify-items:center;padding:12px 4px;border-radius:20px}.inic b{font:900 44px Nunito;color:var(--ac2);line-height:1.1}.inic small{font-weight:800;color:var(--mu);font-size:15px}
+.inic.hot{box-shadow:0 0 0 3px #5B6BD8,8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2)}.inic.hot b{color:#5B6BD8}
+.inic.on{background:#DDF5EC}
+.prs,.prs2{display:grid;gap:10px;margin-top:14px;grid-template-columns:repeat(3,1fr)}.prs2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:520px){.prs{grid-template-columns:1fr}}
+.pr{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:18px}.pr span{color:var(--mu);font-weight:800}
+.pr button{font:900 26px Nunito;color:var(--ac2);padding:6px 10px;border-radius:12px;background:#fff}.pr button.hot{color:#5B6BD8;background:#E4E8FF}.pr button.on,.ft button.on,.exs button.on{background:#DDF5EC}
+.ftw{overflow-x:auto;margin-top:12px}
+.ft{border-collapse:separate;border-spacing:5px;margin:0 auto}
+.ft th{font:900 22px Nunito;color:var(--ac2);padding:4px 8px}.ft th small{display:block;font-size:12px;color:#B0284F}
+.ft td button{min-width:58px;font:900 20px Nunito;color:var(--ac2);padding:8px 6px;border-radius:12px;background:#fff;box-shadow:3px 3px 8px var(--sh1)}
+@media(max-width:420px){.ft td button{min-width:48px;font-size:17px;padding:7px 3px}.ft th{font-size:18px;padding:2px 4px}}
+.cr{display:grid;gap:10px;margin-top:14px}
+.crc{display:grid;gap:6px;padding:14px 16px;border-radius:22px;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;font-size:17px;line-height:1.4}
+.crc>b{font:900 22px Nunito}.crc .cri{font-size:30px;line-height:1}.crc span{background:rgba(255,255,255,.18);border-radius:12px;padding:6px 10px}
+.hotr{margin-top:12px;padding:18px;border-radius:26px;text-align:center;color:#fff;background:linear-gradient(135deg,#FF5C8A,#FF8A3D);box-shadow:0 14px 30px rgba(255,92,138,.35)}
+.hotk{display:inline-block;padding:4px 12px;border-radius:12px;background:rgba(255,255,255,.25);font-weight:900;font-size:15px}
+.hoth{font:900 30px Nunito;line-height:1.15;margin-top:8px}.hots{font-size:18px;font-weight:700;line-height:1.45;margin-top:8px}.hots b{color:#fff}
+.hotr.sm{padding:12px}.hotr.sm .hoth{font-size:26px;margin-top:0}
+@media(max-width:420px){.hoth{font-size:25px}}
+.cf{display:grid;gap:10px;margin-top:14px}
+.cfr{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 8px;border-radius:22px;flex-wrap:nowrap}
+.cfp{display:grid;justify-items:center;padding:6px 10px;border-radius:16px;background:#fff;min-width:62px}.cfp b{font:900 32px Nunito;color:var(--ac2);line-height:1.1}.cfp small{font-weight:800;color:var(--mu);font-size:14px}
+.cfp.res{background:#DDF5EC;box-shadow:0 0 0 3px #2DBE8C}.cfp.res b{color:#14855E;font-size:36px}.cfp .np{font-size:12px;font-weight:900;color:#fff;background:#FF5C8A;border-radius:8px;padding:1px 6px;margin-top:2px}
+.cfo{font:900 24px Nunito;color:var(--mu)}
+@media(max-width:400px){.cfp{min-width:52px;padding:5px 6px}.cfp b{font-size:26px}.cfp.res b{font-size:28px}.cfo{font-size:19px}}
+.exs{margin-top:12px;text-align:center;font-weight:800;color:var(--mu)}.exs button{font:900 22px Nunito;color:var(--ac2);padding:6px 10px;border-radius:12px;background:#fff;margin:3px}
+.xmw{display:flex;align-items:center;gap:14px;margin-top:14px}.xmp{width:120px;height:150px;object-fit:cover;border-radius:22px;box-shadow:0 8px 20px rgba(30,35,80,.2)}
+.bqq .hzsv{display:inline-block}
+.opt.tx{line-height:1.25}
+/* фон Дарьи: сиреневое небо и пагода */
+html{background:#CFC6F5}body{background:transparent!important}
+body::before{content:'';position:fixed;inset:0;z-index:-1;background:url(img/fon.jpg) 50% 100%/cover no-repeat,#CFC6F5}
+.app>.n,.app>.pg{box-shadow:0 10px 30px rgba(60,40,140,.18)}
+.app>.main.n{background:rgba(233,237,244,.94)}
+.app>.top.n,.app>.pg.n{background:rgba(233,237,244,.88);backdrop-filter:blur(6px)}
+.xm6 .abz .zh{white-space:nowrap;font-size:clamp(26px,8.4vw,40px)}
+</style></head><body>
+<div class="app" id="app"></div><div class="toast" id="toast"></div>
+<script>// Слог с тоном -> иероглиф, который голос браузера прочитает именно так.
+// Пустая строка = такого слога в языке нет или надёжного иероглифа нет: звук не показываем.
+(function(){
+const R = {
+ a:'阿,,,', o:'噢,哦,,', e:'婀,鹅,,饿', i:'衣,移,以,意', u:'乌,无,五,物',
+ ba:'八,拔,把,爸', bi:'逼,鼻,笔,必', bo:'波,脖,跛,', bu:'逋,,补,布',
+ pa:'趴,爬,,怕', pi:'批,皮,匹,屁', po:'坡,婆,叵,破', pu:'扑,葡,普,瀑',
+ ma:'妈,麻,马,骂', mi:'眯,迷,米,密', mo:'摸,魔,抹,墨', mu:',,母,木',
+ fa:'发,罚,法,珐', fo:',佛,,', fu:'夫,服,府,父',
+ da:'搭,达,打,大', de:',德,,', di:'低,敌,底,地', du:'督,读,赌,杜',
+ ta:'他,,塔,踏', te:',,,特', ti:'梯,题,体,替', tu:'突,图,土,兔',
+ na:',拿,哪,纳', ne:',,,讷', ni:'妮,泥,你,逆', nu:',奴,努,怒',
+ la:'拉,,喇,辣', le:',,,乐', li:',离,里,力', lu:'噜,炉,鲁,路',
+ ga:'嘎,,尕,尬', ge:'哥,格,舸,个', gu:'姑,,古,故',
+ ka:'咖,,卡,', ke:'科,咳,渴,客', ku:'哭,,苦,裤',
+ ha:'哈,,,', he:'喝,河,,贺', hu:'呼,湖,虎,户',
+ za:'匝,杂,咋,', ze:',责,,仄', zi:'资,,子,字', zu:'租,足,组,',
+ ca:'擦,,,', ce:',,,测', ci:',词,此,次', cu:'粗,,,醋',
+ sa:'仨,,洒,萨', se:',,,色', si:'丝,,死,四', su:'苏,俗,,素',
+ zha:'渣,闸,眨,榨', zhe:'遮,哲,者,这', zhi:'知,直,纸,志', zhu:'猪,竹,主,住',
+ cha:'插,茶,,岔', che:'车,,扯,彻', chi:'吃,迟,尺,翅', chu:'出,除,楚,触',
+ sha:'沙,啥,傻,霎', she:'奢,蛇,舍,社', shi:'诗,十,使,是', shu:'书,赎,鼠,树',
+ re:',,惹,热', ri:',,,日', ru:',如,乳,入',
+ ji:'鸡,急,挤,记', ju:'居,局,举,句', qi:'七,骑,起,气', qu:'区,渠,取,去',
+ xi:'西,习,洗,细', xu:'需,徐,许,序',
+ ya:'鸭,牙,雅,亚', ye:'椰,爷,也,夜', yi:'衣,移,以,意', yo:'唷,,,', yu:'迂,鱼,雨,玉',
+ wa:'挖,娃,瓦,袜', wo:'窝,,我,握', wu:'乌,无,五,物'
+};
+const MARKS = {'ā':['a',1],'á':['a',2],'ǎ':['a',3],'à':['a',4],'ē':['e',1],'é':['e',2],'ě':['e',3],'è':['e',4],
+ 'ī':['i',1],'í':['i',2],'ǐ':['i',3],'ì':['i',4],'ō':['o',1],'ó':['o',2],'ǒ':['o',3],'ò':['o',4],
+ 'ū':['u',1],'ú':['u',2],'ǔ':['u',3],'ù':['u',4]};
+const V={a:'āáǎà',e:'ēéěè',i:'īíǐì',o:'ōóǒò',u:'ūúǔù'};
+function mark(base,t){ // put the tone mark on the right vowel
+  let idx=base.search(/a|e/); if(idx<0) idx=base.indexOf('ou'); if(idx<0){ for(let k=base.length-1;k>=0;k--){ if('aeiou'.includes(base[k])){idx=k;break;} } }
+  return base.slice(0,idx)+V[base[idx]][t-1]+base.slice(idx+1);
+}
+window.SYL = {
+  all(){ const out=[]; for(const b in R){ R[b].split(',').forEach((c,i)=>{ if(c) out.push({s:mark(b,i+1),base:b,t:i+1,c}); }); } return out; },
+  variant(base,t){ const row=R[base]; if(!row) return null; const c=row.split(',')[t-1]; return c?{s:mark(base,t),c}:null; },
+  tone(s){ for(const ch of s){ if(MARKS[ch]) return MARKS[ch][1]; } return 0; },
+  plain(s){ return [...s].map(c=>MARKS[c]?MARKS[c][0]:c).join(''); },
+  char(s){
+    const t=this.tone(s); if(!t) return '';
+    const row=R[this.plain(s)]; if(!row) return '';
+    return row.split(',')[t-1]||'';
+  }
+};
+})();
+</script>
+<script>__HW__</script>
+<script>window.HZDATA=__HZDATA__;</script>
+<script>/*__KAT__*/</script>
+<script>
+/* ===================== audio ===================== */
+const AUDIO=(/^https?:$/.test(location.protocol)&&!/claude/i.test(location.hostname))&&!/workers\.dev$/.test(location.hostname)?new URL('../audio/',location.href).href:'https://chtutorworld-ops.github.io/gruppa-deti-sait/audio/';
+const VOICE=AUDIO+'voice/';let VOK=null;const VOKP=fetch(VOICE+'index.json?'+Date.now()).then(r=>r.json()).then(j=>VOK=j).catch(()=>{});
+const fn=t=>AUDIO+[...t].map(c=>c.codePointAt(0).toString(16)).join('-')+'.mp3';
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2600);}
+let curA=null;
+function playURL(u,el){return new Promise(res=>{try{curA&&curA.pause()}catch(e){}const a=new Audio(u);curA=a;el&&el.classList.add('on');
+ const end=()=>{el&&el.classList.remove('on');res();};a.onended=end;let tried=0;
+ const fail=()=>{if(tried++<2){setTimeout(()=>{if(curA!==a)return end();a.load();a.play().catch(fail);},350);return;}end();};
+ a.onerror=fail;a.play().catch(fail);});}
+const V={a:'āáǎà',o:'ōóǒò',e:'ēéěè',i:'īíǐì',u:'ūúǔù'};
+const mark=(b,t)=>{if(!t)return b;let k=b.search(/a|e/);if(k<0)k=b.indexOf('ou');if(k<0){for(let j=b.length-1;j>=0;j--)if('aeiou'.includes(b[j])){k=j;break;}}return b.slice(0,k)+V[b[k]][t-1]+b.slice(k+1);};
+// the teacher's own recording first ('bā' -> ba1), then the course word voice
+const vkey=s=>{const t=SYL.tone(s);let b=SYL.plain(s);if(b==='i')b='yi';return t?b+t:b+'0';};
+function playS(s,el){const k=vkey(s);if(VOK&&VOK[k])return playURL(VOICE+k+'.wav',el);const c=SYL.char(s)||({ma0:'吗'}[k]);if(c)return playURL(fn(c),el);toast('Нет записи этого слога');return Promise.resolve();}
+const TCOL={1:'var(--t1)',2:'var(--t2)',3:'var(--t3)',4:'var(--t4)',0:'var(--t0)'};
+const say=t=>playW(t);
+
+/* Русское имя → китайская запись (иероглифы + пиньинь).
+   Сначала словарь привычных переводов имён, потом — запись по слогам (как в русско-китайской таблице транскрипции). */
+const NM_F={'анна':'安娜','мария':'玛丽亚','елена':'叶莲娜','ольга':'奥尔加','наталья':'娜塔莉娅','наталия':'娜塔莉娅','татьяна':'塔季扬娜','ирина':'伊琳娜','светлана':'斯韦特兰娜','екатерина':'叶卡捷琳娜','юлия':'尤利娅','анастасия':'阿纳斯塔西娅','марина':'玛丽娜','оксана':'奥克萨娜','людмила':'柳德米拉','галина':'加琳娜','надежда':'娜杰日达','валентина':'瓦莲京娜','вера':'薇拉','любовь':'柳博芙','нина':'尼娜','алина':'阿琳娜','кристина':'克里斯蒂娜','виктория':'维多利亚','ксения':'克谢尼娅','дарья':'达莉娅','евгения':'叶夫根尼娅','алёна':'阿廖娜','алена':'阿廖娜','яна':'雅娜','лариса':'拉丽莎','альбина':'阿尔宾娜','валерия':'瓦列里娅','полина':'波琳娜','александра':'亚历山德拉','анжела':'安热拉','инна':'英娜','жанна':'冉娜','олеся':'奥列霞','ульяна':'乌里扬娜','диана':'戴安娜','тамара':'塔玛拉','зоя':'卓娅','лилия':'莉莉娅','регина':'雷吉娜','эльвира':'埃尔维拉','гульнара':'古丽娜拉','айгуль':'艾古丽','гузель':'古泽丽','венера':'维涅拉','лейла':'莱拉','динара':'迪娜拉','залина':'扎丽娜','зарина':'扎里娜','мадина':'玛迪娜','амина':'阿米娜','камила':'卡米拉','эльмира':'埃尔米拉','фатима':'法蒂玛','елизавета':'叶莉扎薇塔','софья':'索菲娅','софия':'索菲娅','вероника':'韦罗妮卡','маргарита':'玛格丽塔','карина':'卡琳娜','ангелина':'安格林娜','рената':'雷纳塔','милена':'米莲娜','майя':'玛娅','кира':'基拉','лиана':'莉安娜','алсу':'阿尔苏','снежана':'斯涅扎娜','василиса':'瓦西里萨','злата':'兹拉塔','эвелина':'埃韦莉娜','таисия':'塔伊西娅','афина':'阿菲娜'};
+const NM_M={'александр':'亚历山大','алексей':'阿列克谢','андрей':'安德烈','сергей':'谢尔盖','дмитрий':'德米特里','иван':'伊万','михаил':'米哈伊尔','владимир':'弗拉基米尔','николай':'尼古拉','павел':'帕维尔','евгений':'叶夫根尼','максим':'马克西姆','артём':'阿尔乔姆','артем':'阿尔乔姆','денис':'杰尼斯','роман':'罗曼','игорь':'伊戈尔','олег':'奥列格','виктор':'维克多','юрий':'尤里','антон':'安东','руслан':'鲁斯兰','тимур':'帖木儿','ринат':'里纳特','рустам':'鲁斯塔姆','рустем':'鲁斯捷姆','ильдар':'伊尔达尔','марат':'马拉特','айдар':'艾达尔','азат':'阿扎特','рамиль':'拉米尔','ренат':'列纳特','эдуард':'爱德华','вадим':'瓦季姆','константин':'康斯坦丁','станислав':'斯坦尼斯拉夫','вячеслав':'维亚切斯拉夫','валерий':'瓦列里','василий':'瓦西里','пётр':'彼得','петр':'彼得','георгий':'格奥尔基','григорий':'格里戈里','илья':'伊利亚','кирилл':'基里尔','никита':'尼基塔','егор':'叶戈尔','глеб':'格列布','анатолий':'阿纳托利','борис':'鲍里斯','геннадий':'根纳季','леонид':'列昂尼德','ярослав':'雅罗斯拉夫','арсений':'阿尔谢尼','даниил':'丹尼尔','данил':'达尼尔','фёдор':'费奥多尔','федор':'费奥多尔','семён':'谢苗','семен':'谢苗','тимофей':'季莫费','владислав':'弗拉季斯拉夫','ахмед':'艾哈迈德','магомед':'马戈梅德','мурат':'穆拉特','шамиль':'沙米尔','арсен':'阿尔森','альберт':'阿尔贝特','камиль':'卡米尔','тагир':'塔吉尔','фарид':'法里德','рафаэль':'拉斐尔','эльдар':'埃尔达尔','дамир':'达米尔','радмир':'拉德米尔','султан':'苏尔坦','ислам':'伊斯拉姆','расул':'拉苏尔','ильяс':'伊利亚斯','артур':'阿尔图尔','эрик':'埃里克','аркадий':'阿尔卡季','филипп':'菲利普','матвей':'马特维','марк':'马克','лев':'列夫','степан':'斯捷潘','виталий':'维塔利','олжас':'奥尔扎斯','нурлан':'努尔兰','ильнур':'伊利努尔','радик':'拉季克','айрат':'艾拉特','булат':'布拉特','тимерхан':'季梅尔汉','вова':'沃瓦','саша':'萨沙'};
+// pinyin of every character the names can use
+const NM_PY={'安':'ān','娜':'nà','玛':'mǎ','丽':'lì','亚':'yà','叶':'yè','莲':'lián','奥':'ào','尔':'ěr','加':'jiā','塔':'tǎ','莉':'lì','娅':'yà','季':'jì','扬':'yáng','伊':'yī','琳':'lín','斯':'sī','韦':'wéi','特':'tè','兰':'lán','卡':'kǎ','捷':'jié','尤':'yóu','利':'lì','阿':'ā','纳':'nà','西':'xī','克':'kè','萨':'sà','柳':'liǔ','德':'dé','米':'mǐ','拉':'lā','杰':'jié','日':'rì','达':'dá','瓦':'wǎ','京':'jīng','薇':'wēi','博':'bó','芙':'fú','尼':'ní','里':'lǐ','蒂':'dì','维':'wéi','多':'duō','谢':'xiè','夫':'fū','根':'gēn','廖':'liào','雅':'yǎ','莎':'shā','宾':'bīn','列':'liè','波':'bō','山':'shān','热':'rè','英':'yīng','冉':'rǎn','霞':'xiá','乌':'wū','戴':'dài','卓':'zhuó','雷':'léi','吉':'jí','埃':'āi','古':'gǔ','艾':'ài','泽':'zé','涅':'niè','莱':'lái','迪':'dí','扎':'zhā','法':'fǎ','索':'suǒ','菲':'fēi','妮':'nī','格':'gé','苏':'sū','兹':'zī','大':'dà','烈':'liè','盖':'gài','万':'wàn','哈':'hā','弗':'fú','基':'jī','古':'gǔ','帕':'pà','马':'mǎ','姆':'mǔ','乔':'qiáo','罗':'luó','曼':'màn','戈':'gē','东':'dōng','鲁':'lǔ','帖':'tiè','木':'mù','儿':'ér','爱':'ài','华':'huá','康':'kāng','坦':'tǎn','丁':'dīng','切':'qiè','彼':'bǐ','得':'dé','布':'bù','托':'tuō','鲍':'bào','昂':'áng','丹':'dān','费':'fèi','苗':'miáo','莫':'mò','迈':'mài','梅':'méi','穆':'mù','沙':'shā','森':'sēn','贝':'bèi','斐':'fěi','图':'tú','普':'pǔ','潘':'pān','巴':'bā','比':'bǐ','别':'bié','沃':'wò','武':'wǔ','佳':'jiā','久':'jiǔ','杜':'dù','代':'dài','若':'ruò','茹':'rú','佐':'zuǒ','祖':'zǔ','济':'jì','贾':'jiǎ','科':'kē','库':'kù','洛':'luò','卢':'lú','缪':'miù','诺':'nuò','努':'nǔ','内':'nèi','恩':'ēn','佩':'pèi','皮':'pí','留':'liú','瑟':'sè','夏':'xià','福':'fú','富':'fù','霍':'huò','胡':'hú','赫':'hè','希':'xī','察':'chá','措':'cuò','楚':'chǔ','采':'cǎi','齐':'qí','茨':'cí','恰':'qià','丘':'qiū','奇':'qí','绍':'shào','舒':'shū','舍':'shě','什':'shí','晓':'xiǎo','休':'xiū','厄':'è','约':'yuē','汉':'hàn','沃':'wò','乌':'wū','易':'yì','耶':'yē','拜':'bài','捷':'jié','秋':'qiū','涅':'niè','叶':'yè','翁':'wēng'};
+// syllable table: consonant + vowel → character ('' = consonant alone)
+const NM_T={
+ '':{'а':'阿','о':'奥','у':'乌','ы':'厄','э':'埃','е':'叶','и':'伊','я':'亚','ю':'尤','ё':'约'},
+ 'б':{'а':'巴','о':'博','у':'布','ы':'贝','э':'贝','е':'别','и':'比','я':'比亚','ю':'比尤','ё':'比奥','':'布'},
+ 'в':{'а':'瓦','о':'沃','у':'武','ы':'维','э':'韦','е':'韦','и':'维','я':'维亚','ю':'维尤','ё':'维奥','':'夫'},
+ 'г':{'а':'加','о':'戈','у':'古','ы':'格','э':'格','е':'格','и':'吉','я':'吉亚','ю':'久','ё':'戈','':'格'},
+ 'д':{'а':'达','о':'多','у':'杜','ы':'德','э':'代','е':'杰','и':'季','я':'佳','ю':'久','ё':'乔','':'德'},
+ 'ж':{'а':'扎','о':'若','у':'茹','ы':'日','э':'热','е':'热','и':'日','я':'扎','ю':'茹','ё':'若','':'日'},
+ 'з':{'а':'扎','о':'佐','у':'祖','ы':'济','э':'泽','е':'泽','и':'济','я':'贾','ю':'久','ё':'佐','':'兹'},
+ 'к':{'а':'卡','о':'科','у':'库','ы':'克','э':'克','е':'克','и':'基','я':'基亚','ю':'丘','ё':'乔','':'克'},
+ 'л':{'а':'拉','о':'洛','у':'卢','ы':'雷','э':'莱','е':'列','и':'利','я':'利亚','ю':'柳','ё':'廖','':'尔'},
+ 'м':{'а':'马','о':'莫','у':'穆','ы':'梅','э':'梅','е':'梅','и':'米','я':'米亚','ю':'缪','ё':'苗','':'姆'},
+ 'н':{'а':'纳','о':'诺','у':'努','ы':'内','э':'内','е':'涅','и':'尼','я':'尼亚','ю':'纽','ё':'尼奥','':'恩'},
+ 'п':{'а':'帕','о':'波','у':'普','ы':'佩','э':'佩','е':'佩','и':'皮','я':'皮亚','ю':'皮尤','ё':'皮奥','':'普'},
+ 'р':{'а':'拉','о':'罗','у':'鲁','ы':'雷','э':'雷','е':'列','и':'里','я':'里亚','ю':'留','ё':'廖','':'尔'},
+ 'с':{'а':'萨','о':'索','у':'苏','ы':'瑟','э':'塞','е':'谢','и':'西','я':'夏','ю':'休','ё':'晓','':'斯'},
+ 'т':{'а':'塔','о':'托','у':'图','ы':'特','э':'特','е':'捷','и':'季','я':'佳','ю':'久','ё':'乔','':'特'},
+ 'ф':{'а':'法','о':'福','у':'富','ы':'菲','э':'费','е':'费','и':'菲','я':'菲亚','ю':'菲尤','ё':'菲奥','':'夫'},
+ 'х':{'а':'哈','о':'霍','у':'胡','ы':'赫','э':'赫','е':'赫','и':'希','я':'希亚','ю':'休','ё':'霍','':'赫'},
+ 'ц':{'а':'察','о':'措','у':'楚','ы':'齐','э':'采','е':'采','и':'齐','я':'齐亚','ю':'丘','ё':'措','':'茨'},
+ 'ч':{'а':'恰','о':'乔','у':'丘','ы':'奇','э':'切','е':'切','и':'奇','я':'恰','ю':'丘','ё':'乔','':'奇'},
+ 'ш':{'а':'沙','о':'绍','у':'舒','ы':'希','э':'舍','е':'舍','и':'希','я':'沙','ю':'舒','ё':'绍','':'什'},
+ 'щ':{'а':'夏','о':'晓','у':'休','ы':'希','э':'谢','е':'谢','и':'希','я':'夏','ю':'休','ё':'晓','':'希'}};
+Object.assign(NM_PY,{'历':'lì','林':'lín','塞':'sài','纽':'niǔ','奥':'ào'});
+const NM_FEM={'纳':'娜','马':'玛','利':'莉','里':'丽','沙':'莎','亚':'娅','尼亚':'妮娅'};
+function nmTranslit(ru,fem){const w=ru.toLowerCase().replace(/[^а-яё]/g,'');let out='',i=0;const V='аоуыэеияюё';
+ while(i<w.length){const c=w[i],nx=w[i+1]||'';
+  if(c==='ь'||c==='ъ'){i++;continue;}
+  if(c==='й'){out+=(i===w.length-1?'伊':'伊');i++;continue;}
+  if(V.includes(c)){let s=NM_T[''][c];if(fem&&c==='я'&&i===w.length-1)s='娅';out+=s;i++;continue;}
+  const row=NM_T[c];if(!row){i++;continue;}
+  if(V.includes(nx)){let s=row[nx];const last=i+2>=w.length;
+   if(fem&&last){if(c==='н'&&nx==='а')s='娜';else if(c==='ш'&&nx==='а')s='莎';else if(c==='м'&&nx==='а')s='玛';else if(nx==='я')s=s.replace(/亚$/,'娅');}
+   if(fem&&!last&&(c==='л'&&nx==='и'))s='莉';if(fem&&c==='р'&&nx==='и')s='丽';
+   out+=s;i+=2;continue;}
+  out+=row[''];i++;}
+ return out.slice(0,7);}
+function nmName(ru,fem){const k=ru.trim().toLowerCase().replace(/ё/g,m=>m);const D=fem?NM_F:NM_M;
+ let hz=D[k]||D[k.replace(/ё/g,'е')]||NM_F[k]||NM_M[k],dict=!!hz;if(!hz)hz=nmTranslit(ru,fem);
+ const py=[...hz].map(c=>NM_PY[c]||'');return {ru:ru.trim(),hz,py,dict};}
+
+/* ===================== shared helpers ===================== */
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const II='https://kitai-ii.ch-tutor-world.workers.dev';const TTSC=new Map();
+async function ttsURL(text,voice){const k=voice+'|'+text;if(TTSC.has(k))return TTSC.get(k);const r=await fetch(II+'/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,voice})});if(!r.ok)throw 0;const u=URL.createObjectURL(await r.blob());TTSC.set(k,u);return u;}
+function tryURL(u,el){return new Promise(res=>{try{curA&&curA.pause()}catch(e){}const a=new Audio(u);curA=a;el&&el.classList.add('on');let done=false;const end=ok=>{if(done)return;done=true;el&&el.classList.remove('on');res(ok);};a.onended=()=>end(true);a.onerror=()=>end(false);a.play().catch(()=>end(false));});}
+function speech(t,el){return new Promise(res=>{if(!('speechSynthesis' in window))return res();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=.8;const v=speechSynthesis.getVoices().find(v=>/^zh[-_]CN/i.test(v.lang));if(v)u.voice=v;el&&el.classList.add('on');let done=false;const fin=()=>{if(done)return;done=true;el&&el.classList.remove('on');res();};u.onend=u.onerror=fin;setTimeout(fin,6000);speechSynthesis.cancel();speechSynthesis.speak(u);});}
+const bare=t=>String(t).replace(/[！？。，、!?.,\s]/g,'');
+// a whole word or phrase: ready-made neural mp3 of the WHOLE phrase, then the AI voice, then the browser voice.
+// Never glue single syllables together.
+async function playW(hz,el){if(await tryURL(fn(bare(hz)),el))return;try{if(await tryURL(await ttsURL(hz,'xiaoxiao'),el))return;}catch(e){}await speech(hz,el);}
+// 小美 (the girl from the lesson): her own voice files, then the AI voice
+const GIRL=AUDIO+'girl/';
+async function girl(t,el){if(await tryURL(GIRL+[...bare(t)].map(c=>c.codePointAt(0).toString(16)).join('-')+'.mp3',el))return;try{if(await tryURL(await ttsURL(t,'xiaoyi'),el))return;}catch(e){}await speech(t,el);}
+// a phrase with the child's own names: only the AI voice can say it as a whole
+async function playFree(t,el){try{if(await tryURL(await ttsURL(t,'xiaoxiao'),el))return;}catch(e){}await speech(t,el);}
+function arrange(opts,right,prev){const av=[].concat(prev).slice(opts.length>=4?-2:-1);for(let k=0;k<40;k++){const a=shuffle(opts);const i=a.indexOf(right);if(!av.includes(i))return [a,i];}const a=shuffle(opts);return [a,a.indexOf(right)];}
+const split=b=>{const m=b.match(/^(zh|ch|sh|[bpmfdtnlgkhjqxrzcsyw])?(.*)$/);return [m[1]||'',m[2]];};
+const TM2={1:/[āēīōūǖ]/,2:/[áéíóúǘ]/,3:/[ǎěǐǒǔǚ]/,4:/[àèìòùǜ]/};
+const toneOf=s=>+(Object.keys(TM2).find(k=>TM2[k].test(s))||0);
+const pyCol=arr=>arr.map(s=>`<span style="color:${TCOL[toneOf(s)]}">${esc(s)}</span>`).join(' ');
+
+/* ===================== tasks ===================== */
+/* ===================== Догоняем урок 7 · нумерованный список заданий ===================== */
+const TASKS=[null,
+ {t:'🃏 Карточки: пиньинь',d:'Найди пары: пиньинь и перевод',run:()=>memGame(1)},
+ {t:'🀄 Карточки: иероглиф',d:'Иероглиф и перевод, без пиньиня',run:()=>memGame(2)},
+ {t:'📖 Как устроены иероглифы',d:'Правила: ключ, значение и чтение, порядок черт + проверка',run:theoryHz},
+ {t:'⚡ Блиц: правила иероглифов',d:'11 быстрых вопросов на время',run:blitz},
+ {t:'✍️ Пропись 你 我 好 叫 妈 爸',d:'Обведи, а потом напиши по памяти',run:propis},
+ {t:'👋 小美 и мои имена',d:'Послушай рассказ 小美 и узнай, как звучат твоё имя и имена родителей',run:aboutMe},
+ {t:'📝 Контрольная',d:'你好！我叫… 我妈妈叫… 我爸爸叫… по памяти',run:test},
+ {t:'🔤 Первая строчка инициалей',d:'b p m f d t n l g k h + финали · тест на слух',run:row1},
+ {t:'⚠️ z c s zh ch sh · ci и chi',d:'Вторая строчка, главное правило ci = «цы», chi = «чшы» · тест',run:row2},
+ {t:'🔨 Бей крота',d:'Игра на слух: обе строчки инициалей',run:krot}];
+const NT=TASKS.length-1,LAST=NT;
+let DONE={};try{DONE=JSON.parse(localStorage.getItem('zh-dg7-done')||'{}')}catch(e){}
+const keep=()=>{try{localStorage.setItem('zh-dg7-done',JSON.stringify(DONE))}catch(e){}};
+const HW='dg7';
+const API=/workers\.dev$/.test(location.hostname)?'/api/dz/':'https://gruppa-deti.ch-tutor-world.workers.dev/api/dz/';
+let S={};try{S=JSON.parse(localStorage.getItem('zh-dg7')||'{}')}catch(e){}
+const keepS=()=>{try{localStorage.setItem('zh-dg7',JSON.stringify(S))}catch(e){}};S.queue=S.queue||[];
+if(!S.par){for(const k of ['zh-u7','zh-u6','zh-dz6']){try{const o=JSON.parse(localStorage.getItem(k)||'{}');if(o.par&&o.par.mom&&o.par.dad){S.par={mom:o.par.mom,dad:o.par.dad};break;}}catch(e){}}}
+const isTest=()=>/^(учитель|учительница|teacher|тест)$/i.test((S.name||'').trim());
+function send(part,data){S.queue=S.queue.filter(q=>q.part!==part);S.queue.push({part,data:Object.assign({},data,{ts:Date.now()})});keepS();flush();}
+async function flush(){if(isTest()){S.queue=[];keepS();return;}if(!S.sid||!S.queue.length)return;const q=S.queue[0];
+ try{const r=await fetch(API+'save',{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({hw:HW,sid:S.sid,name:S.name,part:q.part,data:q.data})});
+  if(!r.ok)throw 0;S.queue.shift();keepS();if(S.queue.length)flush();}catch(e){clearTimeout(flush._t);flush._t=setTimeout(flush,15000);}}
+addEventListener('online',flush);
+function finish(n,ok,of,extra){DONE[n]=ok+'/'+of;keep();send('t'+n,Object.assign({score:ok,of},extra||{}));}
+const TOP='Догоняем урок 7';
+const NAMEQ=new URLSearchParams(location.search).get('name');
+function login(){$('#app').innerHTML=`<div class="top n"><span class="zh">补课</span><div><h1>${TOP}</h1><small>Урок 7 «Повторение» — всё, что было на уроке</small></div></div>
+ <div class="main n" style="text-align:center"><h2>Как тебя зовут?</h2><p class="lead">Имя и первая буква фамилии, например <b>Маша П.</b> — как в домашке. Так учитель увидит твои результаты.</p>
+ <input id="nm" class="in" style="width:100%;font:inherit;font-size:20px;padding:14px 18px;border:0;outline:none;margin-top:16px;color:var(--ink)" placeholder="Имя и буква фамилии" maxlength="40" value="${esc(NAMEQ||S.name||'')}">
+ <div class="row" style="justify-content:center"><button class="btn" id="go">Начать →</button></div></div>`;
+ const go=()=>{const v=$('#nm').value.trim();if(v.length<2){toast('Напиши имя');return;}S.name=v;S.sid=S.sid||(Date.now().toString(36)+Math.random().toString(36).slice(2,8));keepS();flush();route();};
+ $('#go').onclick=go;$('#nm').onkeydown=e=>{if(e.key==='Enter')go();};}
+const doneN=()=>TASKS.reduce((a,x,i)=>a+(x&&DONE[i]?1:0),0);
+const pbar=()=>{const d=doneN(),p=Math.round(d*100/NT);return `<div class="pg n"><div class="pgt"><b>Готово ${d} из ${NT}</b><span>${p}%</span></div><div class="pgb"><i style="width:${p}%"></i></div><div class="pgd">${TASKS.map((x,i)=>x?`<a href="#${i}" class="${DONE[i]?'ok':''}" title="Задание № ${i}">${i}</a>`:'').join('')}</div></div>`;};
+const shell=(h)=>{stopAll();$('#app').innerHTML=`<div class="top n"><span class="zh">补课</span><div><h1>${TOP}</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'Делай задания по порядку: № 1, № 2, № 3…'}</small></div><button class="back n" style="margin:0 0 0 auto;font-size:13px" id="me">${esc(S.name||'')} ✎</button></div>${pbar()}<div class="main n">${h}</div>`;
+ $('#me').onclick=()=>login();scrollTo(0,0);};
+const backBtn='<button class="back n" onclick="location.hash=\'\'">‹ Все задания</button>';
+const tag=n=>`<span class="tag">Задание № ${n} из ${NT}</span>`;
+let TM=[];const later=(f,ms)=>{const t=setTimeout(f,ms);TM.push(t);return t;};
+let KCUR=null,RAF=0;
+function stopAll(){if(KCUR){try{KCUR.destroy()}catch(e){}KCUR=null;}TM.forEach(clearTimeout);TM=[];cancelAnimationFrame(RAF);try{curA&&curA.pause()}catch(e){}}
+const left=()=>TASKS.map((x,i)=>x&&!DONE[i]?i:0).filter(Boolean);
+function home(){const nx=left()[0];
+ shell(`<h2>Задания по порядку</h2><p class="lead">Ты пропустил(а) урок 7 — здесь всё, что было на уроке: правила, тестики, контрольная и игра. Делай <b>по номерам</b>, начиная с № 1. Сделанные отмечаются ✓.</p>
+ <div class="list">${TASKS.map((x,i)=>{if(!x)return '';return `<button class="ti n${i===nx?' hot':''}" data-n="${i}"><span class="no" style="background:${DONE[i]?'var(--ok)':i===7?'#FF5C8A':'var(--ac)'}">${i}</span><span><b>${x.t}</b><small>${x.d}</small></span><span class="st${DONE[i]?'':' nd'}">${DONE[i]?'✓ '+DONE[i]:i===nx?'▶ сейчас':''}</span></button>`;}).join('')}</div>
+ <button class="btn fin" id="fin">🏁 Мои итоги: что сделано и что осталось</button>`);
+ document.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{location.hash='#'+b.dataset.n;});$('#fin').onclick=()=>{location.hash='#itog';};}
+function itog(){const L=left(),d=NT-L.length,p=Math.round(d*100/NT);
+ if(!L.length)send('itog',{done:NT,of:NT});
+ shell(`<h2>🏁 Мои итоги</h2>
+  <div class="itg"><div class="itp" style="--p:${p}"><b>${p}%</b><small>готово</small></div><div><b style="font-size:20px;color:var(--ink)">Сделано ${d} из ${NT}</b><p class="lead" style="margin-top:4px">${L.length?'Почти! Осталось совсем немного 💪':'Ты догнал(а) урок 7! Все задания сделаны 🏆'}</p></div></div>
+  ${L.length?`<div class="nd2"><div class="nd2h">❗ Ты ещё НЕ доделал(а):</div>${L.map(i=>`<button class="nd2i" data-n="${i}"><span class="no">${i}</span><span><b>Задание № ${i}</b> · ${TASKS[i].t}</span><span class="go">Сделать →</span></button>`).join('')}</div>`:''}
+  <div class="dn2"><div class="dn2h">✓ Сделано:</div>${TASKS.map((x,i)=>x&&DONE[i]?`<div><span class="no">${i}</span>${x.t}<b>${DONE[i]}</b></div>`:'').join('')||'<div style="color:var(--mu)">Пока ничего — начни с № 1 🙂</div>'}</div>
+  <div class="row" style="justify-content:center">${L.length?`<button class="btn" onclick="location.hash='#${L[0]}'">Сделать № ${L[0]} →</button>`:''}<button class="btn g" onclick="location.hash=''">‹ Все задания</button></div>`);
+ document.querySelectorAll('.nd2i').forEach(b=>b.onclick=()=>{location.hash='#'+b.dataset.n;});}
+function route(){if(!S.name){if(NAMEQ){S.name=NAMEQ;S.sid=S.sid||(Date.now().toString(36)+Math.random().toString(36).slice(2,8));keepS();}else return login();}
+ const h=location.hash.slice(1);if(h==='itog')return itog();const n=+h;if(TASKS[n])TASKS[n].run();else home();}
+addEventListener('hashchange',route);
+// after a task: the next one by number; after the last — the summary of what is still not done
+const doneBox=(n,inner,again)=>{const L=left().filter(i=>i!==n);const nx=L.find(i=>i>n)||L[0];
+ return `${backBtn}${tag(n)}<h2>${TASKS[n].t} — готово!</h2>${inner}<div class="row">${nx?`<button class="btn" onclick="location.hash='#${nx}'">Задание № ${nx} →</button>`:`<button class="btn" onclick="location.hash='#itog'">🏁 Мои итоги</button>`}<button class="btn g" onclick="location.hash=''">‹ Все задания</button>${again!==false?`<button class="btn g" id="again">↺ Ещё раз</button>`:''}</div>`;};
+const againOn=f=>{const a=$('#again');if(a)a.onclick=f;};
+
+/* ---- characters drawn from stroke data: key (radical) pink, the rest blue ---- */
+const RADFIX={'骂':[0,1,2,3,4,5]};
+const hzSvg=(c,size,mode)=>{const D=(window.HZDATA||{})[c];if(!D)return `<span class="zh" style="font-size:${Math.round(size*.9)}px;line-height:1">${c}</span>`;const rad=RADFIX[c]||D.radStrokes||[];
+ const col=i=>mode==='gray'?'#2B3270':mode&&mode[0]==='#'?mode:rad.includes(i)?'#FF5C8A':'#5B6BD8';
+ return `<svg class="hzsv" viewBox="0 0 1024 1024" width="${size}" height="${size}" aria-label="${c}"><g transform="translate(0,900) scale(1,-1)">${D.strokes.map((d,i)=>`<path d="${d}" fill="${col(i)}"/>`).join('')}</g></svg>`;};
+const PK='#FF5C8A',BL='#5B6BD8';
+
+/* ---- pager: theory screens one by one, then the check ---- */
+function pager(n,pages,onEnd,log){let k=0;
+ const one=()=>{const [h,body,after]=pages[k];
+  shell(`${backBtn}${tag(n)}<div class="pdots">${pages.map((_,j)=>`<i class="${j<k?'ok':j===k?'cur':''}"></i>`).join('')}<span>Правило ${k+1} из ${pages.length}</span></div><h2>${h}</h2>${body}
+   <div class="row" style="justify-content:space-between">${k?'<button class="btn g" id="pv">‹ Назад</button>':'<span></span>'}<button class="btn" id="nx">${k<pages.length-1?'Понятно, дальше →':'✓ Понятно! К проверке →'}</button></div>`);
+  document.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>playW(b.dataset.say,b));
+  document.querySelectorAll('[data-syl]').forEach(b=>b.onclick=()=>playS(b.dataset.syl,b));
+  document.querySelectorAll('[data-pure]').forEach(b=>b.onclick=()=>pure(b.dataset.pure,b));
+  if(after)after();
+  if(log)log[k]=1;
+  if($('#pv'))$('#pv').onclick=()=>{k--;one();};$('#nx').onclick=()=>{k++;k<pages.length?one():onEnd();};};
+ one();}
+// the clean initial sound (teacher's recording b0, p0 …) or, for z c s zh ch sh, the syllable zi ci si…
+const PURE_SYL={z:'zī',c:'cí',s:'sī',zh:'zhī',ch:'chī',sh:'shī'};
+function pure(l,el){const k=l+'0';if(VOK&&VOK[k])return playURL(VOICE+k+'.wav',el);if(PURE_SYL[l])return playS(PURE_SYL[l],el);toast('Нет записи этого звука');}
+// syllable audio is loaded ahead, so it sounds at once
+const SYA={};
+function sylURL(s){const k=vkey(s);if(VOK&&VOK[k])return VOICE+k+'.wav';const c=SYL.char(s);return c?fn(c):'';}
+function preS(list){list.forEach(s=>{const u=sylURL(s);if(!u||SYA[u])return;const a=new Audio(u);a.preload='auto';try{a.load()}catch(e){}SYA[u]=a;});}
+function sayS(s,el){const u=sylURL(s);if(!u)return Promise.resolve();const a=SYA[u];if(!a)return playURL(u,el);
+ return new Promise(res=>{try{curA&&curA!==a&&curA.pause()}catch(e){}curA=a;el&&el.classList.add('on');let d=false;const end=()=>{if(d)return;d=true;el&&el.classList.remove('on');res();};
+  try{a.currentTime=0}catch(e){}a.onended=end;a.onerror=end;a.play().catch(end);setTimeout(end,3000);});}
+
+/* ---- quiz: questions by ear (hear a syllable, pick it) and questions on the rule ---- */
+function quiz(n,title,rule,Q,done){let i=0,ok=0;const res=[],hist=[];
+ preS(Q.filter(q=>q.ear).map(q=>q.ear).concat(Q.filter(q=>q.ear).flatMap(q=>q.o)));
+ const ask=()=>{if(i>=Q.length)return done(ok,res);const q=Q[i];const [opts]=arrange(q.o,q.ear||q.o[0],hist);hist.push(opts.indexOf(q.ear||q.o[0]));let lock=false;const right=q.ear||q.o[0];window.__QA=right;
+  shell(`${backBtn}${tag(n)}<h2>${title}</h2>${i===0?rule:''}<div class="qcard n"><div class="qhead"><span>Вопрос ${i+1} из ${Q.length}</span><span>✓ ${ok}</span></div><div class="dots">${Q.map((_,j)=>`<i class="${j<i?(res[j].ok?'ok':'no'):j===i?'cur':''}"></i>`).join('')}</div>
+   ${q.ear?`<button class="play n" id="pl" aria-label="Послушать ещё раз">🔊</button><p class="hint2">Послушай и выбери слог${q.hint?' · '+q.hint:''}</p>`:`<div class="bqq">${q.q}</div>`}
+   <div class="opts${opts.length===3?' o3':''}">${opts.map(x=>`<button class="opt ${q.ear?'':/^[\u4e00-\u9fff]+$/.test(x)?'zh':'tx'}" data-v="${esc(x)}">${esc(x)}</button>`).join('')}</div><div class="fb" id="fb"></div><div class="row" style="justify-content:center" id="nxr"></div></div>`);
+  if(q.ear){const p=$('#pl');p.onclick=()=>sayS(q.ear,p);sayS(q.ear,p);}
+  document.querySelectorAll('.opt').forEach(b=>b.onclick=async()=>{if(lock)return;lock=true;const v=b.dataset.v,good=v===right;if(good)ok++;
+   res.push({q:q.ear?'🔊 '+q.ear:q.q.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim(),a:v,r:right,ok:good});
+   document.querySelectorAll('.opt').forEach(o=>{o.disabled=true;if(o.dataset.v===right)o.classList.add('ok');else if(o===b)o.classList.add('no');});
+   const fb=$('#fb');fb.className='fb '+(good?'ok':'no');fb.innerHTML=(good?'✓ Верно! ':'✗ Правильно: <b>'+esc(right)+'</b>. ')+(q.why||'');
+   i++;if(good)later(ask,1300);else{$('#nxr').innerHTML=`${q.ear?'<button class="btn g" id="rp">🔊 Послушать ещё раз</button>':''}<button class="btn" id="go">Дальше →</button>`;if($('#rp'))$('#rp').onclick=()=>sayS(right,$('#rp'));$('#go').onclick=ask;}});};
+ ask();}
+const quizEnd=(n,ok,res,again,extra)=>{finish(n,ok,res.length,Object.assign({res,miss:res.filter(r=>!r.ok).map(r=>r.r)},extra||{}));
+ shell(doneBox(n,`<div class="res" style="text-align:center">✓ ${ok} / ${res.length}</div><p class="lead" style="text-align:center">${ok===res.length?'Всё верно! 🏆':ok>=res.length*.7?'Отлично! Почти всё 💪':'Сделано! Ошибки можно повторить для закрепления 🙂'}</p>
+  <div class="why">${res.map(r=>`<div class="${r.ok?'ok':''}">${r.ok?'✓':'✗'} ${esc(r.q)} — <b>${esc(r.r)}</b>${r.ok?'':' (ты выбрал(а): '+esc(r.a)+')'}</div>`).join('')}</div>`));againOn(again);};
+
+/* ---- 3: how characters are built — theory + check ---- */
+function theoryHz(){const n=3;const seen=[];
+ const RAD=[['亻','rén','человек','🧍',['你']],['口','kǒu','рот','👄',['叫']],['女','nǚ','женщина','👩',['好','妈']],['父','fù','отец','👨',['爸']]];
+ const pages=[
+  ['🏯 Как устроены иероглифы',`<div class="tv">
+    <div class="tvc n"><span class="tvn" style="background:#2DBE8C">1</span><b>Рисунок</b><div class="tve"><img src="../urok-7/img/ma-oracle.png" alt="древний знак" width="84" height="84"><span class="tva">→</span>${hzSvg('马',96,'gray')}</div><p>Древний рисунок стал иероглифом <span class="zh">马</span></p></div>
+    <div class="tvc n"><span class="tvn" style="background:#F5A524">2</span><b>Смысл + смысл</b><div class="tve">${hzSvg('女',62,PK)}<span class="tva">+</span>${hzSvg('子',62,PK)}<span class="tva">=</span>${hzSvg('好',86,'gray')}</div><p>Женщина + ребёнок = <span class="zh">好</span> «хорошо». Обе части — <b style="color:${PK}">значение</b></p></div>
+    <div class="tvc n hot"><span class="tvn" style="background:${BL}">3</span><b>Смысл + чтение</b><div class="tve">${hzSvg('女',62,PK)}<span class="tva">+</span>${hzSvg('马',62,BL)}<span class="tva">=</span>${hzSvg('妈',86)}</div><p>Одна часть — <b style="color:${PK}">значение</b>, другая — <b style="color:${BL}">чтение</b>. Таких иероглифов больше всего!</p></div></div>`],
+  ['🔑 Ключ подсказывает смысл',`<div class="rk">${RAD.map(([r,p,ru,e,ex])=>`<div class="rkc n"><div class="rkt"><span class="rke">${e}</span><span class="zh rkr">${r}</span><span><b class="py" style="color:${BL};font-size:20px">${p}</b><br><b style="font-size:19px;color:var(--ink)">${ru}</b></span></div><div class="rkx">${ex.map(c=>`<button data-say="${c}" aria-label="${c}">${hzSvg(c,ex.length>2?62:78)}</button>`).join('')}</div></div>`).join('')}</div>
+   <div class="big1">🔑 <b style="color:${PK}">Розовая часть</b> — ключ. Он чаще всего <b>слева</b> или <b>сверху</b></div>`],
+  ['📐 Где значение, а где чтение',`<div class="vr"><div class="vrl"><span class="vrt" style="background:${PK}">🔑 ЗНАЧЕНИЕ</span><p>Ключ подсказывает, <b>о чём</b> иероглиф</p><small>чаще <b>слева</b> или <b>сверху</b></small></div>
+    <div class="vrc">${hzSvg('妈',170)}</div>
+    <div class="vrl"><span class="vrt" style="background:${BL}">🔊 ЧТЕНИЕ</span><p>Другая часть подсказывает, <b>как читать</b></p><small>чаще <b>справа</b> или <b>снизу</b></small></div></div>
+   <div class="big1"><span class="zh" style="font-size:30px">妈</span> = <b style="color:${PK}">女</b> женщина (мама — женщина) + <b style="color:${BL}">马</b> звучит <b>mǎ</b> → читается <b>mā</b></div>
+   <div class="exr">${['妈','爸'].map(c=>`<button data-say="${c}">${hzSvg(c,80)}</button>`).join('')}</div><p class="lead" style="text-align:center">Так устроено <b>больше 80%</b> иероглифов!</p>`],
+  ['👨‍👩‍👧 Часть-чтение подсказывает звук',[['马','mǎ','妈','mā','мама'],['巴','bā','爸','bà','папа']].map(([h,hp,z,p,r])=>`<div class="fm"><div class="fmh">${hzSvg(h,74,BL)}<b>🔊 звучит ${hp}</b></div><span class="tva">→</span><button class="fmc n" data-say="${z}">${hzSvg(z,90)}<span class="py" style="color:${TCOL[toneOf(p)]}">${p}</span><small>${r}</small></button></div>`).join('')+'<p class="lead" style="text-align:center">Синяя часть — подсказка, <b>как читать</b>. Тон может отличаться, а звук похожий 🔊</p>'],
+  ['✏️ Порядок черт: 6 правил',`<div class="so">${[['三','Сверху вниз'],['川','Слева направо'],['十','Сначала горизонталь, потом вертикаль'],['人','Сначала влево, потом вправо'],['日','Сначала рамка, потом внутри, «дверь» в конце'],['小','Сначала середина, потом бока']].map(([c,t],i)=>`<button class="soc n" data-an="${c}"><span class="sow" id="so${i}"></span><span><small>Правило ${i+1}</small><b>${t}</b><em>▶ нажми — покажу</em></span></button>`).join('')}</div>`,
+   ()=>{document.querySelectorAll('[data-an]').forEach((b,i)=>{const el=b.querySelector('.sow');let w=null;try{w=HanziWriter.create(el,b.dataset.an,{width:84,height:84,padding:6,showOutline:true,strokeColor:'#2B3270',outlineColor:'#E1E5EE',strokeAnimationSpeed:1.1,delayBetweenStrokes:280,charDataLoader:(ch,ok)=>ok(HZDATA[ch])});}catch(e){el.innerHTML=`<span class="zh" style="font-size:64px">${b.dataset.an}</span>`;}
+    b.onclick=()=>{if(w)w.animateCharacter();};});}],
+  ['🀄 Наши 6 иероглифов',`<div class="bh">${[['你','nǐ','ты','亻 человек'],['我','wǒ','я',''],['好','hǎo','хорошо','女 + 子'],['叫','jiào','зваться','口 рот'],['妈','mā','мама','女 + 马'],['爸','bà','папа','父 + 巴']].map(([c,p,r,pt])=>`<button class="bhc n" data-say="${c}">${hzSvg(c,84)}<span class="py" style="color:${TCOL[toneOf(p)]};font-size:22px">${p}</span><b>${r}</b>${pt?`<small class="zh">${pt}</small>`:''}</button>`).join('')}</div>`]];
+ const Q=[{q:`${hzSvg('妈',110)}<br>Какая часть подсказывает <b>значение</b>?`,o:['女','马'],why:'女 «женщина» — ключ: мама — женщина.'},
+  {q:`${hzSvg('爸',110)}<br>Какая часть подсказывает <b>чтение</b>?`,o:['巴','父'],why:'巴 звучит bā — поэтому 爸 читается bà.'},
+  {q:`${hzSvg('叫',110)}<br>Где здесь <b>ключ</b>?`,o:['口 рот','女 женщина'],why:'口 «рот» — ключ: звать — это делает рот.'},
+  {q:`${hzSvg('好',110)}<br>好 = 女 + 子. Как он устроен?`,o:['обе части — значение','одна часть — чтение'],why:'Женщина + ребёнок = «хорошо». Здесь нет части-чтения.'},
+  {q:'<span class="zh" style="font-size:60px">妈</span><br>Почему 妈 читается <b>mā</b>?',o:['справа 马 — звучит mǎ','слева 女 — звучит nǚ'],why:'Часть-чтение 马 справа подсказывает звук ma.'},
+  {q:'Ключ <span class="zh" style="font-size:40px;color:#FF5C8A">口</span> «рот». Какой иероглиф значит «<b>зваться</b>»?',o:['叫','你','好'],why:'Звать — это делает рот: 叫 с ключом 口.'},
+  {q:'Ключ <span class="zh" style="font-size:40px;color:#FF5C8A">亻</span> «человек». Какой иероглиф значит «<b>ты</b>»?',o:['你','妈','叫'],why:'Ты — человек: 你 с ключом 亻.'},
+  {q:'Где чаще всего стоит <b>ключ</b>?',o:['слева или сверху','справа или снизу'],why:'Ключ чаще слева (妈, 你) или сверху (爸).'}];
+ pager(n,pages,()=>{shell(`${backBtn}${tag(n)}<h2>🧠 Проверка: 8 вопросов</h2><p class="lead">Теперь проверим, что запомнилось. Ошибся — не страшно, покажем правильный ответ.</p><div class="row" style="justify-content:center"><button class="btn" id="st">Начать проверку →</button></div>`);
+  $('#st').onclick=()=>quiz(n,'🧠 Как устроены иероглифы','',Q,(ok,res)=>quizEnd(n,ok,res,theoryHz,{seen:seen.length}));},seen);}
+
+/* ---- 6: 小美 tells about herself + my own names ---- */
+const XM=[['你好！','nǐ hǎo!','Привет!'],['我叫小美。','wǒ jiào Xiǎo Měi.','Меня зовут Сяо Мэй.'],['我妈妈叫王丽。','wǒ māma jiào Wáng Lì.','Мою маму зовут Ван Ли.'],['我爸爸叫李大明。','wǒ bàba jiào Lǐ Dàmíng.','Моего папу зовут Ли Дамин.']];
+function aboutMe(){const n=6;
+ shell(`${backBtn}${tag(n)}<h2>👋 小美 рассказывает о себе</h2><div class="rbox" style="--c1:#FF5C8A;--c2:#8E5BE8"><b>Сначала послушай</b>Нажми на каждую строчку и повтори вслух за 小美. Потом ответишь на 4 вопроса и сделаешь такой же рассказ о себе.</div>
+  <div class="xmw"><img src="../urok-7/img/xiaomei.jpg" alt="小美" class="xmp"><button class="btn" id="all">▶ Весь рассказ</button></div>
+  <div class="ab xm6">${XM.map(([z,p,r])=>`<div class="abr n"><div class="abz"><span class="zh">${z}</span></div><div class="abp">${tpy2(p)}</div><small>${r}</small><button class="btn g abs" data-g="${z}">🔊</button></div>`).join('')}</div>
+  <div class="row" style="justify-content:center"><button class="btn" id="go">Я послушал(а) → вопросы</button></div>`);
+ document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>girl(b.dataset.g,b));
+ $('#all').onclick=async()=>{const b=$('#all');for(const [z] of XM){if(!document.body.contains(b))return;await girl(z,b);}};
+ const Q=[{q:'Как зовут девочку?',o:['Xiǎo Měi','Wáng Lì','Lǐ Dàmíng'],why:'我叫小美 — меня зовут Сяо Мэй.'},
+  {q:'Как зовут её <b>маму</b>?',o:['Wáng Lì','Xiǎo Měi','Lǐ Dàmíng'],why:'我妈妈叫王丽 — мою маму зовут Ван Ли.'},
+  {q:'Как зовут её <b>папу</b>?',o:['Lǐ Dàmíng','Wáng Lì','Xiǎo Měi'],why:'我爸爸叫李大明 — моего папу зовут Ли Дамин.'},
+  {q:'Что значит <span class="zh" style="font-size:34px">我妈妈叫…</span>?',o:['Мою маму зовут…','Меня зовут…','Моего папу зовут…'],why:'妈妈 — мама, 叫 — зваться.'}];
+ $('#go').onclick=()=>quiz(n,'👋 Вопросы про 小美','',Q,(ok,res)=>{S.q6={ok,res};keepS();
+  shell(`${backBtn}${tag(n)}<h2>✓ Вопросы: ${ok} из ${res.length}</h2><p class="lead">А теперь твой рассказ! Напиши, как зовут маму и папу (только имя) — мы запишем твоё имя и их имена по-китайски.</p><div id="nf"></div>`);
+  nameForm($('#nf'),()=>{const P=S.par;P.me=meName();
+   shell(`${backBtn}${tag(n)}<h2>👋 Мой рассказ</h2><p class="lead">Имена подсвечены — так они <b>читаются</b> по-китайски. Нажми 🔊 и повтори вслух 2–3 раза. Этот рассказ будет в контрольной (№ 7)!</p>${bigCard(P)}<div class="row" style="justify-content:center"><button class="btn" id="ok">✓ Готово — я запомнил(а)</button></div>`);
+   const wire=()=>{document.querySelectorAll('[data-free]').forEach(b=>b.onclick=()=>playFree(b.dataset.free,b));$('#all').onclick=()=>playFree(`你好！我叫${P.me.hz}。我妈妈叫${P.mom.hz}。我爸爸叫${P.dad.hz}。`,$('#all'));};wire();
+   $('#ok').onclick=()=>{finish(n,ok,res.length,{res,miss:res.filter(r=>!r.ok).map(r=>r.r),me:P.me.hz,mom:P.mom.hz,dad:P.dad.hz});
+    shell(doneBox(n,`<p class="lead">Вопросы про 小美: <b>${ok} из ${res.length}</b>. Твой рассказ:</p>${bigCard(P)}`,false));wire();};});});}
+
+/* ---- 8: first row of initials ---- */
+const R1=['b','p','m','f','d','t','n','l','g','k','h'];
+const RU1={b:'б',p:'п 💨',m:'м',f:'ф',d:'д',t:'т 💨',n:'н',l:'л',g:'г',k:'к 💨',h:'х'};
+const syl1=(b,f)=>{for(const t of [1,2,3,4]){const s=mark(b+f,t);if(SYL.char(s))return s;}return '';};
+const ftab=(ins,fins,note)=>`<div class="ftw"><table class="ft"><tr><th></th>${fins.map(f=>`<th>${f}${note&&note[f]?`<small>${note[f]}</small>`:''}</th>`).join('')}</tr>${ins.map(b=>`<tr><th>${b}</th>${fins.map(f=>{const s=syl1(b,f);return `<td>${s?`<button data-syl="${s}">${s}</button>`:''}</td>`;}).join('')}</tr>`).join('')}</table></div>`;
+function row1(){const n=8;
+ const pages=[['🔤 Первая строчка инициалей',`<div class="ini">${R1.map(l=>`<button class="inic n${'ptk'.includes(l)?' hot':''}" data-pure="${l}"><b>${l}</b><small>${RU1[l]}</small></button>`).join('')}</div>
+   <div class="rbox" style="--c1:#5B6BD8;--c2:#2B3270"><b>💨 Предыхательные: p t k</b>Говорим с сильной струёй воздуха — поднеси ладонь ко рту и почувствуешь «ветер». <br><b style="display:inline">b d g</b> — непредыхательные: воздуха почти нет.</div>
+   <div class="prs">${[['b','p'],['d','t'],['g','k']].map(([a,b])=>`<div class="pr n"><button data-pure="${a}">${a}</button><span>—</span><button data-pure="${b}" class="hot">${b} 💨</button></div>`).join('')}</div>`],
+  ['🧩 Подставляем финали: ba bo bu bi…',`<p class="lead">К каждой инициали подставляем финали <b>a o e i u</b>. Нажми на слог — послушай и повтори вслух.</p>${ftab(R1,['a','o','e','i','u'])}`],
+  ['👂 Предыхательные и нет — слушаем пары',`<p class="lead">Нажимай по очереди и слушай разницу: справа — <b>предыхательные 💨</b>.</p><div class="prs2">${[['bā','pā'],['bō','pō'],['bǐ','pǐ'],['bù','pù'],['dā','tā'],['dí','tí'],['dù','tù'],['dé','tè'],['gē','kē'],['gǔ','kǔ']].map(([a,b])=>`<div class="pr n"><button data-syl="${a}">${a}</button><span>—</span><button data-syl="${b}" class="hot">${b} 💨</button></div>`).join('')}</div>`]];
+ const ears=[['bā','pā','p — предыхательный 💨'],['dí','tí','t — предыхательный 💨'],['gǔ','kǔ','k — предыхательный 💨'],['pō','bō','p — предыхательный 💨'],['dù','tù','d — непредыхательный'],['kē','gē','k — предыхательный 💨'],['mā','fā',''],['nǐ','lǐ',''],['hē','kē',''],['bù','pù','b — непредыхательный'],['tā','dā','t — предыхательный 💨'],['fū','hū','']];
+ const Q=shuffle(ears).map(([a,b,why])=>({ear:a,o:[a,b],why}));Q.splice(5,0,{q:'Какие инициали — <b>предыхательные 💨</b>?',o:['p t k','b d g','m n l'],why:'p t k — с сильной струёй воздуха.'});
+ pager(n,pages,()=>{preS(Q.filter(q=>q.ear).flatMap(q=>q.o));shell(`${backBtn}${tag(n)}<h2>🎧 Тест на слух</h2><p class="lead">Ты услышишь слог — выбери, какой это. Нажми 🔊, чтобы послушать ещё раз. Сделай звук погромче!</p><div class="row" style="justify-content:center"><button class="btn" id="st">🎧 Начать тест →</button></div>`);
+  $('#st').onclick=()=>quiz(n,'🎧 Первая строчка: какой слог?','',Q,(ok,res)=>quizEnd(n,ok,res,row1));});}
+
+/* ---- 9: z c s zh ch sh, ci = «цы», chi = «чшы» ---- */
+function row2(){const n=9;
+ const IN2=[['z','дз'],['c','цх 💨'],['s','с'],['zh','дж'],['ch','чх 💨'],['sh','ш']];
+ const pages=[['🔤 Вторая строчка: z c s zh ch sh',`<div class="ini i6">${IN2.map(([l,r])=>`<button class="inic n${l==='c'||l==='ch'?' hot':''}" data-pure="${l}"><b>${l}</b><small>${r}</small></button>`).join('')}</div>`],
+  ['📋 Все правила — коротко',`<div class="cr">
+    <div class="crc" style="--a:#2DBE8C;--b:#1E8F69"><div class="cri">👅</div><b>Где язык?</b><span><b>z c s</b> — кончик языка у зубов</span><span><b>zh ch sh</b> — язык загнут вверх</span></div>
+    <div class="crc" style="--a:#5B6BD8;--b:#3B48A8"><div class="cri">💨</div><b>Предыхательные</b><span><b>c</b> и <b>ch</b> — предыхательные 💨, как p t k</span><span><b>z zh s sh</b> — непредыхательные</span></div>
+    <div class="crc" style="--a:#F5A524;--b:#E07B12"><div class="cri">🔤</div><b>i читается «ы»</b><span><b>zi</b> «дзы» · <b>si</b> «сы»</span><span><b>zhi</b> «джы» · <b>shi</b> «шы»</span></div></div>
+   <div class="big1" style="background:#FFE3EB;color:#B0284F">⚠️ А про <b>ci</b> и <b>chi</b> — отдельное правило! Жми «дальше» 👉</div>`],
+  ['⚠️ Самое важное правило',`<div class="hotr"><div class="hotk">⚠️ Запомни!</div><div class="hoth">c + i и ch + i:<br>ПРЕДЫХАНИЕ ИСЧЕЗАЕТ!</div><div class="hots">Сами по себе <b>c</b> и <b>ch</b> предыхательные 💨. Но с финалью <b>i</b> они <b>теряют предыхание</b> и меняют звучание:</div></div>
+   <div class="cf">${[['c','«цх» 💨','ci','«цы»','cí'],['ch','«чх» 💨','chi','«чшы»','chī']].map(([a,ar,c,cr,s])=>`<div class="cfr n"><div class="cfp"><b>${a}</b><small>${ar}</small></div><span class="cfo">+</span><div class="cfp"><b>i</b><small>«ы»</small></div><span class="cfo">=</span><button class="cfp res" data-syl="${s}"><b>${c}</b><small>${cr}</small><span class="np">без 💨!</span></button></div>`).join('')}</div>
+   <div class="exs">Примеры: ${['cí','cì','cǐ','chī','chí','chǐ'].map(s=>`<button data-syl="${s}">${s}</button>`).join('')}</div>`],
+  ['👂 Слушаем разницу',`<p class="lead">Слева — с предыханием 💨, справа — <b>ci</b> и <b>chi</b> без предыхания.</p><div class="prs2">${[['cā','cí'],['cù','cǐ'],['chā','chī'],['chū','chí']].map(([a,b])=>`<div class="pr n"><button data-syl="${a}">${a} 💨</button><span>vs</span><button data-syl="${b}" class="hot">${b}</button></div>`).join('')}</div>
+   <p class="lead" style="text-align:center"><b>ci</b> = «цы» · <b>chi</b> = «чшы»</p>`],
+  ['🧩 Подставляем финали: za ze zu zi…',`<p class="lead">Нажми на слог — послушай и повтори вслух.</p>${ftab(['z','c','s','zh','ch','sh'],['a','e','u','i'],{i:'«ы»'})}`]];
+ const ears=[['zā','cā','c — предыхательный 💨'],['chā','zhā','ch — предыхательный 💨'],['sā','shā','sh — язык загнут вверх'],['cū','zū','c — предыхательный 💨'],['zhū','chū','zh — непредыхательный'],['shì','sì','sh — язык загнут вверх'],['zì','cì','ci = «цы», zi = «дзы»'],['chī','zhī','chi = «чшы», zhi = «джы»'],['cí','chí','ci = «цы», chi = «чшы»'],['sū','shū','s — кончик языка у зубов']];
+ const Q=shuffle(ears).map(([a,b,why])=>({ear:a,o:[a,b],why}));
+ Q.splice(2,0,{q:'Как читается <b>ci</b>?',o:['«цы»','«сы»','«дзы»'],why:'ci = «цы» — предыхание исчезает.'});
+ Q.splice(5,0,{q:'Как читается <b>chi</b>?',o:['«чшы»','«шы»','«джы»'],why:'chi = «чшы» — предыхание исчезает.'});
+ Q.splice(8,0,{q:'В слоге <b>ci</b> есть предыхание 💨?',o:['нет, оно исчезает','да, есть 💨'],why:'c + i и ch + i — предыхание исчезает!'});
+ Q.splice(11,0,{q:'А в слоге <b>cā</b> предыхание есть?',o:['да, есть 💨','нет'],why:'c сама по себе — предыхательная 💨. Исчезает только перед i.'});
+ pager(n,pages,()=>{preS(Q.filter(q=>q.ear).flatMap(q=>q.o));shell(`${backBtn}${tag(n)}<h2>🎧 Тест: z c s zh ch sh</h2><div class="hotr sm"><div class="hoth">ci = «цы» · chi = «чшы»</div><div class="hots">предыхание исчезает!</div></div><p class="lead">Слушай слог и выбирай. Есть и вопросы на правило.</p><div class="row" style="justify-content:center"><button class="btn" id="st">🎧 Начать тест →</button></div>`);
+  $('#st').onclick=()=>quiz(n,'🎧 z c s zh ch sh: какой слог?','',Q,(ok,res)=>quizEnd(n,ok,res,row2));});}
+
+/* ---- 1, 2: memory cards ---- */
+const MEM={1:[['nǐ hǎo','привет','你好'],['wǒ','я','我'],['nǐ','ты','你'],['jiào','зваться','叫'],['māma','мама','妈妈'],['bàba','папа','爸爸'],['hǎo','хорошо','好'],['wǒ jiào','меня зовут','我叫']],
+ 2:[['你','ты','你'],['我','я','我'],['好','хорошо','好'],['叫','зваться','叫'],['妈妈','мама','妈妈'],['爸爸','папа','爸爸'],['你好','привет','你好'],['我叫','меня зовут','我叫']]};
+function memGame(n){const L=MEM[n];
+ shell(`${backBtn}${tag(n)}<h2>${n===1?'🃏 Карточки: пиньинь и перевод':'🀄 Карточки: иероглиф и перевод'}</h2>
+  <div class="rbox" style="--c1:${n===1?'#5B6BD8':'#FF5C8A'};--c2:${n===1?'#8E5BE8':'#FF8A3D'}"><b>Как играть</b>Открывай по <b>две</b> карточки. ${n===1?'Найди к пиньиню его перевод':'Найди к иероглифу его перевод — пиньиня нет!'}. Пара совпала — карточки остаются открытыми и звучит слово.</div>
+  <div class="mhud"><span>⏱ <b id="mt">0:00</b></span><span>🔄 ходов: <b id="mm">0</b></span><span>✓ пар: <b id="mp">0</b>/8</span></div>
+  <div class="mem" id="mg"></div>`);
+ const cards=shuffle(L.flatMap(([a,ru,hz],i)=>[{i,k:'a',t:a,hz},{i,k:'b',t:ru,hz}]));
+ $('#mg').innerHTML=cards.map((c,j)=>`<button class="mc" data-j="${j}" aria-label="Карточка ${j+1}"><span class="mcb"><i>汉</i></span><span class="mcf ${c.k==='a'?(n===1?'py':'zh'):'ru'}${c.t.length>8?' long':''}">${esc(c.t)}</span></button>`).join('');
+ let open=[],moves=0,pairs=0,errs=0,lock=false;const t0=Date.now(),conf=[];
+ const tick=()=>{const s=Math.floor((Date.now()-t0)/1000);const el=$('#mt');if(!el)return;el.textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');later(tick,1000);};tick();
+ document.querySelectorAll('.mc').forEach(b=>b.onclick=()=>{if(lock)return;const j=+b.dataset.j,c=cards[j];if(b.classList.contains('up'))return;
+  b.classList.add('up');open.push([b,c]);if(open.length<2)return;moves++;$('#mm').textContent=moves;const [[b1,c1],[b2,c2]]=open;open=[];
+  if(c1.i===c2.i){pairs++;$('#mp').textContent=pairs;later(()=>{b1.classList.add('ok');b2.classList.add('ok');},250);playW(c1.hz);
+   if(pairs===8)later(end,1500);}
+  else{errs++;lock=true;conf.push([c1.t,c2.t]);b1.classList.add('no');b2.classList.add('no');later(()=>{b1.classList.remove('up','no');b2.classList.remove('up','no');lock=false;},950);}});
+ function end(){const sec=Math.round((Date.now()-t0)/1000);finish(n,8,8,{moves,errs,sec,conf:conf.slice(0,20)});
+  const stars=errs<=3?'⭐⭐⭐':errs<=8?'⭐⭐':'⭐';
+  shell(doneBox(n,`<div class="res" style="text-align:center">${stars}</div><p class="lead" style="text-align:center">Все 8 пар найдены за <b>${moves}</b> ${moves%10===1&&moves%100!==11?'ход':moves%10>=2&&moves%10<=4&&(moves%100<12||moves%100>14)?'хода':'ходов'} · ${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}</p>
+   <div class="mlist">${L.map(([a,ru,hz])=>`<button class="n" data-say="${hz}"><span class="${n===1?'py':'zh'}">${esc(a)}</span><small>${esc(ru)}</small>🔊</button>`).join('')}</div>`));
+  document.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>playW(b.dataset.say,b));againOn(()=>memGame(n));}}
+
+/* ---- 3: blitz on hanzi rules ---- */
+const BQ=[['<span class="zh bq">妈</span>Какая часть подсказывает <b>значение</b>?',['女','马'],'女 «женщина» — ключ, он подсказывает смысл: мама — женщина.','zh'],
+ ['<span class="zh bq">妈</span>Какая часть подсказывает <b>чтение</b>?',['马','女'],'马 звучит mǎ — поэтому 妈 читается mā.','zh'],
+ ['<span class="zh bq">爸</span>Где здесь <b>чтение</b>?',['巴','父'],'巴 звучит bā — подсказывает чтение 爸 bà. 父 «отец» — значение.','zh'],
+ ['Ключ <span class="zh bk">父</span> значит…',['отец','рот','женщина'],'父 — «отец», как в 爸 «папа».'],
+ ['Ключ <span class="zh bk">亻</span> значит…',['человек','рот','женщина'],'亻 — «человек», как в 你 «ты».'],
+ ['Ключ <span class="zh bk">口</span> значит…',['рот','отец','человек'],'口 — «рот»: звать 叫 — это делает рот.'],
+ ['Ключ <span class="zh bk">女</span> значит…',['женщина','человек','рот'],'女 — «женщина», как в 妈 и 好.'],
+ ['<span class="zh bq">好</span> = 女 + 子. Как он устроен?',['обе части — значение','одна часть — чтение'],'Женщина + ребёнок = «хорошо». Здесь нет части-чтения.'],
+ ['Где чаще всего стоит <b>ключ</b>?',['слева или сверху','справа или снизу'],'Ключ чаще слева (妈, 你) или сверху (爸).'],
+ ['<span class="zh bq">十</span>Какую черту пишем первой?',['горизонтальную —','вертикальную |'],'Правило: сначала горизонталь, потом вертикаль.'],
+ ['<span class="zh bq">口</span>Когда пишем «дно» коробки?',['в конце','в начале'],'Сначала рамка, «дверь» закрываем в конце.']];
+const BT=12;
+function blitz(){const n=4;
+ shell(`${backBtn}${tag(n)}<h2>⚡ Блиц: правила иероглифов</h2>
+  <div class="rbox" style="--c1:#F5A524;--c2:#FF5C8A"><b>Правило блица</b>${BQ.length} вопросов, на каждый — <b>${BT} секунд</b>. Отвечай быстро, но думай! Вспомни: 🔑 <b>ключ</b> — значение, другая часть — 🔊 <b>чтение</b>.</div>
+  <div class="row" style="justify-content:center"><button class="btn" id="st">⚡ Поехали!</button></div>`);
+ $('#st').onclick=run;
+ function run(){const Q=shuffle(BQ);let i=0,ok=0;const res=[],h=[];
+  const ask=()=>{if(i>=Q.length)return end();const [q,o,why,cls]=Q[i];const [opts,ix]=arrange(o,o[0],h);h.push(ix);let left=BT,done=false;
+   shell(`${backBtn}${tag(n)}<div class="qcard n"><div class="qhead"><span>Вопрос ${i+1} из ${Q.length}</span><span>⚡ ${ok}</span></div><div class="tbar"><i id="tb"></i></div>
+    <div class="bqq">${q}</div><div class="opts${opts.length===3?' o3':''}">${opts.map(x=>`<button class="opt ${cls==='zh'?'zh':'tx'}" data-v="${esc(x)}">${esc(x)}</button>`).join('')}</div><div class="fb" id="fb"></div></div>`);
+   const t0=Date.now();const bar=$('#tb');
+   const step=()=>{if(done)return;const k=Math.max(0,1-(Date.now()-t0)/(BT*1000));bar.style.width=(k*100)+'%';if(k<=0)return pick(null);RAF=requestAnimationFrame(step);};RAF=requestAnimationFrame(step);
+   const pick=v=>{if(done)return;done=true;cancelAnimationFrame(RAF);const right=v===o[0];if(right)ok++;res.push({q:q.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim(),a:v,r:o[0],ok:right,s:Math.round((Date.now()-t0)/100)/10});
+    document.querySelectorAll('.opt').forEach(b=>{if(b.dataset.v===o[0])b.classList.add('ok');else if(b.dataset.v===v)b.classList.add('no');b.disabled=true;});
+    const fb=$('#fb');fb.className='fb '+(right?'ok':'no');fb.innerHTML=(right?'✓ Верно! ':v===null?'⏰ Время вышло. ':'✗ ')+why;i++;later(ask,right?1400:2600);};
+   document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pick(b.dataset.v));};
+  const end=()=>{finish(n,ok,Q.length,{res,miss:res.filter(r=>!r.ok).map(r=>r.r)});
+   shell(doneBox(n,`<div class="res" style="text-align:center">⚡ ${ok} / ${Q.length}</div><p class="lead" style="text-align:center">${ok===Q.length?'Все правила помнишь! 🏆':ok>=Q.length*.7?'Отлично! Почти всё помнишь 💪':'Правила можно повторить для закрепления 🙂'}</p>
+    <div class="why">${res.map(r=>`<div class="${r.ok?'ok':''}">${r.ok?'✓':'✗'} ${esc(r.q)} — <b>${esc(r.r)}</b></div>`).join('')}</div>`));againOn(blitz);};
+  ask();}}
+
+/* ---- 4: writing 你 我 好 叫 妈 爸 ---- */
+const GRID='<svg class="grid" viewBox="0 0 100 100"><g stroke="#FFB3C8" stroke-width=".6" stroke-dasharray="2 2"><line x1="0" y1="0" x2="100" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></g></svg>';
+const HZI={'你':['nǐ','ты'],'我':['wǒ','я'],'好':['hǎo','хорошо'],'叫':['jiào','зваться'],'妈':['mā','мама'],'爸':['bà','папа']};
+const hwOpts=(sz,extra)=>Object.assign({width:sz,height:sz,padding:sz*.08,showOutline:true,showCharacter:false,outlineColor:'#E1E5EE',strokeColor:'#2B3270',radicalColor:'#FF5C8A',drawingColor:'#5B6BD8',drawingWidth:Math.round(sz/16),highlightColor:'#2DBE8C',strokeAnimationSpeed:1.2,delayBetweenStrokes:250,charDataLoader:(ch,ok)=>ok(HZDATA[ch])},extra||{});
+function tracer(box,chars,cb){let k=0,mist=0,w=null;
+ box.innerHTML=`<div class="wch">${[...chars].map((c,j)=>`<span class="n" data-j="${j}">${c}</span>`).join('')}</div><div class="wbox">${GRID}<div class="hw" id="hw"></div></div>
+  <p class="hint2" id="wh" style="text-align:center;margin-top:8px"></p><div class="row" style="justify-content:center"><button class="btn g" id="wa">▶ Покажи порядок черт</button><button class="btn g" id="wr">↺ Заново</button></div>`;
+ const one=()=>{const c=chars[k];box.querySelectorAll('[data-j]').forEach(s=>{s.classList.toggle('cur',+s.dataset.j===k);s.classList.toggle('ok',+s.dataset.j<k);});
+  const el=box.querySelector('#hw');el.innerHTML='';const sz=el.clientWidth||280;
+  if(!window.HanziWriter||!HZDATA[c]){$('#wh').textContent='Пропиши '+c+' пальцем в воздухе 🙂';later(()=>{k++;k<chars.length?one():cb(mist);},1500);return;}
+  w=HanziWriter.create(el,c,hwOpts(sz));
+  const quiz=()=>{$('#wh').innerHTML=`Обведи <span class="zh" style="font-size:20px">${c}</span> по порядку черт`;w.quiz({showHintAfterMisses:2,highlightOnComplete:true,onMistake:()=>{mist++;},onComplete:()=>{if(!document.body.contains(el))return;$('#wh').textContent='✓ Отлично!';later(()=>{k++;if(k<chars.length)one();else cb(mist);},1000);}});};
+  $('#wa').onclick=()=>{w.cancelQuiz();$('#wh').textContent='Смотри порядок черт…';w.showCharacter();w.hideCharacter({duration:0});w.animateCharacter({onComplete:()=>later(()=>{w.hideCharacter();quiz();},600)});};
+  $('#wr').onclick=()=>{w.cancelQuiz();quiz();};
+  w.animateCharacter({onComplete:()=>{if(document.body.contains(el))later(()=>{w.hideCharacter();quiz();},500);}});$('#wh').textContent='Смотри порядок черт…';};
+ one();}
+// one character from memory; hints=false → no hint buttons (test), only «Не помню»
+function memoOne(el,c,wh,ctl,done,hintsOn){const sz=el.clientWidth||280;let hints=0,show=0,mist=0,cur=0,fin=false;el.innerHTML='';
+ const out=r=>{if(fin)return;fin=true;done(r);};
+ if(!window.HanziWriter||!HZDATA[c]){wh.textContent='Напиши '+c+' пальцем в воздухе 🙂';later(()=>out({c,hints,show,mist,skip:0}),1500);return;}
+ const w=HanziWriter.create(el,c,hwOpts(sz,{showOutline:false}));
+ const q=()=>w.quiz({showHintAfterMisses:hintsOn?3:false,highlightOnComplete:true,onMistake:()=>{mist++;if(hintsOn&&mist===3)wh.textContent='Ничего страшного! Нужная черта мигнёт зелёным 🙂';else if(!hintsOn&&mist===4)wh.textContent='Не получается? Нажми «Не помню» — ничего страшного 🙂';},
+  onCorrectStroke:d=>{cur=d.strokeNum+1;wh.textContent='Так держать! ✓';},
+  onComplete:()=>{if(!document.body.contains(el))return;wh.textContent=hints+show===0?'🏆 Сам(а) — супер!':'✓ Написано!';later(()=>out({c,hints,show,mist,skip:0}),900);}});
+ if(ctl.h1)ctl.h1.onclick=()=>{hints++;ctl.cnt(hints+show);try{w.highlightStroke(cur);}catch(e){}};
+ if(ctl.h2)ctl.h2.onclick=()=>{hints++;ctl.cnt(hints+show);w.showOutline();later(()=>w.hideOutline(),2500);};
+ if(ctl.h3)ctl.h3.onclick=()=>{show++;ctl.cnt(hints+show);w.cancelQuiz();cur=0;wh.textContent='Смотри внимательно…';w.showCharacter();w.hideCharacter({duration:0});w.animateCharacter({onComplete:()=>later(()=>{w.hideCharacter();wh.textContent='А теперь ты — по памяти!';q();},700)});};
+ if(ctl.sk)ctl.sk.onclick=()=>{w.cancelQuiz();ctl.sk.disabled=true;wh.textContent='Вот так он пишется — запомни 👀';w.showCharacter();later(()=>out({c,hints,show,mist,skip:1}),1800);};
+ q();}
+const HINTS=`<div class="row" style="justify-content:center;gap:8px"><button class="btn g" id="h1">👉 Следующая черта</button><button class="btn g" id="h2">💡 Контур</button><button class="btn g" id="h3">👀 Покажи весь</button></div>`;
+function propis(){const n=5;
+ shell(`${backBtn}${tag(n)}<h2>✍️ Пропись 你 我 好 叫 妈 爸</h2><div class="rbox" style="--c1:#2DBE8C;--c2:#1E8F69"><b>Сначала обводим</b>Смотри порядок черт и <b>обведи</b> каждый иероглиф. Ключ светится розовым. Потом напишешь их <b>по памяти</b> — подсказки можно брать.</div><div id="tr"></div>`);
+ tracer($('#tr'),'你我好叫妈爸',m=>{
+  const order=shuffle([...'你我好叫妈爸']),res=[];let k=0;
+  const one=()=>{if(k>=order.length)return end();const c=order[k],[py,ru]=HZI[c];
+   shell(`${backBtn}${tag(n)}<h2>✍️ По памяти</h2><div class="qcard in" style="padding:12px"><div class="qhead"><span>Иероглиф ${k+1} из ${order.length}</span><span>💡 <b id="hc">0</b></span></div><div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px"><button class="play n" id="pl" style="width:58px;height:58px;font-size:22px;margin:0">🔊</button><div style="text-align:left"><div class="py" style="font-size:26px;color:${TCOL[toneOf(py)]}">${py}</div><div style="font-weight:800;font-size:18px;color:var(--ink)">«${ru}»</div></div></div></div>
+    <div class="wbox">${GRID}<div class="hw" id="hw"></div></div><p class="hint2" id="wh" style="text-align:center;margin-top:8px">Напиши по памяти. Не помнишь — бери подсказку 👇</p>${HINTS}`);
+   $('#pl').onclick=()=>playW(c,$('#pl'));
+   memoOne($('#hw'),c,$('#wh'),{h1:$('#h1'),h2:$('#h2'),h3:$('#h3'),cnt:x=>$('#hc').textContent=x},r=>{res.push(r);k++;one();},true);};
+  const end=()=>{const self=res.filter(r=>!r.show).length,clean=res.filter(r=>!r.show&&!r.hints).length;
+   finish(n,self,res.length,{trace:m,clean,res:res.map(r=>[r.c,r.hints,r.show,r.mist])});
+   shell(doneBox(n,`<div class="res" style="text-align:center;font-family:var(--han);font-weight:400">你 我 好 叫 妈 爸</div><p class="lead" style="text-align:center">${clean===6?'Все шесть — по памяти и без подсказок! 🏆':'Написано! Без подсказок: '+clean+' из 6. Остальные можно повторить для закрепления 🙂'}</p>
+    <div class="ans" style="grid-template-columns:repeat(6,1fr)">${res.map(r=>`<span class="${r.show?'no':'ok'}" style="font-family:var(--han);font-size:24px;font-weight:400">${r.c}<small style="display:block;font:800 11px Manrope">${r.hints+r.show?'💡 '+(r.hints+r.show):'сам(а)'}</small></span>`).join('')}</div>`));againOn(propis);};
+  shell(`${backBtn}${tag(n)}<h2>✍️ Обвели — молодец!</h2><p class="lead">А теперь <b>по памяти</b>: 6 иероглифов вперемешку. Подсказки можно брать — учитель увидит, сколько.</p><div class="row" style="justify-content:center"><button class="btn" id="go">✍️ Пишу по памяти</button></div>`);
+  $('#go').onclick=one;});}
+
+/* ---- 5: my names as hints ---- */
+const KIDS=[{ru:'Радмир',hz:'拉德米尔',py:['lā','dé','mǐ','ěr']},{ru:'Султан',hz:'苏尔坦',py:['sū','ěr','tǎn']},{ru:'Вова',al:['владимир','вова','володя'],hz:'弗拉基米尔',py:['fú','lā','jī','mǐ','ěr']},{ru:'Афина',hz:'阿菲娜',py:['ā','fēi','nà']},{ru:'Семён',al:['семен','семён','сёма','сема'],hz:'谢苗',py:['xiè','miáo']}];
+function meName(){const v=(S.name||'').toLowerCase().replace(/ё/g,'е');const k=KIDS.find(x=>v.startsWith(x.ru.toLowerCase().replace(/ё/g,'е').slice(0,3))||(x.al||[]).some(a=>v.startsWith(a.replace(/ё/g,'е'))));
+ if(k)return {ru:k.ru,hz:k.hz,py:k.py,dict:true};const first=(S.name||'').trim().split(/\s+/)[0]||'';const fem=/[ая]$/i.test(first);return nmName(first,fem);}
+const pyJ=a=>(a||[]).join('');
+const fz=x=>x.hz.length>4?'min(30px,7vw)':x.hz.length>3?'min(36px,8vw)':'44px';
+function nameForm(box,cb){const P=S.par||{};
+ box.innerHTML=`<h3>👩 Как зовут маму?</h3><input id="mom" class="in nmi" placeholder="Например, Елена" maxlength="20" value="${esc(P.mom?P.mom.ru:'')}">
+  <h3>👨 Как зовут папу?</h3><input id="dad" class="in nmi" placeholder="Например, Сергей" maxlength="20" value="${esc(P.dad?P.dad.ru:'')}">
+  <div class="row" style="justify-content:center"><button class="btn" id="nmgo">✨ Показать по-китайски</button></div>`;
+ const go=()=>{const m=$('#mom').value.trim(),d=$('#dad').value.trim();if(!/[а-яё]{2}/i.test(m)||!/[а-яё]{2}/i.test(d)){toast('Напиши оба имени русскими буквами');return;}
+  const mom=nmName(m,true),dad=nmName(d,false),me=meName();S.par={mom,dad,me};keepS();send('names',{me,mom,dad});cb();};
+ $('#nmgo').onclick=go;}
+function bigCard(P){const L=[['你好！','nǐ hǎo!','Привет!',null],['我叫','wǒ jiào','Меня зовут',P.me],['我妈妈叫','wǒ māma jiào','Мою маму зовут',P.mom],['我爸爸叫','wǒ bàba jiào','Моего папу зовут',P.dad]];
+ return `<div class="ab">${L.map(([z,p,r,x])=>`<div class="abr n"><div class="abz"><span class="zh">${z}</span>${x?`<span class="zh abn" style="font-size:${fz(x)}">${esc(x.hz)}</span><span class="zh">。</span>`:''}</div>
+  <div class="abp"><span class="py">${tpy2(p)}</span>${x?` <span class="py abnp">${pyCol(x.py)}</span>`:''}</div><small>${r}${x?' '+esc(x.ru):''}</small>
+  <button class="btn g abs" data-free="${z}${x?esc(x.hz)+'。':''}">🔊</button></div>`).join('')}</div>
+  <button class="btn" id="all" style="width:100%;margin-top:12px">🔊 Послушать весь рассказ</button>`;}
+const tpy2=p=>p.split(' ').map(w=>`<span style="color:${TCOL[toneOf(w)]}">${esc(w)}</span>`).join(' ');
+function names(){const n=5;
+ const show=()=>{const P=S.par;P.me=meName();
+  shell(`${backBtn}${tag(n)}<h2>👋 Мои имена-подсказки</h2><p class="lead">Вот твой рассказ. Имена подсвечены — так они <b>читаются</b> по-китайски. Нажми 🔊 и повтори вслух 2–3 раза — сейчас ты будешь рассказывать о себе всему классу!</p>
+   ${bigCard(P)}<div class="row" style="justify-content:center"><button class="btn" id="ok">✓ Готово — я готов(а) рассказать</button><button class="btn g" id="ch">✎ Поменять имена</button></div>`);
+  document.querySelectorAll('[data-free]').forEach(b=>b.onclick=()=>playFree(b.dataset.free,b));
+  $('#all').onclick=()=>playFree(`你好！我叫${P.me.hz}。我妈妈叫${P.mom.hz}。我爸爸叫${P.dad.hz}。`,$('#all'));
+  $('#ch').onclick=ask;$('#ok').onclick=()=>{finish(n,1,1,{me:P.me.hz,mom:P.mom.hz,dad:P.dad.hz});send('names',{me:P.me,mom:P.mom,dad:P.dad});
+   shell(doneBox(n,`${bigCard(P)}<p class="lead">Держи эту страницу открытой, пока рассказываешь 😉</p>`,false));
+   document.querySelectorAll('[data-free]').forEach(b=>b.onclick=()=>playFree(b.dataset.free,b));$('#all').onclick=()=>playFree(`你好！我叫${P.me.hz}。我妈妈叫${P.mom.hz}。我爸爸叫${P.dad.hz}。`,$('#all'));};};
+ const ask=()=>{shell(`${backBtn}${tag(n)}<h2>👋 Мои имена-подсказки</h2><p class="lead">Напиши, как зовут маму и папу (только имя). Мы запишем твоё имя и их имена по-китайски — получится подсказка для рассказа.</p><div id="nf"></div>`);nameForm($('#nf'),show);};
+ if(S.par&&S.par.mom&&S.par.dad){show();}else ask();}
+
+/* ---- 6: test — 你好！我叫… 我妈妈叫… 我爸爸叫… from memory; hints only for 妈 and 爸 ---- */
+function test(){const n=7;
+ if(!(S.par&&S.par.mom&&S.par.dad)){shell(`${backBtn}${tag(n)}<h2>📝 Контрольная</h2><p class="lead">Сначала напиши, как зовут маму и папу — программа сама допишет имена в рассказ.</p><div id="nf"></div>`);nameForm($('#nf'),test);return;}
+ const P=S.par,me=meName();P.me=me;
+ const LINES=[{w:'你好',n:'',p:'！'},{w:'我叫',n:me.hz,p:'。'},{w:'我妈妈叫',n:P.mom.hz,p:'。'},{w:'我爸爸叫',n:P.dad.hz,p:'。'}];
+ const Q=[];LINES.forEach((l,li)=>[...l.w].forEach((c,ci)=>Q.push({c,li,ci})));
+ const HOK=c=>c==='妈'||c==='爸';
+ shell(`${backBtn}${tag(n)}<h2>📝 Контрольная</h2>
+  <div class="rbox" style="--c1:#FF5C8A;--c2:#FF8A3D"><b>⚠️ Правила контрольной</b>Пиши рассказ о себе <b>по памяти</b>, каждый иероглиф в своей клетке. Имена серые — их программа допишет сама.
+   <div class="rr2"><span>💡 Подсказку можно включить <b>только для</b> <span class="zh" style="font-size:30px">妈</span> и <span class="zh" style="font-size:30px">爸</span></span><span>🚫 Остальные иероглифы — <b>без подсказок</b>. Не помнишь — нажми «Не помню»</span></div></div>
+  <div class="sc n" style="margin-top:12px;text-align:left"><small>Что пишем:</small><div class="py" style="font-size:17px;line-height:1.6">${tpy2('nǐ hǎo!')} ${tpy2('wǒ jiào')} ${pyCol(me.py)}. ${tpy2('wǒ māma jiào')} ${pyCol(P.mom.py)}. ${tpy2('wǒ bàba jiào')} ${pyCol(P.dad.py)}.</div><small>Привет! Меня зовут ${esc(me.ru)}. Мою маму зовут ${esc(P.mom.ru)}. Моего папу зовут ${esc(P.dad.ru)}.</small></div>
+  <div class="row" style="justify-content:center"><button class="btn" id="st">📝 Начать контрольную</button><button class="btn g" id="ch">✎ Другие имена</button></div>`);
+ $('#ch').onclick=()=>{shell(`${backBtn}${tag(n)}<h2>📝 Контрольная</h2><div id="nf"></div>`);nameForm($('#nf'),test);};
+ $('#st').onclick=()=>{let k=0;const res=[];const t0=Date.now();
+  const strip=()=>`<div class="cells">${LINES.map((l,li)=>[...l.w].map((c,ci)=>{const j=Q.findIndex(q=>q.li===li&&q.ci===ci);const r=res[j];return `<span class="${j<k?(r.skip?'sk':r.hints+r.show?'hn':'ok'):j===k?'cur':''}">${j<k?c:''}</span>`;}).join('')+[...l.n].map(c=>`<span class="nm">${c}</span>`).join('')+`<span class="pn">${l.p}</span>`+(li<LINES.length-1?'<i class="br"></i>':'')).join('')}</div>`;
+  const one=()=>{if(k>=Q.length)return end();const q=Q[k];const [cpy,cru]=HZI[q.c];const h=HOK(q.c);
+   shell(`${tag(n)}${strip()}<div class="qcard in" style="padding:12px;margin-top:12px"><div class="qhead"><span>Клетка ${k+1} из ${Q.length}</span><span>${h?'💡 <b id="hc">0</b>':'🚫 без подсказок'}</span></div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:6px"><div style="text-align:center"><div class="py" style="font-size:28px;color:${TCOL[toneOf(cpy)]}">${cpy}</div><div style="font-weight:800;color:var(--ink)">«${cru}»</div></div></div></div>
+    <div class="wbox">${GRID}<div class="hw" id="hw"></div></div><p class="hint2" id="wh" style="text-align:center;margin-top:8px">Пиши по памяти 👇</p>
+    ${h?`${HINTS}<div class="row" style="justify-content:center;margin-top:8px"><button class="btn g" id="sk">🤷 Не помню</button></div>`:`<div class="row" style="justify-content:center"><button class="btn g" id="sk">🤷 Не помню</button></div>`}`);
+   if(k>0)$('.wbox').scrollIntoView({block:'center'});
+   memoOne($('#hw'),q.c,$('#wh'),h?{h1:$('#h1'),h2:$('#h2'),h3:$('#h3'),sk:$('#sk'),cnt:x=>$('#hc').textContent=x}:{sk:$('#sk'),cnt:()=>{}},r=>{res.push(r);k++;one();},h);};
+  const end=()=>{const self=res.filter(r=>!r.skip&&!r.show).length,clean=res.filter(r=>!r.skip&&!r.show&&!r.hints).length;
+   const text=`你好！我叫${me.hz}。我妈妈叫${P.mom.hz}。我爸爸叫${P.dad.hz}。`;
+   finish(n,self,res.length,{clean,sec:Math.round((Date.now()-t0)/1000),text,names:{me:me.ru,mom:P.mom.ru,dad:P.dad.ru},res:res.map(r=>[r.c,r.hints,r.show,r.mist,r.skip])});
+   shell(doneBox(n,`${strip()}<div class="res" style="text-align:center">📝 ${self} / ${res.length}</div><p class="lead" style="text-align:center">${clean===res.length?'Весь рассказ — по памяти, без подсказок! 🏆':'Контрольная сдана! Сам(а): '+self+' из '+res.length+'. Остальное можно повторить для закрепления 🙂'}</p>
+    <div class="lgd"><span class="ok">сам(а)</span><span class="hn">с подсказкой</span><span class="sk">не вспомнил(а)</span></div>`,false));};
+  one();};}
+
+/* ---- 7: whack-a-mole, the whole screen ---- */
+const KVA={};
+function kpre(g){(g.audio||[]).forEach(c=>{if(KVA[c])return;const a=new Audio(fn(c));a.preload='auto';try{a.load();}catch(e){}KVA[c]=a;});}
+window.KSAY=t=>new Promise(res=>{let a=KVA[t];if(!a){a=new Audio(fn(t));KVA[t]=a;}try{curA&&curA!==a&&curA.pause();}catch(e){}curA=a;let d=false;const end=()=>{if(!d){d=true;res();}};
+ try{a.currentTime=0;}catch(e){}a.onended=end;a.onerror=end;a.play().catch(end);setTimeout(end,2500);});
+window.KSTOP=()=>{try{curA&&curA.pause()}catch(e){}};
+const KCSS={};
+// the game stage is 1280×720 and always fits the window whole. Full screen on a phone held upright: the stage turns 90° and fills
+// the screen — it works even when the phone's auto-rotate is locked (that is why kids saw «half a screen» before).
+function katMount(id,box,onRes){const g=KAT.game(id);if(!g){box.innerHTML='<p class="lead">Игра не загрузилась, обнови страницу.</p>';return;}
+ if(!KCSS[id]){KCSS[id]=1;const st=document.createElement('style');st.textContent=g.css||'';document.head.appendChild(st);}
+ kpre(g);
+ box.innerHTML=`<button class="btn kbig">⛶ Играть на весь экран</button><div class="kst"><div class="kstage g-moles"></div><button class="kfs" title="Во весь экран">⛶</button><button class="kx" title="Выйти">✕</button><div class="khint"><span class="kph">📱</span><b>Поверни телефон боком</b></div></div>`;
+ const wrap=box.querySelector('.kst'),stage=box.querySelector('.kstage'),home=box;
+ const fit=()=>{const w=wrap.clientWidth,h=wrap.clientHeight;if(!w||!h)return;
+  if(wrap.classList.contains('kfull')&&h>w){const k=Math.min(h/1280,w/720),tx=(w+720*k)/2,ty=(h-1280*k)/2;stage.style.transform=`translate(${tx}px,${ty}px) rotate(90deg) scale(${k})`;const r=wrap.getBoundingClientRect();stage._rot={tx:r.left+tx,ty:r.top+ty,k};}
+  else{const k=Math.min(w/1280,h/720);stage.style.transform=`translate(${(w-1280*k)/2}px,${(h-720*k)/2}px) scale(${k})`;stage._rot=null;}};
+ const ro=new ResizeObserver(fit);ro.observe(wrap);fit();
+ const isFull=()=>wrap.classList.contains('kfull');
+ const full=on=>{if(on===isFull())return;
+  if(on){document.body.appendChild(wrap);wrap.classList.add('kfull');document.documentElement.classList.add('knoscroll');
+   if(innerHeight>innerWidth){wrap.classList.remove('hinted');void wrap.offsetWidth;wrap.classList.add('hinted');}
+   const rq=wrap.requestFullscreen||wrap.webkitRequestFullscreen;if(rq)try{const pr=rq.call(wrap);if(pr&&pr.then)pr.then(()=>{try{screen.orientation.lock('landscape').catch(()=>{})}catch(e){}}).catch(()=>{});}catch(e){}}
+  else{wrap.classList.remove('kfull','hinted');document.documentElement.classList.remove('knoscroll');if(document.body.contains(home))home.appendChild(wrap);else wrap.remove();
+   try{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});else if(document.webkitFullscreenElement)document.webkitExitFullscreen();}catch(e){}}
+  requestAnimationFrame(fit);setTimeout(fit,300);};
+ const onFs=()=>{if(!document.fullscreenElement&&!document.webkitFullscreenElement&&isFull()&&wrap._fsOn)full(false);wrap._fsOn=!!(document.fullscreenElement||document.webkitFullscreenElement);};
+ document.addEventListener('fullscreenchange',onFs);document.addEventListener('webkitfullscreenchange',onFs);
+ wrap.querySelector('.kfs').onclick=()=>full(!isFull());box.querySelector('.kbig').onclick=()=>full(true);wrap.querySelector('.kx').onclick=()=>full(false);
+ // on a phone the first touch on the small game opens it on the whole screen
+ wrap.addEventListener('pointerdown',e=>{if(isFull()||!matchMedia('(max-width:899px),(max-height:520px)').matches)return;e.stopPropagation();e.preventDefault();const bt=e.target.closest&&e.target.closest('button');full(true);if(bt)setTimeout(()=>bt.click(),80);},true);
+ const onR=()=>{fit();setTimeout(fit,250);};addEventListener('resize',onR);addEventListener('orientationchange',onR);
+ KAT.onResult=(gid,r)=>{if(onRes)onRes(r);};
+ const inst=g.mount(stage,KAT)||{};stage._inst=inst;
+ KCUR={destroy(){ro.disconnect();removeEventListener('resize',onR);removeEventListener('orientationchange',onR);document.removeEventListener('fullscreenchange',onFs);document.removeEventListener('webkitfullscreenchange',onFs);
+  if(isFull()){try{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});}catch(e){}}document.documentElement.classList.remove('knoscroll');wrap.remove();try{inst.destroy&&inst.destroy()}catch(e){}}};
+ return stage;}
+/* ---- 10: whack-a-mole on the whole screen ---- */
+function krot(){const n=10;
+ shell(`${backBtn}${tag(n)}<h2>🔨 Бей крота</h2><div class="rbox" style="--c1:#2DBE8C;--c2:#5B6BD8"><b>Как играть</b>Слушай слог и бей молотком крота <b>с этим слогом</b>. Не перепутай: b — p, z — c, zh — ch, s — sh. Помни: <b>ci</b> = «цы», <b>chi</b> = «чшы» — без предыхания!</div><div id="kg"></div><div id="kr"></div>`);
+ katMount('moles7',$('#kg'),r=>{const best=Math.max(r.score||0,+(S.kbest||0));S.kbest=best;keepS();
+  finish(n,r.right,r.of,{pts:r.score,best,miss:r.miss});const L=left();
+  $('#kr').innerHTML=`<div class="qcard n" style="text-align:center"><div class="res">🔨 ${r.right} / ${r.of}</div><p class="lead">Очки: <b>${r.score}</b>${best>r.score?` · рекорд ${best}`:''}. ${r.miss&&r.miss.length?'Можно повторить для закрепления: <b class="py">'+r.miss.map(esc).join(', ')+'</b>':'Без ошибок! 🏆'}</p>
+   <div class="row" style="justify-content:center"><button class="btn" onclick="location.hash='#itog'">🏁 Мои итоги${L.length?' · осталось '+L.length:''}</button><button class="btn g" onclick="location.hash=''">‹ Все задания</button></div></div>`;});}
+route();
+</script></body></html>
