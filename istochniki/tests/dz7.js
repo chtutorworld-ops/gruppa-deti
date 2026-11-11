@@ -1,4 +1,5 @@
 // «Проверяющий» для ДЗ 7: ученик 12 лет проходит все 10 заданий подряд, нажимает наугад (значит, и ошибается), доигрывает обе игры до конца.
+// Звук: каждый запрос mp3/wav должен идти в <сайт>/audio/ (в ДЗ 7 был путь ../../audio/ — у детей не было звука).
 // node dz7.js [base-url]   (по умолчанию http://localhost:8765/dz-7/)   VIEW=phone|land|desk   ONLY=2,3 — только эти задания
 const {chromium}=require('playwright');
 const BASE=process.argv[2]||'http://localhost:8765/dz-7/';
@@ -50,7 +51,7 @@ async function dict(p){await p.click('#st');
  await sleep(800);}
 (async()=>{const view=process.env.VIEW||'phone';const [w,h,mob]=VIEWS[view];MOB=mob;
  const b=await chromium.launch();const ctx=await b.newContext({viewport:{width:w,height:h},isMobile:mob,hasTouch:mob});const p=await ctx.newPage();
- const errs=[];p.on('pageerror',e=>{errs.push(e.message);console.log('PAGEERR',e.message);});
+ const errs=[];const AUD=new URL('../audio/',BASE).href;let nAu=0;p.on('request',r=>{const u=r.url();if(/\.(mp3|wav)(\?|$)/.test(u)){nAu++;if(!u.startsWith(AUD)&&!/gruppa-deti-sait\/audio\//.test(u))errs.push('звук не из папки audio: '+u);}});p.on('pageerror',e=>{errs.push(e.message);console.log('PAGEERR',e.message);});
  await p.goto(BASE+'?name=тест');await sleep(800);await overflow(p,'home');await p.screenshot({path:`${OUT}/${view}-00-home.png`});
  for(let n=1;n<=10;n++){if(ONLY.length&&!ONLY.includes(n))continue;await p.goto(BASE+'?name=тест#'+n);await p.reload();await sleep(600);await overflow(p,'task '+n+' intro');
   await p.screenshot({path:`${OUT}/${view}-${String(n).padStart(2,'0')}-a.png`,fullPage:view!=='land'});
@@ -60,5 +61,6 @@ async function dict(p){await p.click('#st');
   await p.screenshot({path:`${OUT}/${view}-${String(n).padStart(2,'0')}-z.png`,fullPage:view!=='land'});console.log(view,'task',n,'ok');}
  await p.goto(BASE+'?name=тест#itogi');await p.reload();await sleep(600);await p.screenshot({path:`${OUT}/${view}-99-itogi.png`,fullPage:true});
  const pc=await p.evaluate(()=>document.querySelector('.pbt').textContent);console.log(view,'progress:',pc);
+ if(!nAu)errs.push('ни одного звука не запрошено');console.log(view,'audio requests:',nAu);
  if(errs.length){console.log('ERRORS:\n'+errs.join('\n'));process.exitCode=1;}else console.log(view,'no page errors');
  await b.close();})().catch(e=>{console.error('FAIL',e.message);process.exit(1);});
