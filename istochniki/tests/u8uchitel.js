@@ -21,7 +21,7 @@ global.LISTDATA={subs:[{sid:'a1',name:'Афина Т.',parts},
  await p.click('td.nm[data-open="b2"]');await sleep(800);
  const op=await p.$eval('.dc[data-sid="b2"]',e=>e.classList.contains('op'));if(!op)throw new Error('клик по имени не открыл карточку');
  const card=await p.$eval('.dc[data-sid="b2"] .bd',e=>e.innerText);
- if(!/13%/.test(card)||!/не сделал/.test(card)||!/Нужно доделать: № 2, № 3/.test(card))throw new Error('карточка ребёнка неполная: '+card.slice(0,300));
+ if(!/8%/.test(card)||!/не сделал/.test(card)||!/Нужно доделать: № 2, № 3/.test(card))throw new Error('карточка ребёнка неполная: '+card.slice(0,300));
  await p.click('td.nm[data-open="a1"]');await sleep(800);
  const au=await p.$('.dc[data-sid="a1"] audio');if(!au)throw new Error('нет записи голоса в карточке');
  const src=await au.getAttribute('src');if(!/play\?hw=u8&sid=a1&item=rec/.test(src))throw new Error('ссылка на запись '+src);

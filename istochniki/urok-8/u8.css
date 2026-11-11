@@ -101,3 +101,12 @@
 .p82.hide{display:none}
 .p82 .cd8{flex:none;min-height:48px;padding:6px 10px}.p82 .cd8 .zh{font-size:28px}
 .bt8 button{padding:7px 4px}
+/* 5: он или она */
+.ht8i{display:block;width:100%;max-width:340px;aspect-ratio:5/6;object-fit:cover;border-radius:20px;margin:10px auto 0;box-shadow:0 10px 24px rgba(30,35,80,.18)}
+.ht8b{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.ht8b button{padding:12px 6px;border-radius:20px;background:#fff;box-shadow:5px 5px 12px var(--sh1),-5px -5px 12px var(--sh2);text-align:center}
+.ht8b .zh{display:block;font-size:56px;line-height:1.1;color:var(--ac2)}.ht8b small{font:800 15px Manrope;color:var(--mu)}
+.ht8b button.ok{box-shadow:inset 0 0 0 4px var(--ok);background:#DDF5EC}.ht8b button.no{box-shadow:inset 0 0 0 4px var(--no);background:#FFE3EB}
+.ht8b button:disabled{cursor:default}
+/* серые 它 / 它们 */
+.tc8.grey{background:#EEF0F4!important;box-shadow:inset 0 0 0 2px #D6DBE6!important}.tc8.grey .zh,.tc8.grey .py,.tc8.grey .py span,.tc8.grey small{color:#9AA2B6!important}

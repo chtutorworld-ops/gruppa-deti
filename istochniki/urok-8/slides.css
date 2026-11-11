@@ -117,3 +117,29 @@
 .u8dw{top:165px}.u8dw.c6{bottom:215px}
 .u8oh{font-size:56px;white-space:nowrap}
 .u8who .z{font-size:50px!important;white-space:nowrap}
+/* правки Дарьи 11.11 */
+.u8who{display:flex!important;align-items:center;gap:24px}
+.u8wtx{display:grid;gap:10px;align-content:center;min-width:0}
+.u8who .z{font-size:56px!important}.u8who .pyn{font-size:30px}.u8who b{font-size:24px}
+.u8two{bottom:120px}
+.u8pp{width:100%;height:200px;object-fit:cover;border-radius:18px}
+.u8tw:has(.u8pp){align-content:start;padding:14px 18px}
+.u8tw:has(.u8pp) p{font-size:20px}
+.u8port{position:absolute;left:56px;right:56px;top:100px;bottom:40px;display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.u8pt8{position:relative;border-radius:22px;overflow:hidden;padding:0!important;display:block}
+.u8pt8 img{width:100%;height:100%;object-fit:cover;display:block}
+.u8pt8 .n{position:absolute;left:10px;top:10px;width:40px;height:40px;border-radius:12px;background:#fff;display:grid;place-items:center;font:900 22px Nunito;color:#2B3270;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+.u8pt8 b{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);font-size:76px!important;line-height:1;padding:6px 18px 10px;border-radius:20px;background:rgba(255,255,255,.94);opacity:0;transition:opacity .3s}
+.u8pt8 b.m{color:#3A47B8}.u8pt8 b.f{color:#E0306A}
+.u8pt8.rv{opacity:1!important;visibility:visible!important;transform:none!important}.u8pt8.rv.on b{opacity:1}
+.u8one{position:absolute;left:250px;right:250px;top:100px;bottom:50px;display:grid}
+.u8one .u8tw{align-content:center}
+.u8grey{filter:grayscale(1);opacity:.62}
+.u8tw.u8grey{opacity:.8}
+.u8cat{width:100%;height:230px;object-fit:cover;border-radius:20px}
+.u8sk{padding:14px!important;gap:2px!important}
+.u8who img{width:230px!important;height:300px!important;flex:none}
+.u8who .z{font-size:48px!important;color:#2B3270}
+.u8ph2{top:110px;bottom:auto}.u8who img{width:270px!important;height:360px!important}
+.u8eq{bottom:80px}
+.u8one .u8tw .z{font-size:170px!important}.u8one .u8tw p{font-size:28px}.u8one .u8f{font-size:24px}.u8one .u8f .z{font-size:36px!important}.u8one .pyn{font-size:40px}

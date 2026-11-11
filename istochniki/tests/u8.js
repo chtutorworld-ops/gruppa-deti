@@ -68,37 +68,43 @@ async function run(view){const [nm,w,h,mobile]=view;
   await overflow(p,'d3');await tap(p,'#nb',mobile);await sleep(300);}
  await p.waitForSelector('.ans8');await shotF('t3-end');
 
- // ---------- 4 propis ----------
- await go(4);await shotF('t4');step('звук пропись: '+await sounds(p,'[data-w]',5));await tap(p,'#st',mobile);
- for(let k=0;k<10;k++){await p.waitForSelector('#hw');await sleep(700);const c=await p.$eval('.ph8 .zh',e=>e.textContent);if(k===0)await shot('t4-q');if(k===1)await wrongStroke(p);await draw(p,c);await sleep(1300);}
- await p.waitForSelector('#again',{timeout:8000});await overflow(p,'propis');await shotF('t4-end');
-
- // ---------- 5 table ----------
- await go(5);await shotF('t5');const PN=['我','你','他','她','它','我们','你们','他们','她们'];
- for(let i=0;i<9;i++){await tap(p,`[data-c="${i}"]`,mobile);await sleep(400);
+ // ---------- 4 propis 他 她 · 5 он или она · 6 它 · 7 您 · 8 们 ----------
+ const propis=async(n,cnt,tag)=>{await go(n);await shotF('t'+n);step('звук пропись '+n+': '+await sounds(p,'[data-w]',5));await tap(p,'#st',mobile);
+  for(let k=0;k<cnt*2;k++){await p.waitForSelector('#hw');await sleep(700);const c=await p.$eval('.ph8 .zh',e=>e.textContent);if(k===0)await shot('t'+n+'-q');if(k===1)await wrongStroke(p);await draw(p,c);await sleep(1300);}
+  await p.waitForSelector('#again',{timeout:8000});await overflow(p,'propis '+n);await shotF('t'+n+'-end');};
+ await propis(4,2);
+ await go(5);await shotF('t5');
+ for(let k=0;k<6;k++){await p.waitForSelector('.ht8b button:not([disabled])');const f=await p.$eval('.ht8i',e=>e.getAttribute('src'));const right=/malchik|vrach|paren/.test(f)?'他':'她';const pick=k===2?(right==='他'?'她':'他'):right;
+  if(k===0)await shotF('t5-q');await tap(p,`.ht8b [data-c="${pick}"]`,mobile);await sleep(300);if(k===2){await shotF('t5-err');const t=await p.$eval('#fb',e=>e.textContent);if(!/ключ/.test(t))throw new Error('нет пояснения он/она');}
+  const nb=await p.$('#nb');if(nb)await tap(p,'#nb',mobile);else await sleep(1500);await sleep(300);}
+ await p.waitForSelector('#again',{timeout:6000});await shotF('t5-end');
+ await propis(6,1);await propis(7,1);await propis(8,1);
+ // ---------- 9 table ----------
+ await go(9);await shotF('t9');const PN=['我','你','他','她','它','我们','你们','他们','她们','它们'];
+ for(let i=0;i<10;i++){await tap(p,`[data-c="${i}"]`,mobile);await sleep(400);
   for(const c of PN[i]){await p.waitForSelector('#hw');await sleep(500);if(i===0){await shot('t5-known');const ol=await p.evaluate(()=>!!document.querySelector('#hw svg path[fill="#DCE1EC"]'));step('у 我 образец виден? '+ol);await wrongStroke(p);await sleep(300);await shot('t5-hint');}
    if(i===2&&c==='他')await shot('t5-new');await draw(p,c);await sleep(1100);}
   const syl=PN[i].length;for(let q=0;q<syl;q++){await p.waitForSelector('.mk8.five');await sleep(300);const right=await p.evaluate(()=>{const b=[...document.querySelectorAll('.mk8.five [data-t]')];return null;});
-   const T={0:[3],1:[3],2:[1],3:[1],4:[1],5:[3,0],6:[3,0],7:[1,0],8:[1,0]}[i][q];const pick=(i===5&&q===1)?2:T;if(i===5&&q===1)await shot('t5-tone');
+   const T={0:[3],1:[3],2:[1],3:[1],4:[1],5:[3,0],6:[3,0],7:[1,0],8:[1,0],9:[1,0]}[i][q];const pick=(i===5&&q===1)?2:T;if(i===5&&q===1)await shot('t5-tone');
    await tap(p,`.mk8.five [data-t="${pick}"]`,mobile);await sleep(400);if(pick!==T){await shotF('t5-tone-err');}
    const nb=await p.$('#nb');if(nb)await tap(p,'#nb',mobile);else await sleep(1400);await sleep(300);}
   await sleep(600);}
  await overflow(p,'table');await shotF('t5-full');await tap(p,'#fin',mobile);await sleep(500);await shotF('t5-end');
 
- // ---------- 6 recording ----------
- await go(6);await shotF('t6');step('звук таблица: '+await sounds(p,'.tc8[data-w]',9));
+ // ---------- 10 recording ----------
+ await go(10);await shotF('t6');step('звук таблица: '+await sounds(p,'.tc8[data-w]',10));
  await tap(p,'#mic',mobile);await sleep(3200);await tap(p,'#mic',mobile);await sleep(800);await shotF('t6-rec');
  await tap(p,'#snd',mobile);await sleep(800);await shotF('t6-end');if(!await p.$('#again'))throw new Error('запись не отправилась');
 
- // ---------- 7 cards ----------
- await go(7);await shotF('t7');await tap(p,'#l1',mobile);await sleep(500);await shotF('t7-1');
- step('звук карточки: '+await sounds(p,'#pool .snd8',9));
+ // ---------- 11 cards ----------
+ await go(11);await shotF('t7');await tap(p,'#l1',mobile);await sleep(500);await shotF('t7-1');
+ step('звук карточки: '+await sounds(p,'#pool .snd8',10));
  // wrong first: card 我 to «ты»
  const slotOf=(i)=>`.slot8[data-want="${i}"]`;
  if(mobile){await tap(p,'#pool .cd8[data-p="0"]',mobile);await tap(p,slotOf(1),mobile);}
  else{const a=await (await p.$('#pool .cd8[data-p="0"]')).boundingBox();const b=await (await p.$(slotOf(1))).boundingBox();await p.mouse.move(a.x+20,a.y+20);await p.mouse.down();await p.mouse.move(a.x+60,a.y+40,{steps:5});await p.mouse.move(b.x+b.width/2,b.y+b.height/2,{steps:10});await p.mouse.up();}
  await sleep(500);await shotF('t7-1err');
- for(let i=0;i<9;i++){if(!mobile){const a=await (await p.$(`#pool .cd8[data-p="${i}"]`));await a.scrollIntoViewIfNeeded();const ab=await a.boundingBox();await p.evaluate(s=>document.querySelector(s).scrollIntoView({block:'center'}),slotOf(i));await sleep(150);
+ for(let i=0;i<10;i++){if(!mobile){const a=await (await p.$(`#pool .cd8[data-p="${i}"]`));await a.scrollIntoViewIfNeeded();const ab=await a.boundingBox();await p.evaluate(s=>document.querySelector(s).scrollIntoView({block:'center'}),slotOf(i));await sleep(150);
    const a2=await (await p.$(`#pool .cd8[data-p="${i}"]`)).boundingBox();const b=await (await p.$(slotOf(i))).boundingBox();
    if(a2.y<0||a2.y>h){await tap(p,`#pool .cd8[data-p="${i}"]`,mobile);await tap(p,slotOf(i),mobile);}
    else{await p.mouse.move(a2.x+15,a2.y+15);await p.mouse.down();await p.mouse.move(a2.x+40,a2.y+30,{steps:4});await p.mouse.move(b.x+b.width/2,b.y+b.height/2,{steps:8});await p.mouse.up();}}
@@ -109,11 +115,11 @@ async function run(view){const [nm,w,h,mobile]=view;
  const place=async(k,i,ri)=>{await tap(p,`[data-b="${k}"]`,mobile);await sleep(150);await tap(p,`[data-pool="${k}"] .cd8[data-p="${i}"] ${k==='h'?'.zh':'span'}`,mobile);await p.evaluate(s=>document.querySelector(s).scrollIntoView({block:'center'}),`.s82[data-row="${ri}"][data-k="${k}"]`);await sleep(120);await tap(p,`.s82[data-row="${ri}"][data-k="${k}"]`,mobile);await sleep(250);};
  await place('h',0,0);await place('r',1,0);await shotF('t7-2err');await shot('t7-2view');
  if(!await p.$('.s82[data-row="0"][data-k="h"] .cd8'))throw new Error('7.2: карточка 我 не встала');if(await p.$('.s82[data-row="0"][data-k="r"] .cd8'))throw new Error('7.2: «ты» встала к 我');
- for(let ri=0;ri<9;ri++){for(const k of ['h','p','r']){const has=await p.$(`.s82[data-row="${ri}"][data-k="${k}"] .cd8`);if(has)continue;await place(k,ri,ri);}}
+ for(let ri=0;ri<10;ri++){for(const k of ['h','p','r']){const has=await p.$(`.s82[data-row="${ri}"][data-k="${k}"] .cd8`);if(has)continue;await place(k,ri,ri);}}
  await sleep(1300);await shotF('t7-2end');if(!await p.$('#again'))throw new Error('7.2 не закончился');
 
- // ---------- 8 memory ----------
- await go(8);await shotF('t8');
+ // ---------- 12 memory ----------
+ await go(12);await shotF('t8');
  const MEM=[['你','ты'],['我','я'],['好','хорошо'],['叫','зваться'],['妈','мама'],['爸','папа'],['他','он'],['她','она'],['它','оно'],['们','много (суффикс)']];
  const faces=await p.$$eval('.mc .mcf',a=>a.map(x=>x.textContent));
  const pairs=MEM.map(([a,b])=>[faces.indexOf(a),faces.indexOf(b)]);if(pairs.some(x=>x.includes(-1)))throw new Error('мемори карточки');

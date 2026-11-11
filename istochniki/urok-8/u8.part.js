@@ -4,10 +4,14 @@ const TASKS=[null,
  {t:'🔨 Крот: тоны',d:'Бей слог нужного тона. Позвали отвечать — нажми «Пауза»',run:krot},
  {t:'🎵 Диктант на тоны',d:'Учитель читает 10 слогов — нажми значок тона',run:dict2},
  {t:'📝 Диктант: пиши слоги',d:'12 слогов: напиши латиницей и поставь значок тона',run:dict3},
- {t:'✍️ Пропись: 他 她 它 们 您',d:'Обведи новые иероглифы, потом напиши сам',run:propis},
+ {t:'✍️ Пропись: 他 и 她',d:'Обведи по образцу, потом напиши сам',run:()=>propis(4,['他','她'])},
+ {t:'📸 Он или она?',d:'Смотри на фото и нажми 他 или 她',run:heta},
+ {t:'✍️ Пропись: 它',d:'«Оно» — обведи и напиши сам',run:()=>propis(6,['它'])},
+ {t:'✍️ Пропись: 您',d:'Уважительное «Вы» — обведи и напиши сам',run:()=>propis(7,['您'])},
+ {t:'✍️ Пропись: 们',d:'«Много» — обведи и напиши сам',run:()=>propis(8,['们'])},
  {t:'📋 Таблица местоимений',d:'Заполни таблицу от руки и поставь тоны',run:table},
  {t:'🎙️ Прочитай таблицу',d:'Запиши себя голосом — учитель послушает',run:recTab},
- {t:'🧩 Собери местоимения',d:'7.1 перевод · 7.2 три корзинки',run:cards},
+ {t:'🧩 Собери местоимения',d:'11.1 перевод · 11.2 три корзинки',run:cards},
  {t:'🃏 Мемори-финал',d:'Все наши иероглифы и их перевод',run:memo}];
 const NT=TASKS.length-1;
 const HW='u8';
@@ -217,7 +221,7 @@ const PR={'他':['tā','он','亻 человек + 也','亻 «человек»
  '您':['nín','Вы (уважительно)','你 ты + 心 сердце','«Ты — от всего сердца»: так говорят учителю, бабушке']};
 
 /* ---- 4: writing the new characters ---- */
-function propis(){const n=4;const L=['他','她','它','们','您'];let k=0,round=0;const res=[];
+function propis(n,L){let k=0,round=0;const res=[];const LS=L.join(' ');
  const one=()=>{if(k>=L.length)return end();const c=L[k],[py,ru,parts,why]=PR[c];
   shell(`${backBtn}${tag(n)}<div class="qcard n" style="padding:12px"><div class="qhead"><span>Иероглиф ${k+1} из ${L.length}</span><span>${round?'✍️ сам(а), без образца':'✏️ обведи по образцу'}</span></div>
    <div class="ph8"><span class="zh">${c}</span><div><b class="py">${py}</b> · ${ru}<small>${parts}</small></div><button class="btn g" id="pl" style="padding:8px 12px">🔊</button></div>
@@ -229,31 +233,53 @@ function propis(){const n=4;const L=['他','她','它','们','您'];let k=0,roun
   $('#an').onclick=()=>{if(!w)return;w.cancelQuiz&&w.cancelQuiz();w.animateCharacter({onComplete:()=>{w=writeOne($('#hw'),c,{outline:!round,hintAfter:round?2:1},$('#wh'),r=>{res.push({c,r:round,mist:r.mist});if(round){k++;round=0;}else round=1;one();});}});};};
  const end=()=>{const self=res.filter(r=>r.r===1);const clean=self.filter(r=>r.mist<=2).length;
   finish(n,clean,L.length,{res:self.map(r=>[r.c,r.mist]),trace:res.filter(r=>r.r===0).map(r=>[r.c,r.mist]),miss:self.filter(r=>r.mist>2).map(r=>r.c)});
-  shell(doneBox(n,`<div class="res zh" style="text-align:center;font-weight:400">他 她 它 们 您</div><p class="lead" style="text-align:center">Все пять иероглифов написаны! ${clean===L.length?'И без ошибок 🏆':'Где были ошибки — можно повторить для закрепления 🙂'}</p>
-   <div class="ans" style="grid-template-columns:repeat(5,1fr)">${self.map(r=>`<span class="${r.mist<=2?'ok':'no'}" style="font-family:var(--han);font-size:28px;font-weight:400">${r.c}<small style="display:block;font:800 11px Manrope">ошибок: ${r.mist}</small></span>`).join('')}</div>`));againOn(propis);};
- shell(`${backBtn}${tag(n)}<h2>✍️ Пропись: 他 她 它 们 您</h2>
+  shell(doneBox(n,`<div class="res zh" style="text-align:center;font-weight:400">${LS}</div><p class="lead" style="text-align:center">${L.length>1?'Иероглифы написаны!':'Иероглиф написан!'} ${clean===L.length?'И без ошибок 🏆':'Где были ошибки — можно повторить для закрепления 🙂'}</p>
+   <div class="ans" style="grid-template-columns:repeat(${L.length},1fr)">${self.map(r=>`<span class="${r.mist<=2?'ok':'no'}" style="font-family:var(--han);font-size:28px;font-weight:400">${r.c}<small style="display:block;font:800 11px Manrope">ошибок: ${r.mist}</small></span>`).join('')}</div>`));againOn(()=>propis(n,L));};
+ shell(`${backBtn}${tag(n)}<h2>✍️ Пропись: ${LS}</h2>
   <div class="rbox" style="--c1:#FF5C8A;--c2:#FF8A3D"><b>Как писать</b><div class="rr2"><span>1️⃣ Сначала <b>обведи</b> по серому образцу</span><span>2️⃣ Потом напиши <b>сам(а)</b> — ошибёшься, черта подскажет</span><span>Пиши каждую черту по порядку — как в правилах порядка черт</span></div></div>
   <div class="mlist">${L.map(c=>`<button class="n" data-w="${c}"><span class="zh">${c}</span><small><b class="py" style="color:var(--ac)">${PR[c][0]}</b> ${PR[c][1]}</small>🔊</button>`).join('')}</div>
   <div class="row" style="justify-content:center"><button class="btn" id="st" style="width:100%">✍️ Начать пропись</button></div>`);
  document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>playW(b.dataset.w,b));$('#st').onclick=one;}
 
+/* ---- 5: он или она? photo → tap 他 or 她 ---- */
+const HETA=[['malchik','他','мальчик'],['pevica','她','певица'],['vrach','他','врач — мужчина'],['puteshestvennica','她','путешественница'],['paren','他','парень'],['uchitelnica','她','учительница']];
+function heta(){const n=5;const Q=shuffle(HETA);let k=0,ok=0;const miss=[];
+ HETA.forEach(([f])=>{const im=new Image();im.src='img/p-'+f+'.webp';});
+ const ask=()=>{if(k>=Q.length)return end();const [f,c,who]=Q[k];
+  shell(`${backBtn}${tag(n)}<h2>📸 Он или она?</h2>
+   <div class="rbox" style="--c1:#5B6BD8;--c2:#FF5C8A"><b>Правило</b><div class="rr2"><span><b class="zh" style="font-size:26px">他</b> tā — <b>он</b>: ключ 亻 «человек»</span><span><b class="zh" style="font-size:26px">她</b> tā — <b>она</b>: ключ 女 «женщина»</span></div></div>
+   <div class="qcard n ht8"><div class="qhead"><span>Фото ${k+1} из ${Q.length}</span><span>✓ ${ok}</span></div>
+    <img class="ht8i" src="img/p-${f}.webp" alt="">
+    <div class="ht8b"><button data-c="他"><b class="zh">他</b><small>tā · он</small></button><button data-c="她"><b class="zh">她</b><small>tā · она</small></button></div>
+    <div class="fb" id="fb"></div><div id="nx"></div></div>`);
+  document.querySelectorAll('.ht8b [data-c]').forEach(b=>b.onclick=()=>{const a=b.dataset.c,good=a===c;document.querySelectorAll('.ht8b button').forEach(x=>x.disabled=true);
+   b.classList.add(good?'ok':'no');if(!good)document.querySelector(`.ht8b [data-c="${c}"]`).classList.add('ok');
+   if(good)ok++;else miss.push(who);playW(c);
+   const fb=$('#fb');fb.className='fb '+(good?'ok':'no');
+   fb.innerHTML=good?`✓ Верно! Это ${who} — <b class="zh">${c}</b>`:`<div class="why8">✗ Это <b>${who}</b> — значит <b class="zh">${c}</b>. ${c==='她'?'В 她 слева ключ <b>女</b> «женщина».':'В 他 слева ключ <b>亻</b> «человек» — так пишут про мужчин и мальчиков.'}</div>`;
+   $('#nx').innerHTML=`<button class="btn nxt" id="nb">${k+1<Q.length?'Дальше →':'Готово →'}</button>`;$('#nb').onclick=()=>{k++;ask();};if(good)later(()=>{if($('#nb')){k++;ask();}},1300);});};
+ const end=()=>{finish(n,ok,Q.length,{miss});
+  shell(doneBox(n,`<div class="res" style="text-align:center">${ok} / ${Q.length}</div><p class="lead" style="text-align:center">${ok===Q.length?'Без ошибок! 他 и 她 ты различаешь 🏆':'Хорошо! Помни: 女 — «женщина» → 她 🙂'}</p>`));againOn(heta);};
+ ask();}
+
 /* ---- the pronoun table ---- */
 // [hanzi, syllables [base, tone], translation]
 const PN=[['我',[['wo',3]],'я'],['你',[['ni',3]],'ты'],['他',[['ta',1]],'он'],['她',[['ta',1]],'она'],['它',[['ta',1]],'оно'],
- ['我们',[['wo',3],['men',0]],'мы'],['你们',[['ni',3],['men',0]],'вы'],['他们',[['ta',1],['men',0]],'они'],['她们',[['ta',1],['men',0]],'они (девочки)']];
+ ['我们',[['wo',3],['men',0]],'мы'],['你们',[['ni',3],['men',0]],'вы'],['他们',[['ta',1],['men',0]],'они'],['她们',[['ta',1],['men',0]],'они (девочки)'],['它们',[['ta',1],['men',0]],'они (вещи, животные)']];
+const GREY=i=>/它/.test(PN[i][0]); // 它 и 它们 говорят редко — в таблице серые
 const KNOWN=new Set(['我','你']);
 const pyOf=p=>p[1].map(([b,t])=>mark(b,t)).join('');
 const pyCol8=p=>p[1].map(([b,t])=>`<span style="color:${TCV[t]}">${mark(b,t)}</span>`).join('');
 // the layout: singular on the left, plural on the right
-const TROWS=[[0,5],[1,6],[2,7],[3,8],[4,-1]];
+const TROWS=[[0,5],[1,6],[2,7],[3,8],[4,9]];
 
 /* ---- 5: fill the table by hand ---- */
-function table(){const n=5;S.tb=S.tb||{};const T=S.tb;
+function table(){const n=9;S.tb=S.tb||{};const T=S.tb;
  const cell=i=>{if(i<0)return `<div class="tc8 empty"><small>— без 们</small></div>`;const p=PN[i],d=T[i];
-  return `<button class="tc8${d?' done':''}" data-c="${i}"><small>${p[2]}</small>${d?`<span class="zh">${p[0]}</span><span class="py">${pyCol8(p)}</span>`:`<span class="q8">✍️</span>`}</button>`;};
+  return `<button class="tc8${d?' done':''}${GREY(i)?' grey':''}" data-c="${i}"><small>${p[2]}</small>${d?`<span class="zh">${p[0]}</span><span class="py">${pyCol8(p)}</span>`:`<span class="q8">✍️</span>`}</button>`;};
  const draw=()=>{const left=PN.filter((_,i)=>!T[i]).length;
   shell(`${backBtn}${tag(n)}<h2>📋 Таблица местоимений</h2>
-   <div class="rbox" style="--c1:#5B6BD8;--c2:#8E5BE8"><b>Заполни таблицу</b><div class="rr2"><span>Нажми на клетку и напиши иероглиф от руки</span><span>🧠 <b>我 你</b> ты уже знаешь — пиши сам(а). Ошибёшься — черта замерцает</span><span>🆕 Новые иероглифы — по образцу</span><span>Потом поставь <b>значок тона</b> к пиньиню</span></div></div>
+   <div class="rbox" style="--c1:#5B6BD8;--c2:#8E5BE8"><b>Заполни таблицу</b><div class="rr2"><span>Нажми на клетку и напиши иероглиф от руки</span><span>🧠 <b>我 你</b> ты уже знаешь — пиши сам(а). Ошибёшься — черта замерцает</span><span>🆕 Новые иероглифы — по образцу</span><span>⚪ Серые клетки 它 и 它们 — говорят редко</span><span>Потом поставь <b>значок тона</b> к пиньиню</span></div></div>
    <div class="tb8"><div class="th8">один</div><div class="th8">много · 们</div>${TROWS.map(([a,b])=>cell(a)+cell(b)).join('')}</div>
    ${left?`<p class="hint2" style="text-align:center;margin-top:10px">Осталось клеток: ${left}</p>`:`<div class="row" style="justify-content:center"><button class="btn" id="fin">✓ Таблица готова</button></div>`}`);
   document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>fill(+b.dataset.c));const f=$('#fin');if(f)f.onclick=end;};
@@ -285,16 +311,16 @@ function table(){const n=5;S.tb=S.tb||{};const T=S.tb;
  const end=()=>{const cells=PN.map((p,i)=>[p[0],(T[i]||{}).mist||[],(T[i]||{}).terr||[]]);
   const clean=cells.filter(c=>!c[2].length&&c[1].every(m=>m[1]<=2)).length;
   finish(n,clean,PN.length,{cells,miss:cells.filter(c=>c[2].length).map(c=>c[0]+' (тон)')});
-  shell(doneBox(n,`<div class="tb8 small">${TROWS.map(([a,b])=>[a,b].map(i=>i<0?'<div class="tc8 empty"></div>':`<div class="tc8 done"><small>${PN[i][2]}</small><span class="zh">${PN[i][0]}</span><span class="py">${pyCol8(PN[i])}</span></div>`).join('')).join('')}</div>
+  shell(doneBox(n,`<div class="tb8 small">${TROWS.map(([a,b])=>[a,b].map(i=>i<0?'<div class="tc8 empty"></div>':`<div class="tc8 done${GREY(i)?' grey':''}"><small>${PN[i][2]}</small><span class="zh">${PN[i][0]}</span><span class="py">${pyCol8(PN[i])}</span></div>`).join('')).join('')}</div>
    <p class="lead" style="text-align:center">Таблица готова! Без ошибок: <b>${clean}</b> клеток из ${PN.length}.</p>`));againOn(()=>{S.tb={};keepS();table();});};
  draw();}
 
 /* ---- 6: read the table aloud and record it ---- */
-function recTab(){const n=6;const L=PN;
+function recTab(){const n=10;const L=PN;
  shell(`${backBtn}${tag(n)}<h2>🎙️ Прочитай таблицу</h2><p class="lead">Послушай каждое местоимение, повтори вслух. Потом <b>запиши себя</b>: прочитай всю таблицу подряд. Учитель послушает 🎧</p>
-  <div class="tb8 rec">${TROWS.map(([a,b])=>[a,b].map(i=>i<0?'<div class="tc8 empty"></div>':`<button class="tc8 done" data-w="${PN[i][0]}"><small>${PN[i][2]}</small><span class="zh">${PN[i][0]}</span><span class="py">${pyCol8(PN[i])}</span><i>🔊</i></button>`).join('')).join('')}</div>
+  <div class="tb8 rec">${TROWS.map(([a,b])=>[a,b].map(i=>i<0?'<div class="tc8 empty"></div>':`<button class="tc8 done${GREY(i)?' grey':''}" data-w="${PN[i][0]}"><small>${PN[i][2]}</small><span class="zh">${PN[i][0]}</span><span class="py">${pyCol8(PN[i])}</span><i>🔊</i></button>`).join('')).join('')}</div>
   <div class="row" style="justify-content:center"><button class="btn g" id="all">▶ Послушать всю таблицу</button></div>
-  <div class="qcard in"><p class="hint2">Нажми 🎤 и прочитай: <b>我 — 我们, 你 — 你们, 他 — 他们, 她 — 她们, 它</b>. Потом нажми ⏹.</p>
+  <div class="qcard in"><p class="hint2">Нажми 🎤 и прочитай: <b>我 — 我们, 你 — 你们, 他 — 他们, 她 — 她们, 它 — 它们</b>. Потом нажми ⏹.</p>
    <button class="mic" id="mic">🎤</button><div id="tmr" class="hint2" style="font:900 22px Nunito;color:var(--ac2)">0:00</div><div id="rv"></div></div>`);
  document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>playW(b.dataset.w,b));
  $('#all').onclick=async()=>{const b=$('#all');for(const [a,c] of TROWS)for(const i of [a,c]){if(i<0)continue;if(!document.body.contains(b))return;const el=document.querySelector(`[data-w="${PN[i][0]}"]`);await playW(PN[i][0],el);await new Promise(r=>setTimeout(r,200));}};
@@ -335,33 +361,33 @@ function dragKit(onDrop){let sel=null;
  const slotTap=s=>{if(!sel||s.classList.contains('full'))return;const c=sel;pick(c);onDrop(c,s);};
  return {bind,slotTap,clear:()=>pick(null)};}
 const shake=el=>{el.classList.remove('shk');void el.offsetWidth;el.classList.add('shk');};
-function cards(){const n=7;S.c7=S.c7||{};
+function cards(){const n=11;S.c7=S.c7||{};
  shell(`${backBtn}${tag(n)}<h2>🧩 Собери местоимения</h2>
   <div class="rbox" style="--c1:#2DBE8C;--c2:#5B6BD8"><b>Как играть</b>Это не мемори: все карточки открыты! <b>Перетащи</b> карточку на её место пальцем. Или нажми на карточку, а потом на место.</div>
-  <div class="list"><button class="ti n${S.c7.l1?'':' hot'}" id="l1"><span class="no" style="${S.c7.l1?'background:var(--ok)':''}">7.1</span><span><b>Иероглиф → перевод</b><small>Карточка с иероглифом, пиньинем и звуком — на место с переводом</small></span><span class="sc7">${S.c7.l1?'✓':''}</span></button>
-   <button class="ti n${S.c7.l1&&!S.c7.l2?' hot':''}" id="l2"><span class="no" style="${S.c7.l2?'background:var(--ok)':''}">7.2</span><span><b>Три корзинки</b><small>Иероглифы, пиньинь и перевод — собери каждую строчку</small></span><span class="sc7">${S.c7.l2?'✓':''}</span></button></div>`);
+  <div class="list"><button class="ti n${S.c7.l1?'':' hot'}" id="l1"><span class="no" style="${S.c7.l1?'background:var(--ok)':''}">11.1</span><span><b>Иероглиф → перевод</b><small>Карточка с иероглифом, пиньинем и звуком — на место с переводом</small></span><span class="sc7">${S.c7.l1?'✓':''}</span></button>
+   <button class="ti n${S.c7.l1&&!S.c7.l2?' hot':''}" id="l2"><span class="no" style="${S.c7.l2?'background:var(--ok)':''}">11.2</span><span><b>Три корзинки</b><small>Иероглифы, пиньинь и перевод — собери каждую строчку</small></span><span class="sc7">${S.c7.l2?'✓':''}</span></button></div>`);
  $('#l1').onclick=lvl1;$('#l2').onclick=lvl2;}
 function c7done(){const a=S.c7.l1,b=S.c7.l2;if(!a||!b)return;const errs=(a.errs||0)+(b.errs||0);
- finish(7,2,2,{e1:a.errs,e2:b.errs,c1:a.conf,c2:b.conf,miss:[...(a.conf||[]),...(b.conf||[])].map(x=>x[0]).slice(0,8)});return errs;}
-function lvl1(){const n=7;let errs=0;const conf=[];const L=PN.map((p,i)=>i);
- shell(`${backBtn}${tag(n)}<h2>7.1 · Иероглиф → перевод</h2><p class="lead">Перетащи карточку на место с переводом. 🔊 — послушать.</p>
+ finish(11,2,2,{e1:a.errs,e2:b.errs,c1:a.conf,c2:b.conf,miss:[...(a.conf||[]),...(b.conf||[])].map(x=>x[0]).slice(0,8)});return errs;}
+function lvl1(){const n=11;let errs=0;const conf=[];const L=PN.map((p,i)=>i);
+ shell(`${backBtn}${tag(n)}<h2>11.1 · Иероглиф → перевод</h2><p class="lead">Перетащи карточку на место с переводом. 🔊 — послушать.</p>
   <div class="bd81">${L.map(i=>`<div class="r81"><span class="lb81">${PN[i][2]}</span><div class="slot8" data-want="${i}"></div></div>`).join('')}</div>
   <div class="pool8" id="pool">${shuffle(L).map(i=>`<div class="cd8" data-p="${i}"><span class="zh">${PN[i][0]}</span><span class="py">${pyCol8(PN[i])}</span><button class="snd8" data-w="${PN[i][0]}" aria-label="Послушать">🔊</button></div>`).join('')}</div>`);
  document.querySelectorAll('.snd8').forEach(b=>b.onclick=e=>{e.stopPropagation();playW(b.dataset.w,b);});
  const kit=dragKit((card,slot)=>{const p=+card.dataset.p,want=+slot.dataset.want;
   if(p===want){slot.appendChild(card);card.classList.add('used');slot.classList.add('full','ok');playW(PN[p][0]);
    if(document.querySelectorAll('#pool .cd8').length===0){S.c7.l1={errs,conf};keepS();send('c71',S.c7.l1);later(()=>{const e=c7done();
-    shell(`${backBtn}${tag(n)}<h2>7.1 готово! 🎉</h2><p class="lead" style="text-align:center">${errs?`Ошибок: ${errs}. `:'Без единой ошибки! 🏆 '}Теперь уровень посложнее — <b>три корзинки</b>.</p><div class="row" style="justify-content:center"><button class="btn" id="go2">7.2 · Три корзинки →</button><button class="btn g" onclick="location.hash=''">‹ Все задания</button></div>`);$('#go2').onclick=lvl2;},900);}}
+    shell(`${backBtn}${tag(n)}<h2>11.1 готово! 🎉</h2><p class="lead" style="text-align:center">${errs?`Ошибок: ${errs}. `:'Без единой ошибки! 🏆 '}Теперь уровень посложнее — <b>три корзинки</b>.</p><div class="row" style="justify-content:center"><button class="btn" id="go2">11.2 · Три корзинки →</button><button class="btn g" onclick="location.hash=''">‹ Все задания</button></div>`);$('#go2').onclick=lvl2;},900);}}
   else{errs++;conf.push([PN[p][0],PN[want][2]]);shake(card);slot.classList.add('bad');later(()=>slot.classList.remove('bad'),600);toast(`${PN[p][0]} ${pyOf(PN[p])} — это «${PN[p][2]}»`);}});
  document.querySelectorAll('.cd8').forEach(kit.bind);document.querySelectorAll('.slot8').forEach(s=>s.onclick=()=>kit.slotTap(s));}
 // 7.2 — rows of three places (hanzi · pinyin · translation), cards from three baskets.
 // A card fits if the whole board can still be finished (pinyin tā fits он / она / оно).
-function lvl2(){const n=7;let errs=0;const conf=[];const R=PN.length;const row=[...Array(R)].map(()=>({h:null,p:null,r:null}));
+function lvl2(){const n=11;let errs=0;const conf=[];const R=PN.length;const row=[...Array(R)].map(()=>({h:null,p:null,r:null}));
  const fitsP=(i,ri)=>{const c=row[ri];return (c.h==null||c.h===i)&&(c.r==null||c.r===i)&&(c.p==null||pyOf(PN[c.p])===pyOf(PN[i]));};
  const solvable=()=>{const used=new Set();const go=ri=>{if(ri>=R)return true;for(let i=0;i<R;i++){if(used.has(i)||!fitsP(i,ri))continue;used.add(i);if(go(ri+1))return true;used.delete(i);}return false;};return go(0);};
  const B={h:'Иероглифы',p:'Пиньинь',r:'Перевод'};let bk='h';
  const face=(k,i)=>k==='h'?`<span class="zh">${PN[i][0]}</span><button class="snd8" data-w="${PN[i][0]}" aria-label="Послушать">🔊</button>`:k==='p'?`<span class="py">${pyCol8(PN[i])}</span>`:`<span class="ru8c">${PN[i][2]}</span>`;
- shell(`${backBtn}${tag(n)}<h2>7.2 · Три корзинки</h2><p class="lead">Собери каждую строчку: <b>иероглиф · пиньинь · перевод</b>. Бери карточки из корзинок внизу.</p>
+ shell(`${backBtn}${tag(n)}<h2>11.2 · Три корзинки</h2><p class="lead">Собери каждую строчку: <b>иероглиф · пиньинь · перевод</b>. Бери карточки из корзинок внизу.</p>
   <div class="bd82"><div class="h82">Иероглиф</div><div class="h82">Пиньинь</div><div class="h82">Перевод</div>${row.map((_,ri)=>['h','p','r'].map(k=>`<div class="slot8 s82" data-row="${ri}" data-k="${k}"></div>`).join('')).join('')}</div>
   <div class="bsk8"><div class="bt8">${Object.keys(B).map(k=>`<button data-b="${k}" class="${k===bk?'on':''}">🧺 ${B[k]} <i id="cn-${k}">${R}</i></button>`).join('')}</div>
    ${Object.keys(B).map(k=>`<div class="pool8 p82${k===bk?'':' hide'}" data-pool="${k}">${shuffle(PN.map((_,i)=>i)).map(i=>`<div class="cd8 k-${k}" data-k="${k}" data-p="${i}">${face(k,i)}</div>`).join('')}</div>`).join('')}</div>`);
@@ -376,13 +402,13 @@ function lvl2(){const n=7;let errs=0;const conf=[];const R=PN.length;const row=[
   slot.appendChild(card);card.classList.add('used');slot.classList.add('full');cnt();if(k!=='r')playW(PN[i][0]);
   const c=row[ri];if(c.h!=null&&c.p!=null&&c.r!=null)document.querySelectorAll(`.s82[data-row="${ri}"]`).forEach(s=>s.classList.add('ok'));
   if(row.every(c=>c.h!=null&&c.p!=null&&c.r!=null)){S.c7.l2={errs,conf};keepS();send('c72',S.c7.l2);later(()=>{c7done();
-   shell(doneBox(n,`<div class="res" style="text-align:center">🧩 Собрано!</div><p class="lead" style="text-align:center">7.1 — ошибок ${S.c7.l1?S.c7.l1.errs:'—'} · 7.2 — ошибок ${errs}. ${errs?'Можно повторить для закрепления 🙂':'Ты отлично знаешь местоимения! 🏆'}</p>`));againOn(()=>{S.c7={};keepS();cards();});},900);}
+   shell(doneBox(n,`<div class="res" style="text-align:center">🧩 Собрано!</div><p class="lead" style="text-align:center">11.1 — ошибок ${S.c7.l1?S.c7.l1.errs:'—'} · 11.2 — ошибок ${errs}. ${errs?'Можно повторить для закрепления 🙂':'Ты отлично знаешь местоимения! 🏆'}</p>`));againOn(()=>{S.c7={};keepS();cards();});},900);}
   else{const p=document.querySelector(`[data-pool="${k}"]`);if(!p.querySelector('.cd8')){const nx=Object.keys(B).find(x=>document.querySelector(`[data-pool="${x}"] .cd8`));if(nx)document.querySelector(`[data-b="${nx}"]`).click();}}});
  document.querySelectorAll('.cd8').forEach(kit.bind);document.querySelectorAll('.slot8').forEach(s=>s.onclick=()=>kit.slotTap(s));}
 
 /* ---- 8: the final memory game with ALL our characters ---- */
 const MEM=[['你','ты'],['我','я'],['好','хорошо'],['叫','зваться'],['妈','мама'],['爸','папа'],['他','он'],['她','она'],['它','оно'],['们','много (суффикс)']];
-function memo(){const n=8,L=MEM,NP=L.length;
+function memo(){const n=12,L=MEM,NP=L.length;
  shell(`${backBtn}${tag(n)}<h2>🃏 Мемори-финал</h2>
   <div class="rbox" style="--c1:#FF5C8A;--c2:#FF8A3D"><b>Как играть</b>Открывай по <b>две</b> карточки. Найди к иероглифу его перевод. Все наши иероглифы — с самого первого урока!</div>
   <div class="mhud"><span>⏱ <b id="mt">0:00</b></span><span>🔄 ходов: <b id="mm">0</b></span><span>✓ пар: <b id="mp">0</b>/${NP}</span></div>
