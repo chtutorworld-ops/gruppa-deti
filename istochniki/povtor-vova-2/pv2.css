@@ -1,0 +1,58 @@
+/* ===== Повторение 2 для Володи ===== */
+.tmk{font-size:22px!important;color:var(--ac2);letter-spacing:.02em}
+.hero a{color:var(--ac)}
+/* игра: окно целиком на экране */
+.kst{width:min(100%,calc((100vh - 170px) * 16 / 9));width:min(100%,calc((100dvh - 170px) * 16 / 9));cursor:pointer}
+.kst.kfull{cursor:auto}
+/* 1. рисуем тон */
+.tgrid .tc svg{max-width:150px;height:60px}
+.pad2{position:relative;margin-top:14px;border-radius:22px;background:#fff;padding:6px;touch-action:none}
+.pad2 svg{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}
+.pad2 .gl line{stroke:#DDE2EE;stroke-width:2}
+.pad2 text{font:800 18px Manrope;fill:#9AA2BC}
+.pad2h{position:absolute;left:12%;top:46%;font:800 16px Manrope;color:var(--mu);pointer-events:none;transition:opacity .3s}
+/* 3. собери слог */
+.bprev{margin:6px auto 0;min-height:76px;font:900 64px/1.15 Nunito;color:var(--ac2)}.bprev i{color:#C5CBD8;font-style:normal;letter-spacing:.2em}
+.brow{text-align:left;margin-top:10px}
+.brow h4{font:800 13px Manrope;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);margin-bottom:6px}
+.bks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.bks.b5{grid-template-columns:repeat(5,1fr)}
+.bk{display:grid;justify-items:center;gap:2px;padding:10px 2px 8px;border-radius:16px;background:var(--bg);box-shadow:5px 5px 12px var(--sh1),-5px -5px 12px var(--sh2);color:var(--ac2)}
+.bk b{font:900 30px/1.05 Nunito}.bk small{font:800 12px Manrope;color:var(--mu)}
+.bk.on{background:var(--ac);color:#fff;box-shadow:inset 3px 3px 7px #3D4BB0}.bk.on small{color:#E3E6FF}.bk.on svg path{stroke:#fff}
+.bk.good{background:#DDF5EC;color:#14855E;box-shadow:inset 0 0 0 3px var(--ok)}.bk.good small{color:#14855E}.bk.good svg path{stroke:#14855E}
+.bk.bad{background:#FFE3EB;color:#B0284F;box-shadow:inset 0 0 0 3px var(--no)}.bk.bad svg path{stroke:#B0284F}
+.bk:disabled{cursor:default}
+#chk:disabled{opacity:.45}
+/* 4. близнецы */
+.twg{display:grid;gap:10px;margin-top:12px}
+.tw{display:flex;align-items:center;gap:8px;padding:10px;border-radius:20px}
+.tw button{flex:1;padding:10px 6px;border-radius:16px;background:#fff;text-align:center;font:800 17px Manrope;color:var(--ink)}
+.tw button b{font:900 32px Nunito;color:var(--ac2);margin-right:4px}.tw button small{display:block;font:700 13px Manrope;color:var(--mu)}
+.tw button.on{background:#FFF6C9}
+.tw i{font-style:normal;font-weight:800;color:var(--mu);font-size:14px}
+.twh{display:inline-block;margin-top:10px;padding:6px 16px;border-radius:14px;background:linear-gradient(135deg,#22A6C9,#2DBE8C);color:#fff;font:900 22px Nunito}
+.opt.py small{display:block;font:800 13px Manrope;color:var(--mu);margin-top:2px}
+/* 5. найди ошибку */
+.big7.py{font-size:84px}
+/* 6. соедини */
+.mt2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.mcol{display:grid;gap:10px}
+.mc{padding:14px 6px;border-radius:18px;text-align:center}
+.mc b{font:900 28px Nunito;color:var(--ac2)}
+.mc.on{box-shadow:0 0 0 4px var(--t2),6px 6px 14px var(--sh1)}
+.mc.good{background:#DDF5EC;box-shadow:inset 0 0 0 3px var(--ok)}.mc.good b{color:#14855E}
+.mc.bad{background:#FFE3EB;box-shadow:inset 0 0 0 3px var(--no)}
+/* 7. скажи сам */
+.say2{display:grid;gap:12px;margin-top:14px}@media(min-width:640px){.say2{grid-template-columns:1fr 1fr}}
+.sc2{padding:14px 12px;border-radius:22px;text-align:center}
+.sc2.done{box-shadow:0 0 0 3px var(--ok),8px 8px 18px var(--sh1),-8px -8px 18px var(--sh2)}
+.sp2{display:flex;justify-content:center;align-items:center;gap:12px}
+.sp2 span{font:900 40px/1.1 Nunito}.sp2 small{display:block;font:800 14px Manrope;color:var(--mu)}.sp2 i{font-style:normal;font:900 30px Nunito;color:var(--mu)}
+.sc2 .row{justify-content:center;gap:8px;margin-top:10px}.sc2 .btn{padding:10px 14px;font-size:15px}
+.sc2 .btn.rc{background:#FF5C8A}.sc2 .btn.rc.on{background:#B0284F;animation:rcp 1s infinite}
+@keyframes rcp{50%{box-shadow:0 0 0 8px rgba(255,92,138,.3)}}
+.sc2 .btn.on:not(.rc){background:#DDF5EC}
+.sc2 .btn:disabled{opacity:.4}
+.st2{margin-top:8px;font:800 14px Manrope;color:var(--mu)}.sc2.done .st2{color:#14855E}
+.nomic{font:700 14px Manrope;color:var(--mu);text-decoration:underline;padding:6px}
+@media(max-width:420px){.bk b{font-size:26px}.bk small{font-size:11px}.bprev{font-size:54px}.sp2 span{font-size:34px}.big7.py{font-size:68px}.mc b{font-size:24px}}
