@@ -1,0 +1,16 @@
+/* ===== ДЗ 8 ===== */
+/* диктант на тоны: 🔊 у слога */
+.pl8{margin-left:8px;width:40px;height:40px;border-radius:50%;background:#fff;font-size:18px;vertical-align:middle;box-shadow:3px 3px 8px var(--sh1),-3px -3px 8px var(--sh2)}
+.pl8.on,.pl8b.on{box-shadow:inset 0 0 0 3px var(--ok);background:#E6F7EF}
+.dr8{grid-template-columns:44px minmax(110px,auto) 1fr}
+.sy8{display:flex;align-items:center}
+.in8 .pl8b{border:0;cursor:pointer;background:var(--ac);font-size:20px}
+/* порядок черт: 十 и 口 рядом */
+.so8{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.so8>div{background:rgba(255,255,255,.2);border-radius:18px;padding:10px;text-align:center}
+.so8 b{display:block;font:900 17px/1.25 Nunito;margin-top:6px}.so8 small{display:block;font:700 13.5px/1.35 Manrope;opacity:.95;margin-top:4px}
+.sbig.sm{width:min(120px,32vw);margin-top:0}
+/* игра: окно игры сразу под заголовком и целиком на экране */
+.kst{width:min(100%,calc((100vh - 170px) * 16 / 9));width:min(100%,calc((100dvh - 170px) * 16 / 9));cursor:pointer}
+.kst.kfull{cursor:auto}
+@media(max-width:380px){.dr8{grid-template-columns:38px minmax(96px,auto) 1fr}.pl8{width:34px;height:34px;margin-left:4px}}
