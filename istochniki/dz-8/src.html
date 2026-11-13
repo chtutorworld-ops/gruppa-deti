@@ -415,6 +415,68 @@ body{font-family:Manrope,'LXGW WenKai GB',system-ui,-apple-system,sans-serif}
 .kst{width:min(100%,calc((100vh - 170px) * 16 / 9));width:min(100%,calc((100dvh - 170px) * 16 / 9));cursor:pointer}
 .kst.kfull{cursor:auto}
 @media(max-width:380px){.dr8{grid-template-columns:38px minmax(96px,auto) 1fr}.pl8{width:34px;height:34px;margin-left:4px}}
+/* ===== № 11–13 «Звуки» (из zvuki/zv.css; классы pop/st/lgd/hc переименованы — такие уже есть в общем оформлении) ===== */
+.app.wide{max-width:980px}
+.zv-hc{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:14px;background:#E6F7EF;color:#14674A;font-weight:700;font-size:15px}.zv-hc b{font:900 18px Nunito;color:#14855E}
+.zh3{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:26px 0 12px;font-family:var(--han);font-weight:400;color:var(--ac2);font-size:30px}.zh3 span{font-family:Manrope,sans-serif;font-weight:800;color:var(--ink)}
+.zgs{display:grid;gap:12px;grid-template-columns:4fr 4fr 3fr}
+.zgs.two{grid-template-columns:1fr 1fr;margin-top:12px}
+.zg{padding:10px;border-radius:24px;background:linear-gradient(160deg,color-mix(in srgb,var(--a) 16%,#fff),color-mix(in srgb,var(--b) 10%,#fff));box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--a) 35%,transparent)}
+.zgh{font:800 13px Manrope;color:var(--b);text-transform:uppercase;letter-spacing:.05em;margin:0 4px 8px}
+.zgr{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px}
+.zc{position:relative;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.zi{display:grid;justify-items:center;align-content:center;gap:0;padding:12px 2px 8px;min-height:104px;border-radius:20px;color:#fff;background:linear-gradient(160deg,var(--a),var(--b));box-shadow:0 8px 18px color-mix(in srgb,var(--b) 35%,transparent)}
+.zi b{font:900 46px/1.05 Nunito}
+.zi .ru{font:800 15px Manrope;opacity:0;transform:translateY(4px);transition:.2s;min-height:20px}
+.zi .pf,.zv-lgd .pf{font-style:normal}.zi .pf{position:absolute;right:6px;top:4px;font-size:18px}
+.zc:hover,.zc.cur{transform:translateY(-3px) scale(1.04)}.zc:hover .ru,.zc.cur .ru,.zc.seen .ru{opacity:1;transform:none}
+.zc.on{box-shadow:0 0 0 4px #FFE066,0 8px 18px rgba(0,0,0,.2)}
+.zc.seen::after{content:'✓';position:absolute;left:7px;top:5px;font:900 13px Nunito;color:#fff;opacity:.85}
+.zf.seen::after{color:var(--ok)}
+.zv-lgd{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:14.5px;font-weight:600;color:var(--t)}.zv-lgd span{padding:6px 12px;border-radius:12px;background:#fff}
+.zfs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.zfs.sm{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.zf{display:grid;justify-items:center;padding:14px 2px 10px;border-radius:22px;background:#fff;box-shadow:6px 6px 14px var(--sh1),-6px -6px 14px var(--sh2)}
+.zf b{font:900 52px/1.05 Nunito;color:var(--ac2)}.zf .ru{font:800 17px Manrope;color:var(--ac);opacity:0;transition:.2s;min-height:22px}
+.zwarn.big{margin-top:24px}
+.zwarn .h2w{margin-top:14px;padding:10px 14px;border-radius:16px;background:#fff;color:#E0245E;font:900 21px/1.25 Nunito;text-align:center}
+.zrow6{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:12px}
+.zrow6 button{padding:10px 2px;border-radius:16px;background:#fff;text-align:center;color:var(--ink)}
+.zrow6 b{display:block;font:900 28px Nunito;color:var(--ac2)}.zrow6 small{font:900 17px Manrope;color:#E0245E}
+.zrow6 button.hot{box-shadow:0 0 0 4px #FFE066}.zrow6 button.on{background:#FFF6C9}
+.zrow6.sm b{font-size:22px}.zrow6.sm small{font-size:14px}
+@media(max-width:700px){.zgs{grid-template-columns:1fr}.zgs.two{grid-template-columns:1fr}.zi{min-height:88px}.zi b{font-size:38px}
+ .zrow6{grid-template-columns:repeat(3,1fr)}.zwarn .h{font-size:23px}.zwarn .h2w{font-size:18px}.zf b{font-size:40px}.zh3{font-size:26px}.zh3 span{font-size:17px}}
+/* таблица слогов */
+.zv-stw{overflow-x:auto;margin-top:6px;padding:4px}
+.zv-st{border-collapse:separate;border-spacing:6px;width:100%;table-layout:fixed}
+.zv-st th{font:900 20px Nunito;color:var(--ac2);padding:2px}.zv-st tr th:first-child{width:46px;text-align:right;padding-right:6px}
+.zv-st td{padding:0}
+.zs{width:100%;padding:9px 2px;border-radius:14px;background:#fff;font:900 19px Nunito;color:var(--ac2);box-shadow:4px 4px 10px var(--sh1),-4px -4px 10px var(--sh2)}
+.zs.hot{background:#FFE3EB;color:#C2335C}.zs.np{box-shadow:0 0 0 3px #FFE066,4px 4px 10px var(--sh1)}
+.zs:hover,.zs.cur{transform:scale(1.08)}
+@media(max-width:480px){.zv-st{border-spacing:4px}.zs{font-size:16px;padding:8px 0}.zv-st th{font-size:17px}.zv-st tr th:first-child{width:30px}}
+/* подсказка */
+.zvpop{position:fixed;z-index:50;width:300px;padding:14px;border-radius:24px;background:#fff;box-shadow:0 18px 44px rgba(30,35,80,.28);animation:zvppin .16s ease-out}
+.zvpop[hidden]{display:none}
+@keyframes zvppin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.zvpop.sheet{left:10px!important;right:10px;bottom:max(10px,env(safe-area-inset-bottom));top:auto!important;width:auto;max-width:560px;margin:0 auto}
+.zvpop.sheet.up{top:max(10px,env(safe-area-inset-top))!important;bottom:auto}
+.zvpop.sheet.up .pp-close{top:auto;bottom:-14px}
+.pp-h{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px;border-radius:18px;color:#fff;background:linear-gradient(135deg,var(--a),var(--b))}
+.pp-l{font:900 46px/1 Nunito}.pp-eq{font:900 26px Nunito;opacity:.7}.pp-r{font:900 40px/1 Manrope}
+.pp-tag{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px}.pp-tag:empty{display:none}
+.pp-tag span{padding:4px 10px;border-radius:10px;font:800 13.5px Manrope}
+.zv-puff{background:#E3F4FF;color:#1479A0}.zv-nopf{background:#EEF0F6;color:#5B6380}.pp-g{background:#F4F1FF;color:#5B4BE0}.pp-hot{background:#FFE3EB;color:#C2335C}
+.pp-n{margin-top:8px;text-align:center;font:700 14px Manrope;color:var(--mu)}.pp-n b{color:var(--ac2);font-family:Nunito}
+.pp-warn{margin-top:8px;padding:8px 10px;border-radius:12px;background:#FFE3EB;color:#B0284F;font:700 14px/1.35 Manrope;text-align:center}
+.pp-x{display:grid;grid-template-columns:repeat(auto-fit,minmax(58px,1fr));gap:6px;margin-top:10px}
+.pp-x button{padding:7px 2px;border-radius:12px;background:var(--bg);text-align:center}.pp-x b{display:block;font:900 19px Nunito;color:var(--ac2)}.pp-x small{font:800 12px Manrope;color:var(--mu)}
+.pp-x button.on{background:#FFF6C9}
+.pp-close{position:absolute;right:10px;top:-14px;width:30px;height:30px;border-radius:50%;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.2);font:900 14px Manrope;color:var(--mu)}
+@media (hover:hover) and (pointer:fine){.zvpop:not(.sheet) .pp-close{display:none}}
+/* тренировки № 12–13 */
+.opt.tx.ru{font:900 26px Manrope}
 </style></head><body>
 <div class="app" id="app"></div><div class="toast" id="toast"></div>
 <script>
@@ -574,7 +636,11 @@ const TASKS=[null,
  {t:'👀 Узнай иероглиф',d:'你 我 好 叫 妈 爸 — и перевод фраз',run:know},
  {t:'🔑 Смысл и чтение',d:'Ключ — смысл, другая часть — чтение',run:keys},
  {t:'🥷 Иероглифный ниндзя',d:'Игра: руби только нужные иероглифы',run:ninja},
- {t:'📝 Диктант иероглифов',d:'Слушай и пиши иероглиф по памяти',run:dict}];
+ {t:'📝 Диктант иероглифов',d:'Слушай и пиши иероглиф по памяти',run:dict},
+ // № 11–13 — «Звуки китайского» (все пройденные инициали и финали), встроены из site/zvuki: модуль zv8.part.js
+ {t:'🔊 Таблица звуков',d:'Наведи или нажми на каждый звук: как он звучит по-русски',run:zv11},
+ {t:'👂 Узнай инициаль',d:'Слушай слог: с какой инициали он начинается?',run:zv12},
+ {t:'🔤 Как читается по-русски?',d:'zi «дзы», ci «цы», chi «чшы», ba «ба»…',run:zv13}];
 const NT=TASKS.length-1;
 let DONE={};try{DONE=JSON.parse(localStorage.getItem('zh-dz8-done')||'{}')}catch(e){}
 const keep=()=>{try{localStorage.setItem('zh-dz8-done',JSON.stringify(DONE))}catch(e){}};
@@ -599,7 +665,7 @@ function login(){$('#app').innerHTML=`<div class="top n"><span class="zh">作业
  $('#go').onclick=go;$('#nm').onkeydown=e=>{if(e.key==='Enter')go();};}
 const nDone=()=>Object.keys(DONE).filter(k=>TASKS[+k]).length;
 const pbar=()=>{const d=nDone(),pc=Math.round(d*100/NT);return `<div class="pbar n" id="pbar"><div class="pbt"><span>Выполнено <b>${d}</b> из ${NT}</span><b>${pc}%</b></div><div class="pbl"><i style="width:${pc}%"></i></div></div>`;};
-const shell=(h)=>{stopAll();$('#app').innerHTML=`<div class="top n"><span class="zh">作业</span><div><h1>${TOP}</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'Самое сложное за все уроки'}</small></div><button class="back n" style="margin:0 0 0 auto;font-size:13px" id="me">${esc(S.name||'')} ✎</button></div>${pbar()}<div class="main n">${h}</div>`;
+const shell=(h,wide)=>{stopAll();$('#app').classList.toggle('wide',!!wide);$('#app').innerHTML=`<div class="top n"><span class="zh">作业</span><div><h1>${TOP}</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'Самое сложное за все уроки'}</small></div><button class="back n" style="margin:0 0 0 auto;font-size:13px" id="me">${esc(S.name||'')} ✎</button></div>${pbar()}<div class="main n">${h}</div>`;
  $('#me').onclick=()=>login();scrollTo(0,0);};
 const backBtn='<button class="back n" onclick="location.hash=\'\'">‹ Все задания</button>';
 const tag=n=>`<span class="tag">Задание № ${n}</span>`;
@@ -655,7 +721,8 @@ function quiz(n,{title,items,intro,startTxt,onEnd}){
  introOn();$('#st').onclick=go;}
 // sound buttons inside the rules
 function introOn(){document.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{b.classList.add('on');playS(b.dataset.s).then(()=>b.classList.remove('on'));});
- document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>playW(b.dataset.w,b));}
+ document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>playW(b.dataset.w,b));
+ if(window.ZVON)ZVON();}
 const pick=(a,k)=>shuffle(a).slice(0,k);
 
 
@@ -929,7 +996,149 @@ function dict(){const n=10;
    shell(doneBox(n,`<div class="res" style="text-align:center">📝 ${self} / ${res.length}</div><p class="lead" style="text-align:center">${self===res.length?'Все шесть — по памяти! 🏆':'Сам(а): '+self+' из '+res.length+'. Остальные можно повторить для закрепления 🙂'}</p>
     <div class="ans" style="grid-template-columns:repeat(6,1fr)">${res.map(r=>`<span class="${r.skip?'no':'ok'}" style="font-family:var(--han);font-size:26px;font-weight:400">${r.c}<small style="display:block;font:800 11px Manrope">${r.skip?'не вспомнил(а)':'сам(а)'}</small></span>`).join('')}</div>`));againOn(dict);};
   one();};}
+// route() — в конце zv8.part.js (после модуля «Звуки»)
+/* ===================== № 11–13: «Звуки китайского» внутри ДЗ 8 ===================== */
+// Перенесено из istochniki/zvuki/zv.part.js (та же таблица и тренировки), но номера, шкала % и «не доделано» — общие с ДЗ 8.
+// Всё в одном модуле ZV, чтобы имена не пересекались с ДЗ 8. Классы оформления — с приставкой zv (не play/pop/st/…: такие есть в общем оформлении).
+function zv11(){ZV.table(11);}
+function zv12(){ZV.ini(12);}
+function zv13(){ZV.ru(13);}
+const ZV=(()=>{
+const INI=[
+ {l:'b',ru:'б',asp:0,pair:'p',grp:'lips'},{l:'p',ru:'п',asp:1,pair:'b',grp:'lips'},{l:'m',ru:'м',asp:null,grp:'lips'},{l:'f',ru:'ф',asp:null,grp:'lips'},
+ {l:'d',ru:'д',asp:0,pair:'t',grp:'tip'},{l:'t',ru:'т',asp:1,pair:'d',grp:'tip'},{l:'n',ru:'н',asp:null,grp:'tip'},{l:'l',ru:'л',asp:null,grp:'tip'},
+ {l:'g',ru:'г',asp:0,pair:'k',grp:'root'},{l:'k',ru:'к',asp:1,pair:'g',grp:'root'},{l:'h',ru:'х',asp:null,grp:'root'},
+ {l:'z',ru:'дз',asp:0,pair:'c',grp:'teeth'},{l:'c',ru:'ц',ru2:'цх',asp:1,pair:'z',grp:'teeth'},{l:'s',ru:'с',asp:0,grp:'teeth'},
+ {l:'zh',ru:'дж',asp:0,pair:'ch',grp:'up'},{l:'ch',ru:'ч',ru2:'чх',asp:1,pair:'zh',grp:'up'},{l:'sh',ru:'ш',asp:0,grp:'up'}];
+const IN=Object.fromEntries(INI.map(x=>[x.l,x]));
+const GRP={lips:['Губы','b p m f','#7C6FFF','#5B4BE0'],tip:['Кончик языка','d t n l','#2DBE8C','#17936A'],root:['Корень языка','g k h','#F5A524','#E07B12'],
+ teeth:['Кончик языка у зубов','z c s','#22A6C9','#1479A0'],up:['Язык загнут вверх','zh ch sh','#FF5C8A','#D93A6A']};
+const FIN=[{l:'a',ru:'а'},{l:'o',ru:'о'},{l:'e',ru:'э'},{l:'i',ru:'и'},{l:'u',ru:'у'}];
+const FN=Object.fromEntries(FIN.map(x=>[x.l,x]));
+const ZG=['z','c','s','zh','ch','sh'];
+const YI={z:'дзы',c:'цы',s:'сы',zh:'джы',ch:'чшы',sh:'шы'};
+const YI_WRONG={z:'дзи',c:'ци',s:'си',zh:'джи',ch:'чи',sh:'ши'};
+const ruSyl=(i,f)=>f==='i'&&ZG.includes(i)?YI[i]:IN[i].ru+FN[f].ru;
+const noPuff=(i,f)=>f==='i'&&(i==='c'||i==='ch');
+const puffSyl=(i,f)=>IN[i].asp===1&&!noPuff(i,f);
+const tonesOf=b=>[1,2,3,4].filter(t=>SYL.variant(b,t));
+const SY=[];INI.forEach(I=>FIN.forEach(F=>{const b=I.l+F.l;if(tonesOf(b).length)SY.push({i:I.l,f:F.l,b});}));
+const firstT=b=>tonesOf(b)[0];
+const sylS=(b,t)=>mark(b,t);
+const CLEAN=['b','p','m','f','d','t','n','l','g','k','h'];
+const iniDemo=l=>CLEAN.includes(l)?null:{b:l+'a',t:firstT(l+'a')};
+const rnd=a=>a[Math.random()*a.length|0];
 
+/* звук: всё заранее загружено, без пауз */
+const AC={};
+function aud(u){let a=AC[u];if(!a){a=new Audio(u);a.preload='auto';AC[u]=a;}return a;}
+let unlockHint=false;
+function play(u,el){return new Promise(res=>{const a=aud(u);try{if(curA&&curA!==a)curA.pause();}catch(e){}curA=a;el&&el.classList.add('on');let d=false;
+ const end=ok=>{if(d)return;d=true;el&&el.classList.remove('on');res(ok);};
+ try{a.currentTime=0;}catch(e){}a.onended=()=>end(true);a.onerror=()=>end(false);
+ a.play().catch(e=>{if(e&&e.name==='NotAllowedError'&&!unlockHint){unlockHint=true;toast('Нажми на звук один раз — дальше он будет звучать сам, когда наводишь мышку');}end(false);});});}
+const sylURL=(b,t)=>{const v=SYL.variant(b,t);return v?fn(v.c):null;};
+async function playSyl(b,t,el){const u=sylURL(b,t||firstT(b));if(u)return play(u,el);}
+async function playIni(l,el){if(CLEAN.includes(l)){if(await play(VOICE+l+'0.wav',el))return;return playSyl(l+(l==='f'?'u':'a'),0,el);}const d=iniDemo(l);return playSyl(d.b,d.t,el);}
+const playFin=(l,el)=>playSyl(l,0,el);
+let PRE=false;
+function preload(){if(PRE)return;PRE=true;CLEAN.forEach(l=>aud(VOICE+l+'0.wav'));INI.forEach(I=>{const d=iniDemo(I.l);if(d)aud(sylURL(d.b,d.t));});FIN.forEach(F=>aud(sylURL(F.l,firstT(F.l))));SY.forEach(s=>aud(sylURL(s.b,firstT(s.b))));}
+// кнопки звука data-sy в правилах (вызывается из introOn ДЗ 8)
+window.ZVON=()=>document.querySelectorAll('[data-sy]').forEach(b=>{if(b.closest('#zvpop'))return;b.onclick=e=>{e.stopPropagation();const [x,t]=b.dataset.sy.split('|');playSyl(x,+t,b);};});
+
+/* всплывающая подсказка: наведи (на телефоне — нажми) */
+const PUFF='<span class="zv-puff">💨 предыхательный</span>',NOP='<span class="zv-nopf">непредыхательный</span>';
+function popIni(l){const I=IN[l],g=GRP[I.grp],ex=FIN.map(F=>I.l+F.l).filter(b=>tonesOf(b).length);
+ return `<div class="pp-h" style="--a:${g[2]};--b:${g[3]}"><b class="pp-l">${l}</b><span class="pp-eq">=</span><b class="pp-r">«${I.ru2||I.ru}»</b></div>
+ <div class="pp-tag">${I.asp===1?PUFF:I.asp===0?NOP:''}<span class="pp-g">${g[0]}</span></div>
+ ${CLEAN.includes(l)?'':`<div class="pp-n">Звучит слог <b>${sylS(I.l+'a',firstT(I.l+'a'))}</b></div>`}
+ <div class="pp-x">${ex.map(b=>`<button data-sy="${b}|${firstT(b)}"><b>${sylS(b,firstT(b))}</b><small>${ruSyl(I.l,b.slice(I.l.length))}</small></button>`).join('')}</div>`;}
+function popFin(l){const F=FN[l];
+ return `<div class="pp-h" style="--a:#5B6BD8;--b:#2B3270"><b class="pp-l">${l}</b><span class="pp-eq">=</span><b class="pp-r">«${F.ru}»</b></div>
+ ${l==='i'?'<div class="pp-warn">⚠️ После <b>z c s zh ch sh</b> буква i читается <b>«ы»</b>!</div>':''}
+ <div class="pp-x">${tonesOf(l).map(t=>`<button data-sy="${l}|${t}"><b>${sylS(l,t)}</b><small>${t}-й тон</small></button>`).join('')}</div>`;}
+function popSyl(b){const s=SY.find(x=>x.b===b);
+ return `<div class="pp-h" style="--a:${GRP[IN[s.i].grp][2]};--b:${GRP[IN[s.i].grp][3]}"><b class="pp-l">${b}</b><span class="pp-eq">=</span><b class="pp-r">«${ruSyl(s.i,s.f)}»</b></div>
+ <div class="pp-tag">${puffSyl(s.i,s.f)?PUFF:''}${noPuff(s.i,s.f)?'<span class="pp-hot">без 💨! предыхание исчезает</span>':''}${s.f==='i'&&ZG.includes(s.i)&&!noPuff(s.i,s.f)?'<span class="pp-hot">i = «ы»</span>':''}</div>
+ <div class="pp-x">${tonesOf(b).map(t=>`<button data-sy="${b}|${t}"><b>${sylS(b,t)}</b><small>${t}-й тон</small></button>`).join('')}</div>`;}
+let POPT=0,POPEL=null;
+function showPop(el){const p=$('#zvpop');if(!p)return;const k=el.dataset;
+ p.innerHTML=(k.ini?popIni(k.ini):k.fin?popFin(k.fin):popSyl(k.syl))+'<button class="pp-close" aria-label="Закрыть">✕</button>';
+ p.hidden=false;POPEL=el;document.querySelectorAll('.zc.cur').forEach(x=>x.classList.remove('cur'));el.classList.add('cur');
+ p.querySelectorAll('[data-sy]').forEach(b=>{const [x,t]=b.dataset.sy.split('|');aud(sylURL(x,+t));b.onclick=e=>{e.stopPropagation();playSyl(x,+t,b);};});
+ p.querySelector('.pp-close').onclick=e=>{e.stopPropagation();hidePop();};
+ if(matchMedia('(max-width:700px)').matches){const r=el.getBoundingClientRect();p.className='zvpop sheet'+(r.top+r.height/2>innerHeight/2?' up':'');p.style.left=p.style.top='';return;} // на телефоне: звук внизу экрана — подсказка сверху, чтобы не закрывала нажатую клетку
+ p.className='zvpop';const r=el.getBoundingClientRect(),pw=p.offsetWidth,ph=p.offsetHeight;
+ let x=r.left+r.width/2-pw/2;x=Math.max(10,Math.min(innerWidth-pw-10,x));let y=r.bottom+10;if(y+ph>innerHeight-10)y=r.top-ph-10;
+ if(y<10){y=Math.max(10,Math.min(innerHeight-ph-10,r.top+r.height/2-ph/2));x=r.right+10+pw<=innerWidth-10?r.right+10:Math.max(10,r.left-pw-10);} // низкий экран (телефон боком): подсказка сбоку, не на звуке
+ p.style.left=x+'px';p.style.top=y+'px';}
+function hidePop(){const p=$('#zvpop');if(p)p.hidden=true;POPEL=null;document.querySelectorAll('.zc.cur').forEach(x=>x.classList.remove('cur'));}
+function sound(el){const k=el.dataset;if(k.ini)return playIni(k.ini,el);if(k.fin)return playFin(k.fin,el);return playSyl(k.syl,0,el);}
+let TN=11;
+const hcnt=()=>{const h=S.zvh.length;return DONE[TN]?`✓ Задание № ${TN} сделано: все 22 звука прослушаны`:`Прослушано <b>${Math.min(h,22)}</b> из 22 звуков (17 инициалей и 5 финалей)`;};
+function heard(el){const k=el.dataset.ini||el.dataset.fin;if(!k)return;el.classList.add('seen');if(S.zvh.includes(k))return;S.zvh.push(k);keepS();
+ const m=$('#hcnt');if(m)m.innerHTML=hcnt();
+ if(S.zvh.length>=22&&!DONE[TN]){finish(TN,22,22,{heard:S.zvh.slice()});const pb=$('#pbar');if(pb)pb.outerHTML=pbar();toast(`🏆 Задание № ${TN} готово: ты послушал(а) все звуки!`);if(m)m.innerHTML=hcnt();const f=$('#zvfoot');if(f)f.innerHTML=foot();}
+ else if(S.zvh.length%4===0)send('t'+TN+'p',{heard:S.zvh.slice()});}
+const hover=matchMedia('(hover:hover) and (pointer:fine)').matches;
+function bindCells(){document.querySelectorAll('.zc').forEach(el=>{
+  if(hover){el.addEventListener('mouseenter',()=>{clearTimeout(POPT);if(POPEL===el)return;showPop(el);sound(el);heard(el);});
+   el.addEventListener('mouseleave',()=>{clearTimeout(POPT);POPT=setTimeout(hidePop,350);});}
+  el.addEventListener('click',e=>{e.stopPropagation();clearTimeout(POPT);showPop(el);sound(el);heard(el);});});
+ const p=$('#zvpop');p.onmouseenter=()=>clearTimeout(POPT);p.onmouseleave=()=>{if(hover){POPT=setTimeout(hidePop,350);}};p.onclick=e=>e.stopPropagation();}
+document.addEventListener('click',()=>{if(POPEL)hidePop();});
+
+/* № 11: таблица звуков */
+const iniCard=l=>{const I=IN[l];return `<button class="zc zi${S.zvh.includes(l)?' seen':''}" data-ini="${l}" style="--a:${GRP[I.grp][2]};--b:${GRP[I.grp][3]}"><b>${l}</b>${I.asp===1?'<i class="pf">💨</i>':''}<span class="ru">«${I.ru2||I.ru}»</span></button>`;};
+const finCard=l=>`<button class="zc zf${S.zvh.includes(l)?' seen':''}" data-fin="${l}"><b>${l}</b><span class="ru">«${FN[l].ru}»</span></button>`;
+const grpBox=g=>{const G=GRP[g];return `<div class="zg" style="--a:${G[2]};--b:${G[3]}"><div class="zgh">${G[0]}</div><div class="zgr">${INI.filter(x=>x.grp===g).map(x=>iniCard(x.l)).join('')}</div></div>`;};
+function sylTable(){return `<div class="zv-stw"><table class="zv-st"><tr><th></th>${FIN.map(F=>`<th>${F.l}</th>`).join('')}</tr>
+ ${INI.map(I=>`<tr><th style="color:${GRP[I.grp][3]}">${I.l}</th>${FIN.map(F=>{const b=I.l+F.l;if(!tonesOf(b).length)return '<td></td>';
+   const hot=F.l==='i'&&ZG.includes(I.l);return `<td><button class="zc zs${hot?' hot':''}${noPuff(I.l,F.l)?' np':''}" data-syl="${b}">${b}</button></td>`;}).join('')}</tr>`).join('')}</table></div>`;}
+const foot=()=>{const nx=nextN(TN);return DONE[TN]?`<div class="row">${nx?`<button class="btn" onclick="location.hash='#${nx}'">Задание № ${nx} →</button>`:`<button class="btn" onclick="location.hash='#itogi'">🏁 Мои итоги</button>`}<button class="btn g" onclick="location.hash=''">‹ Все задания</button></div>${nx?'':leftBox()}`
+ :`<div class="tip" style="font-size:16px">Чтобы задание № ${TN} засчиталось, послушай <b>все 22 звука</b> наверху: 17 инициалей и 5 финалей. Слоги в таблице — для тренировки.</div><div class="row"><button class="btn g" onclick="location.hash=''">‹ Все задания</button></div>`;};
+function table(n){TN=n;S.zvh=S.zvh||[];preload();
+ shell(`${backBtn}${tag(n)}<h2>🔊 Таблица звуков</h2><p class="lead">${hover?'<b>Наведи мышку</b>':'<b>Нажми</b>'} на любой звук: увидишь, как он звучит <b>по-русски</b>, и услышишь его. Послушай <b>все 22 звука</b> — тогда задание № ${n} готово.</p>
+  <div class="zv-hc" id="hcnt">${hcnt()}</div>
+  <h3 class="zh3">声母 <span>Инициали — начало слога</span></h3>
+  <div class="zgs">${['lips','tip','root'].map(grpBox).join('')}</div>
+  <div class="zgs two">${['teeth','up'].map(grpBox).join('')}</div>
+  <div class="zv-lgd"><span><i class="pf">💨</i> <b>предыхательные</b>: p t k c ch — с сильным выдохом</span><span><b>b d g z zh</b> — непредыхательные, без выдоха</span></div>
+  <h3 class="zh3">韵母 <span>Финали — конец слога</span></h3>
+  <div class="zfs">${FIN.map(F=>finCard(F.l)).join('')}</div>
+  <div class="zwarn big"><div class="k2">⚠️ Самое важное правило</div>
+   <div class="h">После z c s zh ch sh буква <u>i</u> читается «ы»</div>
+   <div class="zrow6">${ZG.map(l=>`<button data-sy="${l}i|${firstT(l+'i')}" class="${noPuff(l,'i')?'hot':''}"><b>${l}i</b><small>«${YI[l]}»</small></button>`).join('')}</div>
+   <div class="h2w">ci = «цы», chi = «чшы» — ПРЕДЫХАНИЕ ИСЧЕЗАЕТ!</div>
+   <p>Сами по себе <b>c</b> и <b>ch</b> предыхательные 💨. Но вместе с <b>i</b> выдох пропадает: <b>ci</b> = «цы», <b>chi</b> = «чшы».</p></div>
+  <h3 class="zh3">拼音 <span>Инициаль + финаль = слог</span></h3>
+  <p class="lead" style="margin-top:0">${hover?'Наведи':'Нажми'} на слог — услышишь его и увидишь все тоны. Розовые клетки — где i читается «ы».</p>
+  ${sylTable()}<div id="zvfoot">${foot()}</div>`,true);
+ $('#app').insertAdjacentHTML('beforeend','<div class="zvpop" id="zvpop" hidden></div>');
+ bindCells();ZVON();leftOn();}
+
+/* № 12: узнай инициаль */
+const ruleIni=`<div class="rbox" style="--c1:#5B6BD8;--c2:#8E5BE8"><b>Как делать</b>Прозвучит слог. Слушай <b>самое начало</b> — это инициаль. Выбери её. Кнопка 🔊 — послушать ещё раз.</div>`;
+function ini(n){preload();quiz(n,{title:'👂 Узнай инициаль',intro:ruleIni,
+ items:()=>{const L=shuffle(INI.map(x=>x.l)).slice(0,10);return L.map(l=>{const I=IN[l];const ss=SY.filter(s=>s.i===l&&!noPuff(s.i,s.f));const s=rnd(ss);const t=rnd(tonesOf(s.b));
+  const others=new Set();if(I.pair)others.add(I.pair);const near={s:'sh',sh:'s',z:'zh',zh:'z',c:'ch',ch:'c',n:'l',l:'n',f:'h',h:'f',m:'n'}[l];if(near)others.add(near);
+  shuffle(INI.map(x=>x.l)).forEach(x=>{if(others.size<3&&x!==l)others.add(x);});
+  const o=[l,...[...others].slice(0,3)];return {q:'<div class="qq">С какой инициали начинается слог?</div>',snd:()=>playSyl(s.b,t),o,r:l,cls:'py',
+   why:`Это <b>${sylS(s.b,t)}</b> — «${ruSyl(s.i,s.f)}».`,lab:'инициаль в '+sylS(s.b,t)};});}});}
+
+/* № 13: как читается по-русски */
+const ruleRu=`<div class="zwarn"><div class="k2">⚠️ Запомни</div><div class="h">После z c s zh ch sh: i = «ы»</div>
+ <div class="zrow6 sm">${ZG.map(l=>`<button data-sy="${l}i|${firstT(l+'i')}" class="${noPuff(l,'i')?'hot':''}"><b>${l}i</b><small>«${YI[l]}»</small></button>`).join('')}</div>
+ <p><b>ci</b> = «цы», <b>chi</b> = «чшы» — предыхание исчезает!</p></div>`;
+function ruOpts(i,f){const r=ruSyl(i,f);if(f==='i'&&ZG.includes(i)){const alt={z:'цы',c:'сы',s:'шы',zh:'дзы',ch:'шы',sh:'сы'}[i];return [r,YI_WRONG[i],alt];}
+ const o=new Set([r]);if(IN[i].pair)o.add(IN[IN[i].pair].ru+FN[f].ru);shuffle(INI).forEach(I=>{if(o.size<3&&I.l!==i)o.add(I.ru+FN[f].ru);});return [...o].slice(0,3);}
+function ru(n){preload();quiz(n,{title:'🔤 Как читается по-русски?',intro:ruleRu,
+ items:()=>{const zi=ZG.map(l=>SY.find(s=>s.b===l+'i')).filter(Boolean);const oth=shuffle(SY.filter(s=>!(s.f==='i'&&ZG.includes(s.i)))).slice(0,4);
+  return shuffle(zi.concat(oth)).map(s=>{const t=rnd(tonesOf(s.b));const o=ruOpts(s.i,s.f);
+   return {q:`<div class="qq">Как читается этот слог?</div><div class="big7">${sylS(s.b,t)}</div>`,o,r:o[0],cls:'tx ru',show:x=>'«'+esc(x)+'»',rshow:'«'+o[0]+'»',
+    why:noPuff(s.i,s.f)?'Вместе с i выдох пропадает!':s.f==='i'&&ZG.includes(s.i)?'После z c s zh ch sh i = «ы».':'',after:()=>playSyl(s.b,t),wait:2000,lab:sylS(s.b,t)};});}});}
+
+return {table,ini,ru};})();
 
 route();
 </script></body></html>

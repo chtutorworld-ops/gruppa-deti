@@ -1,4 +1,4 @@
-// «Проверяющий» для ДЗ 8: ученик 12 лет проходит все 10 заданий подряд, ошибается нарочно, жмёт кнопки звука,
+// «Проверяющий» для ДЗ 8: ученик 12 лет проходит все 13 заданий подряд, ошибается нарочно, жмёт кнопки звука,
 // доигрывает обе игры. Игры ОБЯЗАНЫ открываться на весь экран (дети жаловались: крот на пол-окна).
 // node dz8.js [base-url] [phone|land|desk]   (по умолчанию http://localhost:8765/dz-8/, все три вида)
 const {chromium}=require('playwright');const fs=require('fs');const {wire,errs,AUDIO_SPY}=require('./u8common');
@@ -41,7 +41,10 @@ async function gameFull(p,w,h,startSel,mobile,step,name){
 async function run(view){const [nm,w,h,mobile]=view;
  const br=await chromium.launch({args:['--autoplay-policy=no-user-gesture-required']});
  const ctx=await br.newContext({viewport:{width:w,height:h},isMobile:mobile,hasTouch:mobile,deviceScaleFactor:1});
- const log={err:[],bad:[],ok:new Set(),api:[]};await wire(ctx,log);await ctx.addInitScript(AUDIO_SPY);
+ const log={err:[],bad:[],ok:new Set(),api:[]};await wire(ctx,log);
+ // № 11: чистые инициали — записи учителя b0…h0 (как на странице «Звуки»); другие .wav — ошибка
+ const VW=new Set(['b0','p0','m0','f0','d0','t0','n0','l0','g0','k0','h0'].map(x=>x+'.wav'));
+ await ctx.route(/\/audio\/voice\//,r=>{const f=r.request().url().split('/audio/voice/').pop().split('?')[0];if(VW.has(f)){log.ok.add('voice '+f);return r.fulfill({status:200,contentType:'audio/wav',body:WAV});}log.bad.push('лишняя запись: '+f);return r.fulfill({status:404,body:''});});await ctx.addInitScript(AUDIO_SPY);
  const ru=new Set();
  await ctx.route(/\/audio\/ru\//,r=>{const f=r.request().url().split('/audio/ru/').pop().split('?')[0].replace('.mp3','');if(RUL.has(f)){ru.add(f);return r.fulfill({status:200,contentType:'audio/wav',body:WAV});}log.bad.push('русского звука нет в audio-ru.txt: '+f);return r.fulfill({status:404,body:''});});
  const p=await ctx.newPage();errs(p,log);
@@ -52,7 +55,7 @@ async function run(view){const [nm,w,h,mobile]=view;
  await p.goto(BASE);await sleep(700);
  await p.fill('#nm','тест');await tap(p,'#go',mobile);await sleep(500);await overflow(p,'home');await shotF('00-home');
  if(!await p.$('#pbar'))throw new Error('нет шкалы %');
- const nItems=await p.$$eval('.ti',a=>a.length);if(nItems!==10)throw new Error('заданий в списке '+nItems);
+ const nItems=await p.$$eval('.ti',a=>a.length);if(nItems!==13)throw new Error('заданий в списке '+nItems);
 
  // ---------- 1 крот (как на уроке 8) ----------
  if(want(1)){await go(1);await shotF('01-a');await shot('01-screen');
@@ -126,6 +129,31 @@ async function run(view){const [nm,w,h,mobile]=view;
   if(k===0)await shot('10-q');if(k===2){await tap(p,'#sk',mobile);await sleep(2600);continue;}
   await draw(p,ch);await sleep(1300);}
  await sleep(900);if(!await done(p))throw new Error('10 не закончилось');await shotF('10-z');}
+
+ // ---------- 11 таблица звуков (из страницы «Звуки»): наведи/нажми все 22 звука ----------
+ if(want(11)){await go(11);await overflow(p,'task 11');await shotF('11-a');
+  const cells=await p.$$('.zc.zi,.zc.zf');if(cells.length!==22)throw new Error('звуков в таблице '+cells.length+' (нужно 22)');
+  const a0=await p.evaluate(()=>__au.length);let closed=0;
+  for(let i=0;i<cells.length;i++){const el=cells[i];await el.scrollIntoViewIfNeeded();const b=await el.boundingBox();
+   const cov=await p.evaluate(([x,y])=>{const e=document.elementFromPoint(x,y);return !!(e&&e.closest('#zvpop'));},[b.x+b.width/2,b.y+b.height/2]);
+   if(cov){closed++;const cx=await p.$('#zvpop .pp-close');const vb=cx&&await cx.boundingBox();if(vb&&vb.width)await tapEl(p,cx,mobile);else{if(mobile)await p.touchscreen.tap(5,5);else await p.mouse.click(5,5);}await sleep(250);}
+   if(mobile)await p.touchscreen.tap(b.x+b.width/2,b.y+b.height/2);else await p.mouse.move(b.x+b.width/2,b.y+b.height/2);await sleep(420);
+   const hid=await p.evaluate(([x,y])=>{const e=document.elementFromPoint(x,y);return !!(e&&e.closest('#zvpop'));},[b.x+b.width/2,b.y+b.height/2]);if(hid)throw new Error('подсказка закрыла нажатый звук № '+(i+1));
+   const pp=await p.evaluate(()=>{const e=document.querySelector('#zvpop');if(!e||e.hidden)return null;const r=e.getBoundingClientRect();return {t:e.querySelector('.pp-r').textContent,x:r.left,y:r.top,r:r.right,b:r.bottom,w:innerWidth,h:innerHeight};});
+   const ai=await p.evaluate(()=>__au.length);if(process.env.DBG)step('ячейка '+i+' звуков '+ai+' '+JSON.stringify(pp&&pp.t));
+   if(!pp)throw new Error('подсказка не появилась у звука № '+(i+1));
+   if(pp.x<-1||pp.y<-1||pp.r>pp.w+1||pp.b>pp.h+1)throw new Error('подсказка вылезает за экран '+JSON.stringify(pp));
+   if(i===0||i===12){await shot('11-pop'+i);step('подсказка: '+pp.t);}
+   if(i===3){const bt=await p.$('#zvpop [data-sy]');await bt.click();await sleep(400);}}
+  const a1=await p.evaluate(()=>__au.length);step('звуков в таблице сыграно: '+(a1-a0)+', пришлось закрыть подсказку ✕: '+closed);if(a1-a0<22)throw new Error('не все звуки таблицы прозвучали: '+(a1-a0));
+  const syl=await p.$$('.zc.zs');step('слогов в таблице: '+syl.length);await syl[20].scrollIntoViewIfNeeded();await syl[20].click();await sleep(400);
+  await shot('11-syl');step('звук в правиле 11: '+await sounds(p,'.zrow6 [data-sy]',6));
+  const ok=await p.evaluate(()=>!!DONE[11]);if(!ok)throw new Error('задание 11 не засчиталось после 22 звуков');
+  if(!await p.$('#zvfoot .btn'))throw new Error('нет кнопки «дальше» после 11');await overflow(p,'task 11 end');await shotF('11-z');step('задание 11 ok');}
+ // ---------- 12–13 тренировки звуков ----------
+ for(const n of [12,13]){if(!want(n))continue;await go(n);await overflow(p,'task '+n);await shotF(n+'-a');
+  step('звук в правиле '+n+': '+await sounds(p,'[data-sy]',6));
+  await quizTask(p,n,mobile);if(!await done(p))throw new Error('task '+n+' not done');await overflow(p,'task '+n+' end');await shotF(n+'-z');step('задание '+n+' ok');}
 
  // ---------- итоги ----------
  await p.evaluate(()=>location.hash='#itogi');await sleep(700);await shotF('99-itogi');

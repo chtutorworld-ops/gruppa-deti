@@ -12,7 +12,11 @@ const TASKS=[null,
  {t:'👀 Узнай иероглиф',d:'你 我 好 叫 妈 爸 — и перевод фраз',run:know},
  {t:'🔑 Смысл и чтение',d:'Ключ — смысл, другая часть — чтение',run:keys},
  {t:'🥷 Иероглифный ниндзя',d:'Игра: руби только нужные иероглифы',run:ninja},
- {t:'📝 Диктант иероглифов',d:'Слушай и пиши иероглиф по памяти',run:dict}];
+ {t:'📝 Диктант иероглифов',d:'Слушай и пиши иероглиф по памяти',run:dict},
+ // № 11–13 — «Звуки китайского» (все пройденные инициали и финали), встроены из site/zvuki: модуль zv8.part.js
+ {t:'🔊 Таблица звуков',d:'Наведи или нажми на каждый звук: как он звучит по-русски',run:zv11},
+ {t:'👂 Узнай инициаль',d:'Слушай слог: с какой инициали он начинается?',run:zv12},
+ {t:'🔤 Как читается по-русски?',d:'zi «дзы», ci «цы», chi «чшы», ba «ба»…',run:zv13}];
 const NT=TASKS.length-1;
 let DONE={};try{DONE=JSON.parse(localStorage.getItem('zh-dz8-done')||'{}')}catch(e){}
 const keep=()=>{try{localStorage.setItem('zh-dz8-done',JSON.stringify(DONE))}catch(e){}};
@@ -37,7 +41,7 @@ function login(){$('#app').innerHTML=`<div class="top n"><span class="zh">作业
  $('#go').onclick=go;$('#nm').onkeydown=e=>{if(e.key==='Enter')go();};}
 const nDone=()=>Object.keys(DONE).filter(k=>TASKS[+k]).length;
 const pbar=()=>{const d=nDone(),pc=Math.round(d*100/NT);return `<div class="pbar n" id="pbar"><div class="pbt"><span>Выполнено <b>${d}</b> из ${NT}</span><b>${pc}%</b></div><div class="pbl"><i style="width:${pc}%"></i></div></div>`;};
-const shell=(h)=>{stopAll();$('#app').innerHTML=`<div class="top n"><span class="zh">作业</span><div><h1>${TOP}</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'Самое сложное за все уроки'}</small></div><button class="back n" style="margin:0 0 0 auto;font-size:13px" id="me">${esc(S.name||'')} ✎</button></div>${pbar()}<div class="main n">${h}</div>`;
+const shell=(h,wide)=>{stopAll();$('#app').classList.toggle('wide',!!wide);$('#app').innerHTML=`<div class="top n"><span class="zh">作业</span><div><h1>${TOP}</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'Самое сложное за все уроки'}</small></div><button class="back n" style="margin:0 0 0 auto;font-size:13px" id="me">${esc(S.name||'')} ✎</button></div>${pbar()}<div class="main n">${h}</div>`;
  $('#me').onclick=()=>login();scrollTo(0,0);};
 const backBtn='<button class="back n" onclick="location.hash=\'\'">‹ Все задания</button>';
 const tag=n=>`<span class="tag">Задание № ${n}</span>`;
@@ -93,7 +97,8 @@ function quiz(n,{title,items,intro,startTxt,onEnd}){
  introOn();$('#st').onclick=go;}
 // sound buttons inside the rules
 function introOn(){document.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{b.classList.add('on');playS(b.dataset.s).then(()=>b.classList.remove('on'));});
- document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>playW(b.dataset.w,b));}
+ document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>playW(b.dataset.w,b));
+ if(window.ZVON)ZVON();}
 const pick=(a,k)=>shuffle(a).slice(0,k);
 
 
@@ -367,6 +372,4 @@ function dict(){const n=10;
    shell(doneBox(n,`<div class="res" style="text-align:center">📝 ${self} / ${res.length}</div><p class="lead" style="text-align:center">${self===res.length?'Все шесть — по памяти! 🏆':'Сам(а): '+self+' из '+res.length+'. Остальные можно повторить для закрепления 🙂'}</p>
     <div class="ans" style="grid-template-columns:repeat(6,1fr)">${res.map(r=>`<span class="${r.skip?'no':'ok'}" style="font-family:var(--han);font-size:26px;font-weight:400">${r.c}<small style="display:block;font:800 11px Manrope">${r.skip?'не вспомнил(а)':'сам(а)'}</small></span>`).join('')}</div>`));againOn(dict);};
   one();};}
-
-
-route();
+// route() — в конце zv8.part.js (после модуля «Звуки»)
