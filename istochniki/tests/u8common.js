@@ -9,6 +9,7 @@ const unf=f=>{try{return f.replace('.mp3','').split('-').map(h=>String.fromCodeP
 async function wire(ctx,log){
  await ctx.route(/\/audio\//,r=>{const u=r.request().url();const f=decodeURIComponent(u.split('/audio/').pop().split('?')[0]);
   if(f.includes('voice/')||f.endsWith('.wav')){log.bad.push('старая запись .wav: '+f);return r.fulfill({status:404,body:''});}
+  if(f.startsWith('dict/')&&LIST.has(f.slice(5))){(log.dict=log.dict||new Set()).add(unf(f.slice(5)));return r.fulfill({status:200,contentType:'audio/wav',body:WAV});}
   if(LIST.has(f)){log.ok.add(unf(f));return r.fulfill({status:200,contentType:'audio/wav',body:WAV});}
   log.bad.push('звука нет в списке: '+unf(f)+' ('+f+')');return r.fulfill({status:404,body:''});});
  await ctx.route(/workers\.dev\/api/,r=>{const u=r.request().url();if(/\/save/.test(u)){try{(log.saves=log.saves||[]).push(JSON.parse(r.request().postData()));}catch(e){}}log.api.push(u.replace(/^https?:\/\/[^/]+/,'')+' '+(r.request().postData()||'').slice(0,160));

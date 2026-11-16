@@ -82,6 +82,7 @@ async function run(view){const [nm,w,h,mobile]=view;
   if(i===2)step('🔊 у слога: '+await sounds(p,'.pl8',1));
   await tap(p,`.dr8[data-i="${i}"] [data-t="${t}"]`,mobile);await sleep(300);
   if(i===1){await shotF('02-err');const why=await p.$eval(`.dr8[data-i="1"] .why8`,e=>e.textContent);if(!/тон/.test(why))throw new Error('нет пояснения к тону: '+why);}}
+ const dd=[...(log.dict||[])];step('голос диктанта (audio/dict): '+dd.join(''));const d2c=await p.evaluate(()=>D2.map(s=>SYL.char(s)));const oth=d2c.filter(c=>log.ok.has(c));if(!dd.length||oth.length)throw new Error('диктант на тоны звучит не голосом диктанта: '+oth.join(''));
  await overflow(p,'d2');step('звук ответов: '+await sounds(p,'.ear8',3));
  await tap(p,'#fin',mobile);await sleep(500);if(!await done(p))throw new Error('2 не закончилось');await shotF('02-end');}
 
@@ -96,7 +97,7 @@ async function run(view){const [nm,w,h,mobile]=view;
   if([1,2,3,5].includes(i)){await shotF('03-err'+i);const fb=await p.$eval('#fb',e=>e.textContent);step('ошибка '+i+': '+fb.replace(/\s+/g,' ').slice(0,140));
    if(i===1&&!/букву d/.test(fb))throw new Error('нет подсказки b/d');if(i===5&&!/русскими/.test(fb))throw new Error('нет подсказки про русские буквы');}
   await overflow(p,'d3');await tap(p,'#nb',mobile);await sleep(300);}
- await p.waitForSelector('.ans8');await shotF('03-end');}
+ await p.waitForSelector('.ans8');await shotF('03-end');const d3=await p.evaluate(()=>D3.map(s=>SYL.char(s)));const miss3=d3.filter(c=>log.ok.has(c)||!(log.dict||new Set()).has(c));step('голос диктанта в № 3: '+(d3.length-miss3.length)+' из '+d3.length);if(miss3.length)throw new Error('в диктанте № 3 не голосом диктанта: '+miss3.join(''));}
 
  // ---------- 4–8 упражнения ----------
  for(const n of [4,5,6,7,8]){if(!want(n))continue;await go(n);await overflow(p,'task '+n);await shotF(String(n).padStart(2,'0')+'-a');

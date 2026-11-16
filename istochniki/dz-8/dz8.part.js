@@ -113,7 +113,10 @@ const toneS=s=>{const m=s.normalize('NFD');if(/̄/.test(m))return 1;if(/́/.test
 const TLEG=`<div class="tleg">${[1,2,3,4].map(t=>`<div style="--tc:${TCV[t]}"><span>${msv(t,'#fff','30px')}</span><small>${['','ровно','вверх','ямка','вниз'][t]}</small></div>`).join('')}</div>`;
 // explanation for a wrong tone (Daria: «прозвучал 4 тон, его значок вот такой — будто падает вниз»)
 const toneWhy=(r,c)=>`Прозвучал <b>${r?r+'-й тон':'лёгкий тон'}</b> — ${r?`его значок вот такой <span class="mkb" style="--tc:${TCV[r]}">${msv(r,'#fff','24px')}</span>: ${TSAY[r]}.`:'значка нет совсем: коротко и тихо.'}${c!=null&&c!==r?` А ты выбрал(а) <span class="mkb" style="--tc:${TCV[c]}">${msv(c,'#fff','24px')}</span> — это ${TSH[c]}.`:''}`;
-const sayS=(s,el)=>{el&&el.classList.add('on');return playS(s,el).then(()=>el&&el.classList.remove('on'));};
+// sayS — только в диктантах (№ 2 и № 3): отдельный «голос диктанта» audio/dict/ (tools/make_dict.py) — один голос,
+// протяжно, 3-й тон с ямкой и кряхтением (просьба Дарьи 2026-11-16). Записи Дарьи и голос заданий сюда НЕ подмешиваются.
+const dictURL=s=>{const c=SYL.char(s);return c?fn(c).replace(/[^/]*$/,m=>'dict/'+m):null;};
+const sayS=(s,el)=>{el&&el.classList.add('on');const u=dictURL(s);return (u?playURL(u,el):Promise.resolve()).then(()=>el&&el.classList.remove('on'));};
 
 
 /* ---- 2: the crystal cave game ---- */
