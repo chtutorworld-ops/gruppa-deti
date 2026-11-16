@@ -264,13 +264,20 @@ function propis(n,L){let k=0,round=0;const res=[];const LS=L.join(' ');
 /* ---- 5: он или она? photo → tap 他 or 她 ---- */
 const HETA=[['malchik','他','мальчик'],['pevica','她','певица'],['vrach','他','врач — мужчина'],['puteshestvennica','她','путешественница'],['paren','他','парень'],['uchitelnica','她','учительница']];
 function heta(){const n=2;const Q=shuffle(HETA);let k=0,ok=0;const miss=[];
+ const intro=()=>{shell(`${backBtn}${tag(n)}<h2>📸 Он или она?</h2>
+   <div class="ht9in">
+    <div class="ht9c" style="--c:#5B6BD8"><b class="zh">他</b><span class="py">tā</span><span class="ru">он</span><span class="k">слева ключ <b class="zh">亻</b> «человек»</span></div>
+    <div class="ht9c" style="--c:#FF3D77"><b class="zh">她</b><span class="py">tā</span><span class="ru">она</span><span class="k">слева ключ <b class="zh">女</b> «женщина»</span></div>
+   </div>
+   <p class="lead" style="text-align:center">Запомни, кто где. Дальше подсказок не будет: смотри на фото и нажимай нужный иероглиф.</p>
+   <div class="row" style="justify-content:center"><button class="btn nxt" id="hgo">Начать →</button></div>`);
+  $('#hgo').onclick=ask;};
  HETA.forEach(([f])=>{const im=new Image();im.src='img/p-'+f+'.webp';});
  const ask=()=>{if(k>=Q.length)return end();const [f,c,who]=Q[k];
   shell(`${backBtn}${tag(n)}<h2>📸 Он или она?</h2>
-   <div class="rbox" style="--c1:#5B6BD8;--c2:#FF5C8A"><b>Правило</b><div class="rr2"><span><b class="zh" style="font-size:26px">他</b> tā — <b>он</b>: ключ 亻 «человек»</span><span><b class="zh" style="font-size:26px">她</b> tā — <b>она</b>: ключ 女 «женщина»</span></div></div>
    <div class="qcard n ht8"><div class="qhead"><span>Фото ${k+1} из ${Q.length}</span><span>✓ ${ok}</span></div>
     <img class="ht8i" src="img/p-${f}.webp" alt="">
-    <div class="ht8b"><button data-c="他"><b class="zh">他</b><small>tā · он</small></button><button data-c="她"><b class="zh">她</b><small>tā · она</small></button></div>
+    <div class="ht8b"><button data-c="他"><b class="zh">他</b></button><button data-c="她"><b class="zh">她</b></button></div>
     <div class="fb" id="fb"></div><div id="nx"></div></div>`);
   document.querySelectorAll('.ht8b [data-c]').forEach(b=>b.onclick=()=>{const a=b.dataset.c,good=a===c;document.querySelectorAll('.ht8b button').forEach(x=>x.disabled=true);
    b.classList.add(good?'ok':'no');if(!good)document.querySelector(`.ht8b [data-c="${c}"]`).classList.add('ok');
@@ -280,7 +287,7 @@ function heta(){const n=2;const Q=shuffle(HETA);let k=0,ok=0;const miss=[];
    $('#nx').innerHTML=`<button class="btn nxt" id="nb">${k+1<Q.length?'Дальше →':'Готово →'}</button>`;$('#nb').onclick=()=>{k++;ask();};if(good)later(()=>{if($('#nb')){k++;ask();}},1300);});};
  const end=()=>{finish(n,ok,Q.length,{miss});
   shell(doneBox(n,`<div class="res" style="text-align:center">${ok} / ${Q.length}</div><p class="lead" style="text-align:center">${ok===Q.length?'Без ошибок! 他 и 她 ты различаешь 🏆':'Хорошо! Помни: 女 — «женщина» → 她 🙂'}</p>`));againOn(heta);};
- ask();}
+ intro();}
 
 /* ---- the pronoun table ---- */
 // [hanzi, syllables [base, tone], translation]

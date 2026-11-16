@@ -95,7 +95,7 @@ async function run(view){const [nm,w,h,mobile]=view;
   for(let k=0;k<cnt*2;k++){await p.waitForSelector('#hw');await sleep(700);const c=await p.$eval('.ph8 .zh',e=>e.textContent);if(k===0)await shot('t'+n+'-q');if(k===1)await wrongStroke(p);await draw(p,c);await sleep(1300);}
   await p.waitForSelector('#again',{timeout:8000});await overflow(p,'propis '+n);await shotF('t'+n+'-end');};
  await propis(1,2);
- await go(2);await shotF('t5');
+ await go(2);await shotF('t5');await tap(p,'#hgo',mobile);await sleep(400);if(await p.$('.ht8b small, .rbox'))throw new Error('в № 2 остались подсказки');
  for(let k=0;k<6;k++){await p.waitForSelector('.ht8b button:not([disabled])');const f=await p.$eval('.ht8i',e=>e.getAttribute('src'));const right=/malchik|vrach|paren/.test(f)?'他':'她';const pick=k===2?(right==='他'?'她':'他'):right;
   if(k===0)await shotF('t5-q');await tap(p,`.ht8b [data-c="${pick}"]`,mobile);await sleep(300);if(k===2){await shotF('t5-err');const t=await p.$eval('#fb',e=>e.textContent);if(!/ключ/.test(t))throw new Error('нет пояснения он/она');}
   const nb=await p.$('#nb');if(nb)await tap(p,'#nb',mobile);else await sleep(1500);await sleep(300);}

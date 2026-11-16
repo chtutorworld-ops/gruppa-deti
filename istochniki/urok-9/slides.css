@@ -257,3 +257,35 @@
 .u9ns p{font-size:26px}
 .u9nw{font-size:24px}
 .u9n{bottom:166px!important}
+/* читаемость 2026-11-16: крупнее подписи, блоки на весь слайд */
+.u9fc{align-content:space-evenly!important;grid-template-rows:auto auto auto!important}
+.u9ft{font-size:34px}
+.u9ft small{font:700 24px/1.3 Manrope,'LXGW WenKai GB',sans-serif;color:#3D4560;margin-top:8px}
+.u9fx{font-size:56px}
+.u9tl{bottom:64px}
+.u9tc{align-content:space-evenly}
+.u9fl{font-size:72px}
+.u9yr{font-size:18px;padding:6px 16px}
+.u9tc p{font-size:25px}
+.u9tc small{font:700 21px/1.35 Manrope,'LXGW WenKai GB',sans-serif;color:#3D4560}
+.u8men{top:100px;bottom:64px;align-items:stretch}
+.u8m1{min-height:0}
+.u8eq2 small{font-size:20px;color:#3D4560}
+.u8m1 p{font-size:28px}
+.u8m2{grid-auto-rows:1fr}
+.u8m2>div{display:grid;align-content:center}
+.u8m2 b{font-size:24px}
+.u8m2 p{font-size:28px}
+.u8m2 .pyn{font-size:28px}
+.u9py{bottom:64px;top:104px}
+.u9pl{align-content:stretch;grid-auto-rows:1fr}
+.u9pl p{font-size:28px}
+.u9pz p{font-size:28px}
+.u9fun{font-size:26px}
+.u9sc small{font-size:28px;color:#3D4560}
+.u9sc>b{font-size:96px}
+.u9six{bottom:64px}
+.u9we{bottom:140px;top:104px}
+.u9wa b{font-size:30px;color:#1E2350}
+.u9wa .pyn{font-size:36px}
+.u8eq2 .z{font-size:80px!important}.u8eq2 small{font-size:18px}
