@@ -76,18 +76,18 @@ async function run(view){const [nm,w,h,mobile]=view;
 
  // ---------- 2 диктант на тоны (голос читает 2 раза) ----------
  const tn=s=>{const m=s.normalize('NFD');return /̄/.test(m)?1:/́/.test(m)?2:/̌/.test(m)?3:/̀/.test(m)?4:0;};
- if(want(2)){await go(2);const D2=await p.evaluate(()=>D2);
+ if(want(2)){const ok0=new Set(log.ok);await go(2);const D2=await p.evaluate(()=>D2);
  await sleep(2500);const au=await p.evaluate(()=>__au.length);if(au<2)throw new Error('диктант на тоны: голос не прочитал слог 2 раза ('+au+')');await shotF('02-a');
  for(let i=0;i<D2.length;i++){let t=tn(D2[i]);if(i===1)t=(t%4)+1;if(i===4)t=(t%4)+1;
   if(i===2)step('🔊 у слога: '+await sounds(p,'.pl8',1));
   await tap(p,`.dr8[data-i="${i}"] [data-t="${t}"]`,mobile);await sleep(300);
   if(i===1){await shotF('02-err');const why=await p.$eval(`.dr8[data-i="1"] .why8`,e=>e.textContent);if(!/тон/.test(why))throw new Error('нет пояснения к тону: '+why);}}
- const dd=[...(log.dict||[])];step('голос диктанта (audio/dict): '+dd.join(''));const d2c=await p.evaluate(()=>D2.map(s=>SYL.char(s)));const oth=d2c.filter(c=>log.ok.has(c));if(!dd.length||oth.length)throw new Error('диктант на тоны звучит не голосом диктанта: '+oth.join(''));
+ const dd=[...(log.dict||[])];step('голос диктанта (audio/dict): '+dd.join(''));const d2c=await p.evaluate(()=>D2.map(s=>SYL.char(s)));const oth=d2c.filter(c=>log.ok.has(c)&&!ok0.has(c));if(!dd.length||oth.length)throw new Error('диктант на тоны звучит не голосом диктанта: '+oth.join(''));
  await overflow(p,'d2');step('звук ответов: '+await sounds(p,'.ear8',3));
  await tap(p,'#fin',mobile);await sleep(500);if(!await done(p))throw new Error('2 не закончилось');await shotF('02-end');}
 
  // ---------- 3 диктант слогов (голос читает 3 раза) ----------
- if(want(3)){await go(3);const D3=await p.evaluate(()=>D3);await sleep(3600);const au=await p.evaluate(()=>__au.length);step('звуков после открытия 3: '+au);await shotF('03-a');
+ if(want(3)){const ok3=new Set(log.ok);await go(3);const D3=await p.evaluate(()=>D3);await sleep(3600);const au=await p.evaluate(()=>__au.length);step('звуков после открытия 3: '+au);await shotF('03-a');
  const plain=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'');
  for(let i=0;i<D3.length;i++){await p.waitForSelector('#w');let word=plain(D3[i]),t=tn(D3[i]);
   if(i===1)word='bi';if(i===2)word='ku';if(i===3)t=(t%4)+1;if(i===5)word='ту';
@@ -97,7 +97,7 @@ async function run(view){const [nm,w,h,mobile]=view;
   if([1,2,3,5].includes(i)){await shotF('03-err'+i);const fb=await p.$eval('#fb',e=>e.textContent);step('ошибка '+i+': '+fb.replace(/\s+/g,' ').slice(0,140));
    if(i===1&&!/букву d/.test(fb))throw new Error('нет подсказки b/d');if(i===5&&!/русскими/.test(fb))throw new Error('нет подсказки про русские буквы');}
   await overflow(p,'d3');await tap(p,'#nb',mobile);await sleep(300);}
- await p.waitForSelector('.ans8');await shotF('03-end');const d3=await p.evaluate(()=>D3.map(s=>SYL.char(s)));const miss3=d3.filter(c=>log.ok.has(c)||!(log.dict||new Set()).has(c));step('голос диктанта в № 3: '+(d3.length-miss3.length)+' из '+d3.length);if(miss3.length)throw new Error('в диктанте № 3 не голосом диктанта: '+miss3.join(''));}
+ await p.waitForSelector('.ans8');await shotF('03-end');const d3=await p.evaluate(()=>D3.map(s=>SYL.char(s)));const miss3=d3.filter(c=>(log.ok.has(c)&&!ok3.has(c))||!(log.dict||new Set()).has(c));step('голос диктанта в № 3: '+(d3.length-miss3.length)+' из '+d3.length);if(miss3.length)throw new Error('в диктанте № 3 не голосом диктанта: '+miss3.join(''));}
 
  // ---------- 4–8 упражнения ----------
  for(const n of [4,5,6,7,8]){if(!want(n))continue;await go(n);await overflow(p,'task '+n);await shotF(String(n).padStart(2,'0')+'-a');
