@@ -160,9 +160,9 @@ add(4,'Одно слово — три записи',`${hd('一个词，三种写
 /* ===== 5. an en ===== */
 add(5,'n в конце — не наш «н»!',`${hd('前鼻韵母','qián bí yùnmǔ','n в конце слога — НЕ наш «н»!','left')}
   <div class="u9n">
-   <div class="u9ni nk"><span class="u9tg">👅</span><b>n</b><small>мягко</small></div>
+   <div class="u9ni nk"><img src="img/yazyk.jpg" alt="Рот и язык: спинка языка, нёбо"></div>
    <div class="u9nr">
-    <div class="u9nh rv">👅 Как сказать <b>-n</b></div>
+    <div class="u9nh rv">Как сказать <b>-n</b></div>
     <div class="u9ns rv"><span>1</span><p>Язык <b>мягкий</b>, расслабленный</p></div>
     <div class="u9ns rv"><span>2</span><p><b>Подушечкой</b> языка <b>мягко прижми к нёбу</b></p></div>
     <div class="u9ns rv"><span>3</span><p>И всё! Этот звук получится <b>сам</b> ✨</p></div>
