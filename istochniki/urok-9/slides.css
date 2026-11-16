@@ -296,3 +296,21 @@
 .u9pt .u8pc{grid-template-columns:auto auto!important;justify-content:center;gap:28px}
 .u9pt .u8pr>.u8pc:first-child{width:340px}
 .u9pt .u8pr>.u8pc:last-child{width:540px}
+/* тоны 2026-11-16: 8 пар (по 2 на каждый тон), легенда цвета */
+.u9pairs.u9p8{grid-template-columns:repeat(4,1fr)}
+.u8w:has(.u9ch) .u9pairs.u9p8>div{font-size:44px;position:relative;gap:8px}
+.u9tn{position:absolute;top:6px;right:10px;font:900 16px/1 Manrope,sans-serif;color:#fff;background:#8A93B5;border-radius:8px;padding:3px 7px}
+.u9leg{margin-left:auto;font:800 20px/1 Manrope,sans-serif;color:#5A6385;background:#fff;border-radius:12px;padding:6px 14px}
+.u9leg b{margin-left:6px;font-size:24px}
+.u9sohd{position:absolute;left:56px;right:430px;top:100px;font:800 24px/1.2 Manrope,sans-serif;color:#1E2350}
+.u9sohd b{margin-left:8px;font-size:28px}
+.u8solo.u9solo{top:146px!important}
+.u8w:has(.u9ch) .u9ch{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.u8w:has(.u9ch) .u9ch .g{font-size:38px!important;gap:2px;padding:0 6px}
+.u8w:has(.u9ch) .u9ch .g .ar{margin:0 -2px}
+.u9pairs.u9p8{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.u8w:has(.u9ch) .u9pairs.u9p8>div{font-size:40px}
+.u8w:has(.u9ch) .u8lab{display:flex;align-items:center;gap:10px}
+.u8w:has(.u9ch){right:56px}
+.u8w:has(.u9ch) .u9ch .g{font-size:36px!important}
+.u8solo.u9solo .sxg{font-size:56px!important;gap:0;flex:1;justify-content:space-around;display:flex}

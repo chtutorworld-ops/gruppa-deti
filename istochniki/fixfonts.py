@@ -6,7 +6,7 @@ import re
 GEN = r'(?:sans-serif|serif|monospace|system-ui|cursive|fantasy)'
 FAM = re.compile(r"(Nunito|Manrope|Lora|Georgia|Inter|Arial|Helvetica|sans-serif|serif|monospace|system-ui)", re.I)
 DECL = re.compile(r"((?:font-family|font|--[a-zA-Z0-9-]+)\s*:\s*)([^;{}<>\n\"`]+?)(?=[;}\"`\n<]|!important)")
-L = "'LXGW WenKai GB'"
+L = "'PinyinFix','LXGW WenKai GB'"
 def fix_value(v):
     if 'LXGW' in v or 'var(' in v or 'inherit' in v or not FAM.search(v): return v
     i = v.find(',')
@@ -23,6 +23,17 @@ def fix(html):
     html = DECL.sub(rep, html)
     if 'var(--han)' in html and '--han:' not in html:
         html = html.replace('</style>', ":root{--han:'LXGW WenKai GB','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif}</style>", 1); n[0] += 1
+    # В Nunito и Manrope нет букв ǐ и ǒ (пиньинь) — браузер брал их из системного шрифта с засечками.
+    # Добавляем в каждый список шрифтов крошечный 'PinyinFix' только с ǐ ǒ (M PLUS Rounded 1c, unicode-range).
+    if 'pinyin-fix' not in html:
+        import base64, os
+        d = os.path.dirname(os.path.abspath(__file__))
+        b8 = base64.b64encode(open(os.path.join(d, 'pinyin-fix-800.ttf'), 'rb').read()).decode()
+        b9 = base64.b64encode(open(os.path.join(d, 'pinyin-fix-900.ttf'), 'rb').read()).decode()
+        ff = '/* pinyin-fix */' + ''.join(
+            "@font-face{font-family:'%s';font-weight:%s;src:url(data:font/ttf;base64,%s) format('truetype');unicode-range:U+01D0,U+01D2}" % (fam, w, b)
+            for fam in ('PinyinFix',) for (w, b) in (('100 850', b8), ('851 1000', b9)))
+        html = html.replace('<style>', '<style>' + ff, 1); n[0] += 1
     return html, n[0]
 if __name__ == '__main__':
     import sys
