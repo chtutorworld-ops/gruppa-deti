@@ -2,6 +2,8 @@
 # Собирает index.html (презентация) и zadaniya/index.html (задания на телефоне).
 # Игры «Крот: финали» и «Космический шутер» (kat/core.js + kat/moles9.js + kat/shooter9.js) вшивается в задания вместо /*__KAT__*/.
 import base64, json, sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from fixfonts import fix as fixfonts
 from fontTools.ttLib import TTFont
 from fontTools import subset
 FONT = sys.argv[1] if len(sys.argv) > 1 else '/root/.fonts/LXGWWenKaiGB-Regular.ttf'
@@ -22,6 +24,7 @@ def build(folder, need, K):
         try: hz[c] = json.load(open(D + 'hanzi-writer-data-2.0.1/package/' + c + '.json', encoding='utf-8'))
         except FileNotFoundError: print('нет данных черт для', c)
     out = src.replace('__FONT_GB__', b64).replace('__HW__', HW).replace('__HZDATA__', json.dumps(hz, ensure_ascii=False)).replace('/*__KAT__*/', K)
+    out, nf = fixfonts(out)
     open(os.path.join(HERE, folder, 'index.html'), 'w', encoding='utf-8').write(out)
     print(folder or 'урок', 'font KB', len(b64) * 3 // 4 // 1024, 'strokes', ''.join(sorted(hz)), 'total KB', len(out) // 1024)
 build('', set('你我好叫妈爸他她们'), kat(['core.js']))

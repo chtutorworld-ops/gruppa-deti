@@ -32,10 +32,17 @@ add(0,'Задания урока по QR-коду',`
 
 /* ===== 1. 他 и 她 — через фразу ===== */
 const PORTR=[['malchik','他'],['pevica','她'],['vrach','他'],['puteshestvennica','她'],['paren','他'],['uchitelnica','她']];
-const W9={'他':['他','tā','он','亻 человек + 也',[['🔑','<b style="color:#FF5C8A">亻</b> «человек» — ключ слева: смысл. «Он» — это человек'],['✍️','Слева направо: сначала 亻 (2 черты: 丿, потом 丨), потом 也 (3 черты)'],['🧩','也 yě в древности подсказывал чтение — сейчас уже не похоже']]],
- '她':['她','tā','она','女 женщина + 也',[['🔑','<b style="color:#FF5C8A">女</b> «женщина» — ключ слева. Ты знаешь его по 妈 и 好!'],['✍️','女 слева узкий: последняя черта — короткая, вверх'],['🧩','Правая часть — та же, что в 他: 也']]],
- '们':['们','men','много (суффикс)','亻 человек + 门 mén',[['🔑','<b style="color:#FF5C8A">亻</b> «человек» — смысл: 们 — про людей'],['🔊','<b style="color:#5B6BD8">门</b> mén «ворота» — чтение'],['✍️','门: сначала точка, потом левая стенка, потом верх с крючком']]]};
-const writeSlide=(n,c)=>{const [cc,py,ru,parts,rules]=W9[c];add(n,`Как пишется ${c}`,charSlide(cc,py,ru,parts,rules));};
+const W9={'他':['他','tā','он',[['mean','亻','КЛЮЧ = СМЫСЛ','«человек» → <b>他</b> — это человек'],['note','也','ВТОРАЯ ЧАСТЬ','раньше подсказывала чтение, сейчас уже не похоже'],['write','✍️','КАК ПИСАТЬ','сначала 亻 (丿, потом 丨), потом 也 — 3 черты']]],
+ '她':['她','tā','она',[['mean','女','КЛЮЧ = СМЫСЛ','«женщина» → <b>她</b> — это она. Ты знаешь 女 по 妈 и 好!'],['note','也','ВТОРАЯ ЧАСТЬ','та же, что в 他'],['write','✍️','КАК ПИСАТЬ','女 слева узкий: последняя черта короткая, вверх']]],
+ '们':['们','men','много (суффикс)',[['mean','亻','КЛЮЧ = СМЫСЛ','«человек» → <b>们</b> — про людей'],['sound','门','ПОДСКАЗКА ЧТЕНИЯ','<span class="pyn">mén</span> «ворота» → <b>们</b> звучит <span class="pyn">men</span>'],['write','✍️','КАК ПИСАТЬ','门: точка, левая стенка, верх с крючком']]]};
+const K9={mean:['#FF4F86','#FFE6EE','#FFD0DE'],sound:['#4D63E0','#E6EBFF','#CCD5FF'],note:['#8A6BE8','#F0EAFF','#DDD2FF'],write:['#2BB38A','#E2F7EF','#C4EEDD']};
+const charSlide9=(c,py,ru,rules)=>`${hd(c,py,ru,'left')}
+  <div style="position:absolute;left:64px;top:104px;display:grid;gap:12px;justify-items:center">${hzcell(c,430)}${strip(c)}<button class="btn" data-replay="${c}">▶ Ещё раз медленно</button></div>
+  <div style="position:absolute;left:556px;right:48px;top:100px;bottom:40px;display:grid;gap:14px;align-content:start">
+    <div class="nk" style="padding:12px 22px;display:flex;align-items:center;gap:20px"><button class="syl has z" data-say="${c}" style="font-size:78px;line-height:1">${c}</button><div><div class="pyn" style="font-size:40px;color:#2B3270">${py}</div><div style="font-weight:900;font-size:26px;color:#2B3270">${ru}</div></div></div>
+    ${rules.map(([k,g,lab,t])=>{const [cl,bg,bd]=K9[k];return `<div class="rv u9rule" style="--c:${cl};background:${bg};border:3px solid ${bd}"><span class="u9g${g.length>1||/[✍]/.test(g)?' em':''}">${g}</span><div><div class="u9lab">${lab}</div><div class="u9txt">${t}</div></div></div>`;}).join('')}
+  </div>`;
+const writeSlide=(n,c)=>{const [cc,py,ru,rules]=W9[c];add(n,`Как пишется ${c}`,charSlide9(cc,py,ru,rules));};
 add(1,'他叫小明。她叫小美。',`${hd('他和她','tā hé tā','Слушай фразы: кто это?','left')}
   <div class="u8ph2">
    <div class="u8who nk"><img src="img/xiaoming.jpg" alt=""><div class="u8wtx"><button class="syl has z" data-say="他叫小明。">他叫小明。</button><span class="pyn">${tpy8('tā jiào Xiǎo Míng')}</span><b class="rv">Его зовут Сяо Мин.</b></div></div>
@@ -78,8 +85,8 @@ add(2,'История: суффикс 们',`${hd('们','men','Суффикс 们
 writeSlide(2,'们');
 add(2,'Задание № 3 — пропись 们',task(3,'','','Пропись: 们','Обведи по образцу, потом напиши сам'));
 add(2,'Два «они»: 他们 и 她们',`${hd('他们 · 她们','tāmen · tāmen','Почему «они» два раза?','left')}
-  <div class="u8two">
-   <div class="u8tw nk rv"><img class="u8pp" src="img/muzh-zhena.webp" alt=""><button class="syl has z" data-say="他们" style="font-size:84px">他们</button><span class="pyn">${py8('tāmen')}</span><div class="u8e"><span>мальчики</span><span>мальчики + девочки</span></div><p><b>они — для всех</b>: мальчики, или мальчики и девочки вместе</p></div>
+  <div class="u8two u9two">
+   <div class="u8tw nk rv"><img class="u8pp" src="img/muzh-zhena.webp" alt=""><button class="syl has z" data-say="他们" style="font-size:84px">他们</button><span class="pyn">${py8('tāmen')}</span><div class="u8e"><span>мальчики</span><span>мальчики + девочки</span></div><p><b>они — для всех</b>: мальчики или мальчики с девочками</p></div>
    <div class="u8tw nk rv" style="--b:#FF3D77"><img class="u8pp" src="img/podrugi.webp" alt=""><button class="syl has z" data-say="她们" style="font-size:84px">她们</button><span class="pyn">${py8('tāmen')}</span><div class="u8e g"><span>девочки</span><span>женщины</span></div><p><b>они — только девочки</b> или женщины</p></div>
   </div>
   <div class="u8big rv">💡 В группе хотя бы один мальчик — уже <b>他们</b>!</div>`);
@@ -87,8 +94,7 @@ add(2,'Таблица местоимений',`${hd('人称代词','rénchēng d
 add(2,'Хором: таблица',`${hd('我们一起读','wǒmen yìqǐ dú','Читаем таблицу хором','left')}${CHORAL}${ptable(false)}`);
 const SOP=[['我','我们'],['你','你们'],['他','他们'],['她','她们'],['我们','她们']];
 const PALL=Object.fromEntries([...PRON,...PRONM].map(p=>[p[0],p]));
-add(2,'Каждый после учителя',`${hd('一个一个来','yí ge yí ge lái','Каждый читает свою карточку','left')}${SOLO}
-  <div class="u8solo w u9so">${SOP.map((g,i)=>`<div class="sx nk"><button class="sxn" data-tick aria-label="Отметить ученика ${i+1}">${i+1}</button><div class="u8sp">${g.map(c=>`<div><button class="syl has z" data-say="${c}" style="font-size:54px">${c}</button><span class="pyn">${py8(PALL[c][1])}</span></div>`).join('<i>—</i>')}</div></div>`).join('')}</div>`);
+add(2,'Каждый читает всю таблицу',`${hd('一个一个来','yí ge yí ge lái','Каждый читает ВСЮ таблицу','left')}${SOLO}${ptable(false)}`);
 add(2,'Задание № 4 — таблица',task(4,'','','Заполни таблицу местоимений','Знакомые 我 你 — пиши сам, новые — по образцу. Поставь значки тона'));
 add(2,'Задание № 5 — запиши себя',task(5,'','','Прочитай таблицу и запиши голос','Учитель послушает твою запись 🎧'));
 add(2,'Задание № 6 — собери местоимения',task(6,'','','Собери местоимения','6.1 перетащи карточку к переводу · 6.2 три корзинки'));
@@ -96,10 +102,10 @@ add(2,'Задание № 7 — собери фразу',task(7,'','','Собе�
 
 /* ===== 3. ai ei · ao ou ===== */
 const frule=(a,b,ra,rb,ex)=>`<div class="u9fr">
-  ${[[a,ra],[b,rb]].map(([f,r])=>`<div class="u9fc nk" style="--fc:${FC9[f]}"><div class="u9fb">${f}</div><div class="u9ft">${r}</div><div class="u9fx">${ex[f].map(s=>fsy(s,f)).join('')}</div></div>`).join('')}</div>`;
+  ${[[a,ra],[b,rb]].map(([f,r])=>`<div class="u9fc nk" style="--fc:${FC9[f]}"><div class="u9fb">${/i$/.test(f)?f.slice(0,-1)+'<span class="u9i">i<em>й</em></span>':f}</div><div class="u9ft">${r}</div><div class="u9fx">${ex[f].map(s=>fsy(s,f)).join('')}</div></div>`).join('')}</div>`;
 add(3,'Новые финали: ai и ei',`${hd('复韵母','fù yùnmǔ','Две гласные — один слог: ai и ei','left')}
-  ${frule('ai','ei','похоже на «<b>ай</b>»<small>рот широко → и</small>','похоже на «<b>эй</b>»<small>e здесь звучит как «э»</small>',{ai:['bái','mǎi','lái','hǎi'],ei:['běi','měi','fēi','hēi']})}
-  <div class="u8big rv">💡 Две гласные читаем <b>слитно, одним слогом</b> — как будто скользим от первой ко второй. Значок тона — над <b>a</b> или <b>e</b>.</div>`);
+  ${frule('ai','ei','читаем «а<b>й</b>»<small>e и a — как «э» и «а», i в конце — «й»</small>'.replace('e и a — как «э» и «а», ','a — «а», '),'читаем «э<b>й</b>»<small>e — «э», i в конце — «й»</small>',{ai:['bái','mǎi','lái','hǎi'],ei:['běi','měi','fēi','hēi']})}
+  <div class="u9ij rv"><span class="u9ijw">⚠️</span><div><b>i в конце слога</b> читается как <b class="y">«й»</b>: b<u>ai</u> = «бай», m<u>ei</u> = «мэй».<small>А одна i в слоге — это «и»: nǐ, bǐ, mǐ. Только в конце после a и e — «й»!</small></div></div>`);
 add(3,'Хором: ai и ei',`${hd('跟我读','gēn wǒ dú','ai · ei — хором за учителем','left')}${CHORAL}
   <div class="u8w"><div class="u8lab"><span>🔗</span> Цепочки тонов: 1 → 2 → 3 → 4</div>
    <div class="u8ch u9ch">${[['bāi','bái','bǎi','bài'],['mái','mǎi','mài'],['tāi','tái','tài'],['bēi','běi','bèi'],['fēi','féi','fěi','fèi'],['pēi','péi','pèi']].map(g=>`<div class="g nk">${g.map(s=>fsy(s,s.slice(-2).normalize('NFD').replace(/[̀-ͯ]/g,''))).join('<i class="ar">›</i>')}</div>`).join('')}</div>
