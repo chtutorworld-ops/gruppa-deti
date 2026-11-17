@@ -726,7 +726,12 @@ let curA=null;
 function tryURL(u,el){return new Promise(res=>{try{curA&&curA.pause()}catch(e){}const a=new Audio(u);curA=a;el&&el.classList.add('on');let done=false;
  const end=ok=>{if(done)return;done=true;el&&el.classList.remove('on');res(ok);};a.onended=()=>end(true);a.onerror=()=>end(false);a.play().catch(()=>end(false));});}
 // слог диктора диктанта (яркие тоны); если файла нет — обычный слог
-async function playSyl(c,el){if(await tryURL(AUDIO+'dict/'+code(c)+'.mp3',el))return true;return tryURL(AUDIO+code(c)+'.mp3',el);}
+// слоги ai ei ao ou: голос Дарьи, когда на zapis/ записаны ВСЕ слоги задания (иначе весь диктор — не смешиваем)
+let SVOICE=null;const SVID={};
+async function sylVoice(){if(SVOICE!==null)return SVOICE;
+ try{const r=await fetch(AUDIO+'voice/index.json',{cache:'no-store'});const j=await r.json();const ids=Object.values(SVID);SVOICE=ids.length>0&&ids.every(x=>j[x]);}catch(e){SVOICE=false;}return SVOICE;}
+async function playSyl(c,el){if(SVOICE&&SVID[c])return tryURL(AUDIO+'voice/'+SVID[c]+'.wav',el);
+ if(await tryURL(AUDIO+'dict/'+code(c)+'.mp3',el))return true;return tryURL(AUDIO+code(c)+'.mp3',el);}
 const playWord=(w,el)=>tryURL(AUDIO+code(w)+'.mp3',el);
 
 /* ---------- сохранение ---------- */
@@ -763,6 +768,7 @@ const toneOf=py=>{for(const ch of py)if(TONES[ch])return TONES[ch];return 0;};
 const plain=py=>py.normalize('NFD').replace(/[̀-ͯ]/g,'');
 // все слоги урока 9 с пройденными инициалями: [пиньинь, иероглиф-источник звука, финаль]
 const SYLS=FINS.flatMap(f=>(SEL[f]||[]).map(([py,c])=>({py,c,f,ini:plain(py).slice(0,-f.length),t:toneOf(py)})));
+SYLS.forEach(x=>SVID[x.c]=plain(x.py)+x.t);sylVoice();
 const pyHTML=py=>`<span class="py t${toneOf(py)}">${esc(py)}</span>`;
 function pick(n,pool){const out=[];const byF={};pool.forEach(s=>(byF[s.f]=byF[s.f]||[]).push(s));
  const fs=shuffle(Object.keys(byF));let i=0;while(out.length<n){const f=fs[i%fs.length];const c=shuffle(byF[f]).find(s=>!out.includes(s));if(c)out.push(c);i++;if(i>200)break;}return shuffle(out);}
@@ -863,6 +869,7 @@ function sounds(){const n=1;
 
 /* ================= 2. Новые финали ai ei ao ou ================= */
 const FEX={ai:['bái','白'],ei:['bēi','杯'],ao:['bāo','包'],ou:['dōu','兜']};
+Object.values(FEX).forEach(([py,c])=>{if(!SVID[c])SVID[c]=plain(py)+toneOf(py);});
 function finals(){const n=2;
  const quizF=()=>{const items=pick(12,SYLS).map(s=>({...s,id:s.py,miss:s.py}));
   quiz(n,items,{cols:2,audio:(it,el)=>playSyl(it.c,el),
