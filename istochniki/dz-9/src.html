@@ -5,7 +5,7 @@
 /*__FONTCSS__*/
 /* ===== Палитра «Индиго» (выбрана Дарьей 2026-11-17) — все цвета только здесь ===== */
 :root{
- --bg:#F8F6F2; --surface:#FFFFFF; --shade-dark:#E0DBD2; --shade-light:#FFFFFF;
+ --bg:#F8F6F2; --surface:#FFFFFF; --shade-dark:#DEDBEC; --shade-light:#FFFFFF;
  --ink:#181838; --ink-2:#3B3B66; --muted:#55557A;
  --accent:#4C3DB8; --accent-ink:#FFFFFF; --accent-tint:#ECE9FB; --accent-line:#C9C2F2;
  --salmon:#FF9E8A; --salmon-tint:#FFE6DF; --salmon-line:#FFB8A8; --salmon-ink:#B5372A;
@@ -18,8 +18,7 @@
  --ok:var(--mint); --hint:var(--wrong);
  --tone-1:#1F5FD6; --tone-2:#0B7285; --tone-3:#A61E8A; --tone-4:#C2185B; --tone-0:#68688A;
  --part-mean:#7048E8; --part-read:#1971C2;
- --grid:#E6E1D8; --hole:#CFE4F2; --hole-2:#B3D3EA; --mole:#A9BDD4; --mole-2:#7F9AB8;
- --neutral-tint:#EFEBE4; --neutral-line:#D3CDC2; --field:#E4F2FB;
+ --grid:#E4E1EF; --hole:#D9D4EE; --hole-2:#C3BCE6; --mole:#B9AEEA; --mole-2:#8E80D6;
  --sans:Onest,system-ui,sans-serif; --han:'LXGW WenKai GB','LXGW WenKai',serif;
  --r1:8px; --r2:14px; --r3:24px; --r4:999px;
  --ease:cubic-bezier(.2,.7,.2,1);
@@ -236,7 +235,7 @@ svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke
 /* ===== объёмные кнопки-таблетки (по образцу Дарьи, Uiverse/FColombati, в цветах «Индиго») ===== */
 :root{
  --edge:rgba(24,24,56,.38); --drop:rgba(24,24,56,.14); --in-dark:rgba(24,24,56,.16); --in-deep:rgba(24,24,56,.30); --in-light:rgba(255,255,255,1); --in-soft:rgba(255,255,255,.30);
- --key-a:#FFFFFF; --key-b:#EFEBE4;
+ --key-a:#FFFFFF; --key-b:#E9E6F5;
  --acc-a:#5D4FD0; --acc-b:#3C2FA0;
  --mint-a:#E9FBF4; --mint-b:#BFEBDB;
  --sal-a:#FFF0EB; --sal-b:#FFD2C6;
@@ -271,29 +270,56 @@ svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke
 .main:not(.soft)[disabled]{opacity:.5;transform:none}
 @media (hover:hover){.main:not(.soft):hover{transform:translateY(-1px)}}
 
-/* ===== меньше фиолетового: у каждого задания свой чистый цвет ===== */
-[data-t]{--tc:var(--accent);--tc-2:var(--accent-deep);--tc-tint:var(--accent-tint)}
-[data-t="1"]{--tc:#3B7BE6;--tc-2:#1F55B8;--tc-tint:#E5EEFF}
-[data-t="2"]{--tc:#14A3B0;--tc-2:#0B7480;--tc-tint:#DCF3F5}
-[data-t="3"]{--tc:#F08A72;--tc-2:#C95A44;--tc-tint:#FFEAE4}
-[data-t="4"]{--tc:#2BA6E0;--tc-2:#1679AB;--tc-tint:#E0F3FC}
-[data-t="5"]{--tc:#2DAE86;--tc-2:#17805F;--tc-tint:#DDF5EC}
-[data-t="6"]{--tc:#2477B8;--tc-2:#155487;--tc-tint:#E1EEF8}
-[data-t="7"]{--tc:#128896;--tc-2:#0A5F6A;--tc-tint:#DDF0F2}
-[data-t] .num{--a:var(--tc);--b:var(--tc-2)}
-.task .plq{background:var(--tc-tint)}
-.task .mc .ba{background:var(--tc)}
-.pbar,.steps3 span{background:var(--neutral-tint)}
-.slot{border-color:var(--neutral-line)}
-.field,.hole .lip{background:var(--field)}
-
-/* главная кнопка в задании — цвета задания; неактивная — спокойная серая, без фиолетового */
-.task .main:not(.soft){background-color:var(--tc);box-shadow:inset 0 1px 0 var(--in-soft),inset 0 -2px 0 var(--in-dark),0 6px 0 var(--tc-2),0 8px 3px var(--accent-base),0 9px 6px -2px var(--drop)}
-.task .main:not(.soft):active{box-shadow:inset 0 1px 0 var(--in-soft),inset 0 -2px 0 var(--in-dark),0 2px 0 var(--tc-2),0 3px 2px var(--accent-base)}
-.main:not(.soft)[disabled],.task .main:not(.soft)[disabled]{opacity:1;background-color:#E4DFD6;color:#7A746A;text-shadow:none;box-shadow:0 4px 0 #CFC8BC}
-.task .main.soft{color:var(--tc-2)}
-.task .snd.sm,.task .help{color:var(--tc-2)}
-.task .snd:not(.sm){--a:var(--tc);--b:var(--tc-2)}
+/* ===== ПРЕМИУМ-ПРОБА: спокойно, дорого. Индиго дозированно (только главное действие и «сейчас»),
+   остальное — белое и тёплый светлый фон, тонкие линии, мягкие тени. Без градиентов и кислотных цветов. ===== */
+:root{
+ --bg:#F7F5F0; --surface:#FFFFFF; --line:rgba(23,23,47,.10); --line-2:rgba(23,23,47,.16);
+ --ink:#17172F; --ink-2:#44445E; --muted:#6B6B84;
+ --accent:#3D3296; --accent-deep:#2A2270; --accent-tint:#F1EFF9; --accent-line:#D6D1EE;
+ --now:var(--accent); --now-tint:var(--accent-tint); --now-ink:var(--accent);
+ --mint:#BFDCCF; --mint-tint:#EDF5F1; --mint-line:#BFDCCF; --mint-ink:#2D6A56;
+ --wrong:#D9A3B6; --wrong-tint:#F8ECF0; --wrong-ink:#94304F;
+ --salmon:#E8C3B6; --salmon-tint:#F8EDE8; --salmon-ink:#9A4F3D;
+ --grid:#E9E5DD; --hole:#E6E1D7; --hole-2:#D8D1C4; --mole:#C8C1E2; --mole-2:#A79DD0;
+ --sh1:0 1px 2px rgba(23,23,47,.05),0 4px 14px -6px rgba(23,23,47,.12);
+ --sh2:0 1px 2px rgba(23,23,47,.06),0 12px 28px -12px rgba(23,23,47,.22);
+ --shade-dark:rgba(23,23,47,.10);
+}
+/* все кнопки и карточки: плоский белый, тонкая линия, мягкая тень */
+.key,.tile,.snd,.help,.main.soft,.prog,.wbox,.hud span,.mc .fa,.slot,.inp{
+ background-image:none!important;background-color:var(--surface)!important;
+ border:1px solid var(--line)!important;box-shadow:var(--sh1)!important;text-shadow:none}
+.key:active,.tile:active,.snd:active,.help:active,.main:active{transform:scale(.98);box-shadow:0 1px 2px rgba(23,23,47,.08)!important}
+@media (hover:hover){.key:hover,.tile:hover{border-color:var(--line-2)!important;transform:none}}
+/* главная кнопка: сплошной глубокий индиго, без 3D-низа */
+.main:not(.soft){background-image:none!important;background-color:var(--accent)!important;border:0!important;border-radius:16px;margin-bottom:0;
+ box-shadow:0 1px 2px rgba(42,34,112,.25),0 10px 22px -10px rgba(42,34,112,.55)!important;text-shadow:none;letter-spacing:.01em}
+.main:not(.soft):active{transform:scale(.985)}
+.main:not(.soft)[disabled]{opacity:1;background-color:#ECEAF2!important;color:#9A98AE;box-shadow:none!important}
+.main.soft{color:var(--accent)}
+/* заголовок задания: белая плашка с тонкой линией, номер — индиго */
+.plq{background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh1);border-radius:18px}
+.num{background-image:none!important;background-color:var(--accent);color:#fff;box-shadow:none!important}
+.tile .num{background-color:var(--accent-tint)!important;color:var(--accent)}
+.tile.now{border:1.5px solid var(--accent)!important}
+.tile.now .num{background-color:var(--accent)!important;color:#fff}
+.tile.now .st{color:var(--accent)}
+.tile.done{background-color:var(--surface)!important}
+.tile.done .num{background-color:var(--mint-tint)!important;color:var(--mint-ink)}
+.tile.done .st{color:var(--mint-ink)}
+/* ответы: верно — едва заметная шалфейная заливка, ошибка — пыльная роза */
+.key.ok{background-color:var(--mint-tint)!important;border-color:var(--mint-line)!important;color:var(--mint-ink)}
+.key.hint{background-color:var(--wrong-tint)!important;border-color:var(--wrong)!important}
+.fb.ok{background:var(--mint-tint);color:var(--mint-ink)}
+.fb.hint{background:var(--wrong-tint);color:var(--wrong-ink)}
+.snd:not(.sm){background-color:var(--accent)!important;color:#fff;border:0!important;box-shadow:0 10px 24px -10px rgba(42,34,112,.6)!important}
+.pbar{background:#ECE9E2}
+.pbar i,.pbar span,.pbar b{background:var(--accent)!important}
+.steps3 span{background:#EFECE6;color:var(--ink-2)}
+.steps3 span.on{background:var(--accent);color:#fff;box-shadow:none}
+.field{background:#F1EEE8}
+.hole .lip{background:#F1EEE8}
+.mc .ba{background:var(--accent-tint);color:var(--accent);border:1px solid var(--accent-line);box-shadow:var(--sh1)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
 <div id="app"></div><div class="toast" id="toast"></div>
@@ -363,7 +389,7 @@ function pick(n,pool){const out=[];const byF={};pool.forEach(s=>(byF[s.f]=byF[s.
 /* ---------- каркас экрана задания ---------- */
 function shell(n,{step='',scene='',pult='',sub}){clearTimers();try{curA&&curA.pause()}catch(e){}
  const T=TASKS[n];
- $('#app').innerHTML=`<div class="scr task fade" data-t="${n}">
+ $('#app').innerHTML=`<div class="scr task fade">
   <div class="bar"><button class="back" id="bk" aria-label="К списку заданий">${IC.back}</button><span class="lab">Задание ${n}</span><span class="cnt" id="cnt">${step}</span></div>
   <div class="head"><div class="plq"><span class="num">${n}</span><h1>${esc(T.t)}</h1></div><p class="sub" id="sub">${sub!=null?sub:esc(T.s)}</p></div>
   <main class="scene" id="scene">${scene}</main>
@@ -407,7 +433,7 @@ function quiz(n,items,{scene,keys,cols=2,isRight,hint,okText,onShow,onOk,mainLab
 const PR={'他':['tā','он','亻 «человек» + 也'],'她':['tā','она','女 «женщина» + 也'],'们':['men','много (людей)','亻 «человек» + 门 mén']};
 const GRID='<svg class="g" viewBox="0 0 100 100" aria-hidden="true"><g stroke="var(--grid)" stroke-width=".5" fill="none"><path d="M50 4V96M4 50H96" stroke-dasharray="2 2"/><path d="M4 4L96 96M96 4L4 96" stroke-dasharray="1.5 2.5"/></g></svg>';
 function hwOpts(sz,extra){return Object.assign({width:sz,height:sz,padding:sz*.08,showOutline:false,showCharacter:false,
- outlineColor:'#E6E1D8',strokeColor:'#181838',drawingColor:'#1F55B8',drawingWidth:Math.round(sz/18),highlightColor:'#8FE0C6',
+ outlineColor:'#E7E3DB',strokeColor:'#181838',drawingColor:'#4C3DB8',drawingWidth:Math.round(sz/18),highlightColor:'#8FE0C6',
  strokeAnimationSpeed:1,delayBetweenStrokes:260,charDataLoader:(ch,ok)=>ok(HZDATA[ch])},extra||{});}
 function propis(){const n=1,L=['他','她','们'];let k=0,stage=0;const res=[];let w=null;
  const STG=['Смотри','Обведи','Сам'];
@@ -507,7 +533,7 @@ function dictant(){const n=5;const items=pick(8,SYLS);let k=0,score=0;const miss
 /* ================= 6. Крот: финали (вертикальное поле) ================= */
 let G=null;
 function stopGame(){if(G){G.stop();G=null;}}
-const MOLE_SVG='<svg viewBox="0 0 100 92" aria-hidden="true"><ellipse cx="50" cy="58" rx="42" ry="36" fill="var(--mole)"/><ellipse cx="50" cy="70" rx="26" ry="20" fill="#E8EFF6"/><circle cx="20" cy="30" r="10" fill="var(--mole-2)"/><circle cx="80" cy="30" r="10" fill="var(--mole-2)"/><ellipse cx="50" cy="44" rx="38" ry="32" fill="var(--mole)"/><circle cx="36" cy="40" r="5.5" fill="var(--ink)"/><circle cx="64" cy="40" r="5.5" fill="var(--ink)"/><circle cx="37.5" cy="38.5" r="1.8" fill="#fff"/><circle cx="65.5" cy="38.5" r="1.8" fill="#fff"/><ellipse cx="50" cy="54" rx="9" ry="6.5" fill="var(--salmon)"/><circle cx="28" cy="56" r="5" fill="var(--salmon)" opacity=".45"/><circle cx="72" cy="56" r="5" fill="var(--salmon)" opacity=".45"/></svg>';
+const MOLE_SVG='<svg viewBox="0 0 100 92" aria-hidden="true"><ellipse cx="50" cy="58" rx="42" ry="36" fill="var(--mole)"/><ellipse cx="50" cy="70" rx="26" ry="20" fill="var(--accent-tint)"/><circle cx="20" cy="30" r="10" fill="var(--mole-2)"/><circle cx="80" cy="30" r="10" fill="var(--mole-2)"/><ellipse cx="50" cy="44" rx="38" ry="32" fill="var(--mole)"/><circle cx="36" cy="40" r="5.5" fill="var(--ink)"/><circle cx="64" cy="40" r="5.5" fill="var(--ink)"/><circle cx="37.5" cy="38.5" r="1.8" fill="#fff"/><circle cx="65.5" cy="38.5" r="1.8" fill="#fff"/><ellipse cx="50" cy="54" rx="9" ry="6.5" fill="var(--salmon)"/><circle cx="28" cy="56" r="5" fill="var(--salmon)" opacity=".45"/><circle cx="72" cy="56" r="5" fill="var(--salmon)" opacity=".45"/></svg>';
 function krot(){const n=6;const ROUNDS=3,DUR=20;
  const targets=shuffle(FINS).slice(0,ROUNDS);let r=0,hits=0,shown=0,wrong=0;const miss=[];
  const intro=()=>{shell(n,{step:'',sub:'Сверху написано, какую финаль искать. Бей только кротов с ней.',
@@ -585,7 +611,7 @@ function list(){clearTimers();stopGame();if(!S.name)return start();
    <div class="who"><span>Ученик: <b>${esc(S.name)}</b></span><button class="quiet" id="ch">Сменить имя</button></div>${isTest()?'<span class="teacher">Режим учителя: всё открыто, ничего не сохраняется</span>':''}</div>
   <div class="prog"><div class="row"><span>Выполнено</span><b>${d} из ${NT}</b></div><div class="pbar"><i style="width:${pc}%"></i></div></div>
   <div class="tiles">${TASKS.slice(1).map((T,i)=>{const n=i+1,dn=!!S.done[n],now=!dn&&n===first;
-   return `<button class="tile${dn?' done':now?' now':''}" data-n="${n}" data-t="${n}"><span class="num">${dn?IC.ok:n}</span><b>${esc(T.t)}</b>${dn?'<span class="st">готово</span>':now?'<span class="st">сейчас</span>':''}</button>`;}).join('')}</div>
+   return `<button class="tile${dn?' done':now?' now':''}" data-n="${n}"><span class="num">${dn?IC.ok:n}</span><b>${esc(T.t)}</b>${dn?'<span class="st">готово</span>':now?'<span class="st">сейчас</span>':''}</button>`;}).join('')}</div>
   <div class="foot"><button class="main" id="go">${first?'Задание '+first+': '+esc(TASKS[first].t):'Мои итоги'}</button></div></div>`;
  $$('.tile').forEach(b=>b.onclick=()=>TASKS[+b.dataset.n].run());
  $('#go').onclick=()=>first?TASKS[first].run():results();
