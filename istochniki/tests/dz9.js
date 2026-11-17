@@ -63,21 +63,20 @@ async function run(view){const [nm,w,h,mobile]=view;
  for(let k=0;k<8;k++){for(let ph=0;ph<3;ph++){await fits(p,`5 шаг ${k+1}.${ph+1}`,log);await brute(p,'#kk .key',mobile);if(k===0&&ph===1)await shot('t5');await sleep(800);}
   await waitEnabled(p,'#mn');const t=await p.$eval('#mn',e=>e.textContent);if(!/Дальше|Готово/.test(t))log.bad.push('5: нет кнопки «Дальше»');await click(p,'#mn',mobile);await sleep(400);}
  await finished(p,5);await click(p,'#nx',mobile);await sleep(500);
- // ---- 6 крот
- await fits(p,'6 начало',log);await click(p,'#mn',mobile);
- let hits=0,wrong=0,paused=false;
- for(let r=0;r<3;r++){await p.waitForSelector('.target .fin',{timeout:15000});const tf=await p.$eval('.target .fin',e=>e.textContent);
-  const t0=Date.now();
-  while(Date.now()-t0<24000){if(await p.$('.fin-box'))break;
-   if(r===0&&!paused&&Date.now()-t0>3000){paused=true;await click(p,'#mn',mobile);await sleep(300);if(!await p.$('#pov'))log.bad.push('6: пауза не показалась');await shot('t6-pause');await sleep(1200);await click(p,'#mn',mobile);}
-   const ms=await p.$$eval('.mole.up:not(.hit):not(.bad)',e=>e.map(x=>x.getAttribute('aria-label')));
-   for(const lab of ms){const pl=lab.normalize('NFD').replace(/[̀-ͯ]/g,'');const good=pl.endsWith(tf);
-    if(good||wrong<2){const el=await p.$(`.mole.up[aria-label="${lab}"]`);if(!el)continue;const b=await el.boundingBox();if(!b)continue;
-     if(mobile)await p.touchscreen.tap(b.x+b.width/2,b.y+b.height/3);else await p.mouse.click(b.x+b.width/2,b.y+b.height/3);
-     good?hits++:wrong++;if(hits===1&&r===0)await shot('t6');}}
-   await sleep(150);}
-  if(r<2){await p.waitForSelector('.fin-box',{timeout:8000});await click(p,'#mn',mobile);}}
- await finished(p,6);if(hits<3)log.bad.push('6: попаданий мало ('+hits+')');await shot('t6-fin');await click(p,'#nx',mobile);await sleep(500);
+ // ---- 6 крот (прежняя игра ДЗ 8: на весь экран, 60 с)
+ await fits(p,'6 начало',log);await click(p,'.kbig',mobile);await sleep(700);
+ if(!await p.$('.kst.kfull'))log.bad.push('6: игра не открылась на весь экран');
+ await click(p,'.kstage .ml-start .ml-go',mobile);
+ let hits=0,wrong=0,paused=false;const t0=Date.now();
+ while(Date.now()-t0<75000){if(await p.$('.kstage .ml-end:not(.hide)'))break;
+  if(!paused&&Date.now()-t0>4000){paused=true;await click(p,'.t8pause',mobile);await sleep(400);if(!await p.$('.ml-pause:not(.hide)'))log.bad.push('6: пауза не показалась');await shot('t6-pause');await sleep(800);await click(p,'.t8res',mobile);}
+  const tf=await p.$eval('.t8n',e=>e.textContent).catch(()=>'');
+  const ms=await p.$$eval('.ml-mole.up:not(.happy):not(.dizzy)',e=>e.map(x=>{const r=x.querySelector('.ml-sign').getBoundingClientRect();return {t:x.querySelector('.ml-sign b').textContent,x:r.x+r.width/2,y:r.y+r.height/2,w:r.width};}));
+  for(const m of ms){if(m.w<5)continue;const pl=m.t.normalize('NFD').replace(/[\u0300-\u036f]/g,'');const good=pl.endsWith(tf);
+   if(good||wrong<2){if(mobile)await p.touchscreen.tap(m.x,m.y);else await p.mouse.click(m.x,m.y);good?hits++:wrong++;if(hits===2)await shot('t6');await sleep(250);break;}}
+  await sleep(200);}
+ await shot('t6-end');
+ await finished(p,6);if(hits<3)log.bad.push('6: попаданий мало ('+hits+')');if(await p.$('.kst'))log.bad.push('6: игра не закрылась после конца');await shot('t6-fin');await click(p,'#nx',mobile);await sleep(500);
  // ---- 7 мемори
  await fits(p,'7',log);const cards=await p.$$eval('.mc .fa',e=>e.map(x=>x.textContent));
  const pairOf=t=>MEM[t]||Object.keys(MEM).find(k=>MEM[k]===t);
