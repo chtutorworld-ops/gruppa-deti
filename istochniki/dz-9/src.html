@@ -466,14 +466,14 @@ function propis(){const n=1,L=['他','她','们'];let k=0,stage=0;const res=[];l
   const box=$('#hw'),sz=box.clientWidth||280,mn=$('#mn');
   if(!window.HanziWriter||!HZDATA[c]){fb('Напиши '+c+' пальцем в воздухе','hint');later(()=>{res.push({c,mist:0});k++;one();},1500);return;}
   if(stage===0){w=HanziWriter.create(box,c,hwOpts(sz,{showCharacter:false,showOutline:true}));
-   const anim=()=>{mn.disabled=true;w.animateCharacter({onComplete:()=>{mn.disabled=false;mn.innerHTML='Дальше: обвести';mn.onclick=()=>{stage=1;one();};fb('Запомнил порядок? Теперь обведи.','ok');}});};
+   const anim=()=>{mn.disabled=true;w.animateCharacter({onComplete:()=>{if(!mn.isConnected)return;mn.disabled=false;mn.innerHTML='Дальше: обвести';mn.onclick=()=>{stage=1;one();};fb('Запомнил порядок? Теперь обведи.','ok');}});};
    mn.onclick=anim;later(anim,500);later(()=>playWord(c),200);return;}
   mn.disabled=true;let mist=0;
   w=HanziWriter.create(box,c,hwOpts(sz,{showOutline:stage===1}));
   w.quiz({showHintAfterMisses:stage===1?1:3,highlightOnComplete:true,
-   onMistake:()=>{mist++;fb(stage===1?'Веди по светлой черте':'Попробуй ещё раз, черта подскажет','hint');},
-   onCorrectStroke:()=>fb('Так, дальше','ok'),
-   onComplete:()=>{fb('Написано','ok');if(stage===2)res.push({c,mist});
+   onMistake:()=>{if(!mn.isConnected)return;mist++;fb(stage===1?'Веди по светлой черте':'Попробуй ещё раз, черта подскажет','hint');},
+   onCorrectStroke:()=>mn.isConnected&&fb('Так, дальше','ok'),
+   onComplete:()=>{if(!mn.isConnected)return;fb('Написано','ok');if(stage===2)res.push({c,mist});
     mn.disabled=false;mn.innerHTML=stage===1?'Дальше: написать самому':(k+1<L.length?'Следующий иероглиф':'Готово');
     mn.onclick=()=>{if(stage===1)stage=2;else{stage=0;k++;}one();};}});};
  one();}
