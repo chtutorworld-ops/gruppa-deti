@@ -320,6 +320,21 @@ svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke
 .field{background:#F1EEE8}
 .hole .lip{background:#F1EEE8}
 .mc .ba{background:var(--accent-tint);color:var(--accent);border:1px solid var(--accent-line);box-shadow:var(--sh1)}
+
+/* ===== крупнее и без пустоты: задания 3 и 4, плитки ===== */
+.tile .st{display:flex;align-items:center;gap:4px}
+.tile .st svg.i{width:18px;height:18px;stroke-width:3}
+[data-t="3"] .ru-big{font-size:72px}
+[data-t="3"] .ru-big small{font-size:24px;margin-top:12px}
+[data-t="3"] .keys .key{min-height:116px}
+[data-t="3"] .keys .key .zh{font-size:64px}
+[data-t="4"] .snd:not(.sm){width:144px;height:144px}
+[data-t="4"] .snd:not(.sm) svg.i{width:64px;height:64px}
+[data-t="4"] .syl{font-size:80px}
+[data-t="4"] .keys .key{min-height:104px}
+[data-t="4"] .keys .key .py{font-size:36px}
+[data-t="4"] .keys .key small{font-size:18px}
+[data-t="3"] .scene,[data-t="4"] .scene{gap:20px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
 <div id="app"></div><div class="toast" id="toast"></div>
@@ -389,7 +404,7 @@ function pick(n,pool){const out=[];const byF={};pool.forEach(s=>(byF[s.f]=byF[s.
 /* ---------- каркас экрана задания ---------- */
 function shell(n,{step='',scene='',pult='',sub}){clearTimers();try{curA&&curA.pause()}catch(e){}
  const T=TASKS[n];
- $('#app').innerHTML=`<div class="scr task fade">
+ $('#app').innerHTML=`<div class="scr task fade" data-t="${n}">
   <div class="bar"><button class="back" id="bk" aria-label="К списку заданий">${IC.back}</button><span class="lab">Задание ${n}</span><span class="cnt" id="cnt">${step}</span></div>
   <div class="head"><div class="plq"><span class="num">${n}</span><h1>${esc(T.t)}</h1></div><p class="sub" id="sub">${sub!=null?sub:esc(T.s)}</p></div>
   <main class="scene" id="scene">${scene}</main>
@@ -611,7 +626,7 @@ function list(){clearTimers();stopGame();if(!S.name)return start();
    <div class="who"><span>Ученик: <b>${esc(S.name)}</b></span><button class="quiet" id="ch">Сменить имя</button></div>${isTest()?'<span class="teacher">Режим учителя: всё открыто, ничего не сохраняется</span>':''}</div>
   <div class="prog"><div class="row"><span>Выполнено</span><b>${d} из ${NT}</b></div><div class="pbar"><i style="width:${pc}%"></i></div></div>
   <div class="tiles">${TASKS.slice(1).map((T,i)=>{const n=i+1,dn=!!S.done[n],now=!dn&&n===first;
-   return `<button class="tile${dn?' done':now?' now':''}" data-n="${n}"><span class="num">${dn?IC.ok:n}</span><b>${esc(T.t)}</b>${dn?'<span class="st">готово</span>':now?'<span class="st">сейчас</span>':''}</button>`;}).join('')}</div>
+   return `<button class="tile${dn?' done':now?' now':''}" data-n="${n}"><span class="num">${n}</span><b>${esc(T.t)}</b>${dn?'<span class="st">'+IC.ok+'готово</span>':now?'<span class="st">сейчас</span>':''}</button>`;}).join('')}</div>
   <div class="foot"><button class="main" id="go">${first?'Задание '+first+': '+esc(TASKS[first].t):'Мои итоги'}</button></div></div>`;
  $$('.tile').forEach(b=>b.onclick=()=>TASKS[+b.dataset.n].run());
  $('#go').onclick=()=>first?TASKS[first].run():results();
