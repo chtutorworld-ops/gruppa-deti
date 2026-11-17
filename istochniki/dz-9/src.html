@@ -35,7 +35,8 @@ svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke
 .scr{min-height:100vh;min-height:100dvh;height:100dvh;display:flex;flex-direction:column;max-width:560px;margin:0 auto;padding:0 16px calc(16px + env(safe-area-inset-bottom))}
 .scr.list,.scr.res,.scr.start{height:auto}
 .bar{height:48px;flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 -8px}
-.back{width:44px;height:44px;display:grid;place-items:center;border-radius:var(--r4);color:var(--ink)}
+.back{height:40px;display:flex;align-items:center;gap:2px;padding:0 14px 0 6px;border-radius:var(--r4);color:var(--accent);background:var(--surface);font-size:16px;font-weight:700;box-shadow:2px 2px 6px var(--shade-dark),-2px -2px 6px var(--shade-light);white-space:nowrap}
+.back svg.i{width:22px;height:22px}
 .lab{font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
 .cnt{min-width:44px;text-align:right;padding-right:8px;font-size:15px;font-weight:700;color:var(--ink-2);white-space:nowrap}
 .head{flex:none}
@@ -558,7 +559,7 @@ const playVoice=(id,el)=>tryURL(VOICE+id+'.wav',el);
 function shell(n,{step='',scene='',pult='',sub}){clearTimers();try{curA&&curA.pause()}catch(e){}
  const T=TASKS[n];
  $('#app').innerHTML=`<div class="scr task fade" data-t="${n}">
-  <div class="bar"><button class="back" id="bk" aria-label="К списку заданий">${IC.back}</button><span class="lab">Задание ${n}</span><span class="cnt" id="cnt">${step}</span></div>
+  <div class="bar"><button class="back" id="bk" aria-label="Вернуться ко всем заданиям">${IC.back}<span>Все задания</span></button><span class="lab">Задание ${n}</span><span class="cnt" id="cnt">${step}</span></div>
   <div class="head"><div class="plq"><span class="num">${n}</span><h1>${esc(T.t)}</h1></div><p class="sub" id="sub">${sub!=null?sub:esc(T.s)}</p></div>
   <main class="scene" id="scene">${scene}</main>
   <div class="pult" id="pult">${pult}</div></div>`;
@@ -609,10 +610,10 @@ function ruleStep(n,{sub,html,need,btn,onGo,play}){
 const sumMiss=(score,of,miss)=>`<p>Верно с первого раза: ${score} из ${of}.</p>${miss.length?`<p>Можно повторить для закрепления:</p><div class="chips">${miss.map(m=>`<span class="x">${m}</span>`).join('')}</div>`:''}`;
 
 /* ================= 1. Все звуки: все пройденные инициали и финали (только голос учителя) ================= */
-// [буква, как по-русски, запись Дарьи]. b…h — чистый звук; z c s zh ch sh — как их называют (zi «дзы», ci «цы»…)
-const SND_I=[['b','б','b0'],['p','п','p0'],['m','м','m0'],['f','ф','f0'],['d','д','d0'],['t','т','t0'],['n','н','n0'],['l','л','l0'],
- ['g','г','g0'],['k','к','k0'],['h','х','h0'],['z','дзы','zi1'],['c','цы','ci1'],['s','сы','si1'],['zh','джы','zhi1'],['ch','чшы','chi1'],['sh','шы','shi1']];
-const SND_F=[['a','а','a1'],['o','о','o1'],['e','э','e1'],['i','и','yi1'],['u','у','u1']];
+// [буква, как по-русски, запись Дарьи]. b…h — чистый звук; z c s zh ch sh — звучит слог zi ci… (чистых записей нет); по-русски: дз цх с дж чх ш
+const SND_I=[['b','б','b0'],['p','пх','p0'],['m','м','m0'],['f','ф','f0'],['d','д','d0'],['t','тх','t0'],['n','н','n0'],['l','л','l0'],
+ ['g','г','g0'],['k','кх','k0'],['h','х','h0'],['z','дз','zi1'],['c','цх','ci1'],['s','с','si1'],['zh','дж','zhi1'],['ch','чх','chi1'],['sh','ш','shi1']];
+const SND_F=[['a','а','a1'],['o','о','o1'],['u','у','u1'],['i','и','yi1'],['e','э','e1']];
 const SND=[...SND_I.map(x=>({l:x[0],ru:x[1],vid:x[2],k:'i'})),...SND_F.map(x=>({l:x[0],ru:x[1],vid:x[2],k:'f'}))];
 const SBY=Object.fromEntries(SND.map(s=>[s.l,s]));
 const sndKey=s=>`<button class="key sk" data-snd="${s.l}"><span class="py">${s.l}</span><small>${s.ru}</small></button>`;
@@ -634,7 +635,7 @@ function sounds(){const n=1;
    isRight:(it,x)=>x.v===it.ru,
    okText:it=>`Да: <b>${it.l}</b> читается «${esc(it.ru)}»`,
    onOk:it=>playVoice(it.vid),
-   hint:it=>['c','ch','z','zh','s','sh'].includes(it.l)?'Вспомни: после z c s zh ch sh звучит «ы»':'Попробуй ещё раз',
+   hint:it=>['p','t','k','c','ch'].includes(it.l)?'Вспомни: это предыхательный звук, в нём слышно «х»':'Попробуй ещё раз',
    save:(s2,o2,m2,a2)=>finish(n,{score:s1+s2,of:o1+o2,miss:[...m1,...m2].map(m=>m.replace(/<[^>]+>/g,'')),ans:[...a1,...a2]},sumMiss(s1+s2,o1+o2,[...m1,...m2]))});};
  ruleStep(n,{sub:'Все звуки, которые мы прошли. Нажми на каждый: послушай и прочитай, как он звучит по-русски.',
   html:`<div class="sgrid">
