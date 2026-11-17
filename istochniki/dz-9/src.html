@@ -275,7 +275,7 @@ svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke
 :root{
  --bg:#F7F5F0; --surface:#FFFFFF; --line:rgba(23,23,47,.10); --line-2:rgba(23,23,47,.16);
  --ink:#17172F; --ink-2:#44445E; --muted:#6B6B84;
- --accent:#4B4497; --accent-deep:#352F78; --accent-tint:#F2F1F9; --accent-line:#D6D1EE;
+ --accent:#443C97; --accent-deep:#302870; --accent-tint:#F2F0F9; --accent-line:#D6D1EE;
  --now:var(--accent); --now-tint:var(--accent-tint); --now-ink:var(--accent);
  --mint:#BFDCCF; --mint-tint:#EDF5F1; --mint-line:#BFDCCF; --mint-ink:#2D6A56;
  --wrong:#D9A3B6; --wrong-tint:#F8ECF0; --wrong-ink:#94304F;
@@ -336,9 +336,9 @@ svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke
 [data-t="4"] .keys .key small{font-size:18px}
 [data-t="3"] .scene,[data-t="4"] .scene{gap:20px}
 /* ===== «НОЧНОЙ ИНДИГО» — выбран Дарьей 2026-11-17: тёмная шапка и плашки-заголовки с мягким свечением, белые карточки, нежный лосось = «сейчас» ===== */
-.plq{background:#2A2270!important;border:0!important;box-shadow:0 10px 24px -12px rgba(42,34,112,.6)!important}
+.plq{background:#352D76!important;border:0!important;box-shadow:0 10px 24px -12px rgba(42,34,112,.6)!important}
 .plq h1{color:#fff}
-.plq .num{background-color:#fff!important;color:#352F78!important}
+.plq .num{background-color:#fff!important;color:#302870!important}
 .top{margin:0 -16px;padding:20px 16px 18px;border-radius:0 0 26px 26px}
 .top .lab{color:#C9C2F2!important}.top h1{color:#fff}.top .who{color:#D9D5F0}.top .who b{color:#fff}.top .who a,.top .who button{color:#fff!important;text-decoration:underline;text-underline-offset:3px}
 .tile.now{border:1.5px solid #E9A08C!important}
@@ -346,7 +346,7 @@ svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke
 .tile.now .st{color:#B0533F!important}
 .steps3 span.on{background:#F6D3C8!important;color:#8E3F2E!important}
 .target .fin,.tbadge{background:#F6D3C8!important;color:#8E3F2E!important;box-shadow:none!important}
-.plq,.top{background:radial-gradient(circle at 18% 30%,rgba(150,140,235,.42) 0,transparent 42%),radial-gradient(circle at 85% 75%,rgba(232,170,185,.22) 0,transparent 38%),linear-gradient(135deg,#2B2560,#3A3278 55%,#4B4290)!important}
+.plq,.top{background:#352D76!important}
 /* ===== крот: прежняя игра из ДЗ 8 (сцена 1280×720, на весь экран) ===== */
 /* game on the whole screen */
 .kst{position:relative;width:min(100%,calc((100vh - 24px) * 16 / 9));margin-left:auto!important;margin-right:auto!important;aspect-ratio:16/9;border-radius:22px;overflow:hidden;margin:14px 0;background:#191B2E;box-shadow:0 10px 30px rgba(30,35,80,.25);
@@ -369,6 +369,37 @@ html.knoscroll,html.knoscroll body{overflow:hidden;overscroll-behavior:none}
 .kgame{width:100%}
 [data-t="6"] .scene{justify-content:flex-start}
 [data-t="6"] .kst{width:100%;margin:0!important;cursor:pointer}
+
+/* ===== ВИД УТВЕРЖДЁН ДАРЬЕЙ 2026-11-17 02:13. Неоморфизм в тенях: цвета прежние (белые карточки, мята/роза для ответов), объём — двойной тенью ===== */
+:root{--neu-l:#FFFFFF;--neu-d:#DCD6CC}
+.key,.tile,.prog,.wbox,.main.soft,.snd.sm,.help,.hud span,.mc .fa,.slot,.inp{border:0!important;
+ box-shadow:7px 7px 15px var(--neu-d),-7px -7px 15px var(--neu-l)!important}
+.key:active,.tile:active,.main.soft:active,.snd.sm:active{transform:none;box-shadow:inset 5px 5px 10px var(--neu-d),inset -5px -5px 10px var(--neu-l)!important}
+.key.ok{box-shadow:inset 4px 4px 9px rgba(45,106,86,.18),inset -4px -4px 9px rgba(255,255,255,.9)!important}
+.key.hint{box-shadow:inset 4px 4px 9px rgba(148,48,79,.16),inset -4px -4px 9px rgba(255,255,255,.9)!important}
+.tile.now{box-shadow:7px 7px 15px var(--neu-d),-7px -7px 15px var(--neu-l),inset 0 0 0 2px #E9A08C!important}
+.tile .num{box-shadow:inset 3px 3px 6px rgba(68,60,151,.16),inset -3px -3px 6px #fff!important}
+.pbar{box-shadow:inset 3px 3px 6px var(--neu-d),inset -3px -3px 6px var(--neu-l)}
+.steps3 span{box-shadow:4px 4px 8px var(--neu-d),-4px -4px 8px var(--neu-l)}
+/* ===== жемчужные: главная кнопка, шапка, плашки заданий ===== */
+.main:not(.soft),.plq,.top{position:relative;overflow:hidden;background:#352D76!important;color:rgba(255,255,255,.95)!important;border:0!important;
+ box-shadow:inset 0 .3rem .9rem rgba(255,255,255,.3),inset 0 -.1rem .3rem rgba(0,0,0,.6),inset 0 -.4rem .9rem rgba(255,255,255,.4),0 14px 22px -8px rgba(53,45,118,.55),0 6px 8px -5px rgba(20,16,60,.6)!important}
+.main:not(.soft){border-radius:100px!important}
+.plq{border-radius:100px!important}
+.main:not(.soft)::before,.plq::before,.top::before{content:'';position:absolute;left:-15%;right:-15%;bottom:25%;top:-100%;border-radius:50%;background:rgba(255,255,255,.12);pointer-events:none;transition:all .3s ease}
+.main:not(.soft)::after,.plq::after,.top::after{content:'';position:absolute;left:6%;right:6%;top:12%;bottom:40%;border-radius:22px 22px 0 0;box-shadow:inset 0 10px 8px -10px rgba(255,255,255,.8);background:linear-gradient(180deg,rgba(255,255,255,.28) 0%,rgba(0,0,0,0) 50%);pointer-events:none;transition:all .3s ease}
+.top::after{top:6%;bottom:55%}
+.plq>*,.top>*{position:relative;z-index:1}
+.main:not(.soft):active{transform:translateY(4px)}
+.main:not(.soft)[disabled]{background:#ECEAF2!important;color:#9A98AE!important;box-shadow:inset 4px 4px 8px var(--neu-d),inset -4px -4px 8px var(--neu-l)!important}
+.main:not(.soft)[disabled]::before,.main:not(.soft)[disabled]::after{display:none}
+/* ===== кнопка звука: по образцу Дарьи (кольцо, неоморфизм), при звучании — фиолетовая и «дышит» ===== */
+.snd:not(.sm){position:relative;width:132px!important;height:132px!important;border-radius:50%;background:linear-gradient(145deg,#FFFFFF,#ECE8E2)!important;color:#8A879B!important;
+ border:4px solid #F4F1EC!important;box-shadow:12px 12px 24px var(--neu-d),-12px -12px 24px var(--neu-l),inset 2px 2px 0 #fff,inset -2px -2px 0 #E2DDD4!important}
+.snd:not(.sm) svg.i{width:60px!important;height:60px!important;stroke-width:2.2}
+.snd:not(.sm):active{box-shadow:inset 6px 6px 12px var(--neu-d),inset -6px -6px 12px var(--neu-l)!important}
+.snd:not(.sm).on{color:#443C97!important;animation:sndBorder .6s linear alternate-reverse infinite!important;box-shadow:inset -2px -2px 0 #fff,inset 2px 2px 0 #E2DDD4,12px 12px 24px var(--neu-d),-12px -12px 24px var(--neu-l)!important}
+@keyframes sndBorder{from{border-color:rgba(68,60,151,.45)}to{border-color:rgba(68,60,151,.12)}}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
