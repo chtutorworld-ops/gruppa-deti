@@ -1,0 +1,611 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>作业 — Домашнее задание 9</title>
+<style>
+/*__FONTCSS__*/
+/* ===== Палитра «Индиго» (выбрана Дарьей 2026-11-17) — все цвета только здесь ===== */
+:root{
+ --bg:#F8F6F2; --surface:#FFFFFF; --shade-dark:#E0DBD2; --shade-light:#FFFFFF;
+ --ink:#181838; --ink-2:#3B3B66; --muted:#55557A;
+ --accent:#4C3DB8; --accent-ink:#FFFFFF; --accent-tint:#ECE9FB; --accent-line:#C9C2F2;
+ --salmon:#FF9E8A; --salmon-tint:#FFE6DF; --salmon-line:#FFB8A8; --salmon-ink:#B5372A;
+ --mint:#8FE0C6; --mint-tint:#DCF5EC; --mint-line:#9EE3CC; --mint-ink:#0B6650;
+ /* «сейчас» (текущее задание, шаг): проба синий / голубой / малиновый — выбирает Дарья */
+ --now:#4F8BF0; --now-tint:#E3EEFF; --now-ink:#1F4FB0;
+ /* «попробуй ещё»: мягкий малиновый */
+ --wrong:#E8558A; --wrong-tint:#FCE6EF; --wrong-ink:#A3124A; --wrong-a:#FFF2F7; --wrong-b:#F9D2E1;
+ /* нежный лосось: «осталось сделать», пометки */
+ --ok:var(--mint); --hint:var(--wrong);
+ --tone-1:#1F5FD6; --tone-2:#0B7285; --tone-3:#A61E8A; --tone-4:#C2185B; --tone-0:#68688A;
+ --part-mean:#7048E8; --part-read:#1971C2;
+ --grid:#E6E1D8; --hole:#CFE4F2; --hole-2:#B3D3EA; --mole:#A9BDD4; --mole-2:#7F9AB8;
+ --neutral-tint:#EFEBE4; --neutral-line:#D3CDC2; --field:#E4F2FB;
+ --sans:Onest,system-ui,sans-serif; --han:'LXGW WenKai GB','LXGW WenKai',serif;
+ --r1:8px; --r2:14px; --r3:24px; --r4:999px;
+ --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:18px;line-height:1.35}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.zh{font-family:var(--han);font-weight:400}
+.py{font-family:var(--sans);font-weight:600}
+.t1{color:var(--tone-1)}.t2{color:var(--tone-2)}.t3{color:var(--tone-3)}.t4{color:var(--tone-4)}.t0{color:var(--tone-0)}
+svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== каркас экрана ===== */
+.scr{min-height:100vh;min-height:100dvh;height:100dvh;display:flex;flex-direction:column;max-width:560px;margin:0 auto;padding:0 16px calc(16px + env(safe-area-inset-bottom))}
+.scr.list,.scr.res,.scr.start{height:auto}
+.bar{height:48px;flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 -8px}
+.back{width:44px;height:44px;display:grid;place-items:center;border-radius:var(--r4);color:var(--ink)}
+.lab{font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.cnt{min-width:44px;text-align:right;padding-right:8px;font-size:15px;font-weight:700;color:var(--ink-2);white-space:nowrap}
+.head{flex:none}
+.plq{display:flex;align-items:center;gap:12px;background:var(--accent-tint);border-radius:var(--r3);padding:8px 8px 8px 8px;min-height:56px}
+.num{flex:none;width:40px;height:40px;border-radius:var(--r4);background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:20px;font-weight:700}
+.plq h1{font-size:24px;font-weight:700;line-height:1.15;flex:1}
+.help{flex:none;width:44px;height:44px;border-radius:var(--r4);background:var(--surface);color:var(--accent);font-weight:700;font-size:20px;box-shadow:2px 2px 6px var(--shade-dark)}
+.sub{font-size:18px;color:var(--ink-2);margin:8px 4px 0}
+.scene{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px 0;position:relative}
+.pult{flex:none;display:flex;flex-direction:column;gap:12px}
+.fb{min-height:48px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:18px;font-weight:500;border-radius:var(--r2);padding:4px 12px;transition:background .3s var(--ease)}
+.fb.ok{background:var(--mint-tint);color:var(--mint-ink)}
+.fb.hint{background:var(--wrong-tint);color:var(--wrong-ink)}
+.fb .zh{font-size:26px;vertical-align:-3px}
+
+/* ===== кнопки ===== */
+.main{height:56px;width:100%;border-radius:var(--r3);background:var(--accent);color:var(--accent-ink);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .14s var(--ease),opacity .2s}
+.main:active{transform:scale(.98)}
+.main[disabled]{opacity:.45;cursor:default}
+.main.soft{background:var(--surface);color:var(--accent);box-shadow:-4px -4px 12px var(--shade-light),4px 4px 12px var(--shade-dark)}
+.quiet{min-height:44px;color:var(--accent);font-weight:600;font-size:17px;padding:0 8px}
+.keys{display:grid;gap:12px}
+.keys.k2{grid-template-columns:1fr 1fr}.keys.k3{grid-template-columns:1fr 1fr 1fr}.keys.k4{grid-template-columns:1fr 1fr 1fr 1fr}
+.key{position:relative;min-height:72px;border-radius:var(--r3);background:var(--surface);border:2px solid transparent;
+ box-shadow:-6px -6px 14px var(--shade-light),6px 6px 14px var(--shade-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px;
+ transition:transform .14s var(--ease),box-shadow .14s var(--ease),background-color .35s var(--ease),border-color .35s var(--ease)}
+.key:active{transform:translateY(1px);box-shadow:inset 4px 4px 10px var(--shade-dark),inset -4px -4px 10px var(--shade-light)}
+.key .zh{font-size:48px;line-height:1}
+.key .ru{font-size:18px;font-weight:600}
+.key .py{font-size:26px}
+.key small{font-size:15px;font-weight:600;color:var(--ink-2)}
+.key.ok{background:var(--mint-tint);border-color:var(--mint);box-shadow:none}
+.key.ok small:not(.py){color:var(--mint-ink)}
+.key small.t1{color:var(--tone-1)}.key small.t2{color:var(--tone-2)}.key small.t3{color:var(--tone-3)}.key small.t4{color:var(--tone-4)}
+.key.hint{background:var(--wrong-tint);border-color:var(--wrong);box-shadow:none;animation:shake .42s var(--ease)}
+.key.sel{border-color:var(--accent)}
+.key[disabled]{cursor:default}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* звук */
+.snd{width:96px;height:96px;border-radius:var(--r4);background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;box-shadow:0 8px 20px -8px var(--accent)}
+.snd svg.i{width:44px;height:44px}
+.snd.sm{width:56px;height:56px;background:var(--surface);color:var(--accent);box-shadow:-4px -4px 12px var(--shade-light),4px 4px 12px var(--shade-dark)}
+.snd.sm svg.i{width:28px;height:28px}
+.snd.on{animation:pulse 1s var(--ease) infinite}
+@keyframes pulse{50%{transform:scale(1.06)}}
+
+/* ===== список заданий ===== */
+.top{padding:16px 0 8px}
+.top .lab{display:block;margin-bottom:4px;color:var(--accent)}
+.top h1{font-size:32px;font-weight:700;line-height:1.1}
+.who{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;font-size:17px;color:var(--ink-2)}
+.who b{color:var(--ink)}
+.prog{margin:16px 0;background:var(--surface);border-radius:var(--r3);padding:16px;box-shadow:-6px -6px 14px var(--shade-light),6px 6px 14px var(--shade-dark)}
+.prog .row{display:flex;justify-content:space-between;align-items:baseline;font-weight:700}
+.prog .row b{font-size:28px;color:var(--accent)}
+.pbar{height:14px;border-radius:var(--r4);background:var(--accent-tint);margin-top:8px;overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:var(--r4);background:var(--mint);transition:width .6s var(--ease)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.tile{position:relative;text-align:left;min-height:112px;border-radius:var(--r3);background:var(--surface);padding:12px;display:flex;flex-direction:column;gap:8px;
+ box-shadow:-6px -6px 14px var(--shade-light),6px 6px 14px var(--shade-dark);border:2px solid transparent;transition:transform .14s var(--ease)}
+.tile:active{transform:translateY(1px)}
+.tile .num{width:44px;height:44px;font-size:22px}
+.tile b{font-size:18px;font-weight:600;line-height:1.2}
+.tile .st{position:absolute;right:12px;top:14px;font-size:15px;font-weight:700}
+.tile.now{border-color:var(--now);}
+.tile.now .num{background-image:none;background-color:var(--now);color:#fff}
+.tile.now .st{color:var(--now-ink)}
+.tile.done{background:var(--mint-tint);box-shadow:inset 3px 3px 8px rgba(11,102,80,.10)}
+.tile.done .num{background:var(--mint);color:var(--mint-ink)}
+.tile.done .st{color:var(--mint-ink)}
+.tbadge{display:inline-block;background:var(--now-tint);color:var(--now-ink);font-weight:700;font-size:15px;border-radius:var(--r1);padding:4px 8px;margin-top:8px}
+.foot{position:sticky;bottom:0;padding:12px 0 calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--bg) 30%)}
+
+/* старт */
+.start .hero{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:24px 0}
+.start .big{font-family:var(--han);font-size:96px;line-height:1;color:var(--accent);letter-spacing:.04em}
+.start h1{font-size:32px;font-weight:700}
+.start p{font-size:18px;color:var(--ink-2)}
+.inp{height:56px;width:100%;border-radius:var(--r3);border:2px solid var(--accent-line);background:var(--surface);padding:0 16px;font:500 20px var(--sans);color:var(--ink)}
+.inp:focus{outline:none;border-color:var(--accent)}
+
+/* итоги */
+.res h2{font-size:24px;font-weight:700;margin:16px 0 8px}
+.rl{display:grid;gap:8px}
+.ri{display:flex;align-items:center;gap:12px;border-radius:var(--r2);padding:12px;font-size:18px;font-weight:600}
+.ri .num{width:36px;height:36px;font-size:18px}
+.ri.y{background:var(--mint-tint)}.ri.y .num{background:var(--mint);color:var(--mint-ink)}
+.ri.x{background:var(--salmon-tint)}.ri.x .num{background-image:none;background-color:var(--salmon-tint);color:var(--salmon-ink);box-shadow:inset 0 0 0 2px var(--salmon)}
+.ri small{display:block;font-size:15px;font-weight:500;color:var(--ink-2)}
+.ri .go{margin-left:auto;color:var(--accent);font-weight:700;min-height:44px;padding:0 8px}
+
+/* ===== задание 1: пропись ===== */
+.wbox{position:relative;width:min(100%,46dvh,420px);aspect-ratio:1;background:var(--surface);border-radius:var(--r3);box-shadow:-6px -6px 14px var(--shade-light),6px 6px 14px var(--shade-dark)}
+.wbox svg.g{position:absolute;inset:0;width:100%;height:100%}
+.wbox .hw{position:absolute;inset:0}
+.wcap{display:flex;align-items:center;gap:16px}
+.wcap .zh{font-size:56px;line-height:1}
+.wcap .py{font-size:28px}
+.wcap .ru{font-size:18px;color:var(--ink-2);font-weight:600}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.steps3 span{text-align:center;font-size:15px;font-weight:700;border-radius:var(--r1);padding:8px 4px;background:var(--accent-tint);color:var(--ink-2)}
+.steps3 span.on{background:var(--now-tint);color:var(--now-ink);box-shadow:inset 0 0 0 2px var(--now)}
+.steps3 span.ok{background:var(--mint-tint);color:var(--mint-ink)}
+
+/* ===== задание 2: фото ===== */
+.photo{height:min(40dvh,320px);aspect-ratio:3/4;border-radius:var(--r3);object-fit:cover;background:var(--accent-tint)}
+.who2{font-size:22px;font-weight:700}
+
+/* ===== задание 3 ===== */
+.ru-big{font-size:44px;font-weight:700;color:var(--ink);text-align:center;line-height:1.1}
+.ru-big small{display:block;font-size:18px;font-weight:600;color:var(--ink-2);margin-top:8px}
+.key.w .zh{font-size:40px}
+
+/* ===== задание 4–5: слух ===== */
+.syl{font-size:64px;font-weight:700;min-height:80px;letter-spacing:.02em}
+.slots{display:flex;gap:8px;align-items:center}
+.slot{min-width:72px;height:72px;border-radius:var(--r2);border:2px dashed var(--accent-line);display:grid;place-items:center;font-size:32px;font-weight:700;padding:0 8px;background:var(--surface)}
+.slot.on{border-style:solid;border-color:var(--now);background:var(--now-tint)}
+.slot.ok{border-style:solid;border-color:var(--mint);background:var(--mint-tint)}
+.tk{font-size:15px;font-weight:700;color:var(--ink-2)}
+.key .tm{font-size:40px;font-weight:700;line-height:1}
+
+/* ===== задание 6: крот ===== */
+.field{width:100%;flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:8px;padding:8px;border-radius:var(--r3);background:var(--accent-tint)}
+.hole{position:relative;overflow:hidden;border-radius:var(--r3);display:flex;align-items:flex-end;justify-content:center;min-height:88px}
+.hole::after{content:'';position:absolute;left:6%;right:6%;bottom:8%;height:22%;border-radius:50%;background:var(--hole-2);z-index:0}
+.mole{position:absolute;left:50%;bottom:16%;width:84%;max-width:132px;transform:translate(-50%,110%);transition:transform .26s var(--ease);z-index:1;display:flex;flex-direction:column;align-items:center}
+.mole.up{transform:translate(-50%,0)}
+.mole svg{width:70%;height:auto;display:block}
+.mole .pl{margin-top:-14%;background:var(--surface);border-radius:var(--r2);padding:4px 8px;font-size:22px;font-weight:700;min-width:84%;text-align:center;box-shadow:0 2px 6px var(--shade-dark);border:2px solid transparent;transition:background-color .2s,border-color .2s}
+.mole.hit .pl{background:var(--mint-tint);border-color:var(--mint)}
+.mole.bad .pl{background:var(--wrong-tint);border-color:var(--wrong)}
+.hole .lip{position:absolute;left:4%;right:4%;bottom:0;height:14%;background:var(--accent-tint);z-index:2;border-radius:0 0 var(--r3) var(--r3)}
+.target{font-size:24px;font-weight:700;text-align:center}
+.target .fin{display:inline-block;background:var(--now-tint);color:var(--now-ink);box-shadow:inset 0 0 0 2px var(--now);border-radius:var(--r2);padding:2px 12px;margin-left:4px}
+.hud{display:flex;gap:8px;justify-content:center}
+.hud span{background:var(--surface);border-radius:var(--r4);padding:4px 12px;font-size:16px;font-weight:700;box-shadow:2px 2px 6px var(--shade-dark)}
+.pause-ov{position:absolute;inset:0;background:rgba(248,246,242,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:5;border-radius:var(--r3);text-align:center;padding:16px}
+.pause-ov b{font-size:24px}
+
+/* ===== задание 7: мемори ===== */
+.mem{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:440px}
+.mc{aspect-ratio:3/4;border-radius:var(--r2);position:relative;perspective:600px;min-height:64px}
+.mc .fa,.mc .ba{position:absolute;inset:0;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;backface-visibility:hidden;transition:transform .4s var(--ease),background-color .3s;padding:4px;text-align:center}
+.mc .ba{background:var(--accent);color:var(--accent-ink);font-family:var(--han);font-size:28px;box-shadow:3px 3px 8px var(--shade-dark)}
+.mc .fa{background:var(--surface);transform:rotateY(180deg);box-shadow:3px 3px 8px var(--shade-dark);border:2px solid transparent}
+.mc .fa.zh{font-size:34px}.mc .fa.ru{font-size:17px;font-weight:700;line-height:1.1}
+.mc.up .ba{transform:rotateY(180deg)}.mc.up .fa{transform:rotateY(0)}
+.mc.ok .fa{background:var(--mint-tint);border-color:var(--mint)}
+.mc.no .fa{background:var(--wrong-tint);border-color:var(--wrong)}
+
+/* вспомогательная панель «?» */
+.sheet{position:fixed;inset:0;background:rgba(24,24,56,.35);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sheet>div{background:var(--bg);width:100%;max-width:560px;border-radius:var(--r3) var(--r3) 0 0;padding:24px 16px calc(16px + env(safe-area-inset-bottom));display:grid;gap:12px;font-size:18px}
+.sheet h3{font-size:24px}
+.teacher{display:inline-block;margin-top:8px;background:var(--salmon-tint);color:var(--salmon-ink);font-weight:700;font-size:15px;border-radius:var(--r1);padding:4px 8px}
+.fin-box{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.fin-box .bigc{width:96px;height:96px;border-radius:var(--r4);background:var(--mint-tint);display:grid;place-items:center;color:var(--mint-ink)}
+.fin-box .bigc svg.i{width:52px;height:52px;stroke-width:2.4}
+.fin-box h2{font-size:28px}
+.fin-box p{font-size:18px;color:var(--ink-2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chips span{border-radius:var(--r1);padding:4px 10px;font-size:18px;font-weight:600;background:var(--mint-tint)}
+.chips span.x{background:var(--salmon-tint)}
+.chips .zh{font-size:28px}
+.toast{position:fixed;left:50%;top:16px;transform:translate(-50%,-140%);visibility:hidden;background:var(--ink);color:#fff;padding:12px 16px;border-radius:var(--r2);font-size:16px;transition:transform .3s var(--ease);z-index:30;max-width:90vw}
+.toast.on{transform:translate(-50%,0);visibility:visible}
+.fade{animation:fin .32s var(--ease)}
+@keyframes fin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ===== компьютер: две колонки ===== */
+@media (min-width:900px){
+ .scr{max-width:1200px;padding:0 32px 24px}
+ .scr.task{display:grid;grid-template-columns:58fr 42fr;grid-template-rows:56px auto 1fr auto;grid-template-areas:"bar bar" "scene head" "scene fbx" "scene pult";column-gap:48px;height:100dvh}
+ .bar{grid-area:bar;height:56px;margin:0}
+ .head{grid-area:head;padding-top:24px}
+ .scene{grid-area:scene}
+ .pult{grid-area:pult;padding-bottom:16px}
+ .plq h1{font-size:32px}
+ .sub{font-size:18px}
+ .key:hover{transform:translateY(-2px)}
+ .key{min-height:104px}.key .zh{font-size:64px}.key.w .zh{font-size:52px}.key .py{font-size:30px}
+ .fb{font-size:20px;min-height:56px}
+ .wbox{width:min(100%,62dvh,480px)}
+ .photo{height:min(52dvh,420px)}
+ .syl{font-size:96px}
+ .ru-big{font-size:64px}
+ .scr.list,.scr.res,.scr.start{max-width:1100px}
+ .tiles{grid-template-columns:repeat(4,1fr)}
+ .tile{min-height:136px}
+ .field{max-width:640px}
+ .mem{max-width:560px}
+}
+
+/* ===== объёмные кнопки-таблетки (по образцу Дарьи, Uiverse/FColombati, в цветах «Индиго») ===== */
+:root{
+ --edge:rgba(24,24,56,.38); --drop:rgba(24,24,56,.14); --in-dark:rgba(24,24,56,.16); --in-deep:rgba(24,24,56,.30); --in-light:rgba(255,255,255,1); --in-soft:rgba(255,255,255,.30);
+ --key-a:#FFFFFF; --key-b:#EFEBE4;
+ --acc-a:#5D4FD0; --acc-b:#3C2FA0;
+ --mint-a:#E9FBF4; --mint-b:#BFEBDB;
+ --sal-a:#FFF0EB; --sal-b:#FFD2C6;
+}
+.key,.main,.tile,.snd,.help{
+ --a:var(--key-a); --b:var(--key-b);
+ background-image:linear-gradient(135deg,var(--a),var(--b));
+ box-shadow:0 1px 1px -.2px var(--edge),3px 6px 5px -2px var(--drop),
+  inset -1px -1px 1px 0 var(--in-dark),inset 1px 2px 2px 0 var(--in-light),inset 0 0 1px 4px var(--in-soft),inset -2px -6px 7px 1px var(--in-dark);
+ transition:box-shadow .3s ease,transform .25s ease,background-image .25s ease,border-color .3s ease;
+}
+.main,.snd:not(.sm),.num{--a:var(--acc-a);--b:var(--acc-b)}
+.main{box-shadow:0 1px 1px -.2px var(--edge),3px 6px 6px -2px var(--drop),inset 1px 2px 2px 0 var(--in-soft),inset 0 0 1px 3px var(--in-soft),inset -2px -6px 8px 0 var(--in-deep)}
+.main.soft{--a:var(--key-a);--b:var(--key-b);color:var(--accent)}
+.num{background-image:linear-gradient(135deg,var(--a),var(--b));box-shadow:inset 1px 2px 2px var(--in-soft),inset -1px -3px 4px var(--in-deep),0 1px 2px var(--edge)}
+.key:active,.key.pressed,.main:active,.tile:active,.snd:active,.help:active{transform:scale(.975);
+ box-shadow:0 0 0 0 var(--edge),inset 2px 3px 2px 0 var(--in-deep),inset -1px -1px 2px 0 var(--in-dark),inset 5px 5px 7px 0 var(--in-dark),inset 0 0 1px 6px var(--in-soft)}
+.key.ok,.tile.done{--a:var(--mint-a);--b:var(--mint-b);border-color:transparent;
+ box-shadow:0 1px 1px -.2px var(--edge),inset 2px 3px 3px 0 var(--in-dark),inset 1px 2px 2px 0 var(--in-light),inset 0 0 1px 4px var(--in-soft)}
+.key.hint{--a:var(--wrong-a);--b:var(--wrong-b);border-color:transparent}
+.tile.now{border-color:var(--now)}
+@media (hover:hover){.key:hover,.main:hover,.tile:hover{transform:translateY(-1px)}}
+
+/* ===== главная кнопка: 3D (второй образец Дарьи), сплошной индиго, низ темнее, при нажатии опускается ===== */
+:root{--accent-deep:#2E2386;--accent-base:rgba(24,24,56,.16)}
+.main:not(.soft){background-image:none;background-color:var(--accent);border-radius:20px;margin-bottom:6px;
+ text-shadow:0 -1px 0 var(--in-deep);
+ box-shadow:inset 0 1px 0 var(--in-soft),inset 0 -2px 0 var(--in-dark),0 6px 0 var(--accent-deep),0 8px 3px var(--accent-base),0 9px 6px -2px var(--drop);
+ transition:transform .2s ease,box-shadow .2s ease,border-radius .2s ease}
+.main:not(.soft):active{transform:translateY(4px);border-radius:16px 16px 14px 14px;
+ box-shadow:inset 0 1px 0 var(--in-soft),inset 0 -2px 0 var(--in-dark),0 2px 0 var(--accent-deep),0 3px 2px var(--accent-base)}
+.main:not(.soft)[disabled]{opacity:.5;transform:none}
+@media (hover:hover){.main:not(.soft):hover{transform:translateY(-1px)}}
+
+/* ===== меньше фиолетового: у каждого задания свой чистый цвет ===== */
+[data-t]{--tc:var(--accent);--tc-2:var(--accent-deep);--tc-tint:var(--accent-tint)}
+[data-t="1"]{--tc:#3B7BE6;--tc-2:#1F55B8;--tc-tint:#E5EEFF}
+[data-t="2"]{--tc:#14A3B0;--tc-2:#0B7480;--tc-tint:#DCF3F5}
+[data-t="3"]{--tc:#F08A72;--tc-2:#C95A44;--tc-tint:#FFEAE4}
+[data-t="4"]{--tc:#2BA6E0;--tc-2:#1679AB;--tc-tint:#E0F3FC}
+[data-t="5"]{--tc:#2DAE86;--tc-2:#17805F;--tc-tint:#DDF5EC}
+[data-t="6"]{--tc:#2477B8;--tc-2:#155487;--tc-tint:#E1EEF8}
+[data-t="7"]{--tc:#128896;--tc-2:#0A5F6A;--tc-tint:#DDF0F2}
+[data-t] .num{--a:var(--tc);--b:var(--tc-2)}
+.task .plq{background:var(--tc-tint)}
+.task .mc .ba{background:var(--tc)}
+.pbar,.steps3 span{background:var(--neutral-tint)}
+.slot{border-color:var(--neutral-line)}
+.field,.hole .lip{background:var(--field)}
+
+/* главная кнопка в задании — цвета задания; неактивная — спокойная серая, без фиолетового */
+.task .main:not(.soft){background-color:var(--tc);box-shadow:inset 0 1px 0 var(--in-soft),inset 0 -2px 0 var(--in-dark),0 6px 0 var(--tc-2),0 8px 3px var(--accent-base),0 9px 6px -2px var(--drop)}
+.task .main:not(.soft):active{box-shadow:inset 0 1px 0 var(--in-soft),inset 0 -2px 0 var(--in-dark),0 2px 0 var(--tc-2),0 3px 2px var(--accent-base)}
+.main:not(.soft)[disabled],.task .main:not(.soft)[disabled]{opacity:1;background-color:#E4DFD6;color:#7A746A;text-shadow:none;box-shadow:0 4px 0 #CFC8BC}
+.task .main.soft{color:var(--tc-2)}
+.task .snd.sm,.task .help{color:var(--tc-2)}
+.task .snd:not(.sm){--a:var(--tc);--b:var(--tc-2)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<div id="app"></div><div class="toast" id="toast"></div>
+<script>__HW__</script>
+<script>window.HZDATA=__HZDATA__;window.SEL=__SEL__;</script>
+<script>
+/* ============ ДЗ 9 «Он, она, мы» · новый дизайн (правила §16, палитра «Индиго») ============ */
+const HW_ID='dz9', LS_KEY='zh-dz9';
+const API=/workers\.dev$/.test(location.hostname)?'/api/dz/':'https://gruppa-deti.ch-tutor-world.workers.dev/api/dz/';
+const AUDIO=(/^https?:$/.test(location.protocol)&&!/claude/i.test(location.hostname)&&!/workers\.dev$/.test(location.hostname))?new URL('../audio/',location.href).href:'https://chtutorworld-ops.github.io/gruppa-deti-sait/audio/';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
+const code=t=>[...t].map(c=>c.codePointAt(0).toString(16)).join('-');
+const IC={
+ back:'<svg class="i" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',
+ snd:'<svg class="i" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>',
+ ok:'<svg class="i" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+ pause:'<svg class="i" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg>',
+ play:'<svg class="i" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg>'};
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2600);}
+let timers=[];const later=(f,ms)=>{const t=setTimeout(f,ms);timers.push(t);return t;};
+const clearTimers=()=>{timers.forEach(clearTimeout);timers=[];};
+
+/* ---------- звук: только готовые mp3, один голос в задании ---------- */
+let curA=null;
+function tryURL(u,el){return new Promise(res=>{try{curA&&curA.pause()}catch(e){}const a=new Audio(u);curA=a;el&&el.classList.add('on');let done=false;
+ const end=ok=>{if(done)return;done=true;el&&el.classList.remove('on');res(ok);};a.onended=()=>end(true);a.onerror=()=>end(false);a.play().catch(()=>end(false));});}
+// слог диктора диктанта (яркие тоны); если файла нет — обычный слог
+async function playSyl(c,el){if(await tryURL(AUDIO+'dict/'+code(c)+'.mp3',el))return true;return tryURL(AUDIO+code(c)+'.mp3',el);}
+const playWord=(w,el)=>tryURL(AUDIO+code(w)+'.mp3',el);
+
+/* ---------- сохранение ---------- */
+let S={};try{S=JSON.parse(localStorage.getItem(LS_KEY)||'{}')}catch(e){}
+S.done=S.done||{};S.queue=S.queue||[];
+const keep=()=>{try{localStorage.setItem(LS_KEY,JSON.stringify(S))}catch(e){}};
+const isTest=()=>/^(учитель|учительница|teacher|тест)$/i.test((S.name||'').trim());
+function send(part,data){S.queue=S.queue.filter(q=>q.part!==part);S.queue.push({part,data:Object.assign({},data,{ts:Date.now()})});keep();flush();}
+async function flush(){if(isTest()){S.queue=[];keep();return;}if(!S.sid||!S.queue.length)return;const q=S.queue[0];
+ try{const r=await fetch(API+'save',{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({hw:HW_ID,sid:S.sid,name:S.name,part:q.part,data:q.data})});
+  if(!r.ok)throw 0;S.queue.shift();keep();if(S.queue.length)flush();}catch(e){clearTimeout(flush._t);flush._t=setTimeout(flush,15000);}}
+addEventListener('online',flush);
+
+/* ---------- данные ---------- */
+const TASKS=[null,
+ {t:'Пропись 他 她 们',s:'Смотри, обведи, напиши сам',run:()=>propis()},
+ {t:'Он или она?',s:'Посмотри на фото и выбери иероглиф',run:()=>heta()},
+ {t:'Я, ты, мы, они',s:'Выбери иероглифы к русскому слову',run:()=>mestoim()},
+ {t:'Услышь финаль',s:'Послушай слог и выбери его финаль',run:()=>finals()},
+ {t:'Диктант слогов',s:'Собери слог: начало, финаль, тон',run:()=>dictant()},
+ {t:'Крот: финали',s:'Бей крота с нужной финалью',run:()=>krot()},
+ {t:'Мемори',s:'Найди пары: иероглиф и перевод',run:()=>memo()}];
+const NT=TASKS.length-1;
+const FINS=['ai','ei','ao','ou','an','en'];
+const FIN_RU={ai:'«ай»',ei:'«эй»',ao:'«ао»',ou:'«оу»',an:'«ан»',en:'«эн»'};
+const INITS=['b','p','m','f','d','t','n','l','g','k','h'];
+const TMARK={1:'ˉ',2:'ˊ',3:'ˇ',4:'ˋ'};
+const TONES={'ā':1,'á':2,'ǎ':3,'à':4,'ē':1,'é':2,'ě':3,'è':4,'ō':1,'ó':2,'ǒ':3,'ò':4};
+const toneOf=py=>{for(const ch of py)if(TONES[ch])return TONES[ch];return 0;};
+const plain=py=>py.normalize('NFD').replace(/[̀-ͯ]/g,'');
+// все слоги урока 9 с пройденными инициалями: [пиньинь, иероглиф-источник звука, финаль]
+const SYLS=FINS.flatMap(f=>(SEL[f]||[]).map(([py,c])=>({py,c,f,ini:plain(py).slice(0,-f.length),t:toneOf(py)})));
+const pyHTML=py=>`<span class="py t${toneOf(py)}">${esc(py)}</span>`;
+function pick(n,pool){const out=[];const byF={};pool.forEach(s=>(byF[s.f]=byF[s.f]||[]).push(s));
+ const fs=shuffle(Object.keys(byF));let i=0;while(out.length<n){const f=fs[i%fs.length];const c=shuffle(byF[f]).find(s=>!out.includes(s));if(c)out.push(c);i++;if(i>200)break;}return shuffle(out);}
+
+/* ---------- каркас экрана задания ---------- */
+function shell(n,{step='',scene='',pult='',sub}){clearTimers();try{curA&&curA.pause()}catch(e){}
+ const T=TASKS[n];
+ $('#app').innerHTML=`<div class="scr task fade" data-t="${n}">
+  <div class="bar"><button class="back" id="bk" aria-label="К списку заданий">${IC.back}</button><span class="lab">Задание ${n}</span><span class="cnt" id="cnt">${step}</span></div>
+  <div class="head"><div class="plq"><span class="num">${n}</span><h1>${esc(T.t)}</h1></div><p class="sub" id="sub">${sub!=null?sub:esc(T.s)}</p></div>
+  <main class="scene" id="scene">${scene}</main>
+  <div class="pult" id="pult">${pult}</div></div>`;
+ $('#bk').onclick=()=>{clearTimers();stopGame();list();};
+ S.cur=n;keep();}
+const setCnt=t=>{const c=$('#cnt');if(c)c.textContent=t;};
+function fb(html,cls){const f=$('#fb');if(!f)return;f.className='fb'+(cls?' '+cls:'');f.innerHTML=html?'<span>'+html+'</span>':'';}
+function finish(n,res,sumHTML){S.done[n]=res;keep();send('t'+n,res);
+ const left=[];for(let i=1;i<=NT;i++)if(!S.done[i])left.push(i);
+ const next=left.find(i=>i>n)||left[0];
+ shell(n,{step:'готово',sub:'',
+  scene:`<div class="fin-box fade"><div class="bigc">${IC.ok}</div><h2>Задание ${n} сделано</h2>${sumHTML||''}</div>`,
+  pult:next?`<button class="main" id="nx">Задание ${next}: ${esc(TASKS[next].t)}</button><button class="quiet" id="ls">К списку заданий</button>`
+   :`<button class="main" id="nx">Мои итоги</button><button class="quiet" id="ls">К списку заданий</button>`});
+ $('#nx').onclick=()=>next?TASKS[next].run():results();$('#ls').onclick=list;}
+
+/* универсальный вопрос с клавишами: ответ верный → клавиша мягко окрашивается мятой */
+function quiz(n,items,{scene,keys,cols=2,isRight,hint,okText,onShow,onOk,mainLabel='Дальше',audio,save}){
+ let k=0,score=0;const miss=[],ans=[];
+ const one=()=>{if(k>=items.length)return save(score,items.length,miss,ans);
+  const it=items[k];let first=true,solved=false;const K=keys(it);
+  shell(n,{step:(k+1)+' / '+items.length,scene:scene(it),
+   pult:`<div class="fb" id="fb"></div><div class="keys k${cols}">${K.map((x,i)=>`<button class="key" data-i="${i}">${x.html}</button>`).join('')}</div>
+    <button class="main${audio?' soft':''}" id="mn" ${audio?'':'disabled'}>${audio?IC.snd+' Послушать ещё раз':esc(mainLabel)}</button>`});
+  const mn=$('#mn');
+  const play=()=>audio&&audio(it,$('#ps'));
+  if(audio){mn.onclick=play;const ps=$('#ps');if(ps)ps.onclick=play;later(play,350);}
+  onShow&&onShow(it);
+  $$('.key').forEach(b=>b.onclick=()=>{if(solved)return;const x=K[+b.dataset.i];
+   if(isRight(it,x)){solved=true;$$('.key').forEach(q=>q.classList.remove('hint'));b.classList.add('ok');if(first)score++;ans.push([it.id||k,x.v,first]);
+    fb(okText(it,x),'ok');$$('.key').forEach(q=>q.disabled=true);
+    mn.className='main';mn.disabled=false;mn.innerHTML=k+1<items.length?'Дальше':'Готово';mn.onclick=()=>{k++;one();};
+    if(audio)later(()=>audio(it),150);else onOk&&onOk(it);
+   }else{b.classList.remove('hint');void b.offsetWidth;b.classList.add('hint');
+    if(first){first=false;miss.push(it.miss||it.id||String(k));}fb(hint(it,x),'hint');}
+  });};
+ one();}
+
+/* ================= 1. Пропись 他 她 们 ================= */
+const PR={'他':['tā','он','亻 «человек» + 也'],'她':['tā','она','女 «женщина» + 也'],'们':['men','много (людей)','亻 «человек» + 门 mén']};
+const GRID='<svg class="g" viewBox="0 0 100 100" aria-hidden="true"><g stroke="var(--grid)" stroke-width=".5" fill="none"><path d="M50 4V96M4 50H96" stroke-dasharray="2 2"/><path d="M4 4L96 96M96 4L4 96" stroke-dasharray="1.5 2.5"/></g></svg>';
+function hwOpts(sz,extra){return Object.assign({width:sz,height:sz,padding:sz*.08,showOutline:false,showCharacter:false,
+ outlineColor:'#E6E1D8',strokeColor:'#181838',drawingColor:'#1F55B8',drawingWidth:Math.round(sz/18),highlightColor:'#8FE0C6',
+ strokeAnimationSpeed:1,delayBetweenStrokes:260,charDataLoader:(ch,ok)=>ok(HZDATA[ch])},extra||{});}
+function propis(){const n=1,L=['他','她','们'];let k=0,stage=0;const res=[];let w=null;
+ const STG=['Смотри','Обведи','Сам'];
+ const one=()=>{if(k>=L.length){const clean=res.filter(r=>r.mist<=2).length;
+   return finish(n,{score:clean,of:L.length,miss:res.filter(r=>r.mist>2).map(r=>r.c),ans:res.map(r=>[r.c,r.mist])},
+    `<p>Ты написал по памяти все три иероглифа.</p><div class="chips">${res.map(r=>`<span class="${r.mist<=2?'':'x'}"><span class="zh">${r.c}</span></span>`).join('')}</div>${clean<L.length?'<p>Розовые можно повторить для закрепления.</p>':''}`);}
+  const c=L[k],[py,ru,parts]=PR[c];
+  const subs=['Посмотри, как пишется, черта за чертой.','Обведи по светлому образцу.','Теперь напиши сам, без образца.'];
+  shell(n,{step:(k+1)+' / '+L.length,sub:subs[stage],
+   scene:`<div class="wcap"><span class="zh">${c}</span><div><div class="py t${toneOf(py)}">${py}</div><div class="ru">${ru} · ${parts}</div></div><button class="snd sm" id="ps" aria-label="Послушать">${IC.snd}</button></div>
+    <div class="wbox" id="wb">${GRID}<div class="hw" id="hw"></div></div>`,
+   pult:`<div class="fb" id="fb"></div><div class="steps3">${STG.map((s,i)=>`<span class="${i<stage?'ok':i===stage?'on':''}">${i+1}. ${s}</span>`).join('')}</div>
+    <button class="main" id="mn">${stage===0?IC.play+' Показать порядок черт':'Пиши в клетке'}</button>`});
+  $('#ps').onclick=()=>playWord(c,$('#ps'));
+  const box=$('#hw'),sz=box.clientWidth||280,mn=$('#mn');
+  if(!window.HanziWriter||!HZDATA[c]){fb('Напиши '+c+' пальцем в воздухе','hint');later(()=>{res.push({c,mist:0});k++;one();},1500);return;}
+  if(stage===0){w=HanziWriter.create(box,c,hwOpts(sz,{showCharacter:false,showOutline:true}));
+   const anim=()=>{mn.disabled=true;w.animateCharacter({onComplete:()=>{mn.disabled=false;mn.innerHTML='Дальше: обвести';mn.onclick=()=>{stage=1;one();};fb('Запомнил порядок? Теперь обведи.','ok');}});};
+   mn.onclick=anim;later(anim,500);later(()=>playWord(c),200);return;}
+  mn.disabled=true;let mist=0;
+  w=HanziWriter.create(box,c,hwOpts(sz,{showOutline:stage===1}));
+  w.quiz({showHintAfterMisses:stage===1?1:3,highlightOnComplete:true,
+   onMistake:()=>{mist++;fb(stage===1?'Веди по светлой черте':'Попробуй ещё раз, черта подскажет','hint');},
+   onCorrectStroke:()=>fb('Так, дальше','ok'),
+   onComplete:()=>{fb('Написано','ok');if(stage===2)res.push({c,mist});
+    mn.disabled=false;mn.innerHTML=stage===1?'Дальше: написать самому':(k+1<L.length?'Следующий иероглиф':'Готово');
+    mn.onclick=()=>{if(stage===1)stage=2;else{stage=0;k++;}one();};}});};
+ one();}
+
+/* ================= 2. Он или она? ================= */
+const HETA=[['malchik','他','мальчик'],['pevica','她','певица'],['vrach','他','врач'],['puteshestvennica','她','путешественница'],['paren','他','парень'],['uchitelnica','她','учительница']];
+function heta(){const n=2;const items=shuffle(HETA).map(([f,hz,ru])=>({id:f,f,hz,ru,miss:ru}));
+ quiz(n,items,{cols:2,
+  scene:it=>`<img class="photo" src="img/p-${it.f}.webp" alt="${esc(it.ru)}">`,
+  keys:()=>[{v:'他',html:'<span class="zh">他</span><small class="py t1">tā</small>'},{v:'她',html:'<span class="zh">她</span><small class="py t1">tā</small>'}],
+  isRight:(it,x)=>x.v===it.hz,
+  okText:it=>`Да, это ${esc(it.ru)}: <span class="zh">${it.hz}</span> ${it.hz==='他'?'он':'она'}`,
+  hint:it=>it.hz==='她'?'Посмотри на левую часть: <span class="zh">女</span> это женщина':'Посмотри на левую часть: <span class="zh">亻</span> это человек, мужчина',
+  onOk:it=>playWord(it.hz),
+  save:(score,of,miss,ans)=>finish(n,{score,of,miss,ans},`<p>Верно с первого раза: ${score} из ${of}.</p><p><span class="zh" style="font-size:32px">他</span> он · <span class="zh" style="font-size:32px">她</span> она</p>`)});}
+
+/* ================= 3. Я, ты, мы, они ================= */
+const MST=[{ru:'мы',hz:'我们',s:'я + другие'},{ru:'вы',hz:'你们',s:'ты + другие'},{ru:'они',hz:'他们',s:'мальчики или все вместе'},{ru:'они',hz:'她们',s:'только девочки'},
+ {ru:'я',hz:'我',s:'один человек'},{ru:'ты',hz:'你',s:'один человек'},{ru:'он',hz:'他',s:'один человек'},{ru:'она',hz:'她',s:'один человек'}];
+function mestoim(){const n=3;const items=shuffle(MST).map(m=>({...m,id:m.hz,miss:m.ru+' '+m.hz}));
+ const PLUR=['我们','你们','他们','她们'],SING=['我','你','他','她'];
+ quiz(n,items,{cols:2,
+  scene:it=>`<div class="ru-big">${esc(it.ru)}<small>${esc(it.s)}</small></div>`,
+  keys:it=>shuffle(it.hz.length>1?PLUR:SING).map(h=>({v:h,html:`<span class="zh">${h}</span>`})),
+  isRight:(it,x)=>x.v===it.hz,
+  okText:it=>`Да: <span class="zh">${it.hz}</span> ${esc(it.ru)}`,
+  onOk:it=>playWord(it.hz),
+  hint:(it,x)=>x.v.length>1&&it.hz.length>1&&x.v[0]!==it.hz[0]?`<span class="zh">${x.v}</span> это ${({'我们':'мы','你们':'вы','他们':'они','她们':'они (девочки)'})[x.v]}. Нужно «${esc(it.ru)}»`
+   :x.v==='他们'&&it.hz==='她们'?'Тут только девочки: слева нужен <span class="zh">女</span>':x.v==='她们'&&it.hz==='他们'?'Тут не только девочки: слева нужен <span class="zh">亻</span>'
+   :x.v==='他'&&it.hz==='她'?'Она женщина: слева нужен <span class="zh">女</span>':x.v==='她'&&it.hz==='他'?'Он не женщина: слева нужен <span class="zh">亻</span>':'Попробуй ещё раз',
+  save:(score,of,miss,ans)=>finish(n,{score,of,miss,ans},`<p>Верно с первого раза: ${score} из ${of}.</p><p><span class="zh" style="font-size:32px">们</span> значит «много людей»</p>`)});}
+
+/* ================= 4. Услышь финаль ================= */
+function finals(){const n=4;const items=pick(12,SYLS).map(s=>({...s,id:s.py,miss:s.py}));
+ quiz(n,items,{cols:3,audio:(it,el)=>playSyl(it.c,el),
+  scene:it=>`<button class="snd" id="ps" aria-label="Послушать">${IC.snd}</button><div class="syl" id="sy">&nbsp;</div>`,
+  keys:()=>FINS.map(f=>({v:f,html:`<span class="py" style="font-size:28px">${f}</span><small>${FIN_RU[f]}</small>`})),
+  isRight:(it,x)=>x.v===it.f,
+  okText:it=>{const sy=$('#sy');if(sy)sy.innerHTML=pyHTML(it.py);return `Да, финаль <b>${it.f}</b> ${FIN_RU[it.f]}`;},
+  hint:(it,x)=>/n$/.test(it.f)&&!/n$/.test(x.v)?'В конце слышен мягкий «н». Послушай ещё раз':!/n$/.test(it.f)&&/n$/.test(x.v)?'В конце нет «н». Послушай ещё раз':'Похоже, но не то. Послушай ещё раз',
+  save:(score,of,miss,ans)=>finish(n,{score,of,miss,ans},`<p>Верно с первого раза: ${score} из ${of}.</p>${miss.length?`<p>Можно повторить для закрепления:</p><div class="chips">${miss.map(m=>`<span class="x">${pyHTML(m)}</span>`).join('')}</div>`:''}`)});}
+
+/* ================= 5. Диктант слогов ================= */
+function dictant(){const n=5;const items=pick(8,SYLS);let k=0,score=0;const miss=[],ans=[];
+ const one=()=>{if(k>=items.length)return finish(n,{score,of:items.length,miss,ans},
+   `<p>Слогов без ошибок: ${score} из ${items.length}.</p>${miss.length?`<p>Можно повторить для закрепления:</p><div class="chips">${miss.map(m=>`<span class="x">${pyHTML(m)}</span>`).join('')}</div>`:''}`);
+  const it=items[k];let ph=0,clean=true;
+  const opts=[shuffle([it.ini,...shuffle(INITS.filter(x=>x!==it.ini)).slice(0,3)]),FINS,[1,2,3,4]];
+  const PH=['Какое начало?','Какая финаль?','Какой тон?'];
+  shell(n,{step:(k+1)+' / '+items.length,sub:'Послушай и собери слог по кусочкам.',
+   scene:`<button class="snd" id="ps" aria-label="Послушать">${IC.snd}</button>
+    <div class="slots"><span class="slot on" id="s0">?</span><span class="slot" id="s1">?</span><span class="slot" id="s2">?</span></div><div class="tk" id="ph">${PH[0]}</div>`,
+   pult:`<div class="fb" id="fb"></div><div class="keys" id="kk"></div><button class="main soft" id="mn">${IC.snd} Послушать ещё раз</button>`});
+  const play=()=>playSyl(it.c,$('#ps'));$('#ps').onclick=play;$('#mn').onclick=play;later(play,350);
+  const draw=()=>{const o=opts[ph];const kk=$('#kk');kk.className='keys k'+(ph===1?3:4);
+   kk.innerHTML=o.map((v,i)=>`<button class="key" data-i="${i}">${ph===2?`<span class="tm t${v}">${TMARK[v]}</span><small>${v} тон</small>`:`<span class="py" style="font-size:28px">${v}</span>`}</button>`).join('');
+   $('#ph').textContent=PH[ph];
+   $$('#kk .key').forEach(b=>b.onclick=()=>{const v=o[+b.dataset.i];const right=[it.ini,it.f,it.t][ph];
+    if(v===right){b.classList.add('ok');$$('#kk .key').forEach(q=>q.disabled=true);
+     const s=$('#s'+ph);s.className='slot ok';s.innerHTML=ph===2?`<span class="t${v}">${TMARK[v]}</span>`:esc(v);
+     fb(ph===2?'':'Да','ok');
+     later(()=>{ph++;if(ph<3){$('#s'+ph).className='slot on';fb('');draw();}else done();},650);
+    }else{b.classList.remove('hint');void b.offsetWidth;b.classList.add('hint');if(clean){clean=false;miss.push(it.py);}
+     fb(ph===2?'Послушай, как идёт голос: ровно, вверх, ямкой или вниз':'Похоже, но не то. Послушай ещё раз','hint');}});};
+  const done=()=>{if(clean)score++;ans.push([it.py,clean]);
+   $('#ph').innerHTML='';const sl=$('.slots');sl.outerHTML=`<div class="syl">${pyHTML(it.py)}</div>`;
+   fb(clean?'Слог собран без ошибок':'Слог собран','ok');later(()=>playSyl(it.c),150);
+   const mn=$('#mn');mn.className='main';mn.innerHTML=k+1<items.length?'Дальше':'Готово';mn.onclick=()=>{k++;one();};$('#kk').innerHTML='';};
+  draw();};
+ one();}
+
+/* ================= 6. Крот: финали (вертикальное поле) ================= */
+let G=null;
+function stopGame(){if(G){G.stop();G=null;}}
+const MOLE_SVG='<svg viewBox="0 0 100 92" aria-hidden="true"><ellipse cx="50" cy="58" rx="42" ry="36" fill="var(--mole)"/><ellipse cx="50" cy="70" rx="26" ry="20" fill="#E8EFF6"/><circle cx="20" cy="30" r="10" fill="var(--mole-2)"/><circle cx="80" cy="30" r="10" fill="var(--mole-2)"/><ellipse cx="50" cy="44" rx="38" ry="32" fill="var(--mole)"/><circle cx="36" cy="40" r="5.5" fill="var(--ink)"/><circle cx="64" cy="40" r="5.5" fill="var(--ink)"/><circle cx="37.5" cy="38.5" r="1.8" fill="#fff"/><circle cx="65.5" cy="38.5" r="1.8" fill="#fff"/><ellipse cx="50" cy="54" rx="9" ry="6.5" fill="var(--salmon)"/><circle cx="28" cy="56" r="5" fill="var(--salmon)" opacity=".45"/><circle cx="72" cy="56" r="5" fill="var(--salmon)" opacity=".45"/></svg>';
+function krot(){const n=6;const ROUNDS=3,DUR=20;
+ const targets=shuffle(FINS).slice(0,ROUNDS);let r=0,hits=0,shown=0,wrong=0;const miss=[];
+ const intro=()=>{shell(n,{step:'',sub:'Сверху написано, какую финаль искать. Бей только кротов с ней.',
+   scene:`<div class="field" aria-hidden="true">${Array.from({length:9},(_,i)=>`<div class="hole">${i===4?`<div class="mole up">${MOLE_SVG}<div class="pl"><span class="py t3">hǎo</span></div></div>`:''}<i class="lip"></i></div>`).join('')}</div>`,
+   pult:`<div class="fb" id="fb">${ROUNDS} раунда по ${DUR} секунд</div><button class="main" id="mn">${IC.play} Начать игру</button>`});
+  $('#mn').onclick=()=>round();};
+ const round=()=>{const tf=targets[r];let left=DUR,paused=false,over=false;
+  shell(n,{step:'0 очков',sub:'',
+   scene:`<div class="target">Нужная финаль: <span class="fin py">${tf}</span></div>
+    <div class="hud"><span>Раунд ${r+1} из ${ROUNDS}</span><span id="tm">${left} с</span></div>
+    <div class="field" id="fd">${Array.from({length:9},(_,i)=>`<div class="hole" data-h="${i}"><i class="lip"></i></div>`).join('')}</div>`,
+   pult:`<div class="fb" id="fb"></div><button class="main soft" id="mn">${IC.pause} Пауза</button>`});
+  setCnt(hits+' очков');
+  const fd=$('#fd');const busy=new Set();let iv=null,tv=null;
+  const spawn=()=>{if(paused||over)return;const free=[...Array(9).keys()].filter(i=>!busy.has(i));if(!free.length)return;
+   const h=free[Math.random()*free.length|0];busy.add(h);
+   const isT=Math.random()<.45;const pool=SYLS.filter(s=>isT?s.f===tf:s.f!==tf);const s=pool[Math.random()*pool.length|0];
+   if(isT)shown++;
+   const hole=fd.querySelector(`[data-h="${h}"]`);const m=document.createElement('button');m.className='mole';m.setAttribute('aria-label',s.py);
+   m.innerHTML=MOLE_SVG+`<div class="pl">${pyHTML(s.py)}</div>`;hole.insertBefore(m,hole.firstChild);
+   requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('up')));
+   let gone=false;const hide=()=>{if(gone)return;gone=true;m.classList.remove('up');setTimeout(()=>{m.remove();busy.delete(h);},300);};
+   const life=setTimeout(hide,1700+Math.random()*700);
+   m.onclick=()=>{if(gone||paused||over)return;clearTimeout(life);
+    if(s.f===tf){hits++;m.classList.add('hit');setCnt(hits+' очков');fb('Да, '+s.py+' это '+tf,'ok');playSyl(s.c);}
+    else{wrong++;m.classList.add('bad');if(!miss.includes(s.py))miss.push(s.py);fb(`<span class="py">${esc(s.py)}</span> это финаль ${s.f}, а нужна ${tf}`,'hint');}
+    setTimeout(hide,380);};};
+  const tick=()=>{if(paused||over)return;left--;const t=$('#tm');if(t)t.textContent=left+' с';if(left<=0)end();};
+  const start=()=>{iv=setInterval(spawn,620);tv=setInterval(tick,1000);spawn();};
+  const stop=()=>{clearInterval(iv);clearInterval(tv);};
+  const end=()=>{over=true;stop();G=null;r++;
+   if(r<ROUNDS){shell(n,{step:hits+' очков',sub:'',scene:`<div class="fin-box"><h2>Раунд ${r} готов</h2><p>Очков: ${hits}</p><p>Следующая финаль: <span class="tbadge py" style="font-size:24px">${targets[r]}</span></p></div>`,
+     pult:`<button class="main" id="mn">${IC.play} Следующий раунд</button>`});$('#mn').onclick=round;}
+   else finish(n,{score:hits,of:Math.max(shown,1),pts:hits,wrong,miss},`<p>Очков: ${hits}. Кротов с нужной финалью было ${shown}.</p>${miss.length?`<p>Можно повторить для закрепления:</p><div class="chips">${miss.slice(0,8).map(m=>`<span class="x">${pyHTML(m)}</span>`).join('')}</div>`:''}`);};
+  G={stop:()=>{over=true;stop();}};
+  $('#mn').onclick=()=>{paused=!paused;const sc=$('#scene');
+   if(paused){$('#mn').innerHTML=IC.play+' Продолжить';const ov=document.createElement('div');ov.className='pause-ov';ov.id='pov';ov.innerHTML='<b>Пауза</b><p>Нажми «Продолжить», когда будешь готов.</p>';sc.appendChild(ov);}
+   else{$('#mn').innerHTML=IC.pause+' Пауза';const ov=$('#pov');ov&&ov.remove();}};
+  later(start,400);};
+ intro();}
+
+/* ================= 7. Мемори ================= */
+const MEM=[['我','я'],['你','ты'],['他','он'],['她','она'],['我们','мы'],['你们','вы'],['他们','они'],['妈','мама']];
+function memo(){const n=7,NP=MEM.length;
+ const cards=shuffle(MEM.flatMap(([a,ru],i)=>[{i,k:'zh',t:a},{i,k:'ru',t:ru}]));
+ shell(n,{step:'0 / '+NP,
+  scene:`<div class="mem" id="mg">${cards.map((c,j)=>`<button class="mc" data-j="${j}" aria-label="Карточка ${j+1}"><span class="ba">汉</span><span class="fa ${c.k}">${esc(c.t)}</span></button>`).join('')}</div>`,
+  pult:`<div class="fb" id="fb">Открывай по две карточки</div>`});
+ let open=[],moves=0,pairs=0,errs=0,lock=false;const conf=[];
+ $$('.mc').forEach(b=>b.onclick=()=>{if(lock)return;const c=cards[+b.dataset.j];if(b.classList.contains('up'))return;
+  b.classList.add('up');if(c.k==='zh')playWord(c.t);open.push([b,c]);if(open.length<2)return;moves++;
+  const [[b1,c1],[b2,c2]]=open;open=[];
+  if(c1.i===c2.i){pairs++;setCnt(pairs+' / '+NP);later(()=>{b1.classList.add('ok');b2.classList.add('ok');},250);
+   fb(`Пара: <span class="zh">${MEM[c1.i][0]}</span> ${MEM[c1.i][1]}`,'ok');
+   if(pairs===NP)later(()=>finish(n,{score:NP,of:NP,moves,errs,miss:conf.slice(0,8)},`<p>Все ${NP} пар найдены за ${moves} ходов.</p>`),1300);}
+  else{errs++;lock=true;conf.push(c1.t+'/'+c2.t);b1.classList.add('no');b2.classList.add('no');fb('Не пара, запоминай, где что лежит','hint');
+   later(()=>{b1.classList.remove('up','no');b2.classList.remove('up','no');lock=false;},1000);}});}
+
+/* ================= список, старт, итоги ================= */
+function start(){clearTimers();
+ $('#app').innerHTML=`<div class="scr start fade"><div class="hero">
+  <div class="big">他她们</div>
+  <h1>Домашнее задание 9</h1><p>Он, она, мы и новые финали ai ei ao ou an en. Семь заданий, можно делать в несколько заходов.</p>
+  <label class="lab" for="nm">Как тебя зовут?</label>
+  <input class="inp" id="nm" autocomplete="given-name" placeholder="Имя" value="${esc(S.name||'')}">
+  </div><button class="main" id="go">Начать</button></div>`;
+ const go=()=>{const v=$('#nm').value.trim();if(!v){$('#nm').focus();toast('Напиши своё имя');return;}
+  if(v!==S.name){S.name=v;S.sid=S.sid||('s'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));}keep();flush();list();};
+ $('#go').onclick=go;$('#nm').onkeydown=e=>{if(e.key==='Enter')go();};}
+function list(){clearTimers();stopGame();if(!S.name)return start();
+ const d=Object.keys(S.done).filter(k=>S.done[k]).length,pc=Math.round(d*100/NT);
+ const first=[...Array(NT).keys()].map(i=>i+1).find(i=>!S.done[i]);
+ $('#app').innerHTML=`<div class="scr list fade">
+  <div class="top"><span class="lab">Домашнее задание 9</span><h1>Он, она, мы</h1>
+   <div class="who"><span>Ученик: <b>${esc(S.name)}</b></span><button class="quiet" id="ch">Сменить имя</button></div>${isTest()?'<span class="teacher">Режим учителя: всё открыто, ничего не сохраняется</span>':''}</div>
+  <div class="prog"><div class="row"><span>Выполнено</span><b>${d} из ${NT}</b></div><div class="pbar"><i style="width:${pc}%"></i></div></div>
+  <div class="tiles">${TASKS.slice(1).map((T,i)=>{const n=i+1,dn=!!S.done[n],now=!dn&&n===first;
+   return `<button class="tile${dn?' done':now?' now':''}" data-n="${n}" data-t="${n}"><span class="num">${dn?IC.ok:n}</span><b>${esc(T.t)}</b>${dn?'<span class="st">готово</span>':now?'<span class="st">сейчас</span>':''}</button>`;}).join('')}</div>
+  <div class="foot"><button class="main" id="go">${first?'Задание '+first+': '+esc(TASKS[first].t):'Мои итоги'}</button></div></div>`;
+ $$('.tile').forEach(b=>b.onclick=()=>TASKS[+b.dataset.n].run());
+ $('#go').onclick=()=>first?TASKS[first].run():results();
+ $('#ch').onclick=()=>{S.name='';keep();start();};}
+function results(){clearTimers();const D=[],X=[];for(let i=1;i<=NT;i++)(S.done[i]?D:X).push(i);
+ const line=(i,y)=>{const r=S.done[i];return `<div class="ri ${y?'y':'x'}"><span class="num">${i}</span><span>${esc(TASKS[i].t)}${y&&r?`<small>${i===6?'очков: '+r.pts:i===7?'все пары найдены':'верно: '+r.score+' из '+r.of}</small>`:''}</span>${y?'':`<button class="go" data-n="${i}">Сделать</button>`}</div>`;};
+ $('#app').innerHTML=`<div class="scr res fade">
+  <div class="top"><span class="lab">Мои итоги</span><h1>${esc(S.name||'')}, сделано ${D.length} из ${NT}</h1></div>
+  ${D.length?`<h2>Сделано</h2><div class="rl">${D.map(i=>line(i,1)).join('')}</div>`:''}
+  ${X.length?`<h2>Осталось сделать</h2><div class="rl">${X.map(i=>line(i,0)).join('')}</div>`:`<p class="sub" style="margin-top:16px">Все задания сделаны. Учитель увидит результаты.</p>`}
+  <div class="foot"><button class="main" id="go">К списку заданий</button></div></div>`;
+ $$('.go').forEach(b=>b.onclick=()=>TASKS[+b.dataset.n].run());$('#go').onclick=list;}
+
+/* клавиатура на компьютере: цифры 1–6 выбирают ответ, Enter — главная кнопка */
+addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;
+ if(/^[1-9]$/.test(e.key)){const k=$$('.keys .key')[+e.key-1];if(k&&!k.disabled){k.click();e.preventDefault();}}
+ else if(e.key==='Enter'){const m=$('#mn')||$('#nx')||$('#go');if(m&&!m.disabled){m.click();e.preventDefault();}}});
+
+try{const q=new URLSearchParams(location.search).get('name');if(q){if(q!==S.name){S.name=q;S.sid='s'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);}keep();}}catch(e){}
+flush();
+const h=location.hash.match(/^#t(\d)$/);
+if(S.name&&h&&TASKS[+h[1]])TASKS[+h[1]].run();else list();
+</script></body></html>
