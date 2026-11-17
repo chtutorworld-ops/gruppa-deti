@@ -120,6 +120,67 @@ export default {
         if (!value) return json({ error: 'none' }, 404);
         return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type && !/^text\//.test(metadata.type) && metadata.type) || 'audio/wav', 'Cache-Control': 'no-store', ...CORS } });
       }
+      // Копилка UI-находок (site/nahodki/). Через VPN режутся отправки больше ~4 КБ,
+      // поэтому страница шлёт находку кусочками (/chunk), а потом просит собрать её (/commit).
+      // nh:tmp:<id>:<v>:<n> — кусочки (живут сутки), nh:item:<id> — находка (JSON),
+      // nh:img:<id> — картинка, nh:idx — список id (чтобы не тратить лимит list).
+      if (p.startsWith('/api/nh/')) {
+        const okNh = (s) => typeof s === 'string' && /^[a-z0-9-]{1,40}$/i.test(s);
+        const okNum = (s, max) => /^\d{1,6}$/.test(s || '') && +s <= max;
+        const id = q.get('id');
+        const nhIdx = async () => JSON.parse((await env.DZ.get('nh:idx')) || '[]');
+        if (p === '/api/nh/chunk' && req.method === 'POST') {
+          const v = q.get('v'), n = q.get('n');
+          if (!okNh(id) || !okNh(v) || !okNum(n, 2000)) return json({ error: 'bad' }, 400);
+          const t = await req.text();
+          if (t.length > 8000) return json({ error: 'size' }, 413);
+          await env.DZ.put(`nh:tmp:${id}:${v}:${n}`, t, { expirationTtl: 86400 });
+          return json({ ok: true });
+        }
+        if (p === '/api/nh/commit' && req.method === 'POST') {
+          const v = q.get('v'), count = q.get('count'), what = q.get('what') === 'img' ? 'img' : 'item';
+          if (!okNh(id) || !okNh(v) || !okNum(count, 2000) || +count < 1) return json({ error: 'bad' }, 400);
+          const parts = await Promise.all([...Array(+count).keys()].map((n) => env.DZ.get(`nh:tmp:${id}:${v}:${n}`)));
+          const miss = parts.findIndex((x) => x === null);
+          if (miss >= 0) return json({ error: 'missing', n: miss }, 409);
+          const s = parts.join('');
+          if (what === 'img') {
+            const m = /^data:(image\/[a-z+]+);base64,(.+)$/.exec(s);
+            if (!m) return json({ error: 'bad img' }, 400);
+            const bin = Uint8Array.from(atob(m[2]), (c) => c.charCodeAt(0));
+            if (bin.byteLength > 3_000_000) return json({ error: 'size' }, 413);
+            await env.DZ.put(`nh:img:${id}`, bin, { metadata: { type: m[1], v } });
+          } else {
+            const item = JSON.parse(s);
+            item.id = id; item.saved = Date.now();
+            const out = JSON.stringify(item);
+            if (out.length > 2_000_000) return json({ error: 'size' }, 413);
+            await env.DZ.put(`nh:item:${id}`, out);
+            const idx = await nhIdx();
+            if (!idx.includes(id)) { idx.push(id); await env.DZ.put('nh:idx', JSON.stringify(idx)); }
+          }
+          await Promise.all([...Array(+count).keys()].map((n) => env.DZ.delete(`nh:tmp:${id}:${v}:${n}`)));
+          return json({ ok: true });
+        }
+        if (p === '/api/nh/del' && req.method === 'POST') {
+          if (!okNh(id)) return json({ error: 'bad' }, 400);
+          await env.DZ.delete(`nh:item:${id}`); await env.DZ.delete(`nh:img:${id}`);
+          const idx = (await nhIdx()).filter((x) => x !== id);
+          await env.DZ.put('nh:idx', JSON.stringify(idx));
+          return json({ ok: true });
+        }
+        if (p === '/api/nh/all') {
+          const idx = await nhIdx();
+          const items = (await Promise.all(idx.map((x) => env.DZ.get(`nh:item:${x}`)))).filter(Boolean).map((x) => JSON.parse(x));
+          return new Response(JSON.stringify({ items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...CORS } });
+        }
+        if (p === '/api/nh/img') {
+          if (!okNh(id)) return json({ error: 'bad' }, 400);
+          const { value, metadata } = await env.DZ.getWithMetadata(`nh:img:${id}`, 'arrayBuffer');
+          if (!value) return json({ error: 'none' }, 404);
+          return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'image/jpeg', 'Cache-Control': 'public, max-age=31536000', ...CORS } });
+        }
+      }
       return json({ error: 'not found' }, 404);
     } catch (e) {
       return json({ error: String(e && e.message || e) }, 500);
