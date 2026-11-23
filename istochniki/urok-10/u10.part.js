@@ -484,7 +484,7 @@ const HZ10=[['你','ты'],['我','я'],['好','хорошо'],['叫','зову�
 const ROOMS={
  detektiv:{t:'Кабинет детектива',img:'img/komnata-detektiv.webp',spots:[[78,18,7,-4,.55,'ink'],[85,43,8,0,.8,'gold'],[30,73,6,-8,.75,'ink'],[76,78,6,-10,.85,'gold'],[27,61,4.5,0,.7,'ink'],[80,63,6,-3,.6,'ink'],[49,36,5,3,.45,'ink'],[22,37,4.5,0,.55,'ink'],[42,13,4,-12,.5,'white'],[15,9,5,0,.35,'pale']]},
  chaj:{t:'Чайный дом',img:'img/komnata-chaj.webp',spots:[[56,14,6,0,.6,'ink'],[78,26,8,0,.55,'ink'],[15,59,7,0,.7,'ink'],[33,66,4,0,.7,'ink'],[72,79,6,-12,.75,'ink'],[92,47,6,0,.5,'ink'],[31,19,4,0,.6,'gold'],[29,74,3.5,0,.7,'ink'],[51,37,4,0,.6,'ink'],[38,52,4,0,.75,'gold']]},
- gostinaya:{t:'Гостиная',img:'img/komnata-gostinaya.webp',spots:[[39,19,6,0,.6,'ink'],[61,18,8,0,.55,'ink'],[89,13,5,0,.7,'ink'],[67,40.5,2.6,-8,.85,'ink'],[30,87,7,-6,.7,'ink'],[55,38,4.5,0,.5,'ink'],[11,61,5,-8,.45,'white'],[37,33,3.5,0,.7,'gold'],[6,66,3,0,.6,'ink'],[90,52,3.5,0,.6,'ink']]}};
+ gostinaya:{t:'Гостиная',img:'img/komnata-gostinaya.webp',spots:[[39,19,6,0,.6,'ink'],[61,18,8,0,.55,'ink'],[89,13,5,0,.7,'ink'],[67.5,40.8,3.4,-8,.95,"ink"],[30,87,7,-6,.7,'ink'],[55,38,4.5,0,.5,'ink'],[11,61,5,-8,.45,'white'],[37,33,3.5,0,.7,'gold'],[6,66,3,0,.6,'ink'],[90,52,3.5,0,.6,'ink']]}};
 S.rooms=S.rooms||{};
 function findHz(){const n=1;
  shell(`${backBtn}${tag(n)}<h2>🔎 Найди иероглиф</h2>
@@ -495,8 +495,8 @@ function findHz(){const n=1;
  document.querySelectorAll('.r10room').forEach(b=>b.onclick=()=>room(b.dataset.r,T));}
 function room(k,T){const n=1,R=ROOMS[k];const order=shuffle(HZ10.map((h,i)=>i));const place=shuffle(R.spots.map((s,i)=>i));let cur=0,found=0,errs=0;const t0=Date.now();let over=false;
  shell(`<div class="r10top"><button class="back n" id="rx">‹ Комнаты</button><span id="rtm">${T?'':'∞'}</span><span>✓ <b id="rf">0</b>/10</span></div>
-  <div class="r10scene" id="rs"><img src="${R.img}" alt="${R.t}">${HZ10.map((h,i)=>{const [x,y,s,r,o,kk]=R.spots[place[i]];return `<button class="r10h k-${kk}" data-i="${i}" style="left:${x}%;top:${y}%;--s:${s};--r:${r}deg;--o:${o}" aria-label="иероглиф"><span class="z">${h[0]}</span></button>`;}).join('')}</div>
-  <div class="r10ask" id="ra"></div>`);
+  <div class="r10ask" id="ra"></div>
+  <div class="r10scene" id="rs"><img src="${R.img}" alt="${R.t}">${HZ10.map((h,i)=>{const [x,y,s,r,o,kk]=R.spots[place[i]];return `<button class="r10h k-${kk}" data-i="${i}" style="left:${x}%;top:${y}%;--s:${s};--r:${r}deg;--o:${o}" aria-label="иероглиф"><span class="z">${h[0]}</span></button>`;}).join('')}</div>`);
  const ask=()=>{$('#ra').innerHTML=`Найди: <b>«${HZ10[order[cur]][1]}»</b>`;};ask();
  $('#rx').onclick=()=>findHz();
  const tick=()=>{if(over||!T)return;const left=T-Math.floor((Date.now()-t0)/1000);const el=$('#rtm');if(!el)return;if(left<=0){end();return;}el.textContent='⏱ '+Math.floor(left/60)+':'+String(left%60).padStart(2,'0');later(tick,500);};tick();
