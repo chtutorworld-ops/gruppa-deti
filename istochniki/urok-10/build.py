@@ -29,3 +29,4 @@ def build(folder, need, K):
     print(folder or 'урок', 'font KB', len(b64) * 3 // 4 // 1024, 'strokes', ''.join(sorted(hz)), 'total KB', len(out) // 1024)
 build('', set('你我好叫妈爸他她们是不吗'), kat(['core.js']))
 
+build('zadaniya', set('你我好叫妈爸他她们是不吗'), kat(['core.js']))
