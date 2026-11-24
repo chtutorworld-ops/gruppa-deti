@@ -103,7 +103,8 @@ export class NhStore {
       }
       if (p === '/api/nh/all') {
         const items = this.sql.exec('SELECT body FROM item ORDER BY ord').toArray().map((r) => JSON.parse(r.body));
-        return new Response(JSON.stringify({ items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...CORS } });
+        // < и > экранируем: JSON тот же, а сторонние читалки не принимают код за разметку.
+        return new Response(JSON.stringify({ items }).replace(/</g, '\\u003c').replace(/>/g, '\\u003e'), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...CORS } });
       }
       if (p === '/api/nh/img') {
         if (!okNh(id)) return json({ error: 'bad' }, 400);
