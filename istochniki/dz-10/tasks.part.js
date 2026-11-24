@@ -101,7 +101,7 @@ function room(key){const n=2,R=ROOMS[key];const order=shuffle(HZ10.map((h,i)=>i)
  const light=(x,y)=>{const r=rs.getBoundingClientRect();rd.style.setProperty('--x',(x-r.left)+'px');rd.style.setProperty('--y',(y-r.top)+'px');};
  const r0=rs.getBoundingClientRect();light(r0.left+r0.width/2,r0.top+r0.height*.45);
  rs.addEventListener('pointermove',e=>light(e.clientX,e.clientY));rs.addEventListener('pointerdown',e=>light(e.clientX,e.clientY));
- $('.scr').classList.add('rm');
+ $('.scr').classList.add('rm');later(()=>{const a=$('#ra');a&&a.scrollIntoView({block:'start'});},60);
  // нажатие засчитывается ближайшему иероглифу (кнопки могут перекрываться на маленьком экране)
  rs.addEventListener('click',e=>{let b=e.target.closest('.rmh');
   if(!b||e.detail!==0){b=null;let best=34;$$('.rmh').forEach(q=>{const r=q.getBoundingClientRect(),d=Math.hypot(r.left+r.width/2-e.clientX,r.top+r.height/2-e.clientY);if(d<best){best=d;b=q;}});}
@@ -346,36 +346,29 @@ function stopGame(){}
 
 /* ================= список, старт, итоги ================= */
 function start(){clearTimers();
- $('#app').innerHTML=`<div class="scr start fade"><div class="hero">
-  <div class="big">是不吗</div>
-  <h1>Домашнее задание 10</h1><p>Диктант, иероглифы в темноте, an и en, наш диалог и новые слова <span class="zh">吗 是 不</span>, пропись, печатаем по-китайски и мемори. Десять заданий, можно делать в несколько заходов.</p>
-  <label class="lab" for="nm">Как тебя зовут?</label>
-  <input class="inp" id="nm" autocomplete="given-name" placeholder="Имя" value="${esc(S.name||'')}">
-  </div><button class="main" id="go">Начать</button></div>`;
+ $('#app').innerHTML=`<div class="scr start fade">${topHTML()}<div class="pan n" style="text-align:center"><h2>Как тебя зовут?</h2>
+  <p class="lead">Диктант, иероглифы в темноте, an и en, наш диалог и новые слова <span class="zh">吗 是 不</span>. Десять заданий, можно делать в несколько заходов.</p>
+  <input class="inp" id="nm" autocomplete="given-name" placeholder="Имя и буква фамилии" value="${esc(S.name||'')}">
+  <button class="main" id="go">Начать →</button></div></div>`;
  const go=()=>{const v=$('#nm').value.trim();if(!v){$('#nm').focus();toast('Напиши своё имя');return;}
   if(v!==S.name){S.name=v;S.sid=S.sid||('s'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));}keep();flush();list();};
  $('#go').onclick=go;$('#nm').onkeydown=e=>{if(e.key==='Enter')go();};}
 function list(){clearTimers();stopGame();try{curA&&curA.pause()}catch(e){}if(!S.name)return start();S.cur=0;keep();
- const d=Object.keys(S.done).filter(k=>S.done[k]).length,pc=Math.round(d*100/NT);
  const first=[...Array(NT).keys()].map(i=>i+1).find(i=>!S.done[i]);
- $('#app').innerHTML=`<div class="scr list fade">
-  <div class="top"><span class="lab">Домашнее задание 10</span><h1>Детективная история</h1>
-   <div class="who"><span>Ученик: <b>${esc(S.name)}</b></span><button class="quiet" id="ch">Сменить имя</button></div>${isTest()?'<span class="teacher">Режим учителя: всё открыто, ничего не сохраняется</span>':''}</div>
-  <div class="prog"><div class="row"><span>Выполнено</span><b>${d} из ${NT}</b></div><div class="pbar"><i style="width:${pc}%"></i></div></div>
-  <div class="tiles">${TASKS.slice(1).map((T,i)=>{const n=i+1,dn=!!S.done[n],now=!dn&&n===first;
-   return `<button class="tile${dn?' done':now?' now':''}" data-n="${n}"><span class="num">${n}</span><b>${esc(T.t)}</b>${dn?'<span class="st">'+IC.ok+'готово</span>':now?'<span class="st">сейчас</span>':''}</button>`;}).join('')}</div>
-  <div class="foot"><button class="main" id="go">${first?'Задание '+first+': '+esc(TASKS[first].t):'Мои итоги'}</button>${first?'<button class="quiet" id="rs">Мои итоги</button>':''}</div></div>`;
- $$('.tile').forEach(b=>b.onclick=()=>TASKS[+b.dataset.n].run());
- $('#go').onclick=()=>first?TASKS[first].run():results();if($('#rs'))$('#rs').onclick=results;
- $('#ch').onclick=()=>{S.name='';keep();start();};}
+ $('#app').innerHTML=`<div class="scr list fade">${topHTML()}${pbarHTML()}<div class="pan n">
+  <h2>Задания по порядку</h2><p class="lead">Делай задания <b>по номерам: 1, 2, 3…</b> Сделанные отмечаются ✓, шкала наверху показывает, сколько готово.${isTest()?'<br><b>Режим учителя: всё открыто, ничего не сохраняется.</b>':''}</p>
+  <div class="olist">${TASKS.slice(1).map((T,i)=>{const n=i+1,dn=!!S.done[n],now=!dn&&n===first;
+   return `<button class="ti n tile${dn?' done':now?' hot':' todo'}" data-n="${n}"><span class="no">${n}</span><span class="tt"><b>${EMO[n]} ${esc(T.t)}</b><small>${esc(T.s)}</small></span>${dn?'<span class="st">✓ готово</span>':''}</button>`;}).join('')}</div>
+  <div class="foot"><button class="main" id="go">${first?'Задание '+first+': '+esc(TASKS[first].t)+' →':'🏁 Мои итоги'}</button>${first?'<button class="quiet" id="rs">🏁 Мои итоги</button>':''}</div></div></div>`;
+ $$('.tile').forEach(b=>b.onclick=()=>TASKS[+b.dataset.n].run());topOn();
+ $('#go').onclick=()=>first?TASKS[first].run():results();if($('#rs'))$('#rs').onclick=results;}
 function results(){clearTimers();const D=[],X=[];for(let i=1;i<=NT;i++)(S.done[i]?D:X).push(i);send('itogi',{done:D.length,of:NT,left:X});
- const line=(i,y)=>{const r=S.done[i];return `<div class="ri ${y?'y':'x'}"><span class="num">${i}</span><span>${esc(TASKS[i].t)}${y&&r?`<small>${i===4?'прочитано':i===10?'все пары найдены':'верно: '+r.score+' из '+r.of}</small>`:''}</span>${y?'':`<button class="go" data-n="${i}">Сделать</button>`}</div>`;};
- $('#app').innerHTML=`<div class="scr res fade">
-  <div class="top"><span class="lab">Мои итоги</span><h1>${esc(S.name||'')}, сделано ${D.length} из ${NT}</h1></div>
-  ${D.length?`<h2>Сделано</h2><div class="rl">${D.map(i=>line(i,1)).join('')}</div>`:''}
-  ${X.length?`<h2>Осталось сделать</h2><div class="rl">${X.map(i=>line(i,0)).join('')}</div>`:`<p class="sub" style="margin-top:16px">Все задания сделаны. Учитель увидит результаты.</p>`}
-  <div class="foot"><button class="main" id="go">К списку заданий</button></div></div>`;
- $$('.go').forEach(b=>b.onclick=()=>TASKS[+b.dataset.n].run());$('#go').onclick=list;}
+ const line=(i,y)=>{const r=S.done[i];return `<div class="ri ${y?'y':'x'}"><span class="num">${i}</span><span>${EMO[i]} ${esc(TASKS[i].t)}${y&&r?`<small>${i===4?'прочитано':i===10?'все пары найдены':'верно: '+r.score+' из '+r.of}</small>`:''}</span>${y?'<span class="st">✓</span>':`<button class="go" data-n="${i}">Сделать →</button>`}</div>`;};
+ $('#app').innerHTML=`<div class="scr res fade">${topHTML()}${pbarHTML()}<div class="pan n"><div class="top"><h1>🏁 ${esc(S.name||'')}, сделано ${D.length} из ${NT}</h1></div>
+  ${X.length?`<div class="left"><h3>⏳ Ещё не доделано (${X.length}):</h3><div class="rl">${X.map(i=>line(i,0)).join('')}</div></div>`:`<div class="allok">🏆 Все ${NT} заданий сделаны! Учитель увидит результаты.</div>`}
+  ${D.length?`<h3>✓ Сделано</h3><div class="rl">${D.map(i=>line(i,1)).join('')}</div>`:''}
+  <div class="foot"><button class="main" id="go">К списку заданий</button></div></div></div>`;
+ $$('.go').forEach(b=>b.onclick=()=>TASKS[+b.dataset.n].run());$('#go').onclick=list;topOn();}
 
 /* клавиатура на компьютере: цифры выбирают ответ, Enter — главная кнопка */
 addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;

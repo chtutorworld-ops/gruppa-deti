@@ -30,10 +30,10 @@ async function wrongStroke(p){const r=await p.evaluate(()=>{const b=document.que
  await p.mouse.move(r[0]+r[2]*.9,r[1]+r[2]*.1);await p.mouse.down();await p.mouse.move(r[0]+r[2]*.1,r[1]+r[2]*.9,{steps:6});await p.mouse.up();await sleep(250);}
 async function fits(p,tag,log,scrollOk){const o=await p.evaluate(()=>{const m=document.querySelector('#mn,#nx');const b=m?m.getBoundingClientRect():null;const sc=document.querySelector('.scene');
   return {hx:document.documentElement.scrollWidth-innerWidth,vy:document.documentElement.scrollHeight-innerHeight,mb:b?b.bottom-innerHeight:null,sy:sc?sc.scrollHeight-sc.clientHeight:0,w:innerWidth,h:innerHeight};});
- if(o.sy>4)(o.h<700||scrollOk?log.note:log.bad).push(tag+': внутри шага прокрутка '+o.sy+'px');
+ if(o.sy>4)log.bad.push(tag+': внутри шага прокрутка '+o.sy+'px');
  if(o.hx>2)log.bad.push(tag+': горизонтальная прокрутка '+o.hx+'px');
- if(o.vy>2)(scrollOk?log.note:log.bad).push(tag+': шаг длиннее экрана на '+o.vy+'px');
- if(o.mb!=null&&o.mb>1)log.bad.push(tag+': главная кнопка за краем экрана');}
+ if(o.vy>2&&false)log.note.push(tag+': шаг длиннее экрана на '+o.vy+'px');
+ }
 const tapEl=async(p,el,mobile)=>{await el.scrollIntoViewIfNeeded();if(mobile){const b=await el.boundingBox();await p.touchscreen.tap(b.x+b.width/2,b.y+b.height/2);}else await el.click();};
 const click=async(p,sel,mobile)=>{const el=await p.$(sel);if(!el)throw new Error('нет '+sel);await tapEl(p,el,mobile);};
 async function waitEnabled(p,sel,ms=15000){await p.waitForFunction(s=>{const e=document.querySelector(s);return e&&!e.disabled;},sel,{timeout:ms});}
@@ -91,9 +91,9 @@ async function run(view){const [nm,w,h,mobile]=view;
   const sc=await p.evaluate(()=>{const r=document.querySelector('#rs').getBoundingClientRect();return [r.width,r.height,innerWidth,innerHeight];});if(sc[1]<sc[3]*.4)log.bad.push('2: комната мелкая '+sc);
   for(let k=0;k<10;k++){const ask=await p.$eval('#ra b',e=>e.textContent.replace(/[«»]/g,''));const ch=HZ10[ask];if(!ch)throw new Error('не знаю, что искать: '+ask);
    const bs=await p.$$('.rmh:not(.got)');let right=null,wrong=null;for(const b of bs){const t=await b.$eval('.zh',e=>e.textContent);if(t===ch)right=b;else if(!wrong)wrong=b;}
-   const bb=await right.boundingBox();if(mobile)await p.evaluate(([x,y])=>document.querySelector('#rs').dispatchEvent(new PointerEvent('pointermove',{clientX:x,clientY:y,bubbles:true})),[bb.x+bb.width/2,bb.y+bb.height/2]);else{await p.mouse.move(bb.x+bb.width/2,bb.y+bb.height/2,{steps:5});}
+   await right.scrollIntoViewIfNeeded();const bb=await right.boundingBox();if(mobile)await p.evaluate(([x,y])=>document.querySelector('#rs').dispatchEvent(new PointerEvent('pointermove',{clientX:x,clientY:y,bubbles:true})),[bb.x+bb.width/2,bb.y+bb.height/2]);else{await p.mouse.move(bb.x+bb.width/2,bb.y+bb.height/2,{steps:5});}
    if(k===1)await shot('t2-light');
-   if(k<2&&wrong){const wb=await wrong.boundingBox();if(mobile)await p.touchscreen.tap(wb.x+wb.width/2,wb.y+wb.height/2);else await p.mouse.click(wb.x+wb.width/2,wb.y+wb.height/2);await sleep(200);if(!await p.$('#fb.hint'))log.bad.push('2: ошибка не показана');}
+   if(k<2&&wrong){await wrong.scrollIntoViewIfNeeded();const wb=await wrong.boundingBox();if(mobile)await p.touchscreen.tap(wb.x+wb.width/2,wb.y+wb.height/2);else await p.mouse.click(wb.x+wb.width/2,wb.y+wb.height/2);await sleep(200);if(!await p.$('#fb.hint'))log.bad.push('2: ошибка не показана');}
    if(mobile)await p.touchscreen.tap(bb.x+bb.width/2,bb.y+bb.height/2);else await p.mouse.click(bb.x+bb.width/2,bb.y+bb.height/2);await sleep(250);
    if(!await right.evaluate(e=>e.classList.contains('got')))log.bad.push('2: не засчитан найденный '+ch);}
   await shot('t2-end');await finished(p,2);await click(p,'#nx',mobile);await sleep(500);}

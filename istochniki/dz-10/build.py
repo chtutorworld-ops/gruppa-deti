@@ -9,7 +9,7 @@ from fontTools import subset
 D = (sys.argv[1] if len(sys.argv) > 1 else '/tmp/claude-0/fonts').rstrip('/') + '/'
 HERE = os.path.dirname(os.path.abspath(__file__))
 rd = lambda f: open(os.path.join(HERE, f), encoding='utf-8').read()
-src = (rd('head.part.html') + rd('dz10.css') + '\n@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}\n</style></head><body>\n'
+src = (rd('head.part.html') + rd('dz10.css') + rd('old.css') + '\n@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}\n</style></head><body>\n'
        '<div id="app"></div><div class="toast" id="toast"></div>\n<script>__HW__</script>\n<script>window.HZDATA=__HZDATA__;</script>\n<script>\n'
        + rd('core.part.js').replace('/*__DATA__*/', rd('tasks.part.js').split('/*__BOOT__*/')[0]) + rd('tasks.part.js').split('/*__BOOT__*/')[1] + '</script></body></html>\n')
 b64 = lambda b: base64.b64encode(b).decode()

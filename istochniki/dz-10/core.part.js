@@ -41,14 +41,20 @@ const VOICE=AUDIO+'voice/';
 const playVoice=(id,el)=>tryURL(VOICE+id+'.wav',el);
 
 /* ---------- каркас экрана задания ---------- */
+const EMO={1:'🎧',2:'🔦',3:'👅',4:'📖',5:'❓',6:'✅',7:'🚫',8:'🧩',9:'🗂️',10:'🃏'};
+const RBX={1:'#5B6BD8,#8E5BE8',2:'#5B6BD8,#8E5BE8',3:'#FF3D77,#FF8A3D',4:'#2DBE8C,#5B6BD8',5:'#FF3D77,#FF8A3D',6:'#FF3D77,#FF8A3D',7:'#FF3D77,#FF8A3D',8:'#5B6BD8,#2DBE8C',9:'#5B6BD8,#8E5BE8',10:'#2DBE8C,#5B6BD8'};
+function topHTML(){return `<div class="otop n"><span class="zh">作业</span><div><h1>Домашнее задание 10</h1><small>Детективная история · 吗 是 不</small></div>${S.name?`<button class="ome" id="me">${esc(S.name)} ✎</button>`:''}</div>`;}
+function pbarHTML(){const d=Object.keys(S.done).filter(k=>S.done[k]).length,pc=Math.round(d*100/NT);
+ return `<div class="opbar n prog"><div class="pbt"><span>Выполнено <b>${d} из ${NT}</b></span><em>${pc}%</em></div><div class="pbl"><i style="width:${pc}%"></i></div></div>`;}
+function topOn(){const m=$('#me');if(m)m.onclick=()=>{clearTimers();stopGame();S.name='';keep();start();};}
 function shell(n,{step='',scene='',pult='',sub}){clearTimers();try{curA&&curA.pause()}catch(e){}
- const T=TASKS[n];
- $('#app').innerHTML=`<div class="scr task fade" data-t="${n}">
-  <div class="bar"><button class="back" id="bk" aria-label="Вернуться ко всем заданиям">${IC.back}<span>Все задания</span></button><span class="lab">Задание ${n}</span><span class="cnt" id="cnt">${step}</span></div>
-  <div class="head"><div class="plq"><span class="num">${n}</span><h1>${esc(T.t)}</h1></div><p class="sub" id="sub">${sub!=null?sub:esc(T.s)}</p></div>
+ const T=TASKS[n],sb=sub!=null?sub:esc(T.s);
+ $('#app').innerHTML=`<div class="scr task fade" data-t="${n}">${topHTML()}${pbarHTML()}<div class="pan n">
+  <div class="bar"><button class="back" id="bk" aria-label="Вернуться ко всем заданиям">‹ Все задания</button><span class="lab">Задание № ${n}</span><span class="cnt" id="cnt">${step}</span></div>
+  <div class="head"><h2 class="ttl">${EMO[n]||''} ${esc(T.t)}</h2><div class="sub rbox${sb?'':' empty'}" id="sub" style="--c1:${RBX[n].split(',')[0]};--c2:${RBX[n].split(',')[1]}">${sb}</div></div>
   <main class="scene" id="scene">${scene}</main>
-  <div class="pult" id="pult">${pult}</div></div>`;
- $('#bk').onclick=()=>{clearTimers();stopGame();list();};
+  <div class="pult" id="pult">${pult}</div></div></div>`;
+ $('#bk').onclick=()=>{clearTimers();stopGame();list();};topOn();
  S.cur=n;keep();}
 const setCnt=t=>{const c=$('#cnt');if(c)c.textContent=t;};
 function fb(html,cls){const f=$('#fb');if(!f)return;f.className='fb'+(cls?' '+cls:'');f.innerHTML=html?'<span>'+html+'</span>':'';}
