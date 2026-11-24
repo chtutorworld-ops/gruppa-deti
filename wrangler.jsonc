@@ -12,6 +12,9 @@
   },
   "kv_namespaces": [
     { "binding": "DZ", "id": "854133e3baa447918d6d2e23c7de6ea8" }
-  ]
+  ],
+  // Копилка UI-находок: база SQLite в Durable Object (у KV слишком мало записей в сутки)
+  "durable_objects": { "bindings": [{ "name": "NH", "class_name": "NhStore" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["NhStore"] }]
   // Ключ учителя хранится как секрет Cloudflare (TEACHER_KEY), не в репозитории
 }

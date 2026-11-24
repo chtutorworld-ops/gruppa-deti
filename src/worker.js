@@ -26,6 +26,98 @@ async function fullIdx(env, hw) {
   return idx;
 }
 
+// Через VPN режутся отправки больше ~4 КБ, поэтому страница шлёт находку кусочками (/chunk),
+// а потом просит собрать её (/commit). Всё хранится в SQLite этого объекта:
+// лимиты там 100 000 записанных строк в сутки, а не 1000, как у KV.
+export class NhStore {
+  constructor(state, env) {
+    this.env = env;
+    this.sql = state.storage.sql;
+    this.sql.exec(`CREATE TABLE IF NOT EXISTS tmp (k TEXT PRIMARY KEY, t TEXT, ts INTEGER);
+      CREATE TABLE IF NOT EXISTS item (id TEXT PRIMARY KEY, body TEXT, ord INTEGER);
+      CREATE TABLE IF NOT EXISTS img (id TEXT PRIMARY KEY, type TEXT, v TEXT, data BLOB);
+      CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT);`);
+  }
+  one(q, ...a) { const r = this.sql.exec(q, ...a).toArray(); return r[0]; }
+  // Один раз переносим старые находки из KV (только чтение KV, записей не тратит).
+  async migrate() {
+    if (this.one("SELECT v FROM meta WHERE k='kv'")) return;
+    const idx = JSON.parse((await this.env.DZ.get('nh:idx')) || '[]');
+    let ord = 0;
+    for (const id of idx) {
+      const body = await this.env.DZ.get(`nh:item:${id}`);
+      if (body) this.sql.exec('INSERT OR REPLACE INTO item (id, body, ord) VALUES (?, ?, ?)', id, body, ord++);
+      const { value, metadata } = await this.env.DZ.getWithMetadata(`nh:img:${id}`, 'arrayBuffer');
+      if (value) this.sql.exec('INSERT OR REPLACE INTO img (id, type, v, data) VALUES (?, ?, ?, ?)', id, (metadata && metadata.type) || 'image/jpeg', (metadata && metadata.v) || '', value);
+    }
+    this.sql.exec("INSERT OR REPLACE INTO meta (k, v) VALUES ('kv', ?)", String(Date.now()));
+  }
+  async fetch(req) {
+    const url = new URL(req.url), p = url.pathname, q = url.searchParams;
+    try {
+      await this.migrate();
+      const okNh = (s) => typeof s === 'string' && /^[a-z0-9-]{1,40}$/i.test(s);
+      const okNum = (s, max) => /^\d{1,6}$/.test(s || '') && +s <= max;
+      const id = q.get('id');
+      if (p === '/api/nh/chunk' && req.method === 'POST') {
+        const v = q.get('v'), n = q.get('n');
+        if (!okNh(id) || !okNh(v) || !okNum(n, 2000)) return json({ error: 'bad' }, 400);
+        const t = await req.text();
+        if (t.length > 8000) return json({ error: 'size' }, 413);
+        this.sql.exec('INSERT OR REPLACE INTO tmp (k, t, ts) VALUES (?, ?, ?)', `${id}:${v}:${n}`, t, Date.now());
+        return json({ ok: true });
+      }
+      if (p === '/api/nh/commit' && req.method === 'POST') {
+        const v = q.get('v'), count = q.get('count'), what = q.get('what') === 'img' ? 'img' : 'item';
+        if (!okNh(id) || !okNh(v) || !okNum(count, 2000) || +count < 1) return json({ error: 'bad' }, 400);
+        const parts = [];
+        for (let n = 0; n < +count; n++) {
+          const r = this.one('SELECT t FROM tmp WHERE k = ?', `${id}:${v}:${n}`);
+          if (!r) return json({ error: 'missing', n }, 409);
+          parts.push(r.t);
+        }
+        const s = parts.join('');
+        if (what === 'img') {
+          const m = /^data:(image\/[a-z+]+);base64,(.+)$/.exec(s);
+          if (!m) return json({ error: 'bad img' }, 400);
+          const bin = Uint8Array.from(atob(m[2]), (c) => c.charCodeAt(0));
+          if (bin.byteLength > 1_900_000) return json({ error: 'size' }, 413);
+          this.sql.exec('INSERT OR REPLACE INTO img (id, type, v, data) VALUES (?, ?, ?, ?)', id, m[1], v, bin.buffer);
+        } else {
+          const item = JSON.parse(s);
+          item.id = id; item.saved = Date.now();
+          const out = JSON.stringify(item);
+          if (new TextEncoder().encode(out).length > 1_900_000) return json({ error: 'size' }, 413);
+          const old = this.one('SELECT ord FROM item WHERE id = ?', id);
+          const ord = old ? old.ord : ((this.one('SELECT MAX(ord) AS m FROM item') || {}).m ?? -1) + 1;
+          this.sql.exec('INSERT OR REPLACE INTO item (id, body, ord) VALUES (?, ?, ?)', id, out, ord);
+        }
+        this.sql.exec('DELETE FROM tmp WHERE k LIKE ? OR ts < ?', `${id}:${v}:%`, Date.now() - 86400000);
+        return json({ ok: true });
+      }
+      if (p === '/api/nh/del' && req.method === 'POST') {
+        if (!okNh(id)) return json({ error: 'bad' }, 400);
+        this.sql.exec('DELETE FROM item WHERE id = ?', id);
+        this.sql.exec('DELETE FROM img WHERE id = ?', id);
+        return json({ ok: true });
+      }
+      if (p === '/api/nh/all') {
+        const items = this.sql.exec('SELECT body FROM item ORDER BY ord').toArray().map((r) => JSON.parse(r.body));
+        return new Response(JSON.stringify({ items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...CORS } });
+      }
+      if (p === '/api/nh/img') {
+        if (!okNh(id)) return json({ error: 'bad' }, 400);
+        const r = this.one('SELECT type, data FROM img WHERE id = ?', id);
+        if (!r) return json({ error: 'none' }, 404);
+        return new Response(r.data, { headers: { 'Content-Type': r.type || 'image/jpeg', 'Cache-Control': 'public, max-age=31536000', ...CORS } });
+      }
+      return json({ error: 'not found' }, 404);
+    } catch (e) {
+      return json({ error: String(e && e.message || e) }, 500);
+    }
+  }
+}
+
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
@@ -120,66 +212,11 @@ export default {
         if (!value) return json({ error: 'none' }, 404);
         return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type && !/^text\//.test(metadata.type) && metadata.type) || 'audio/wav', 'Cache-Control': 'no-store', ...CORS } });
       }
-      // Копилка UI-находок (site/nahodki/). Через VPN режутся отправки больше ~4 КБ,
-      // поэтому страница шлёт находку кусочками (/chunk), а потом просит собрать её (/commit).
-      // nh:tmp:<id>:<v>:<n> — кусочки (живут сутки), nh:item:<id> — находка (JSON),
-      // nh:img:<id> — картинка, nh:idx — список id (чтобы не тратить лимит list).
+      // Копилка UI-находок (site/nahodki/) живёт в Durable Object NhStore (база SQLite).
+      // Раньше она лежала в KV, но у KV на бесплатном тарифе всего 1000 записей в сутки
+      // на весь аккаунт, и одна находка тратила десятки записей (кусочки + сборка).
       if (p.startsWith('/api/nh/')) {
-        const okNh = (s) => typeof s === 'string' && /^[a-z0-9-]{1,40}$/i.test(s);
-        const okNum = (s, max) => /^\d{1,6}$/.test(s || '') && +s <= max;
-        const id = q.get('id');
-        const nhIdx = async () => JSON.parse((await env.DZ.get('nh:idx')) || '[]');
-        if (p === '/api/nh/chunk' && req.method === 'POST') {
-          const v = q.get('v'), n = q.get('n');
-          if (!okNh(id) || !okNh(v) || !okNum(n, 2000)) return json({ error: 'bad' }, 400);
-          const t = await req.text();
-          if (t.length > 8000) return json({ error: 'size' }, 413);
-          await env.DZ.put(`nh:tmp:${id}:${v}:${n}`, t, { expirationTtl: 86400 });
-          return json({ ok: true });
-        }
-        if (p === '/api/nh/commit' && req.method === 'POST') {
-          const v = q.get('v'), count = q.get('count'), what = q.get('what') === 'img' ? 'img' : 'item';
-          if (!okNh(id) || !okNh(v) || !okNum(count, 2000) || +count < 1) return json({ error: 'bad' }, 400);
-          const parts = await Promise.all([...Array(+count).keys()].map((n) => env.DZ.get(`nh:tmp:${id}:${v}:${n}`)));
-          const miss = parts.findIndex((x) => x === null);
-          if (miss >= 0) return json({ error: 'missing', n: miss }, 409);
-          const s = parts.join('');
-          if (what === 'img') {
-            const m = /^data:(image\/[a-z+]+);base64,(.+)$/.exec(s);
-            if (!m) return json({ error: 'bad img' }, 400);
-            const bin = Uint8Array.from(atob(m[2]), (c) => c.charCodeAt(0));
-            if (bin.byteLength > 3_000_000) return json({ error: 'size' }, 413);
-            await env.DZ.put(`nh:img:${id}`, bin, { metadata: { type: m[1], v } });
-          } else {
-            const item = JSON.parse(s);
-            item.id = id; item.saved = Date.now();
-            const out = JSON.stringify(item);
-            if (out.length > 2_000_000) return json({ error: 'size' }, 413);
-            await env.DZ.put(`nh:item:${id}`, out);
-            const idx = await nhIdx();
-            if (!idx.includes(id)) { idx.push(id); await env.DZ.put('nh:idx', JSON.stringify(idx)); }
-          }
-          await Promise.all([...Array(+count).keys()].map((n) => env.DZ.delete(`nh:tmp:${id}:${v}:${n}`)));
-          return json({ ok: true });
-        }
-        if (p === '/api/nh/del' && req.method === 'POST') {
-          if (!okNh(id)) return json({ error: 'bad' }, 400);
-          await env.DZ.delete(`nh:item:${id}`); await env.DZ.delete(`nh:img:${id}`);
-          const idx = (await nhIdx()).filter((x) => x !== id);
-          await env.DZ.put('nh:idx', JSON.stringify(idx));
-          return json({ ok: true });
-        }
-        if (p === '/api/nh/all') {
-          const idx = await nhIdx();
-          const items = (await Promise.all(idx.map((x) => env.DZ.get(`nh:item:${x}`)))).filter(Boolean).map((x) => JSON.parse(x));
-          return new Response(JSON.stringify({ items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...CORS } });
-        }
-        if (p === '/api/nh/img') {
-          if (!okNh(id)) return json({ error: 'bad' }, 400);
-          const { value, metadata } = await env.DZ.getWithMetadata(`nh:img:${id}`, 'arrayBuffer');
-          if (!value) return json({ error: 'none' }, 404);
-          return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'image/jpeg', 'Cache-Control': 'public, max-age=31536000', ...CORS } });
-        }
+        return env.NH.get(env.NH.idFromName('main')).fetch(req);
       }
       return json({ error: 'not found' }, 404);
     } catch (e) {
