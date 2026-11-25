@@ -1,6 +1,6 @@
 // «Проверяющий» для заданий урока 11: ученик 12 лет проходит все 7 заданий подряд, ошибается нарочно,
 // звук сверяется со списком tools/audio-list.txt. node u11.js [base-url] [phone|small|desk|desk2]   (SAIT=путь к gruppa-deti-sait)
-const {chromium}=require('playwright');const {wire,errs,AUDIO_SPY}=require('./u8common');
+const {chromium}=require('playwright');let HWTOP=0;const {wire,errs,AUDIO_SPY}=require('./u8common');
 const BASE=process.argv[2]||'http://localhost:8765/urok-11/zadaniya/';
 const ONLY=process.argv[3];
 const OUT=process.env.OUT||'/tmp/claude-0/t11z';require('fs').mkdirSync(OUT,{recursive:true});
@@ -13,7 +13,7 @@ const FZ={'Он мой папа.':['他','是','我','爸爸'],'Она не мо
 const PS={'Привет всем!':'你们好','Она моя мама.':'她是我妈妈','Он не мой папа.':'他不是我爸爸','Она твоя мама?':'她是你妈妈吗'};
 const MEM=[['你','ты'],['我','я'],['好','хорошо'],['叫','зваться'],['妈','мама'],['爸','папа'],['他','он'],['她','она'],['们','много (суффикс)'],['是','являться (да)'],['不','не'],['吗','вопрос да/нет']];
 async function draw(p,ch){const info=await p.evaluate(ch=>{const el=document.querySelector('#hw');if(!el)return null;el.scrollIntoView({block:'center'});const r=el.getBoundingClientRect();return {x:r.left,y:r.top,w:r.width,med:HZDATA[ch].medians};},ch);
- if(!info)throw new Error('нет поля для '+ch);const sz=info.w,pad=sz*.08,sc=(sz-2*pad)/1024;
+ if(!info)throw new Error('нет поля для '+ch);HWTOP=info.y;const sz=info.w,pad=sz*.08,sc=(sz-2*pad)/1024;
  for(const m of info.med){const pts=m.map(([x,y])=>[info.x+pad+x*sc,info.y+pad+(900-y)*sc]);await p.mouse.move(...pts[0]);await p.mouse.down();for(const q of pts.slice(1))await p.mouse.move(...q,{steps:4});await p.mouse.up();await sleep(110);}}
 async function wrongStroke(p){const r=await p.evaluate(()=>{const el=document.querySelector('#hw');el.scrollIntoView({block:'center'});const b=el.getBoundingClientRect();return [b.left,b.top,b.width];});
  await p.mouse.move(r[0]+r[2]*.9,r[1]+r[2]*.1);await p.mouse.down();await p.mouse.move(r[0]+r[2]*.1,r[1]+r[2]*.9,{steps:6});await p.mouse.up();await sleep(200);}
@@ -31,12 +31,17 @@ async function run(view){const [nm,w,h,mobile]=view;
  await p.fill('#nm','Петя');await tap(p,'#go',mobile);await sleep(500);await fits('список');await shotF('home');
  if(!await p.$('#pbar'))log.bad.push('нет шкалы %');
 
- // ---------- 1 комплект карточек ----------
+ // ---------- 1 комплект карточек: три столбика, только нажатия, всё на одном экране ----------
  await go(1);await fits('1');await shot('t1');
- const place=async(k,i,ri)=>{await tap(p,`[data-b="${k}"]`,mobile);await sleep(150);await tap(p,`[data-pool="${k}"] .cd8[data-p="${i}"] ${k==='h'?'.zh':'span'}`,mobile);await p.evaluate(s=>document.querySelector(s).scrollIntoView({block:'center'}),`.s82[data-row="${ri}"][data-k="${k}"]`);await sleep(120);await tap(p,`.s82[data-row="${ri}"][data-k="${k}"]`,mobile);await sleep(250);};
- await place('h',0,0);await place('r',1,0);await shot('t1-err');
- if(await p.$('.s82[data-row="0"][data-k="r"] .cd8'))log.bad.push('1: «я» встала к 你');
- for(let ri=0;ri<9;ri++)for(const k of ['h','p','r']){if(await p.$(`.s82[data-row="${ri}"][data-k="${k}"] .cd8`))continue;await place(k,ri,ri);}
+ const fit1=await p.evaluate(()=>{const c=[...document.querySelectorAll('.kt11k')];const b=Math.max(...c.map(e=>e.getBoundingClientRect().bottom));return [b,innerHeight];});
+ if(fit1[0]>fit1[1]+2)log.bad.push('1: карточки не помещаются в экран: низ '+Math.round(fit1[0])+' из '+fit1[1]);
+ if(await p.$('.kt11 [data-w],.kt11 .snd8'))log.bad.push('1: в задании осталась озвучка');
+ const L1=[['你','nǐ','ты'],['我','wǒ','я'],['好','hǎo','хорошо'],['叫','jiào','звать, зовут'],['妈','mā','мама'],['爸','bà','папа'],['他','tā','он'],['她','tā','она'],['们','men','много (людей)']];
+ const card=async(k,txt)=>{const els=await p.$$(`.kt11k[data-k="${k}"]:not(.done)`);for(const e of els){if((await e.textContent()).trim()===txt)return e;}throw new Error('1: нет карточки '+k+' '+txt);};
+ const y1=await p.evaluate(()=>scrollY);
+ await tap(p,await card('h','你'),mobile);await tap(p,await card('r','я'),mobile);await sleep(200);if(!/no/.test(await p.$eval('#fb',e=>e.className)))log.bad.push('1: неверный комплект не показан');await shot('t1-err');await sleep(700);
+ for(const [k,[z,py,ru]] of L1.entries()){await tap(p,await card('r',ru),mobile);await tap(p,await card('p',py),mobile);await tap(p,await card('h',z),mobile);await sleep(200);if(k===0)await shot('t1-one');}
+ const y2=await p.evaluate(()=>scrollY);if(Math.abs(y2-y1)>4)log.bad.push('1: страница уехала при нажатиях: '+y1+' -> '+y2);
  await sleep(1300);await fits('1 конец');await shotF('t1-end');if(!await p.$('#again'))throw new Error('1 не закончилось');await nextBtn(1);
 
  // ---------- 2 диктант рус→кит ----------
@@ -57,7 +62,7 @@ async function run(view){const [nm,w,h,mobile]=view;
 
  // ---------- 3 пропись ----------
  await go(3);await shotF('t3');await tap(p,'#st',mobile);
- for(let k=0;k<6;k++){await p.waitForSelector('#hw');await sleep(700);const c=await p.$eval('.ph8 .zh',e=>e.textContent);if(k===0){await fits('3');await shot('t3-q');}if(k===1)await wrongStroke(p);await draw(p,c);await sleep(1300);}
+ for(let k=0;k<6;k++){await p.waitForSelector('#hw');await sleep(700);const c=await p.$eval('.ph8 .zh',e=>e.textContent);{const t=await p.evaluate(()=>document.querySelector('#hw').getBoundingClientRect().top);if(k>0&&Math.abs(t-HWTOP)>6)log.bad.push('3: после иероглифа поле уехало: '+Math.round(HWTOP)+' -> '+Math.round(t));}if(k===0){await fits('3');await shot('t3-q');}if(k===1)await wrongStroke(p);await draw(p,c);await sleep(1300);}
  await p.waitForSelector('#again',{timeout:8000});await fits('3 конец');await shotF('t3-end');await nextBtn(3);
 
  // ---------- 4 верно-неверно ----------
@@ -82,7 +87,7 @@ async function run(view){const [nm,w,h,mobile]=view;
  for(let k=0;k<4;k++){await p.waitForSelector('#hw');await sleep(400);const ru=await p.$eval('.dk11ru',e=>e.textContent.trim());const zh=PS[ru];if(!zh)throw new Error('6: не знаю '+ru);
   if(k===1){await tap(p,'#sw',mobile);await sleep(400);if(!await p.$('.vn11py'))log.bad.push('6: подсказки не включились');await shot('t6-hints');}
   if(k===2){await tap(p,'#sw',mobile);await sleep(400);if(await p.$('.vn11py'))log.bad.push('6: подсказки не выключились');}
-  for(const [i,c] of [...zh].entries()){step('6: '+k+' '+c);await p.waitForSelector('#hw',{timeout:8000});await sleep(450);if(k===0&&i===0){await fits('6');await shot('t6');await wrongStroke(p);}await draw(p,c);await sleep(1000);}
+  for(const [i,c] of [...zh].entries()){step('6: '+k+' '+c);await p.waitForSelector('#hw',{timeout:8000});await sleep(450);if(i>=1){const t=await p.evaluate(()=>document.querySelector('#hw').getBoundingClientRect().top);if(Math.abs(t-HWTOP)>6)log.bad.push('6: после иероглифа поле уехало: '+Math.round(HWTOP)+' -> '+Math.round(t));}if(k===0&&i===0){await fits('6');await shot('t6');await wrongStroke(p);}await draw(p,c);await sleep(1000);}
   await p.waitForSelector('#nb');if(k===0){await fits('6 готово');await shot('t6-done');}await tap(p,'#nb',mobile);await sleep(400);}
  await p.waitForSelector('#again');await shotF('t6-end');await nextBtn(6);
 

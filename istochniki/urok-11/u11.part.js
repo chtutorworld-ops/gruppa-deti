@@ -35,8 +35,8 @@ function login(){$('#app').innerHTML=`<div class="top n"><span class="zh">课堂
  $('#go').onclick=go;$('#nm').onkeydown=e=>{if(e.key==='Enter')go();};}
 const nDone=()=>Object.keys(DONE).filter(k=>TASKS[+k]).length;
 const pbar=()=>{const d=nDone(),pc=Math.round(d*100/NT);return `<div class="pbar n" id="pbar"><div class="pbt"><span>Выполнено <b>${d}</b> из ${NT}</span><b>${pc}%</b></div><div class="pbl"><i style="width:${pc}%"></i></div></div>`;};
-const shell=(h)=>{stopAll();$('#app').innerHTML=`<div class="top n"><span class="zh">课堂任务</span><div><h1>${TOP}</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'Иероглифы · 吗 是 不 · перевод'}</small></div><button class="back n" style="margin:0 0 0 auto;font-size:13px" id="me">${esc(S.name||'')} ✎</button></div>${pbar()}<div class="main n">${h}</div>`;
- $('#me').onclick=()=>login();scrollTo(0,0);};
+const shell=(h,stay)=>{const y0=scrollY;stopAll();$('#app').innerHTML=`<div class="top n"><span class="zh">课堂任务</span><div><h1>${TOP}</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'Иероглифы · 吗 是 不 · перевод'}</small></div><button class="back n" style="margin:0 0 0 auto;font-size:13px" id="me">${esc(S.name||'')} ✎</button></div>${pbar()}<div class="main n">${h}</div>`;
+ $('#me').onclick=()=>login();if(stay)scrollTo(0,y0);else scrollTo(0,0);};
 const backBtn='<button class="back n" onclick="location.hash=\'\'">‹ Все задания</button>';
 const tag=n=>`<span class="tag">Задание № ${n}</span>`;
 let TM=[];const later=(f,ms)=>{const t=setTimeout(f,ms);TM.push(t);return t;};
@@ -243,7 +243,7 @@ function propis(n,L){let k=0,round=0;const res=[];const LS=L.join(' ');
    <div class="ph8"><span class="zh">${c}</span><div><b class="py">${py}</b> · ${ru}<small>${parts}</small></div><button class="btn g" id="pl" style="padding:8px 12px">🔊</button></div>
    <div class="tip" style="margin-top:8px;font-size:14.5px">${why}</div></div>
    <div class="wbox">${GRID}<div class="hw" id="hw"></div></div><p class="hint2" id="wh" style="text-align:center;margin-top:8px">${round?'Теперь сам(а) — ошибёшься, черта подскажет':'Обведи по серому образцу — каждую черту по порядку'}</p>
-   <div class="row" style="justify-content:center"><button class="btn g" id="an">▶ Как пишется</button></div>`);
+   <div class="row" style="justify-content:center"><button class="btn g" id="an">▶ Как пишется</button></div>`,res.length>0);
   const pl=$('#pl');pl.onclick=()=>playW(c,pl);if(!round)later(()=>playW(c,pl),300);
   let w=writeOne($('#hw'),c,{outline:!round,hintAfter:round?2:1},$('#wh'),r=>{res.push({c,r:round,mist:r.mist});if(round){k++;round=0;}else round=1;one();});
   $('#an').onclick=()=>{if(!w)return;w.cancelQuiz&&w.cancelQuiz();w.animateCharacter({onComplete:()=>{w=writeOne($('#hw'),c,{outline:!round,hintAfter:round?2:1},$('#wh'),r=>{res.push({c,r:round,mist:r.mist});if(round){k++;round=0;}else round=1;one();});}});};};
@@ -481,33 +481,32 @@ function memo(){const n=7,L=MEM,NP=L.length;
 /* ===================== УРОК 11 · новые задания ===================== */
 // 1. Собери комплект карточек: иероглиф + пиньинь + перевод (три корзинки, все 9 старых иероглифов)
 const PN11=[['你',[['ni',3]],'ты'],['我',[['wo',3]],'я'],['好',[['hao',3]],'хорошо'],['叫',[['jiao',4]],'звать, зовут'],['妈',[['ma',1]],'мама'],['爸',[['ba',4]],'папа'],['他',[['ta',1]],'он'],['她',[['ta',1]],'она'],['们',[['men',0]],'много (людей)']];
-function kit11(){const n=1,L=PN11,R=L.length;let errs=0;const conf=[];const row=[...Array(R)].map(()=>({h:null,p:null,r:null}));
- const py=i=>pyOf(L[i]);
- const fitsP=(i,ri)=>{const c=row[ri];return (c.h==null||c.h===i)&&(c.r==null||c.r===i)&&(c.p==null||py(c.p)===py(i));};
- const solvable=()=>{const used=new Set();const go=ri=>{if(ri>=R)return true;for(let i=0;i<R;i++){if(used.has(i)||!fitsP(i,ri))continue;used.add(i);if(go(ri+1))return true;used.delete(i);}return false;};return go(0);};
- const B={h:'Иероглифы',p:'Пиньинь',r:'Перевод'};let bk='h';
- const face=(k,i)=>k==='h'?`<span class="zh">${L[i][0]}</span><button class="snd8" data-w="${L[i][0]}" aria-label="Послушать">🔊</button>`:k==='p'?`<span class="py">${pyCol8(L[i])}</span>`:`<span class="ru8c">${L[i][2]}</span>`;
+function kit11(){const n=1,L=PN11,R=L.length;let errs=0,got=0;const conf=[];const py=i=>pyOf(L[i]);
+ // три столбика: иероглифы · пиньинь · перевод. Нажми по одной карточке в каждом — получится комплект. Без звука и без перетаскивания.
+ const C={h:shuffle(L.map((_,i)=>i)),p:shuffle(L.map((_,i)=>i)),r:shuffle(L.map((_,i)=>i))};const pick={h:null,p:null,r:null};
+ const face=(k,i)=>k==='h'?`<span class="zh">${L[i][0]}</span>`:k==='p'?`<span class="py">${pyCol8(L[i])}</span>`:`<span>${L[i][2]}</span>`;
  shell(`${backBtn}${tag(n)}<h2>🧩 Собери комплект карточек</h2>
-  <div class="rbox" style="--c1:#6A6DDE;--c2:#664796"><b>Как играть</b>В каждой строчке — один комплект: <b>иероглиф · пиньинь · перевод</b>. Бери карточки из корзинок внизу и перетаскивай на места. Или нажми на карточку, а потом на место.</div>
-  <div class="bd82"><div class="h82">Иероглиф</div><div class="h82">Пиньинь</div><div class="h82">Перевод</div>${row.map((_,ri)=>['h','p','r'].map(k=>`<div class="slot8 s82" data-row="${ri}" data-k="${k}"></div>`).join('')).join('')}</div>
-  <div class="bsk8"><div class="bt8">${Object.keys(B).map(k=>`<button data-b="${k}" class="${k===bk?'on':''}">🧺 ${B[k]} <i id="cn-${k}">${R}</i></button>`).join('')}</div>
-   ${Object.keys(B).map(k=>`<div class="pool8 p82${k===bk?'':' hide'}" data-pool="${k}">${shuffle(L.map((_,i)=>i)).map(i=>`<div class="cd8 k-${k}" data-k="${k}" data-p="${i}">${face(k,i)}</div>`).join('')}</div>`).join('')}</div>`);
- document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{bk=b.dataset.b;document.querySelectorAll('[data-b]').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('[data-pool]').forEach(p=>p.classList.toggle('hide',p.dataset.pool!==bk));kit.clear();});
- document.querySelectorAll('.snd8').forEach(b=>b.onclick=e=>{e.stopPropagation();playW(b.dataset.w,b);});
- const cnt=()=>Object.keys(B).forEach(k=>{$('#cn-'+k).textContent=document.querySelectorAll(`[data-pool="${k}"] .cd8`).length;});
- const kit=dragKit((card,slot)=>{const k=card.dataset.k,i=+card.dataset.p,ri=+slot.dataset.row;
-  if(slot.dataset.k!==k){shake(card);toast(`Эта карточка — в столбик «${B[k]}»`);return;}
-  const prev=row[ri][k];row[ri][k]=i;const ok=fitsP(i,ri)&&solvable();
-  if(!ok){row[ri][k]=prev;errs++;const c=row[ri];const other=c.h!=null?L[c.h][0]:c.r!=null?L[c.r][2]:c.p!=null?py(c.p):'';conf.push([k==='h'?L[i][0]:k==='p'?py(i):L[i][2],other]);
-   shake(card);slot.classList.add('bad');later(()=>slot.classList.remove('bad'),600);toast(other?'Не подходит к этой строчке 🙂':'Эта карточка подходит к другой строчке 🙂');return;}
-  slot.appendChild(card);card.classList.add('used');slot.classList.add('full');cnt();if(k!=='r')playW(L[i][0]);
-  const c=row[ri];if(c.h!=null&&c.p!=null&&c.r!=null)document.querySelectorAll(`.s82[data-row="${ri}"]`).forEach(s=>s.classList.add('ok'));
-  if(row.every(c=>c.h!=null&&c.p!=null&&c.r!=null)){finish(n,Math.max(0,R-Math.min(R,errs)),R,{errs,conf:conf.slice(0,20),miss:[...new Set(conf.map(x=>x[0]))].slice(0,8)});
-   later(()=>{shell(doneBox(n,`<div class="res" style="text-align:center">🧩 Собрано!</div><p class="lead" style="text-align:center">${errs?`Ошибок: ${errs}. Можно повторить для закрепления 🙂`:'Без единой ошибки! 🏆'}</p>
-    <div class="mlist">${L.map(p=>`<button class="n" data-say="${p[0]}"><span class="zh">${p[0]}</span><small><b class="py">${pyOf(p)}</b> ${p[2]}</small>🔊</button>`).join('')}</div>`));
-    document.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>playW(b.dataset.say,b));againOn(kit11);},900);}
-  else{const p=document.querySelector(`[data-pool="${k}"]`);if(!p.querySelector('.cd8')){const nx=Object.keys(B).find(x=>document.querySelector(`[data-pool="${x}"] .cd8`));if(nx)document.querySelector(`[data-b="${nx}"]`).click();}}});
- document.querySelectorAll('.cd8').forEach(kit.bind);document.querySelectorAll('.slot8').forEach(s=>s.onclick=()=>kit.slotTap(s));}
+  <p class="kt11tip">Нажми <b>иероглиф</b>, его <b>пиньинь</b> и <b>перевод</b> — получится комплект.</p>
+  <div class="kt11"><div class="kt11h">Иероглиф</div><div class="kt11h">Пиньинь</div><div class="kt11h">Перевод</div>
+   ${['h','p','r'].map(k=>`<div class="kt11c" data-col="${k}">${C[k].map(i=>`<button class="kt11k k-${k}" data-k="${k}" data-i="${i}">${face(k,i)}</button>`).join('')}</div>`).join('')}</div>
+  <div class="fb" id="fb" style="min-height:24px"></div>`);
+ {const lastK=[...document.querySelectorAll('.kt11k')].pop();if(lastK&&lastK.getBoundingClientRect().bottom+40>innerHeight)$('.kt11tip').scrollIntoView({block:'start'});}
+ const el=(k,i)=>document.querySelector(`.kt11k[data-k="${k}"][data-i="${i}"]`);
+ const clear=()=>{['h','p','r'].forEach(k=>{if(pick[k]!=null)el(k,pick[k]).classList.remove('sel');pick[k]=null;});};
+ const ok2=()=>{const {h,p,r}=pick;if(h!=null&&r!=null&&h!==r)return false;const a=h!=null?h:r;if(a!=null&&p!=null&&py(a)!==py(p))return false;return true;};
+ const lbl=(k,i)=>k==='h'?L[i][0]:k==='p'?py(i):L[i][2];
+ document.querySelectorAll('.kt11k').forEach(b=>b.onclick=()=>{if(b.classList.contains('done'))return;const k=b.dataset.k,i=+b.dataset.i;
+  if(pick[k]===i){b.classList.remove('sel');pick[k]=null;return;}
+  if(pick[k]!=null)el(k,pick[k]).classList.remove('sel');pick[k]=i;b.classList.add('sel');const fb=$('#fb');
+  if(!ok2()){errs++;const others=['h','p','r'].filter(x=>x!==k&&pick[x]!=null).map(x=>lbl(x,pick[x]));conf.push([lbl(k,i),others.join(' · ')]);
+   const sel=['h','p','r'].filter(x=>pick[x]!=null).map(x=>el(x,pick[x]));sel.forEach(e=>{e.classList.add('bad');shake(e);});fb.className='fb no';fb.textContent='Это не один комплект 🙂 Попробуй ещё раз';
+   later(()=>{sel.forEach(e=>e.classList.remove('bad'));clear();},650);return;}
+  fb.className='fb';fb.textContent='';
+  if(pick.h!=null&&pick.p!=null&&pick.r!=null){const set=['h','p','r'].map(x=>el(x,pick[x]));set.forEach(e=>{e.classList.remove('sel');e.classList.add('done');e.disabled=true;});
+   ['h','p','r'].forEach(x=>pick[x]=null);got++;fb.className='fb ok';fb.innerHTML=`✓ Комплект: <b class="zh">${L[+set[0].dataset.i][0]}</b> ${py(+set[0].dataset.i)} — ${L[+set[0].dataset.i][2]}`;
+   if(got===R){finish(n,Math.max(0,R-Math.min(R,errs)),R,{errs,conf:conf.slice(0,20),miss:[...new Set(conf.map(x=>x[0]))].slice(0,8)});
+    later(()=>{shell(doneBox(n,`<div class="res" style="text-align:center">🧩 Собрано!</div><p class="lead" style="text-align:center">${errs?`Ошибок: ${errs}. Можно повторить для закрепления 🙂`:'Без единой ошибки! 🏆'}</p>
+     <div class="mlist">${L.map(p=>`<div class="n kt11d"><span class="zh">${p[0]}</span><small><b class="py">${pyOf(p)}</b> ${p[2]}</small></div>`).join('')}</div>`));againOn(kit11);},900);}}});}
 
 // 2. Диктант с русского на китайский: пишешь иероглиф пальцем по памяти, потом подписываешь пиньинь
 const DK=[['я','我','wo',3],['мама','妈','ma',1],['он','他','ta',1],['хорошо','好','hao',3],['ты','你','ni',3],['папа','爸','ba',4],['она','她','ta',1],['звать, зовут','叫','jiao',4],['много (людей)','们','men',0]];
@@ -519,7 +518,7 @@ function dikt11(){const n=2;S.dk=S.dk||{};const A=S.dk;const k=DK.findIndex((_,i
  shell(`${head}<div class="qcard n"><div class="qhead"><span>Слово ${k+1} из ${DK.length}</span><span>шаг 1 · иероглиф</span></div>
    <div class="dk11ru">${esc(ru)}</div><p class="hint2" style="text-align:center;margin:4px 0 8px">Напиши иероглиф пальцем по памяти</p>
    <div class="wbox">${GRID}<div class="hw" id="hw"></div></div><p class="hint2" id="wh" style="text-align:center;margin-top:8px">Пиши каждую черту по порядку</p>
-   <div class="row" style="justify-content:center"><button class="btn g" id="hn">💡 Не помню — подскажи</button></div></div>`);
+   <div class="row" style="justify-content:center"><button class="btn g" id="hn">💡 Не помню — подскажи</button></div></div>`,k>0);
  const start=outline=>{w=writeOne($('#hw'),c,{outline,hintAfter:outline?1:3},$('#wh'),r=>{mist+=r.mist;pinyin();});};
  start(false);
  $('#hn').onclick=()=>{hint=true;$('#hn').disabled=true;try{w&&w.cancelQuiz&&w.cancelQuiz();}catch(e){}start(true);$('#wh').textContent='Обведи по серому образцу';};
@@ -531,7 +530,7 @@ function dikt11(){const n=2;S.dk=S.dk||{};const A=S.dk;const k=DK.findIndex((_,i
    <div class="kb8">${KB8.map(r=>`<div>${[...r].map(ch=>`<button data-k="${ch}">${ch}</button>`).join('')}${r==='zxcvbnmü'?'<button data-k="⌫" class="bs">⌫</button>':''}</div>`).join('')}</div>
    <div class="qq" style="margin-top:12px">Какой тон?</div>
    <div class="mk8 big">${[1,2,3,4,0].map(x=>`<button data-t="${x}" aria-label="${x?x+'-й тон':'лёгкий тон'}">${msv(x,TCV[x],'30px')}</button>`).join('')}</div>
-   <button class="btn nxt" id="ck" disabled>Проверить</button><div class="fb" id="fb"></div><div id="nx"></div></div>`);
+   <button class="btn nxt" id="ck" disabled>Проверить</button><div class="fb" id="fb"></div><div id="nx"></div></div>`,true);
   const inp=$('#w'),ck=$('#ck');if(matchMedia('(pointer:coarse)').matches)inp.setAttribute('inputmode','none');
   const upd=()=>{ck.disabled=!inp.value.trim()||tone<0;$('#tm').innerHTML=tone>=0?msv(tone,TCV[tone],'24px'):'';};
   inp.oninput=()=>{const v=inp.value;const tt=toneS(v);if(tt){tone=tt;document.querySelectorAll('.mk8 [data-t]').forEach(b=>b.classList.toggle('on',+b.dataset.t===tt));inp.value=plainS(v);}upd();};
@@ -570,7 +569,7 @@ function verno11(){const n=4;const Q=shuffle(VN.map((_,i)=>i));let k=0,ok=0;cons
     <div class="vn11ru">${esc(ru)}</div><div class="vn11zh zh">${zh}</div><div class="vn11py py">${pySent8(py)}</div>
     <p class="hint2" style="text-align:center">Правильно ли переведено?</p>
     <div class="vn11b"><button class="btn" data-a="1">Верно</button><button class="btn" data-a="0">Неверно</button></div>
-    <div class="fb" id="fb"></div><div id="nx"></div></div>`);
+    <div class="fb" id="fb"></div><div id="nx"></div></div>`,k>0);
   document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const a=+b.dataset.a,good=a===right;if(good)ok++;res.push([VN[Q[k]][0],zh,a,right]);
    document.querySelectorAll('[data-a]').forEach(x=>{x.disabled=true;x.classList.toggle('pick',x===b);});
    const fb=$('#fb');fb.className='fb '+(good?'ok':'no');
@@ -596,7 +595,7 @@ function fraza11(){const n=5;const Q=shuffle(FZ11);let k=0,errs=0;const miss=[];
    <div class="qcard n"><div class="qhead"><span>Предложение ${k+1} из ${Q.length}</span><span>ошибок: ${errs}</span></div>
     <div class="fz9ru">${q.ru}</div><div class="fz9line" id="ln">${q.w.map(()=>'<span class="fz9gap"></span>').join('')}</div>
     <div class="fz9tiles">${tiles.map((t,i)=>`<button class="fz9t" data-i="${i}"><b class="zh">${t}</b><small>${FZT11[t]}</small></button>`).join('')}</div>
-    <div class="fb" id="fb"></div><div id="nx"></div></div>`);
+    <div class="fb" id="fb"></div><div id="nx"></div></div>`,k>0);
   document.querySelectorAll('.fz9t').forEach(b=>b.onclick=()=>{const t=tiles[+b.dataset.i],want=q.w[got.length];if(got.length>=q.w.length)return;
    if(t===want){got.push(t);b.disabled=true;b.classList.add('used');const g=document.querySelectorAll('#ln .fz9gap')[got.length-1];g.innerHTML=`<b class="zh">${t}</b>`;g.classList.add('ok');$('#fb').className='fb';$('#fb').innerHTML='';
     if(got.length===q.w.length){playW(say);const fb=$('#fb');fb.className='fb ok';fb.innerHTML=`✓ Верно! <b class="zh">${say}</b> <span class="py">${q.w.map(x=>FZT11[x]).join(' ')}</span>`;
@@ -621,14 +620,14 @@ function pishi11(){const n=6;S.ps=S.ps||{};const A=S.ps;let k=PS11.findIndex((_,
     <div class="dk11ru">${esc(ru)}${/吗$/.test(zh)?'':''}</div>
     ${H?`<div class="vn11py py">${pySent8(py)}</div>`:''}
     <div class="ps11ln">${ch.map((c,i)=>`<span class="${i<j?'ok':i===j?'cur':''}">${i<j?`<b class="zh">${c}</b>`:''}</span>`).join('')}${/吗$/.test(zh)?'<em>？</em>':'<em>。</em>'}</div>
-    <div class="wbox">${GRID}<div class="hw" id="hw"></div></div><p class="hint2" id="wh" style="text-align:center;margin-top:8px">${H?'Обведи по серому образцу':'Пиши по памяти. Не помнишь — включи подсказки'}</p></div>`);
+    <div class="wbox">${GRID}<div class="hw" id="hw"></div></div><p class="hint2" id="wh" style="text-align:center;margin-top:8px">${H?'Обведи по серому образцу':'Пиши по памяти. Не помнишь — включи подсказки'}</p></div>`,j>0||k>0);
   $('#sw').onclick=()=>{S.hints=!S.hints;keepS();if(S.hints)hints++;draw();};
   writeOne($('#hw'),ch[j],{outline:H,hintAfter:H?1:3},$('#wh'),r=>{mist+=r.mist;j++;if(j<ch.length)draw();else done();});};
  const done=()=>{A[k]={mist,hints:hints||(S.hints?1:0)};keepS();send('ps',{a:PS11.map((_,i)=>A[i]||null)});playW(zh);
   shell(`${backBtn}${tag(n)}<h2>✍️ Напиши иероглифами</h2><div class="qcard n"><div class="qhead"><span>Предложение ${k+1} из ${PS11.length}</span><span>✓</span></div>
    <div class="dk11ru">${esc(ru)}</div><div class="vn11zh zh">${zh}${/吗$/.test(zh)?'？':'。'}</div><div class="vn11py py">${pySent8(py)}</div>
    <div class="fb ${mist<=3?'ok':'no'}">${mist<=3?'✓ Написано!':'Написано! Ошибок в чертах: '+mist+' — можно повторить для закрепления 🙂'}</div>
-   <div class="row" style="justify-content:center"><button class="btn g" id="ls">🔊 Послушать</button><button class="btn" id="nb">${k+1<PS11.length?'Дальше →':'Готово →'}</button></div></div>`);
+   <div class="row" style="justify-content:center"><button class="btn g" id="ls">🔊 Послушать</button><button class="btn" id="nb">${k+1<PS11.length?'Дальше →':'Готово →'}</button></div></div>`,true);
   $('#ls').onclick=()=>playW(zh,$('#ls'));$('#nb').onclick=pishi11;};
  draw();
  function end(){const clean=PS11.filter((_,i)=>A[i]&&A[i].mist<=3).length;
