@@ -8,7 +8,7 @@ const ONLY=process.argv[3];
 const OUT=process.env.OUT||'/tmp/claude-0/tkc';fs.mkdirSync(OUT,{recursive:true});
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const VIEWS=[['phone',390,844,true],['land',844,390,true],['desk',1280,720,false]].filter(v=>!ONLY||v[0]===ONLY);
-const RIGHT={'你':'Ты','我':'я','好':'Хорошо','叫':'зовут','妈':'Мамочка','爸':'отец'};
+const RIGHT={'你':'Ты','我':'я','好':'Хорошо','叫':'зовут','妈':'Мамочка','爸':'отец','他':'он','她':'Она','们':'много людей','吗':'вопросительная частица','是':'являться','不':'не'};const NW=12;
 async function overflow(p,tag,log){const o=await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth);if(o>2)log.bad.push(tag+': горизонтальная прокрутка '+o+'px');}
 async function click(p,sel){const el=await p.waitForSelector(sel,{timeout:8000});await el.scrollIntoViewIfNeeded().catch(()=>{});await el.click();}
 // рисуем черту по медиане из данных черт (как это сделал бы палец)
@@ -24,10 +24,10 @@ async function run([vn,w,h,mob]){const log={bad:[],err:[],api:[],ok:new Set(),sa
  await overflow(p,vn+' главная',log);await p.screenshot({path:`${OUT}/${vn}-0-home.png`});
  // № 2 закрыт до № 1
  await click(p,'[data-n="2"]');await sleep(300);if(await p.evaluate(()=>location.hash))log.bad.push('№ 2 открылся раньше № 1');
- if(!(await p.$('.kc-six')))log.bad.push('главная: нет шести иероглифов');
+ if(!(await p.$('.kc-six')))log.bad.push('главная: нет иероглифов');else{const nn=await p.$$eval('.kc-six span',e=>e.length);if(nn!==NW)log.bad.push('главная: иероглифов '+nn);}
  // ===== № 1 =====
  await click(p,'[data-n="1"]');await click(p,'#st');
- for(let k=0;k<6;k++){await p.waitForSelector('.kc-big');const c=(await p.textContent('.kc-big')).trim();
+ for(let k=0;k<NW;k++){await p.waitForSelector('.kc-big');const c=(await p.textContent('.kc-big')).trim();
   if(!RIGHT[c])log.bad.push('№ 1: непройденный иероглиф '+c);
   const n0=await p.evaluate(()=>__au.length);await click(p,'#pl');await sleep(250);if(await p.evaluate(()=>__au.length)===n0)log.bad.push('№ 1: 🔊 не играет ('+c+')');
   if(k===0){await p.fill('#an','');await click(p,'#ok');}            // пусто — должна быть подсказка, карточка не переворачивается
@@ -43,12 +43,12 @@ async function run([vn,w,h,mob]){const log={bad:[],err:[],api:[],ok:new Set(),sa
   const n1=await p.evaluate(()=>__au.length);await click(p,'#ex');await sleep(250);if(await p.evaluate(()=>__au.length)===n1)log.bad.push('№ 1: 🔊 примера не играет ('+c+')');
   if(k===1)await p.screenshot({path:`${OUT}/${vn}-1-card.png`});
   await overflow(p,vn+' № 1',log);await click(p,'#go');await sleep(200);}
- await sleep(400);const r1=(await p.textContent('.res')).trim();if(r1!=='4 / 6')log.bad.push('№ 1: итог '+r1+', ждали 4 / 6 (2 верно + 1 апелляция + 2 верно… )');
+ await sleep(400);const r1=(await p.textContent('.res')).trim();if(r1!=='10 / 12')log.bad.push('№ 1: итог '+r1+', ждали 10 / 12');
  await p.screenshot({path:`${OUT}/${vn}-2-t1res.png`,fullPage:true});
  // ===== № 2 =====
  await click(p,'button.btn[onclick*="#2"]');await click(p,'#st');
- for(let k=0;k<6;k++){await p.waitForSelector('#hw svg');await sleep(300);const q=(await p.textContent('.kc-wq b')).trim();
-  const c=await p.evaluate(q=>({'«ты»':'你','«я»':'我','«хороший, хорошо»':'好','«звать, зваться» (меня зовут…)':'叫','«мама»':'妈','«папа»':'爸'})[q],q);
+ for(let k=0;k<NW;k++){await p.waitForSelector('#hw svg');await sleep(300);const q=(await p.textContent('.kc-wq b')).trim();
+  const c=await p.evaluate(q=>(W.find(x=>x.q===q)||{}).c,q);
   if(!c){log.bad.push('№ 2: странный перевод '+q);break;}
   await p.evaluate(()=>document.querySelector('#hw').scrollIntoView({block:'center'}));await sleep(200);
   if(k===1){await stroke(p,c,1,true);await stroke(p,c,1,true);await writeAll(p,c);}          // две ошибки подряд, потом верно
@@ -59,12 +59,12 @@ async function run([vn,w,h,mob]){const log={bad:[],err:[],api:[],ok:new Set(),sa
   const n1=await p.evaluate(()=>__au.length);await click(p,'#ex');await sleep(250);if(await p.evaluate(()=>__au.length)===n1)log.bad.push('№ 2: 🔊 не играет ('+c+')');
   if(k===0)await p.screenshot({path:`${OUT}/${vn}-4-write.png`});
   await overflow(p,vn+' № 2',log);await click(p,'#go');await sleep(200);}
- await sleep(400);const r2=(await p.textContent('.res')).trim();if(r2!=='4 / 6')log.bad.push('№ 2: итог '+r2+', ждали 4 / 6');
+ await sleep(400);const r2=(await p.textContent('.res')).trim();if(r2!=='10 / 12')log.bad.push('№ 2: итог '+r2+', ждали 10 / 12');
  await p.screenshot({path:`${OUT}/${vn}-5-t2res.png`,fullPage:true});
  // ===== итоги =====
  await p.evaluate(()=>location.hash='#itogi');await sleep(400);
  const z=await p.evaluate(()=>['g','y','r'].map(k=>[...document.querySelectorAll('.kc-zone.'+k+' .kc-chip')].map(e=>e.dataset.w).join('')));
- if(z.join('').length!==6)log.bad.push('итоги: в зонах не 6 иероглифов: '+z.join('|'));if(!z[2])log.bad.push('итоги: нет красной зоны (смотрел весь знак)');
+ if(z.join('').length!==NW)log.bad.push('итоги: в зонах не 12 иероглифов: '+z.join('|'));if(!z[2])log.bad.push('итоги: нет красной зоны (смотрел весь знак)');
  if(!(await p.$('.allok')))log.bad.push('итоги: нет «Все задания сделаны»');
  const n2=await p.evaluate(()=>__au.length);await click(p,'.kc-chip');await sleep(250);if(await p.evaluate(()=>__au.length)===n2)log.bad.push('итоги: 🔊 чипа не играет');
  await overflow(p,vn+' итоги',log);await p.screenshot({path:`${OUT}/${vn}-6-itogi.png`,fullPage:true});
@@ -74,7 +74,7 @@ async function run([vn,w,h,mob]){const log={bad:[],err:[],api:[],ok:new Set(),sa
  await click(p,'[data-n="1"]');await sleep(300);if(await p.$('#st'))log.bad.push('№ 1 можно пройти второй раз');
  await sleep(800);const parts=[...new Set(log.saves.map(s=>s.part))];['t1','t2','itogi'].forEach(x=>{if(!parts.includes(x))log.bad.push('в кабинет не ушло: '+x);});
  const t1=log.saves.find(s=>s.part==='t1');if(t1&&!(t1.data.res||[]).some(r=>r.ap))log.bad.push('в кабинет не ушла апелляция');
- if(t1&&t1.hw!=='kart6')log.bad.push('hw не kart6');
+ if(t1&&t1.hw!=='kart12')log.bad.push('hw не kart12');
  const bad=await p.evaluate(()=>__au.filter(a=>a.err).length);if(bad)log.bad.push('звуков с ошибкой: '+bad);
  // ===== учитель =====
  const p2=await ctx.newPage();errs(p2,log);await p2.goto(BASE+'?name=учитель');await sleep(300);await p2.evaluate(()=>localStorage.clear());await p2.goto(BASE+'?name=учитель');await sleep(400);

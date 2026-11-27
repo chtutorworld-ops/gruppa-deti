@@ -486,7 +486,7 @@ const pyCol=arr=>arr.map(s=>`<span style="color:${TCOL[toneOf(s)]}">${esc(s)}</s
 /* ===================== tasks ===================== */
 /* ===================== Карточки: наши иероглифы ===================== */
 // 2026-11-13. По навыку «Карточки» (контрольные карточки слов), под детскую группу:
-// только пройденные иероглифы 你 我 好 叫 妈 爸 (больше ничего!). Задания НУМЕРОВАННЫМ СПИСКОМ, те же номера — в кабинете
+// только пройденные иероглифы (2026-11-27: 你 我 好 叫 妈 爸 + уроки 9–11 他 她 们 吗 是 不; больше ничего!). Задания НУМЕРОВАННЫМ СПИСКОМ, те же номера — в кабинете
 // учителя (kartochki/uchitel/). № 1 «Узнай иероглиф» (иероглиф → перевод, карточка переворачивается, апелляция),
 // № 2 «Напиши иероглиф» (перевод → пишешь пальцем, подсказки «Не помню»), «Мои итоги» — три зоны и что не доделано.
 // Это контроль: каждое задание проходится один раз (учитель — под именем «учитель» — может сбросить).
@@ -494,12 +494,12 @@ const TASKS=[null,
  {t:'👀 Узнай иероглиф',d:'Видишь иероглиф — пишешь, что он значит',run:t1},
  {t:'✍️ Напиши иероглиф',d:'Видишь перевод — пишешь иероглиф пальцем',run:t2}];
 const NT=TASKS.length-1;
-const HW='kart6';
-let DONE={};try{DONE=JSON.parse(localStorage.getItem('zh-kc-done')||'{}')}catch(e){}
-const keep=()=>{try{localStorage.setItem('zh-kc-done',JSON.stringify(DONE))}catch(e){}};
+const HW='kart12'; // было kart6 (6 знаков); с 27.11 — 12 знаков, дети проходят заново
+let DONE={};try{DONE=JSON.parse(localStorage.getItem('zh-kc12-done')||'{}')}catch(e){}
+const keep=()=>{try{localStorage.setItem('zh-kc12-done',JSON.stringify(DONE))}catch(e){}};
 const API=/workers\.dev$/.test(location.hostname)?'/api/dz/':'https://gruppa-deti.ch-tutor-world.workers.dev/api/dz/';
-let S={};try{S=JSON.parse(localStorage.getItem('zh-kc')||'{}')}catch(e){}
-const keepS=()=>{try{localStorage.setItem('zh-kc',JSON.stringify(S))}catch(e){}};S.queue=S.queue||[];S.r1=S.r1||{};S.r2=S.r2||{};
+let S={};try{S=JSON.parse(localStorage.getItem('zh-kc12')||'{}')}catch(e){}
+const keepS=()=>{try{localStorage.setItem('zh-kc12',JSON.stringify(S))}catch(e){}};S.queue=S.queue||[];S.r1=S.r1||{};S.r2=S.r2||{};
 const isTest=()=>/^(учитель|учительница|teacher|тест)$/i.test((S.name||'').trim());
 const newSid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 function send(part,data){S.queue=S.queue.filter(q=>q.part!==part);S.queue.push({part,data:Object.assign({},data,{ts:Date.now()})});keepS();flush();}
@@ -513,7 +513,7 @@ let TM=[];const later=(f,ms)=>{const t=setTimeout(f,ms);TM.push(t);return t;};
 let KW=null;
 function stopAll(){TM.forEach(clearTimeout);TM=[];try{curA&&curA.pause()}catch(e){}KW=null;}
 
-/* ---------- данные: только 6 пройденных иероглифов ---------- */
+/* ---------- данные: только пройденные иероглифы ---------- */
 // [иероглиф, пиньинь, перевод, подсказка-перевод для № 2, принимаемые ответы (основы), пример zh, пример pinyin, пример ru, что озвучить, ключ]
 const W=[
  {c:'你',py:'nǐ',ru:'ты',q:'«ты»',acc:['ты','теб','тобо','тебе'],ex:'你好！',exPy:'nǐ hǎo!',exRu:'Привет!',exA:'你好',key:'亻 «человек» — слева'},
@@ -521,7 +521,13 @@ const W=[
  {c:'好',py:'hǎo',ru:'хороший, хорошо',q:'«хороший, хорошо»',acc:['хорош','добр','отличн','прекрасн','good'],ex:'你好！',exPy:'nǐ hǎo!',exRu:'Привет! (дословно «ты хороший»)',exA:'你好',key:'女 «женщина» — слева'},
  {c:'叫',py:'jiào',ru:'звать, зваться',q:'«звать, зваться» (меня зовут…)',acc:['зва','зов','назыв','крич','зовут'],ex:'我叫…',exPy:'wǒ jiào…',exRu:'Меня зовут…',exA:'我叫',key:'口 «рот» — слева'},
  {c:'妈',py:'mā',ru:'мама',q:'«мама»',acc:['мам','мать','матер','мамоч'],ex:'我妈妈叫…',exPy:'wǒ māma jiào…',exRu:'Мою маму зовут…',exA:'我妈妈叫',key:'女 «женщина» — слева'},
- {c:'爸',py:'bà',ru:'папа',q:'«папа»',acc:['пап','отец','отц','отеч'],ex:'我爸爸叫…',exPy:'wǒ bàba jiào…',exRu:'Моего папу зовут…',exA:'我爸爸叫',key:'父 «отец» — сверху'}];
+ {c:'爸',py:'bà',ru:'папа',q:'«папа»',acc:['пап','отец','отц','отеч'],ex:'我爸爸叫…',exPy:'wǒ bàba jiào…',exRu:'Моего папу зовут…',exA:'我爸爸叫',key:'父 «отец» — сверху'},
+ {c:'他',py:'tā',ru:'он',q:'«он»',acc:['он','его','ему','им','нем','he'],ex:'他是我爸爸。',exPy:'tā shì wǒ bàba.',exRu:'Он мой папа.',exA:'他是我爸爸',key:'亻 «человек» — слева'},
+ {c:'她',py:'tā',ru:'она',q:'«она»',acc:['она','ее','ей','нее','she'],ex:'她是我妈妈。',exPy:'tā shì wǒ māma.',exRu:'Она моя мама.',exA:'她是我妈妈',key:'女 «женщина» — слева'},
+ {c:'们',py:'men',ru:'много (людей)',q:'«много (людей)» — как в словах «мы», «вы», «они»',acc:['много','множ','люд','мы','вы','они','we','plural'],ex:'你们好！',exPy:'nǐmen hǎo!',exRu:'Привет всем!',exA:'你们好',key:'亻 «человек» — слева'},
+ {c:'吗',py:'ma',ru:'вопросительная частица',q:'«вопросительная частица» (в конце вопроса)',acc:['вопрос','частиц','ли'],ex:'她是你妈妈吗？',exPy:'tā shì nǐ māma ma?',exRu:'Она твоя мама?',exA:'她是你妈妈吗',key:'口 «рот» — слева'},
+ {c:'是',py:'shì',ru:'являться · да',q:'«являться» (он — мой папа)',acc:['явл','быть','есть','это','да','is'],ex:'他是我爸爸。',exPy:'tā shì wǒ bàba.',exRu:'Он мой папа.',exA:'他是我爸爸',key:''},
+ {c:'不',py:'bù',ru:'не',q:'«не»',acc:['не','нет','no','not'],ex:'她不是我妈妈。',exPy:'tā bú shì wǒ māma.',exRu:'Она не моя мама.',exA:'她不是我妈妈',key:''}];
 const WC=Object.fromEntries(W.map(x=>[x.c,x]));
 const normW=s=>String(s||'').toLowerCase().replace(/ё/g,'е').replace(/[^a-zа-я\s-]/g,' ').split(/[\s-]+/).filter(Boolean);
 const dunno=s=>/^\s*(не\s*знаю|незнаю|не\s*помню|\?+|-+)\s*$/i.test(s||'');
@@ -538,7 +544,7 @@ function login(){stopAll();$('#app').innerHTML=`<div class="top n"><span class="
  $('#go').onclick=go;$('#nm').onkeydown=e=>{if(e.key==='Enter')go();};}
 const nDone=()=>Object.keys(DONE).filter(k=>TASKS[+k]).length;
 const pbar=()=>{const d=nDone(),pc=Math.round(d*100/NT);return `<div class="pbar n" id="pbar"><div class="pbt"><span>Выполнено <b>${d}</b> из ${NT}</span><b>${pc}%</b></div><div class="pbl"><i style="width:${pc}%"></i></div></div>`;};
-const shell=h=>{stopAll();$('#app').innerHTML=`<div class="top n"><span class="zh kc-tlogo">你我</span><div><h1>${TOP}</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'你 我 好 叫 妈 爸 — проверь себя'}</small></div><button class="back n" style="margin:0 0 0 auto;font-size:13px" id="me">${esc(S.name||'')} ✎</button></div>${pbar()}<div class="main n">${h}</div>`;
+const shell=h=>{stopAll();$('#app').innerHTML=`<div class="top n"><span class="zh kc-tlogo">你我</span><div><h1>${TOP}</h1><small>${isTest()?'🧑‍🏫 режим учителя — результаты не сохраняются':'все наши иероглифы — проверь себя'}</small></div><button class="back n" style="margin:0 0 0 auto;font-size:13px" id="me">${esc(S.name||'')} ✎</button></div>${pbar()}<div class="main n">${h}</div>`;
  $('#me').onclick=()=>login();scrollTo(0,0);};
 const backBtn='<button class="back n" onclick="location.hash=\'\'">‹ Все задания</button>';
 const tag=n=>`<span class="tag">Задание № ${n}</span>`;
@@ -568,7 +574,7 @@ function t1(){const n=1;
  if(DONE[1]&&!isTest())return t1res();
  shell(`${backBtn}${tag(n)}<h2>👀 Узнай иероглиф</h2>
   <div class="rbox" style="--c1:#5B6BD8;--c2:#2DBE8C"><b>Как делать</b><div class="rr2"><span>👀 Смотри на иероглиф, 🔊 можно послушать</span><span>⌨️ Напиши по-русски, что он значит</span><span>🤷 Не помнишь — нажми «Не знаю», ничего страшного</span><span>🃏 Карточка перевернётся — там ответ и пример</span></div></div>
-  <div class="row" style="justify-content:center"><button class="btn" id="st" style="width:100%">🃏 Начать: 6 карточек</button></div>`);
+  <div class="row" style="justify-content:center"><button class="btn" id="st" style="width:100%">🃏 Начать: ${W.length} карточек</button></div>`);
  $('#st').onclick=()=>{const order=shuffle(W),res=[];let k=0;
   const one=()=>{if(k>=order.length)return end();const w=order[k];
    shell(`${backBtn}${tag(n)}<div class="qhead kc-qh"><span>Карточка ${k+1} из ${order.length}</span><span>${order.map((_,i)=>`<i class="kc-dot${i<k?' d':i===k?' c':''}"></i>`).join('')}</span></div>
@@ -611,7 +617,7 @@ function t2(){const n=2;
  if(DONE[2]&&!isTest())return t2res();
  shell(`${backBtn}${tag(n)}<h2>✍️ Напиши иероглиф</h2>
   <div class="rbox" style="--c1:#FF5C8A;--c2:#8E5BE8"><b>Как делать</b><div class="rr2"><span>📖 Читаешь перевод — пишешь иероглиф пальцем (или мышкой) в клетке</span><span>✏️ Каждую черту по порядку. Две ошибки подряд — покажем следующую черту</span><span>💡 «Не помню» — подсказка (можно 3 раза)</span><span>👀 Совсем забыл(а) — красная кнопка покажет весь знак</span></div></div>
-  <div class="row" style="justify-content:center"><button class="btn" id="st" style="width:100%">✍️ Начать: 6 иероглифов</button></div>`);
+  <div class="row" style="justify-content:center"><button class="btn" id="st" style="width:100%">✍️ Начать: ${W.length} иероглифов</button></div>`);
  $('#st').onclick=()=>{const order=shuffle(W),res=[];let k=0;
   const one=()=>{if(k>=order.length)return end();const w=order[k];
    shell(`${backBtn}${tag(n)}<div class="qhead kc-qh"><span>Иероглиф ${k+1} из ${order.length}</span><span>${order.map((_,i)=>`<i class="kc-dot${i<k?' d':i===k?' c':''}"></i>`).join('')}</span></div>
@@ -646,7 +652,7 @@ function t2(){const n=2;
   one();};}
 function t2res(){const n=2,R=W.map(w=>S.r2[w.c]).filter(Boolean),self=R.filter(r=>!r.shown&&!r.hints).length;
  shell(`${backBtn}${tag(n)}<h2>✍️ Напиши иероглиф — готово!</h2><div class="res" style="text-align:center">${self} / ${R.length}</div>
-  <p class="lead" style="text-align:center">${self===R.length?'Все шесть — сам(а), без подсказок! 🏆':'Сам(а), без подсказок: '+self+' из '+R.length+'. Остальные можно повторить для закрепления 🙂'}</p>
+  <p class="lead" style="text-align:center">${self===R.length?'Все — сам(а), без подсказок! 🏆':'Сам(а), без подсказок: '+self+' из '+R.length+'. Остальные можно повторить для закрепления 🙂'}</p>
   <div class="kc-rl">${R.map(r=>`<div class="${r.shown?'b':r.hints||r.mist?'m':'g'}"><span class="zh">${r.c}</span><span><b>${WC[r.c].ru}</b><small>${r.shown?'смотрел(а) весь знак':r.hints?'подсказок: '+r.hints:'сам(а)'}${r.mist?' · ошибок в чертах: '+r.mist:''}</small></span><i>${r.shown?'👀':r.hints?'💡':'✓'}</i></div>`).join('')}</div>
   ${nextBtns(n)}`);leftOn();}
 
