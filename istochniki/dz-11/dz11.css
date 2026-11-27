@@ -1,0 +1,143 @@
+
+/* ============ ДЗ 11: новые экраны в старом виде (переменные old.css) ============ */
+.pp{width:100%;display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.pyd{display:flex;align-items:center;justify-content:center;gap:10px;min-height:64px;border-radius:18px;background:#fff;box-shadow:inset 4px 4px 9px var(--o-sh1),inset -4px -4px 9px #fff;padding:6px 14px}
+.pyd.hint{animation:shk .35s;box-shadow:inset 0 0 0 3px #FF8FA8}
+.pyv{font:700 36px var(--sans);color:var(--o-ink);letter-spacing:.02em;min-width:8px}
+.pyv .py{font-size:36px}
+.pym{font-size:15px;font-weight:800;color:var(--o-mu)}.pym .t1,.pym .t2,.pym .t3,.pym .t4{font-weight:800}
+.pkb{display:flex;flex-direction:column;gap:6px}
+.pkb>div{display:flex;justify-content:center;gap:5px}
+.pk{flex:1;max-width:46px;height:46px;border-radius:12px;background:var(--o-bg);box-shadow:3px 3px 7px var(--o-sh1),-3px -3px 7px #fff;font:700 20px var(--sans);color:var(--o-ac2)}
+.pk:active{box-shadow:inset 3px 3px 7px var(--o-sh1),inset -3px -3px 7px #fff}
+.pk.bs{max-width:64px;flex:1.4;color:#B0284F}
+.ptl{font-size:14px;font-weight:800;color:var(--o-mu);margin:2px 4px -2px}
+.keys.ptk{display:grid;gap:8px}.keys.k5{grid-template-columns:repeat(5,1fr)}
+.key.pt{min-height:58px!important;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2px!important}
+.key.pt .tm{font-size:30px;line-height:1}.key.pt small{font-size:12px;font-weight:700;color:var(--o-mu)}
+html body .key.pt.on{background:var(--o-ac)!important;box-shadow:inset 3px 3px 8px #3E4CB0!important}
+html body .key.pt.on .tm,html body .key.pt.on small{color:#fff!important}
+.snd{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;flex:none}
+.snd svg.i{width:32px;height:32px}
+.imcur{display:inline-block;width:2px;height:32px;background:var(--o-ac);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+/* 2. введи пиньинь */
+.tpq{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.tpz{display:flex;gap:6px}.tpz .zh{font-size:84px;line-height:1.05;color:var(--o-ink);padding:0 4px;border-radius:14px}
+.tpz .zh.on{background:#fff;box-shadow:inset 0 0 0 3px var(--o-ac)}.tpz .zh.ok{color:var(--o-mu)}
+.tpq:has(.tpz span:nth-child(3)) .tpz .zh{font-size:60px}
+.tpz:has(span:nth-child(5)) .zh{font-size:48px!important}
+.tpp{min-height:24px;font-size:22px}.tpq small{font-size:16px;font-weight:700;color:var(--o-mu)}
+/* 3. собери из ключей */
+.bq{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.bq small{font-size:15px;font-weight:700;color:var(--o-mu)}.bq b{font-size:30px;font-weight:800;color:var(--o-ink)}.bq .py{font-size:24px}
+.bslots{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap}
+.bslots>span{display:grid;place-items:center}
+.bs1,.bs2,.bres{width:78px;height:78px;border-radius:18px;background:#fff;box-shadow:inset 3px 3px 8px var(--o-sh1),inset -3px -3px 8px #fff;font-size:14px;font-weight:800;color:var(--o-mu)}
+.bs1.on,.bs2.on{box-shadow:inset 0 0 0 3px var(--o-ac)}
+.bs1.ok,.bs2.ok{background:#E3E6FA}
+.bslots .zh{font-size:50px;color:var(--o-ink);line-height:1}
+.bres{width:104px;height:104px}.bres .zh{font-size:78px;color:var(--o-ac2)}
+.bplus,.beq{font-size:26px;font-weight:800;color:var(--o-mu)}
+.bph{text-align:center;font-weight:700}
+.key.bk{min-height:84px!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0}
+.key.bk small{font-size:12px;font-weight:700;color:var(--o-mu)}
+/* 4. первая черта */
+.fsbox{width:min(300px,72vw);aspect-ratio:1;border-radius:22px;background:#fff;box-shadow:inset 4px 4px 9px var(--o-sh1),inset -4px -4px 9px #fff;padding:8px;display:grid;place-items:center}
+svg.fs{width:100%;height:100%}
+svg.fs .fo{fill:#C9CEDD}
+svg.fs .fc{cursor:pointer}.fc0{fill:#5B6BD8}.fc1{fill:#B46BD8}.fc2{fill:#3D88E0}
+svg.fs circle{stroke:#fff;stroke-width:14}
+svg.fs .fb0 circle{fill:#5B6BD8}svg.fs .fb1 circle{fill:#B46BD8}svg.fs .fb2 circle{fill:#3D88E0}
+svg.fs text{font:800 88px var(--sans);fill:#fff;pointer-events:none}
+svg.fs g[data-s]{cursor:pointer}
+.key.fk{min-height:64px!important;font-size:30px}.key.fk b{color:#fff!important;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;margin:auto}
+.fk0 b{background:#5B6BD8}.fk1 b{background:#B46BD8}.fk2 b{background:#3D88E0}
+.fsw{width:100%;height:100%;position:relative}
+.fsx{display:flex;gap:12px;justify-content:center}.fsxi{display:flex;flex-direction:column;align-items:center;gap:4px}
+.fsxi svg{width:96px;height:96px;background:#fff;border-radius:16px;padding:4px}.fsxi small{font-size:13px;font-weight:700;color:var(--o-mu)}
+/* 5, 8. пропись */
+.wcap{display:flex;align-items:center;gap:12px;justify-content:center}
+.wcap>.zh{font-size:56px;color:var(--o-ink);line-height:1}.wcap .py{font-size:24px}.wcap .ru{font-size:15px;font-weight:700;color:var(--o-mu)}
+.snd.sm{width:52px;height:52px}.snd.sm svg.i{width:26px;height:26px}
+.wbox{position:relative;width:min(300px,74vw);aspect-ratio:1;margin:0 auto}
+.wbox svg.g,.wbox .hw{position:absolute;inset:0;width:100%;height:100%}
+.steps3{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.steps3 span{padding:6px 10px;border-radius:12px;font-size:13px;font-weight:800;color:var(--o-mu);background:var(--o-bg);box-shadow:3px 3px 7px var(--o-sh1),-3px -3px 7px #fff}
+.steps3 span.on{color:#fff;background:var(--o-ac)}.steps3 span.ok{color:#14855E;background:#DDF5EC}
+/* 6. найди ошибку */
+.feru{font-size:24px;font-weight:800;color:var(--o-ink);text-align:center}
+.fel{display:flex;align-items:stretch;justify-content:center;flex-wrap:wrap;row-gap:10px}
+.fec{min-width:46px;height:62px;border-radius:14px;background:#fff;box-shadow:3px 3px 8px var(--o-sh1),-3px -3px 8px #fff;display:grid;place-items:center;padding:0 2px}
+.fec .zh{font-size:40px;color:var(--o-ink);line-height:1}
+.feg{width:22px;height:62px;position:relative;border-radius:8px}
+.feg::after{content:'';position:absolute;left:50%;top:10px;bottom:10px;border-left:3px dotted #AEB6CC;transform:translateX(-50%)}
+.feg:hover::after{border-color:var(--o-ac)}
+.fep{align-self:flex-end;font-size:34px;color:var(--o-mu);margin-left:2px}
+.fec.hint,.feg.hint{animation:shk .35s;background:#FFE3EB}
+.fec.ok{background:#DDF5EC;box-shadow:inset 0 0 0 3px #2DBE8C}
+.feg.ok{background:#DDF5EC}.feg.ok::after{border-color:#2DBE8C;border-left-style:solid}
+.fefix{display:flex;flex-direction:column;align-items:center;gap:6px}.fefix small{font-size:14px;font-weight:700;color:var(--o-mu)}
+.fefix .key .zh{font-size:32px}
+@media(max-width:400px){.fec{min-width:40px;height:56px}.fec .zh{font-size:34px}.feg{width:16px;height:56px}}
+/* 7–8. диалог */
+.dlimg{width:100%;max-height:22vh;object-fit:cover;border-radius:18px}
+.dlb{display:flex;flex-direction:column;gap:2px;text-align:left;padding:12px 16px;border-radius:18px;width:100%}
+.dlw{font-size:13px;font-weight:800;color:var(--o-mu)}.dlz{font-size:30px;color:var(--o-ink);line-height:1.25}.dlp{font-size:18px}.dlr{font-size:14px;color:var(--o-mu);font-weight:600}
+.dlb.sm .dlz{font-size:22px}
+.dll{display:flex;flex-direction:column;gap:8px;width:100%}
+.recb{display:flex;align-items:center;gap:14px;justify-content:center}
+.recb b{display:block;font:800 26px var(--sans);color:var(--o-ac2)}.recb small{font-size:14px;font-weight:700;color:var(--o-mu)}
+.mic{width:76px;height:76px;border-radius:50%;font-size:32px;background:var(--o-bg);box-shadow:5px 5px 12px var(--o-sh1),-5px -5px 12px #fff;flex:none}
+.mic.rec{background:#FFE3EB;box-shadow:0 0 0 4px #FF8FA8;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(255,143,168,.35)}}
+.aud{width:100%}
+.w8z{font-size:34px;letter-spacing:.04em}.w8z b{font-weight:400}
+.w8c{color:#fff;background:var(--o-ac);border-radius:10px;padding:0 4px}
+.w8ok{color:var(--o-ac)}.w8e{color:#AEB6CC}
+.wbox.w8box{width:min(260px,64vw)}
+/* 9. Поймай иероглиф — лента карточек
+   From Uiverse.io by ashwin_5681 - https://uiverse.io/ashwin_5681/tough-baboon-50
+   MIT License, Copyright (c) ashwin_5681 (Ashwin A) */
+.lvq{display:flex;flex-direction:column;align-items:center;gap:0}
+.lvq small{font-size:15px;font-weight:800;color:var(--o-mu);text-transform:uppercase;letter-spacing:.08em}
+.lvq b{font-size:34px;font-weight:800;color:var(--o-ink)}.lvq .py{font-size:38px}
+.lvw,.lvdemo{--lv-card:96px;width:100%;display:flex;flex-direction:column;gap:14px}
+@media(max-width:600px){.lvw,.lvdemo{--lv-card:84px}}
+.lv-slider{width:100%;height:calc(var(--lv-card) + 12px);overflow:hidden;
+ -webkit-mask-image:linear-gradient(to right,transparent,#000 10% 90%,transparent);mask-image:linear-gradient(to right,transparent,#000 10% 90%,transparent)}
+.lv-list{display:flex;width:100%;min-width:calc(var(--lv-w) * var(--lv-q) * 1.25);position:relative;height:100%}
+.lv-item{width:var(--lv-w);height:var(--lv-w);position:absolute;top:6px;left:100%;
+ animation:lvRun var(--lv-d) linear infinite;transition:filter .5s;
+ animation-delay:calc((var(--lv-d) / var(--lv-q)) * (var(--lv-p) - 1) - var(--lv-d))!important}
+@keyframes lvRun{from{left:100%}to{left:calc(var(--lv-w) * -1)}}
+.lv-slider[data-rev] .lv-item{animation-name:lvRev}
+@keyframes lvRev{from{left:calc(var(--lv-w) * -1)}to{left:100%}}
+.lv-paused .lv-item,.lvw.lv-paused .lv-item{animation-play-state:paused!important}
+@media(hover:hover){.lvw .lv-slider:hover .lv-item{filter:grayscale(.6)}.lvw .lv-slider .lv-item:hover{filter:grayscale(0)}}
+.lv-card{width:100%;height:100%;border-radius:18px;background:var(--lv-g);box-shadow:0 6px 14px rgba(43,50,112,.25);display:grid;place-items:center;border:2px solid rgba(255,255,255,.55);touch-action:manipulation}
+.lv-card .zh{font-size:calc(var(--lv-card) * .56);color:#fff;line-height:1}
+.lv-card.lv-ok{background:#2DBE8C;box-shadow:0 0 0 5px #DDF5EC,0 6px 14px rgba(20,133,94,.35)}
+.lv-card.lv-no{animation:shk .35s;background:#FF5C8A}
+.lv-card.lv-help{box-shadow:0 0 0 5px #fff,0 0 0 9px #5B6BD8;animation:lvGlow 1s infinite}
+@keyframes lvGlow{50%{transform:scale(1.07)}}
+.lvdemo .lv-card{pointer-events:none}
+.lvbar{display:flex;align-items:center;justify-content:space-between;font-weight:800;color:var(--o-ac2);font-size:18px}
+@keyframes shk{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+/* игра — это движение: не выключаем его даже при «меньше анимации» */
+@media (prefers-reduced-motion:reduce){.lv-item{animation-name:lvRun!important;animation-duration:var(--lv-d)!important;animation-iteration-count:infinite!important;animation-timing-function:linear!important}.lv-slider[data-rev] .lv-item{animation-name:lvRev!important}}
+
+/* место под задание: на телефоне страница не длиннее экрана */
+html body .scr.task{min-height:calc(100dvh + 260px)!important}
+@media(min-width:700px){.pk{height:40px;max-width:52px}.pyd{min-height:54px}.key.pt{min-height:50px!important}}
+.tsv{width:40px;height:26px;fill:none;stroke:currentColor;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round}
+.tsv.t0{fill:currentColor;stroke:none}
+.tsv.t1{color:var(--tone-1,#1F5FD6)}.tsv.t2{color:var(--tone-2,#0B7285)}.tsv.t3{color:var(--tone-3,#A61E8A)}.tsv.t4{color:var(--tone-4,#C2185B)}.tsv.t0{color:#68688A}
+html body .key.pt small{font-size:12px!important;line-height:1.1}
+html body .key.pt.on .tsv{color:#fff}
+@media(max-width:600px){.fel{column-gap:0}.fec{min-width:38px}.fec .zh{font-size:32px}.feg{width:14px}}
+/* клетка для письма всегда видна целиком вместе с заданием (маленький телефон 360×640) */
+html body .wbox{width:min(300px,74vw,42vh)}
+html body .wbox.w8box{width:min(260px,64vw,34vh)}
+html body .dlb.w8{width:100%!important;padding:8px 14px}
+@media(max-height:700px){.w8z{font-size:26px}.dlb.w8 .dlr{display:none}.wcap>.zh{font-size:44px}.bq b{font-size:26px}}

@@ -1,0 +1,109 @@
+
+/* ===== СТАРЫЙ ВИД (как ДЗ 8 и задания урока 10): сиреневый фон, неоморфные серо-голубые карточки,
+   цветные карточки правил, красная плашка «Задание №», синие кнопки. Дарья 24.11: «используем наш старый дизайн» ===== */
+:root{--o-bg:#E9EDF4;--o-ink:#1E2350;--o-t:#3D4560;--o-mu:#7D86A3;--o-ac:#5B6BD8;--o-ac2:#2B3270;--o-ok:#2DBE8C;--o-no:#FF5C8A;--o-sh1:#C5CBD8;--o-sh2:#fff;
+ --bg:#E9EDF4;--surface:#E9EDF4;--ink:#1E2350;--ink-2:#7D86A3;--txt:#2B3270;--vio:#5B6BD8;--lav:#E9EDF4;--lav-line:#C5CBD8;--nd:#C5CBD8;
+ --raise-s:5px 5px 12px #C5CBD8,-5px -5px 12px #fff;--well:inset 4px 4px 9px #C5CBD8,inset -4px -4px 9px #fff;
+ --ok-t:#DDF5EC;--ok-ink:#14855E;--ok:#2DBE8C;--bad-t:#FFE3EB;--grad:linear-gradient(135deg,#5B6BD8,#8E5BE8)}
+html,body{background:transparent!important;color:var(--o-t)}
+body::before{content:'';position:fixed;inset:0;z-index:-1;background:#D9D2F5 url(img/fon.webp) 50% 100%/cover no-repeat}
+body .n{background:var(--o-bg);border-radius:24px;box-shadow:8px 8px 18px var(--o-sh1),-8px -8px 18px var(--o-sh2)}
+html body .scr{max-width:760px!important;height:auto!important;min-height:0!important;display:block!important;margin:0 auto!important;padding:max(14px,env(safe-area-inset-top)) 14px 40px!important;grid-template-columns:none!important}
+.otop{display:flex;align-items:center;gap:14px;padding:14px 18px;margin-bottom:16px}
+.otop>.zh{font-size:32px;color:var(--o-ac2);line-height:1;white-space:nowrap}
+.otop h1{font-size:18px;font-weight:800;color:var(--o-ink);line-height:1.15;font-family:var(--sans)}.otop small{display:block;font-size:13px;color:var(--o-mu);font-weight:600}
+.ome{margin-left:auto;padding:8px 14px;border-radius:14px;font-size:14px;font-weight:800;color:var(--o-ac);background:var(--o-bg);box-shadow:4px 4px 10px var(--o-sh1),-4px -4px 10px var(--o-sh2);white-space:nowrap;max-width:40%;overflow:hidden;text-overflow:ellipsis}
+.opbar{padding:10px 16px 12px;border-radius:18px!important;margin:0 0 16px}
+.opbar .pbt{display:flex;justify-content:space-between;align-items:baseline;font-weight:800;font-size:14px;color:var(--o-mu)}.opbar .pbt b{font-weight:900;font-size:18px;color:var(--o-ac2)}.opbar .pbt em{font-style:normal;font-weight:900;font-size:20px;color:var(--o-ac2)}
+.opbar .pbl{height:12px;border-radius:7px;background:#D6DBE6;margin-top:6px;overflow:hidden}.opbar .pbl i{display:block;height:100%;border-radius:7px;background:linear-gradient(90deg,#2DBE8C,#5B6BD8)}
+@media(max-width:600px){.otop small{display:none}.otop>.zh{font-size:26px}}
+html body .pan{padding:20px 20px 22px;display:flex;flex-direction:column;gap:12px}
+@media(max-width:600px){html body .pan{padding:16px 14px 18px}}
+html body .pan .bar{height:auto!important;margin:0!important;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-start}
+html body .back{height:auto!important;display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:15px;color:var(--o-ac)!important;padding:8px 14px!important;border-radius:14px!important;background:var(--o-bg)!important;box-shadow:4px 4px 10px var(--o-sh1),-4px -4px 10px var(--o-sh2)!important;border:0!important}
+html body .pan .lab{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff!important;background:#B0284F!important;padding:4px 10px;border-radius:9px;box-shadow:none!important;height:auto!important}
+html body .pan .cnt{margin-left:auto;font-weight:800;font-size:14px;color:var(--o-mu);background:none!important;box-shadow:none!important}
+html body .pan .head{padding:0!important;display:block!important;grid-area:auto!important}
+html body .pan h2,html body .pan .ttl{font-size:25px;font-weight:800;color:var(--o-ink);line-height:1.2;margin:4px 0 0}
+html body .rbox{margin-top:10px!important;padding:16px 18px!important;border-radius:24px!important;background:linear-gradient(135deg,var(--c1),var(--c2))!important;color:#fff!important;font-size:17px!important;font-weight:700;line-height:1.45;box-shadow:0 12px 26px rgba(43,50,112,.22)!important;border:0!important;display:block!important}
+html body .rbox b{color:#fff!important}html body .rbox.empty{display:none!important}
+html body .lead{font-size:16.5px;line-height:1.5;margin-top:4px;color:var(--o-t)}.lead b{color:var(--o-ink)}
+html body .pan h3{font-size:18px;font-weight:800;color:var(--o-ink);margin:18px 0 8px}
+/* поле задания и пульт: в потоке, без фиксированной высоты */
+html body .scr.task .scene{flex:none!important;min-height:0!important;margin:0!important;padding:4px 0!important;border-radius:0!important;box-shadow:none!important;background:none!important;overflow:visible!important;display:flex;flex-direction:column;align-items:center;gap:12px;justify-content:flex-start!important}
+html body .scr.task .pult{flex:none!important;max-width:none!important;width:100%;margin:0!important;padding:0!important;display:flex;flex-direction:column;gap:10px}
+/* главная кнопка — синяя, как в старых заданиях */
+html body .main{width:100%;min-height:54px!important;border-radius:18px!important;background:var(--o-ac)!important;color:#fff!important;font-weight:800!important;font-size:17px!important;box-shadow:6px 6px 14px var(--o-sh1),-6px -6px 14px var(--o-sh2)!important;border:0!important;text-shadow:none!important;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px}
+html body .main:disabled{opacity:.45!important;background:var(--o-ac)!important;color:#fff!important}
+html body .main.soft{background:var(--o-bg)!important;color:var(--o-ac2)!important}
+html body .main.soft svg.i,html body .main svg.i{stroke:currentColor}
+html body .quiet{color:var(--o-ac)!important;font-weight:800;background:none!important;box-shadow:none!important;min-height:44px}
+/* клавиши, плитки, кнопка звука — неоморфные серо-голубые */
+html body .key,html body .imk,html body .ocard,html body .dlb,html body .snd,html body .slot,html body .tile,html body .rmroom,html body .pyt,html body .mc .fa,html body .key.wdk{background:var(--o-bg)!important;box-shadow:5px 5px 12px var(--o-sh1),-5px -5px 12px var(--o-sh2)!important;border:0!important;color:var(--o-ac2)!important}
+html body .key .py,html body .key b{color:var(--o-ac2)}
+html body .key.ok,html body .ocard.ok,html body .key.ok.wdk{background:#DDF5EC!important;color:#14855E!important;box-shadow:inset 3px 3px 8px #B9DCCD!important}
+html body .key.hint,html body .ocard.hint{background:#FFE3EB!important;color:#B0284F!important;box-shadow:inset 3px 3px 8px #F0C2D0!important}
+html body .snd.on{color:var(--o-ok)!important;box-shadow:inset 6px 6px 12px var(--o-sh1),inset -6px -6px 12px var(--o-sh2)!important}
+html body .snd svg.i{stroke:var(--o-ac)}
+html body .dlb.b{background:#E3E6FA!important}
+html body .dlb.on{box-shadow:0 0 0 3px var(--o-ac),5px 5px 12px var(--o-sh1)!important}
+html body .inp,html body .imo,html body .wbox{background:#fff!important;box-shadow:inset 4px 4px 9px var(--o-sh1),inset -4px -4px 9px #fff!important;border:0!important;border-radius:18px!important}
+html body .wbox{box-shadow:inset 0 0 0 3px #FF8FA8!important}
+html body .inp{width:100%;font-size:20px;padding:14px 18px;margin:12px 0;color:var(--o-ink)}
+html body .srule{background:linear-gradient(135deg,#FF3D77,#FF8A3D)!important;color:#fff!important;border:0!important;border-radius:22px!important;box-shadow:0 12px 26px rgba(255,61,119,.28)!important}
+html body .srule b,html body .srule .zh{color:#fff!important}
+html body .fb{font-size:16px;font-weight:700;color:var(--o-t);text-align:center;min-height:24px;background:none!important;box-shadow:none!important}
+html body .fb.ok{color:#14855E!important}html body .fb.hint{color:#D9366A!important}
+html body .tk{color:var(--o-mu)}
+html body .gp.on{background:#E3E6FA!important;color:var(--o-ac)!important}
+/* список */
+.olist{display:grid;gap:12px;margin-top:6px}
+html body .ti{display:flex!important;align-items:center;gap:14px;padding:14px 16px!important;border-radius:20px!important;text-align:left;width:100%;min-height:0!important;aspect-ratio:auto!important;flex-direction:row!important}
+html body .ti .no{flex:none;width:50px;height:50px;border-radius:16px;display:grid;place-items:center;font-weight:900;font-size:22px;color:#fff;background:var(--o-ac)}
+html body .ti.todo .no{background:#AEB5C8}html body .ti.done .no{background:var(--o-ok)}
+html body .ti .tt b{display:block;font-size:16.5px;color:var(--o-ink);line-height:1.25;font-weight:800}
+html body .ti .tt small{display:block;font-size:13px;color:var(--o-mu);font-weight:600;margin-top:2px}
+html body .ti .st{margin-left:auto;font-size:13px;font-weight:800;color:var(--o-ok);white-space:nowrap;position:static!important}
+html body .ti.hot{box-shadow:0 0 0 3px #F5A524,8px 8px 18px var(--o-sh1),-8px -8px 18px var(--o-sh2)!important}
+html body .foot{display:flex;flex-direction:column;gap:8px;margin-top:16px;position:static!important;background:none!important;padding:0!important}
+/* итоги */
+html body .res .top{padding:0!important;background:none!important;box-shadow:none!important}
+html body .res .top h1{font-size:24px;font-weight:800;color:var(--o-ink)}
+.left{margin-top:12px;padding:16px 18px;border-radius:22px;background:#FFF0F4;box-shadow:inset 0 0 0 3px #FFB3C8}
+.left h3{margin:0 0 8px!important;color:#B0284F!important;font-size:20px}
+.allok{margin-top:12px;padding:18px;border-radius:22px;background:linear-gradient(135deg,#2DBE8C,#5B6BD8);color:#fff;text-align:center;font-weight:900;font-size:21px}
+html body .ri{display:flex;align-items:center;gap:12px;padding:10px 12px;margin-top:8px;border-radius:16px;background:#fff;font-weight:800;color:var(--o-ink);box-shadow:none!important;border:0!important}
+html body .ri .num{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--o-ok);color:#fff;font-weight:900}
+html body .ri.x .num{background:#FF5C8A}
+html body .ri small{display:block;font-size:13px;color:var(--o-mu)}
+html body .ri .go{margin-left:auto;color:var(--o-ac);font-weight:800;white-space:nowrap;background:none!important;box-shadow:none!important}
+html body .ri .st{margin-left:auto;color:var(--o-ok)}
+/* конец задания */
+html body .fin-box{background:none!important;box-shadow:none!important;text-align:center}
+html body .fin-box .bigc{background:var(--o-ok)!important;color:#fff}
+html body .fin-box h2{color:var(--o-ink)!important}
+/* комната: высота задаётся явно, потому что страница прокручивается */
+html body .scr.task .rmscene{flex:none!important;height:min(calc(100dvh - 90px),640px)!important;width:auto!important;max-width:100%}
+html body .scr.task.rm{display:block!important}
+html body .scr.task.rm .rmask{display:block!important}
+html body .scr.task.rm .head .sub{display:none!important}
+html body .rmask{background:#fff!important;border:0!important;box-shadow:var(--raise-s)!important;color:var(--o-ink)!important}
+html body .rmask b{color:#B0284F!important}
+html body .rmlist{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
+/* компьютер: прежние две колонки отключены — один столбец, как в старых заданиях */
+@media(min-width:900px){html body .scr.task{display:block!important;height:auto!important}
+ html body [data-t="4"] .scene{display:flex!important}html body [data-t="4"] .scene .dlimg{width:auto!important;height:min(38vh,320px)!important}}
+.ome{flex:none}
+/* три цвета звуков (правило Дарьи 17.11): 1 строка — фиолетовая, 2 строка — лазурь, финали — персик; рамка, при нажатии заливка */
+html body .sgb.g1 .key{color:#4B3FA0!important;box-shadow:inset 0 0 0 2px #8B8EF0,4px 4px 10px var(--o-sh1),-4px -4px 10px #fff!important}
+html body .sgb.g2 .key{color:#28456E!important;box-shadow:inset 0 0 0 2px #80BDF7,4px 4px 10px var(--o-sh1),-4px -4px 10px #fff!important}
+html body .sgb.gf .key{color:#6A4A47!important;box-shadow:inset 0 0 0 2px #FEC2AE,4px 4px 10px var(--o-sh1),-4px -4px 10px #fff!important}
+html body .sgb.g1 .key.on,html body .sgb.g1 .key.ok{background:linear-gradient(135deg,#6A6DDE,#664796)!important;color:#fff!important}
+html body .sgb.g2 .key.on,html body .sgb.g2 .key.ok{background:linear-gradient(135deg,#80BDF7,#3D88E0)!important;color:#fff!important}
+html body .sgb.gf .key.on,html body .sgb.gf .key.ok{background:linear-gradient(135deg,#FFE4D8,#FEC2AE)!important;color:#4A302B!important}
+html body .sgb.g1 .key.on *,html body .sgb.g2 .key.on *,html body .sgb.g1 .key.ok *,html body .sgb.g2 .key.ok *{color:#fff!important}
+html body .sgb{background:none!important;box-shadow:none!important}
+html body .scr{box-shadow:none!important;background:none!important;border-radius:0!important}
+html body .scr.task[data-t="1"] .scene{flex-direction:row!important;flex-wrap:wrap;justify-content:center!important;column-gap:24px}
+html body .scr.task[data-t="1"] .scene .tk{flex-basis:100%;text-align:center}
+@media(min-width:900px){html body .scr.task .rmscene{height:min(64vh,620px)!important}}
