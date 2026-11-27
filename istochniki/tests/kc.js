@@ -71,7 +71,17 @@ async function run([vn,w,h,mob]){const log={bad:[],err:[],api:[],ok:new Set(),sa
  // главная: 100 %
  await p.evaluate(()=>location.hash='');await sleep(300);const pc=await p.evaluate(()=>[...document.querySelectorAll('.pbt b')].pop().textContent);if(pc.trim()!=='100%')log.bad.push('шкала: '+pc);
  // повторный вход в № 1 — только результат (контроль)
- await click(p,'[data-n="1"]');await sleep(300);if(await p.$('#st'))log.bad.push('№ 1 можно пройти второй раз');
+ // ===== переделать № 1 ещё раз (Дарья 27.11): всё верно → 12 / 12, обе попытки уходят в кабинет =====
+ await click(p,'[data-n="1"]');await sleep(300);if(!(await p.$('[data-again="1"]')))log.bad.push('№ 1: нет кнопки «Пройти ещё раз»');
+ else{await click(p,'[data-again="1"]');await click(p,'#st');
+  for(let k=0;k<NW;k++){await p.waitForSelector('.kc-big');const c=(await p.textContent('.kc-big')).trim();await p.fill('#an',RIGHT[c]);await click(p,'#ok');await sleep(250);await click(p,'#go');await sleep(150);}
+  await sleep(400);const r3=(await p.textContent('.res')).trim();if(r3!=='12 / 12')log.bad.push('№ 1 повтор: итог '+r3);
+  if(!/Попытка № 2/.test(await p.textContent('.main')))log.bad.push('№ 1 повтор: нет «Попытка № 2»');
+  await p.screenshot({path:`${OUT}/${vn}-7-again.png`,fullPage:true});}
+ // переделать № 2 из итогов
+ await p.evaluate(()=>location.hash='#itogi');await sleep(400);
+ if(await p.$('.kc-zone.y, .kc-zone.r')){if(!(await p.$('[data-again="2"]')))log.bad.push('итоги: нет «Ещё раз № 2»');else{await click(p,'[data-again="2"]');await sleep(300);if(!(await p.$('#st')))log.bad.push('итоги: «Ещё раз № 2» не открыл задание');}}
+ await sleep(800);const t1parts=[...new Set(log.saves.filter(s=>/^t1_/.test(s.part)).map(s=>s.part))];if(t1parts.length!==2)log.bad.push('в кабинет ушло попыток № 1: '+t1parts.length);
  await sleep(800);const parts=[...new Set(log.saves.map(s=>s.part))];['t1','t2','itogi'].forEach(x=>{if(!parts.includes(x))log.bad.push('в кабинет не ушло: '+x);});
  const t1=log.saves.find(s=>s.part==='t1');if(t1&&!(t1.data.res||[]).some(r=>r.ap))log.bad.push('в кабинет не ушла апелляция');
  if(t1&&t1.hw!=='kart12')log.bad.push('hw не kart12');

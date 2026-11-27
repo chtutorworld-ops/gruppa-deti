@@ -489,7 +489,8 @@ const pyCol=arr=>arr.map(s=>`<span style="color:${TCOL[toneOf(s)]}">${esc(s)}</s
 // только пройденные иероглифы (2026-11-27: 你 我 好 叫 妈 爸 + уроки 9–11 他 她 们 吗 是 不; больше ничего!). Задания НУМЕРОВАННЫМ СПИСКОМ, те же номера — в кабинете
 // учителя (kartochki/uchitel/). № 1 «Узнай иероглиф» (иероглиф → перевод, карточка переворачивается, апелляция),
 // № 2 «Напиши иероглиф» (перевод → пишешь пальцем, подсказки «Не помню»), «Мои итоги» — три зоны и что не доделано.
-// Это контроль: каждое задание проходится один раз (учитель — под именем «учитель» — может сбросить).
+// 2026-11-27 (Дарья): каждое задание можно переделывать сколько угодно раз; КАЖДАЯ попытка уходит в кабинет отдельной
+// частью t1_<время> / t2_<время> (плюс t1/t2 — последняя). Итоги и зоны — по последней попытке.
 const TASKS=[null,
  {t:'👀 Узнай иероглиф',d:'Видишь иероглиф — пишешь, что он значит',run:t1},
  {t:'✍️ Напиши иероглиф',d:'Видишь перевод — пишешь иероглиф пальцем',run:t2}];
@@ -499,7 +500,7 @@ let DONE={};try{DONE=JSON.parse(localStorage.getItem('zh-kc12-done')||'{}')}catc
 const keep=()=>{try{localStorage.setItem('zh-kc12-done',JSON.stringify(DONE))}catch(e){}};
 const API=/workers\.dev$/.test(location.hostname)?'/api/dz/':'https://gruppa-deti.ch-tutor-world.workers.dev/api/dz/';
 let S={};try{S=JSON.parse(localStorage.getItem('zh-kc12')||'{}')}catch(e){}
-const keepS=()=>{try{localStorage.setItem('zh-kc12',JSON.stringify(S))}catch(e){}};S.queue=S.queue||[];S.r1=S.r1||{};S.r2=S.r2||{};
+const keepS=()=>{try{localStorage.setItem('zh-kc12',JSON.stringify(S))}catch(e){}};S.queue=S.queue||[];S.r1=S.r1||{};S.r2=S.r2||{};S.n1=S.n1||0;S.n2=S.n2||0;
 const isTest=()=>/^(учитель|учительница|teacher|тест)$/i.test((S.name||'').trim());
 const newSid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 function send(part,data){S.queue=S.queue.filter(q=>q.part!==part);S.queue.push({part,data:Object.assign({},data,{ts:Date.now()})});keepS();flush();}
@@ -569,9 +570,13 @@ function route(){if(!S.name){if(NAMEQ){S.name=NAMEQ;S.sid=S.sid||newSid();keepS(
 addEventListener('hashchange',route);
 const nextBtns=n=>{const nx=left().find(i=>i!==n);return `<div class="row">${nx?`<button class="btn" onclick="location.hash='#${nx}'">Задание № ${nx} →</button>`:`<button class="btn" onclick="location.hash='#itogi'">🏁 Мои итоги</button>`}<button class="btn g" onclick="location.hash=''">‹ Все задания</button></div>${nx?'':leftBox()}`;};
 
+/* ---------- пройти ещё раз (сколько угодно попыток) ---------- */
+const againBox=(n,tries,all)=>`<p class="lead" style="text-align:center;margin:6px 0 0">${tries>1?'Попытка № '+tries+'. ':''}${all?'Отлично! Можно пройти ещё раз для тренировки.':'Можно пройти ещё раз — учитель увидит все попытки.'}</p><div class="row" style="justify-content:center"><button class="btn${all?' g':''}" data-again="${n}">↻ Пройти ещё раз</button></div>`;
+const againOn=()=>document.querySelectorAll('[data-again]').forEach(b=>b.onclick=()=>{const n=+b.dataset.again;if(location.hash!=='#'+n){history.replaceState(null,'','#'+n);}(n===1?t1:t2)(true);});
+
 /* ===================== № 1 Узнай иероглиф ===================== */
-function t1(){const n=1;
- if(DONE[1]&&!isTest())return t1res();
+function t1(again){const n=1;
+ if(DONE[1]&&!isTest()&&!again)return t1res();
  shell(`${backBtn}${tag(n)}<h2>👀 Узнай иероглиф</h2>
   <div class="rbox" style="--c1:#5B6BD8;--c2:#2DBE8C"><b>Как делать</b><div class="rr2"><span>👀 Смотри на иероглиф, 🔊 можно послушать</span><span>⌨️ Напиши по-русски, что он значит</span><span>🤷 Не помнишь — нажми «Не знаю», ничего страшного</span><span>🃏 Карточка перевернётся — там ответ и пример</span></div></div>
   <div class="row" style="justify-content:center"><button class="btn" id="st" style="width:100%">🃏 Начать: ${W.length} карточек</button></div>`);
@@ -602,19 +607,19 @@ function t1(){const n=1;
    $('#ok').onclick=()=>answer(false);$('#dk').onclick=()=>answer(true);inp.onkeydown=e=>{if(e.key==='Enter')answer(false);};};
   const end=()=>{const ok=res.filter(r=>r.ok).length;DONE[1]=ok+'/'+res.length;keep();
    res.forEach(r=>S.r1[r.c]=r);keepS();
-   send('t1',{score:ok,of:res.length,res,ap:res.filter(r=>r.ap).length});t1res();};
+   S.n1++;keepS();const d={score:ok,of:res.length,res,ap:res.filter(r=>r.ap).length,try:S.n1};send('t1',d);send('t1_'+Date.now().toString(36),d);t1res();};
   one();};}
 function t1res(){const n=1,R=W.map(w=>S.r1[w.c]).filter(Boolean),ok=R.filter(r=>r.ok).length;
- shell(`${backBtn}${tag(n)}<h2>👀 Узнай иероглиф — готово!</h2><div class="res" style="text-align:center">${ok} / ${R.length}</div>
+ shell(`${backBtn}${tag(n)}<h2>👀 Узнай иероглиф — готово!</h2><div class="res" style="text-align:center">${ok} / ${R.length}</div>${againBox(1,S.n1,ok===R.length)}
   <p class="lead" style="text-align:center">${ok===R.length?'Ты узнал(а) все иероглифы! 🏆':'Хорошая работа! Остальные можно повторить для закрепления 🙂'}</p>
   <div class="kc-rl">${R.map(r=>{const w=WC[r.c];return `<div class="${r.ok?'g':r.idk?'m':'b'}"><span class="zh">${r.c}</span><span><b>${w.ru}</b><small>${r.idk?'не знал(а)':'твой ответ: '+esc(r.a)}${r.ap?' · 🙋 засчитано':''}</small></span><i>${r.ok?'✓':'○'}</i></div>`;}).join('')}</div>
-  ${nextBtns(n)}`);leftOn();}
+  ${nextBtns(n)}`);leftOn();againOn(1);}
 
 /* ===================== № 2 Напиши иероглиф ===================== */
 const GRID='<svg class="grid" viewBox="0 0 100 100"><g stroke="#FFB3C8" stroke-width=".6" stroke-dasharray="2 2"><line x1="0" y1="0" x2="100" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></g></svg>';
 const hwOpts=sz=>({width:sz,height:sz,padding:sz*.08,showOutline:false,showCharacter:false,outlineColor:'#E1E5EE',strokeColor:'#2B3270',radicalColor:'#FF5C8A',drawingColor:'#5B6BD8',drawingWidth:Math.round(sz/16),highlightColor:'#2DBE8C',strokeAnimationSpeed:1.2,delayBetweenStrokes:250,charDataLoader:(ch,ok)=>ok(HZDATA[ch])});
-function t2(){const n=2;
- if(DONE[2]&&!isTest())return t2res();
+function t2(again){const n=2;
+ if(DONE[2]&&!isTest()&&!again)return t2res();
  shell(`${backBtn}${tag(n)}<h2>✍️ Напиши иероглиф</h2>
   <div class="rbox" style="--c1:#FF5C8A;--c2:#8E5BE8"><b>Как делать</b><div class="rr2"><span>📖 Читаешь перевод — пишешь иероглиф пальцем (или мышкой) в клетке</span><span>✏️ Каждую черту по порядку. Две ошибки подряд — покажем следующую черту</span><span>💡 «Не помню» — подсказка (можно 3 раза)</span><span>👀 Совсем забыл(а) — красная кнопка покажет весь знак</span></div></div>
   <div class="row" style="justify-content:center"><button class="btn" id="st" style="width:100%">✍️ Начать: ${W.length} иероглифов</button></div>`);
@@ -648,13 +653,13 @@ function t2(){const n=2;
     try{hw.cancelQuiz()}catch(e){}hw.hideCharacter();hw.animateCharacter({onComplete:()=>{if(KW!==hw)return;wh.textContent='А теперь обведи сам(а) по контуру ✍️';hw.hideCharacter();hw.showOutline();quiz();}});};};
   const end=()=>{const self=res.filter(r=>!r.shown&&!r.hints).length;DONE[2]=self+'/'+res.length;keep();
    res.forEach(r=>S.r2[r.c]=r);keepS();
-   send('t2',{score:self,of:res.length,res:res.map(r=>[r.c,r.mist,r.hints,r.shown])});t2res();};
+   S.n2++;keepS();const d={score:self,of:res.length,res:res.map(r=>[r.c,r.mist,r.hints,r.shown]),try:S.n2};send('t2',d);send('t2_'+Date.now().toString(36),d);t2res();};
   one();};}
 function t2res(){const n=2,R=W.map(w=>S.r2[w.c]).filter(Boolean),self=R.filter(r=>!r.shown&&!r.hints).length;
- shell(`${backBtn}${tag(n)}<h2>✍️ Напиши иероглиф — готово!</h2><div class="res" style="text-align:center">${self} / ${R.length}</div>
+ shell(`${backBtn}${tag(n)}<h2>✍️ Напиши иероглиф — готово!</h2><div class="res" style="text-align:center">${self} / ${R.length}</div>${againBox(2,S.n2,self===R.length)}
   <p class="lead" style="text-align:center">${self===R.length?'Все — сам(а), без подсказок! 🏆':'Сам(а), без подсказок: '+self+' из '+R.length+'. Остальные можно повторить для закрепления 🙂'}</p>
   <div class="kc-rl">${R.map(r=>`<div class="${r.shown?'b':r.hints||r.mist?'m':'g'}"><span class="zh">${r.c}</span><span><b>${WC[r.c].ru}</b><small>${r.shown?'смотрел(а) весь знак':r.hints?'подсказок: '+r.hints:'сам(а)'}${r.mist?' · ошибок в чертах: '+r.mist:''}</small></span><i>${r.shown?'👀':r.hints?'💡':'✓'}</i></div>`).join('')}</div>
-  ${nextBtns(n)}`);leftOn();}
+  ${nextBtns(n)}`);leftOn();againOn(2);}
 
 /* ===================== Мои итоги: зоны ===================== */
 function zoneOf(c){const a=S.r1[c],b=S.r2[c];if(!a||!b)return null;
@@ -667,9 +672,10 @@ function itogi(){const L=left();const Z={g:[],y:[],r:[]};W.forEach(w=>{const z=z
  shell(`${backBtn}<h2>🏁 Мои итоги</h2><p class="lead">Сделано <b>${nDone()} из ${NT}</b> заданий.</p>
   ${any?zb('g','🟢','Знаешь','Узнал(а) и написал(а) сам(а) без ошибок')+zb('y','🟡','Стоит повторить','Была ошибка в переводе, подсказка или ошибка в чертах')+zb('r','🔴','Особое внимание','Смотрел(а) весь знак — повтори его ещё раз')
    :'<p class="lead">Сделай оба задания — и здесь появятся твои иероглифы по зонам: 🟢 знаешь, 🟡 стоит повторить, 🔴 особое внимание.</p>'}
+  ${!L.length&&(Z.y.length||Z.r.length)?`<p class="lead" style="text-align:center;margin-top:14px">Хочешь, чтобы все иероглифы стали 🟢? Пройди задания ещё раз:</p><div class="row" style="justify-content:center"><button class="btn" data-again="1">↻ Ещё раз № 1</button><button class="btn" data-again="2">↻ Ещё раз № 2</button></div>`:''}
   ${leftBox()}
   ${L.length?'':'<p class="lead" style="text-align:center">Учитель видит твои результаты. До встречи на уроке! Zàijiàn!</p>'}`);
- document.querySelectorAll('.kc-chip').forEach(b=>b.onclick=()=>playW(b.dataset.w,b));leftOn();}
+ document.querySelectorAll('.kc-chip').forEach(b=>b.onclick=()=>playW(b.dataset.w,b));leftOn();againOn();}
 
 route();
 </script></body></html>
