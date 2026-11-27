@@ -318,12 +318,25 @@ function writeDlg(){const n=8;S.w8=S.w8||{l:0,j:0,m:[],h:[]};const W=S.w8;
    MIT License, Copyright (c) ashwin_5681 (Ashwin A)
    (классы переименованы с приставкой lv-, чтобы не пересекаться с оформлением страниц) */
 const LV_TRAP={'妈':['吗','她','好'],'吗':['妈','叫','们'],'他':['她','你','们'],'她':['他','妈','好'],'你':['们','他','我'],'们':['你','他','门'],'好':['她','妈','你'],'我':['你','好','是'],'叫':['吗','好','爸'],'爸':['妈','他','叫'],'是':['不','我','好'],'不':['是','你','们']};
-const LV_COL=['#5B6BD8,#8E5BE8','#6A6DDE,#664796','#3D88E0,#5B6BD8','#8E5BE8,#B46BD8','#4C3DB8,#7B6BE8','#7D5BD8,#5B8BE8'];
+/* карточки — по находке Дарьи (рубашка с плавающими пятнами):
+   From Uiverse.io by syahrulnaufal - https://uiverse.io/syahrulnaufal/plastic-puma-91
+   MIT License, Copyright (c) syahrulnaufal (Syahrul Naufal Tsaqib)
+   фон — по находке «анимированный фон для игры» (звёзды) */
+const LV3D=false;
+const LVPAL='o'; // цвета образца — выбор Дарьи 27.11
+const lvCard=(z,i,demo)=>`<button class="lv-card" data-z="${z}" style="--lv-k:${(i%4)*-0.37}s"${demo?' tabindex="-1"':''}><i class="lb b1"></i><i class="lb b2"></i><i class="lb b3"></i><i class="lb b4"></i><i class="la"></i><span class="zh">${z}</span></button>`;
+const lvStars=(n,seed)=>{let a=seed,o=[];const rnd=()=>(a=(a*16807)%2147483647)/2147483647;for(let i=0;i<n;i++)o.push(`${Math.round(rnd()*1400)}px ${Math.round(rnd()*1400)}px rgba(255,255,255,${(.45+rnd()*.55).toFixed(2)})`);return o.join(',');};
+(()=>{const st=document.createElement('style');st.textContent=`.lvsky .s1{box-shadow:${lvStars(260,7)}}.lvsky .s2{box-shadow:${lvStars(110,99)}}.lvsky .s3{box-shadow:${lvStars(45,1234)}}`;document.head.appendChild(st);})();
+const LVSKY='<div class="lvsky" aria-hidden="true"><i class="neb n1"></i><i class="neb n2"></i><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>';
+/* 3D-карусель — по находке «3D Rotating Cards»:
+   From Uiverse.io by musashi-13 - https://uiverse.io/musashi-13/strange-eel-100
+   MIT License, Copyright (c) musashi-13 (Karan Hathwar) */
+function lvRing(list,{dur,demo}){const q=list.length;return `<div class="lv3d" style="--lv-q:${q};--lv-d:${dur}s">${list.map((z,i)=>`<div class="lv3i" style="--lv-i:${i}">${lvCard(z,i,demo)}</div>`).join('')}</div>`;}
 let LVSTOP=null;
 function stopGame(){if(LVSTOP){LVSTOP();LVSTOP=null;}stopRec();}
 function catchGame(){const n=9,ROUNDS=12;const order=shuffle(HZ.map(h=>h[0]));let r=0,score=0,errs=0;const miss=[],ans=[];let paused=false;
  const rule=()=>{shell(n,{step:'',sub:'Сверху написано, какой иероглиф найти. Карточки едут — <b>успей нажать</b> нужную! С каждым раундом быстрее.',
-   scene:`<div class="lvdemo">${lvLane(['你','妈','吗','他','她','好','们','是'],{dur:14,rev:false,demo:true})}</div><div class="tk">Осторожно: рядом едут похожие — <span class="zh">妈 吗</span>, <span class="zh">他 她</span>.</div>`,
+   scene:`<div class="lvarena" data-pal="${LVPAL}">${LVSKY}<div class="lvdemo">${LV3D?lvRing(['你','妈','吗','他','她','好','们','是','叫','我'],{dur:24,demo:true}):lvLane(['你','妈','吗','他','她','好','们','是'],{dur:14,rev:false,demo:true})}</div></div><div class="tk">Осторожно: рядом едут похожие — <span class="zh">妈 吗</span>, <span class="zh">他 她</span>.</div>`,
    pult:`<div class="fb" id="fb"></div><button class="main" id="mn">Играть</button>`});$('#mn').onclick=round;};
  const round=()=>{if(r>=ROUNDS)return end();const c=order[r%order.length],h=HZM[c];const byPy=r%3===2&&h[2]>0&&HZ.filter(x=>x[1]===h[1]&&x[2]===h[2]).length===1;
   const dur=Math.max(6.5,15-r*0.75);let tries=0,solved=false;
@@ -331,8 +344,8 @@ function catchGame(){const n=9,ROUNDS=12;const order=shuffle(HZ.map(h=>h[0]));le
    const a=shuffle([c,...traps.slice(0,2),...others.slice(0,5)]),b=shuffle([traps[2]||others[5],traps[0],...others.slice(5,11)]).slice(0,8);return [a,b];};
   const [A,B]=fill();
   shell(n,{step:'раунд '+(r+1)+' / '+ROUNDS,sub:'',
-   scene:`<div class="lvq"><small>Найди</small><b>${byPy?pyHTML(toned(h[1],h[2])):'«'+esc(h[3])+'»'}</b></div>
-    <div class="lvw${paused?' lv-paused':''}" id="lvw">${lvLane(A,{dur,rev:false})}${lvLane(B,{dur:dur*1.15,rev:true})}</div>`,
+   scene:`<div class="lvarena" data-pal="${LVPAL}">${LVSKY}<div class="lvq"><small>Найди</small><b>${byPy?pyHTML(toned(h[1],h[2])):'«'+esc(h[3])+'»'}</b></div>
+    <div class="lvw${LV3D?' lv3dw':''}${paused?' lv-paused':''}" id="lvw">${LV3D?lvRing(shuffle([c,...A.filter(x=>x!==c).slice(0,5),...B.filter(x=>x!==c&&!A.slice(0,6).includes(x)).slice(0,4)]).slice(0,10),{dur:Math.max(9,24-r*1.2)}):lvLane(A,{dur,rev:false})+lvLane(B,{dur:dur*1.15,rev:true})}</div></div>`,
    pult:`<div class="fb" id="fb"></div><div class="lvbar"><span>✓ ${score}</span><button class="quiet" id="pz">${paused?IC.play+' Продолжить':IC.pause+' Пауза'}</button></div>`});
   $('#pz').onclick=()=>{paused=!paused;$('#lvw').classList.toggle('lv-paused',paused);$('#pz').innerHTML=paused?IC.play+' Продолжить':IC.pause+' Пауза';};
   $$('.lv-card').forEach(b=>b.onclick=()=>{if(solved||paused)return;const v=b.dataset.z;
@@ -344,7 +357,7 @@ function catchGame(){const n=9,ROUNDS=12;const order=shuffle(HZ.map(h=>h[0]));le
  const end=()=>{finish(n,{score,of:ROUNDS,errs,miss,ans},`<p>Поймано с первой попытки: ${score} из ${ROUNDS}.</p>${miss.length?`<p>Можно повторить для закрепления:</p><div class="chips">${[...new Set(miss)].map(m=>`<span class="x zh">${m}</span>`).join('')}</div>`:''}`);};
  LVSTOP=()=>{};rule();}
 function lvLane(list,{dur,rev,demo}){const q=list.length;
- return `<div class="lv-slider" style="--lv-w:var(--lv-card);--lv-q:${q};--lv-d:${dur}s"${rev?' data-rev="1"':''}><div class="lv-list">${list.map((z,i)=>`<div class="lv-item" style="--lv-p:${i+1}"><button class="lv-card" data-z="${z}" style="--lv-g:linear-gradient(135deg,${LV_COL[(i+(rev?3:0))%LV_COL.length]})"${demo?' tabindex="-1"':''}><span class="zh">${z}</span></button></div>`).join('')}</div></div>`;}
+ return `<div class="lv-slider" style="--lv-w:var(--lv-card);--lv-q:${q};--lv-d:${dur}s"${rev?' data-rev="1"':''}><div class="lv-list">${list.map((z,i)=>`<div class="lv-item" style="--lv-p:${i+1}">${lvCard(z,i+(rev?3:0),demo)}</div>`).join('')}</div></div>`;}
 
 
 /* ================= список, старт, итоги ================= */

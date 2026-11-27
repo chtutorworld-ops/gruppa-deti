@@ -141,3 +141,71 @@ html body .wbox{width:min(300px,74vw,42vh)}
 html body .wbox.w8box{width:min(260px,64vw,34vh)}
 html body .dlb.w8{width:100%!important;padding:8px 14px}
 @media(max-height:700px){.w8z{font-size:26px}.dlb.w8 .dlr{display:none}.wcap>.zh{font-size:44px}.bq b{font-size:26px}}
+/* ===== игра № 9: космическая арена + объёмные карточки (по находкам Дарьи) ===== */
+html body .lvarena{position:relative;isolation:isolate;overflow:hidden;border-radius:24px;padding:16px 0 20px;display:flex;flex-direction:column;gap:12px;
+ background:radial-gradient(ellipse at 50% 115%,#5a2f7e 0%,#2a1748 42%,#120d26 75%,#0b0a1a 100%);
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.09),0 22px 44px -18px rgba(44,22,96,.6)}
+.lvsky{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.lvsky i{position:absolute;left:0;top:0;display:block}
+.lvsky .s1{width:1px;height:1px;animation:lvSky 70s linear infinite}
+.lvsky .s2{width:2px;height:2px;border-radius:50%;animation:lvSky 45s linear infinite}
+.lvsky .s3{width:3px;height:3px;border-radius:50%;animation:lvSky 28s linear infinite;filter:drop-shadow(0 0 3px #cbb8ff)}
+@keyframes lvSky{from{transform:translateY(0)}to{transform:translateY(-700px)}}
+.lvsky .neb{border-radius:50%;filter:blur(40px);opacity:.55}
+.lvsky .n1{width:60%;height:55%;left:-10%;top:-12%;background:#7B4FD8;animation:lvNeb 16s ease-in-out infinite alternate}
+.lvsky .n2{width:55%;height:50%;left:55%;top:45%;background:#3D6FE0;opacity:.35;animation:lvNeb 20s ease-in-out infinite alternate-reverse}
+@keyframes lvNeb{to{transform:translate(18%,12%) scale(1.15)}}
+html body .lvarena .lvq{align-self:center;padding:10px 22px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+html body .lvarena .lvq small{color:#CFC4F5}
+html body .lvarena .lvq b{color:#fff;text-shadow:0 2px 12px rgba(150,120,255,.6)}
+html body .lvarena .lvq .py{color:#fff}
+html body .lvw,html body .lvdemo{--lv-card:100px;gap:18px}
+@media(max-width:600px){html body .lvw,html body .lvdemo{--lv-card:86px}}
+html body .lv-slider{height:calc(var(--lv-card) + 30px)}
+html body .lv-item{top:8px}
+@media(hover:hover){html body .lvw .lv-slider:hover .lv-item{filter:none}}
+html body .lv-card{position:relative;overflow:hidden;border:0;border-radius:22px;padding:0;background:var(--lv-g);cursor:pointer;
+ transform:perspective(420px) rotateX(10deg);transform-origin:50% 100%;
+ box-shadow:0 16px 18px -10px rgba(5,2,20,.8),0 0 0 1px rgba(255,255,255,.18),inset 0 1px 0 rgba(255,255,255,.45)}
+.lv-gl{position:absolute;inset:6px;border-radius:18px;border-top-left-radius:78%;
+ background:linear-gradient(0deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,.82) 100%);
+ border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6)}
+.lv-o{position:absolute;border-radius:50%;background:rgba(147,112,219,.28);box-shadow:rgba(60,40,120,.22) 4px 4px 10px}
+.lv-o.o1{width:52%;aspect-ratio:1;left:4px;top:4px}.lv-o.o2{width:38%;aspect-ratio:1;left:6px;top:6px}.lv-o.o3{width:24%;aspect-ratio:1;left:8px;top:8px;background:rgba(255,255,255,.55)}
+html body .lv-card .zh{position:relative;font-size:calc(var(--lv-card) * .54);color:#2C2266;text-shadow:0 1px 0 rgba(255,255,255,.7);margin-top:8%}
+html body .lv-card.lv-ok{background:linear-gradient(135deg,#5CC2BE,#16767A);box-shadow:0 0 0 4px rgba(92,194,190,.45),0 0 28px rgba(92,194,190,.8)}
+html body .lv-card.lv-ok .zh{color:#0F4F52}
+html body .lv-card.lv-no{background:linear-gradient(135deg,#E889AE,#A3214F)}
+html body .lv-card.lv-help{box-shadow:0 0 0 4px #fff,0 0 30px 6px rgba(200,180,255,.9)}
+html body .lvbar{color:var(--o-ac2)}
+/* вариант Б: 3D-карусель */
+.lv3dw{height:calc(var(--lv-card) * 1.9);display:grid;place-items:center;perspective:900px}
+.lv3d{--lv-r:calc(var(--lv-card) * 1.75);position:relative;width:var(--lv-card);height:calc(var(--lv-card) * 1.25);transform-style:preserve-3d;animation:lv3dRun var(--lv-d) linear infinite}
+@media(min-width:700px){.lv3d{--lv-r:calc(var(--lv-card) * 2.3)}}
+@keyframes lv3dRun{from{transform:rotateX(-8deg) rotateY(-360deg)}to{transform:rotateX(-8deg) rotateY(0deg)}}
+.lv3i{position:absolute;inset:0;transform:rotateY(calc(var(--lv-i) * 360deg / var(--lv-q))) translateZ(var(--lv-r));transform-style:preserve-3d}
+.lv3i .lv-card{width:100%;height:100%;transform:none;backface-visibility:hidden}
+.lv-paused .lv3d{animation-play-state:paused}
+.lvdemo .lv3dw,.lvdemo .lv3d{pointer-events:none}
+.lvdemo:has(.lv3d){height:calc(var(--lv-card) * 1.9);display:grid;place-items:center;perspective:900px}
+@media (prefers-reduced-motion:reduce){.lv3d{animation-duration:var(--lv-d)!important;animation-iteration-count:infinite!important}}
+html body .lvarena{width:100%;min-width:0;max-width:100%;box-sizing:border-box;margin:0;align-self:stretch;flex:none}
+html body .lvarena .lvw,html body .lvarena .lvdemo{width:100%;min-width:0}
+html body .lvarena .lv-slider{width:100%}
+/* карточка «рубашка с пятнами» (Uiverse, syahrulnaufal/plastic-puma-91 — MIT) */
+.lvarena[data-pal="o"]{--lc0:bisque;--lc1:#FFB84C;--lc2:#F266AB;--lc3:#A459D1;--lc4:#2CD3E1}
+.lvarena[data-pal="n"]{--lc0:#EFEBFA;--lc1:#6A6DDE;--lc2:#B48AE6;--lc3:#664796;--lc4:#80BDF7}
+html body .lv-card{background:var(--lc0);border-radius:15px;transform:none;box-shadow:0 0 22px 3px rgba(0,0,0,.35);overflow:hidden;isolation:isolate}
+html body .lv-card .lb{position:absolute;width:92%;aspect-ratio:1;border-radius:50%;filter:blur(calc(var(--lv-card) * .16));animation:lvWave 1.5s infinite alternate;z-index:0}
+.lv-card .b1{left:-34%;top:-30%;background:var(--lc1);animation-delay:calc(var(--lv-k) + 0s)!important}
+.lv-card .b2{left:42%;top:-22%;background:var(--lc2);animation-delay:calc(var(--lv-k) + .5s)!important}
+.lv-card .b3{left:-30%;top:46%;background:var(--lc3);animation-delay:calc(var(--lv-k) + 1s)!important}
+.lv-card .b4{left:40%;top:52%;background:var(--lc4);animation-delay:calc(var(--lv-k) + 1.5s)!important}
+@keyframes lvWave{0%{transform:translateY(-12%)}50%{transform:translateY(12%)}100%{transform:translateY(-12%)}}
+.lv-card .la{position:absolute;inset:5% 6%;border-radius:12px;background:rgba(255,255,255,.6);z-index:1}
+html body .lv-card .zh{z-index:2;margin:0;color:#303030;text-shadow:none;font-size:calc(var(--lv-card) * .56)}
+.lvarena[data-pal="n"] .lv-card .zh{color:#2C2248}
+html body .lv-card.lv-ok{--lc0:#DDF3F2;--lc1:#5CC2BE;--lc2:#16767A;--lc3:#5CC2BE;--lc4:#9ADEDA;background:var(--lc0);box-shadow:0 0 0 4px rgba(92,194,190,.6),0 0 28px rgba(92,194,190,.85)}
+html body .lv-card.lv-no{--lc0:#FBE5EC;--lc1:#E889AE;--lc2:#A3214F;--lc3:#E889AE;--lc4:#F3B6CC;background:var(--lc0)}
+html body .lv-card.lv-ok .zh{color:#0F4F52}
+@media (prefers-reduced-motion:reduce){.lv-card .lb{animation:none}}
