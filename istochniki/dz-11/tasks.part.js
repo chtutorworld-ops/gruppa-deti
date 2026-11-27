@@ -324,7 +324,7 @@ const LV_TRAP={'妈':['吗','她','好'],'吗':['妈','叫','们'],'他':['她',
    фон — по находке «анимированный фон для игры» (звёзды) */
 const LV3D=false;
 const LVPAL='o'; // цвета образца — выбор Дарьи 27.11
-const lvCard=(z,i,demo)=>`<button class="lv-card" data-z="${z}" style="--lv-k:${(i%4)*-0.37}s"${demo?' tabindex="-1"':''}><i class="lb b1"></i><i class="lb b2"></i><i class="lb b3"></i><i class="lb b4"></i><i class="la"></i><span class="zh">${z}</span></button>`;
+const lvCard=(z,i,demo)=>`<button class="lv-card" data-z="${z}" style="--lv-k:${(i%4)*-0.37}s"${demo?' tabindex="-1"':''}><i class="lb b1"></i><i class="lb b2"></i><i class="lb b3"></i><i class="lb b4"></i><i class="la"></i><i class="lg"></i><span class="zh">${z}</span></button>`;
 const lvStars=(n,seed)=>{let a=seed,o=[];const rnd=()=>(a=(a*16807)%2147483647)/2147483647;for(let i=0;i<n;i++)o.push(`${Math.round(rnd()*1400)}px ${Math.round(rnd()*1400)}px rgba(255,255,255,${(.45+rnd()*.55).toFixed(2)})`);return o.join(',');};
 (()=>{const st=document.createElement('style');st.textContent=`.lvsky .s1{box-shadow:${lvStars(260,7)}}.lvsky .s2{box-shadow:${lvStars(110,99)}}.lvsky .s3{box-shadow:${lvStars(45,1234)}}`;document.head.appendChild(st);})();
 const LVSKY='<div class="lvsky" aria-hidden="true"><i class="neb n1"></i><i class="neb n2"></i><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>';
@@ -339,7 +339,7 @@ function catchGame(){const n=9,ROUNDS=12;const order=shuffle(HZ.map(h=>h[0]));le
    scene:`<div class="lvarena" data-pal="${LVPAL}">${LVSKY}<div class="lvdemo">${LV3D?lvRing(['你','妈','吗','他','她','好','们','是','叫','我'],{dur:24,demo:true}):lvLane(['你','妈','吗','他','她','好','们','是'],{dur:14,rev:false,demo:true})}</div></div><div class="tk">Осторожно: рядом едут похожие — <span class="zh">妈 吗</span>, <span class="zh">他 她</span>.</div>`,
    pult:`<div class="fb" id="fb"></div><button class="main" id="mn">Играть</button>`});$('#mn').onclick=round;};
  const round=()=>{if(r>=ROUNDS)return end();const c=order[r%order.length],h=HZM[c];const byPy=r%3===2&&h[2]>0&&HZ.filter(x=>x[1]===h[1]&&x[2]===h[2]).length===1;
-  const dur=Math.max(6.5,15-r*0.75);let tries=0,solved=false;
+  const dur=Math.max(5.6,13-r*0.65);let tries=0,solved=false; // чуть быстрее (Дарья 27.11)
   const fill=()=>{const traps=LV_TRAP[c].filter(x=>HZM[x]);const others=shuffle(HZ.map(x=>x[0]).filter(x=>x!==c&&!traps.includes(x)));
    const a=shuffle([c,...traps.slice(0,2),...others.slice(0,5)]),b=shuffle([traps[2]||others[5],traps[0],...others.slice(5,11)]).slice(0,8);return [a,b];};
   const [A,B]=fill();

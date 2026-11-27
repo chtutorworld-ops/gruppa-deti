@@ -208,4 +208,19 @@ html body .lv-card .zh{z-index:2;margin:0;color:#303030;text-shadow:none;font-si
 html body .lv-card.lv-ok{--lc0:#DDF3F2;--lc1:#5CC2BE;--lc2:#16767A;--lc3:#5CC2BE;--lc4:#9ADEDA;background:var(--lc0);box-shadow:0 0 0 4px rgba(92,194,190,.6),0 0 28px rgba(92,194,190,.85)}
 html body .lv-card.lv-no{--lc0:#FBE5EC;--lc1:#E889AE;--lc2:#A3214F;--lc3:#E889AE;--lc4:#F3B6CC;background:var(--lc0)}
 html body .lv-card.lv-ok .zh{color:#0F4F52}
-@media (prefers-reduced-motion:reduce){.lv-card .lb{animation:none}}
+/* бегущий блик по стеклу (Дарья 27.11) + пятна двигаются заметнее */
+@keyframes lvWave{0%{transform:translate(-8%,-22%)}50%{transform:translate(8%,22%)}100%{transform:translate(-8%,-22%)}}
+.lv-card .lg{position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;overflow:hidden}
+.lv-card .lg::before{content:"";position:absolute;top:-30%;bottom:-30%;width:38%;left:-60%;transform:skewX(-20deg);
+ background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.75) 50%,rgba(255,255,255,0) 100%);
+ animation:lvShine 2.6s ease-in-out infinite;animation-delay:calc(var(--lv-k) * 3)}
+@keyframes lvShine{0%{left:-60%}55%,100%{left:130%}}
+/* в Windows часто выключена анимация — в игре пятна, блик и звёзды всё равно двигаются (Дарья 27.11) */
+@media (prefers-reduced-motion:reduce){
+ html body .lv-card .lb{animation:lvWave 1.5s infinite alternate!important}
+ html body .lv-card .b1{animation-delay:calc(var(--lv-k) + 0s)!important}html body .lv-card .b2{animation-delay:calc(var(--lv-k) + .5s)!important}
+ html body .lv-card .b3{animation-delay:calc(var(--lv-k) + 1s)!important}html body .lv-card .b4{animation-delay:calc(var(--lv-k) + 1.5s)!important}
+ html body .lv-card .lg::before{animation:lvShine 2.6s ease-in-out infinite!important;animation-delay:calc(var(--lv-k) * 3)!important}
+ html body .lvsky .s1{animation:lvSky 70s linear infinite!important}html body .lvsky .s2{animation:lvSky 45s linear infinite!important}html body .lvsky .s3{animation:lvSky 28s linear infinite!important}
+ html body .lvsky .n1{animation:lvNeb 16s ease-in-out infinite alternate!important}html body .lvsky .n2{animation:lvNeb 20s ease-in-out infinite alternate-reverse!important}
+}
