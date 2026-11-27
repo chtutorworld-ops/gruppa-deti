@@ -21,7 +21,7 @@ const playPhrase=(t,el)=>playWord(bare(t),el);
 const MK={a:['ā','á','ǎ','à'],o:['ō','ó','ǒ','ò'],e:['ē','é','ě','è'],i:['ī','í','ǐ','ì'],u:['ū','ú','ǔ','ù'],'ü':['ǖ','ǘ','ǚ','ǜ']};
 function toned(base,t){if(!t)return base;const v=/a|e/.exec(base)||/ou/.exec(base)||/[iouü](?!.*[aeiouü])/.exec(base);if(!v)return base;const i=v.index,ch=base[i];return base.slice(0,i)+MK[ch][t-1]+base.slice(i+1);}
 // наши иероглифы (уроки 1–11)
-const HZ=[['你','ni',3,'ты'],['我','wo',3,'я'],['好','hao',3,'хорошо'],['叫','jiao',4,'звать'],['妈','ma',1,'мама'],['爸','ba',4,'папа'],['他','ta',1,'он'],['她','ta',1,'она'],['们','men',0,'много (людей)'],['吗','ma',0,'вопрос «да или нет?»'],['是','shi',4,'являться · да'],['不','bu',4,'не']];
+const HZ=[['你','ni',3,'ты'],['我','wo',3,'я'],['好','hao',3,'хорошо'],['叫','jiao',4,'звать'],['妈','ma',1,'мама'],['爸','ba',4,'папа'],['他','ta',1,'он'],['她','ta',1,'она'],['们','men',0,'много (людей)'],['吗','ma',0,'вопросительная частица'],['是','shi',4,'являться · да'],['不','bu',4,'не']];
 const HZM=Object.fromEntries(HZ.map(h=>[h[0],h]));
 const shake=el=>{if(!el)return;el.classList.remove('hint');void el.offsetWidth;el.classList.add('hint');};
 
@@ -325,7 +325,7 @@ function catchGame(){const n=9,ROUNDS=12;const order=shuffle(HZ.map(h=>h[0]));le
  const rule=()=>{shell(n,{step:'',sub:'Сверху написано, какой иероглиф найти. Карточки едут — <b>успей нажать</b> нужную! С каждым раундом быстрее.',
    scene:`<div class="lvdemo">${lvLane(['你','妈','吗','他','她','好','们','是'],{dur:14,rev:false,demo:true})}</div><div class="tk">Осторожно: рядом едут похожие — <span class="zh">妈 吗</span>, <span class="zh">他 她</span>.</div>`,
    pult:`<div class="fb" id="fb"></div><button class="main" id="mn">Играть</button>`});$('#mn').onclick=round;};
- const round=()=>{if(r>=ROUNDS)return end();const c=order[r%order.length],h=HZM[c];const byPy=r%3===2&&HZ.filter(x=>x[1]===h[1]&&x[2]===h[2]).length===1;
+ const round=()=>{if(r>=ROUNDS)return end();const c=order[r%order.length],h=HZM[c];const byPy=r%3===2&&h[2]>0&&HZ.filter(x=>x[1]===h[1]&&x[2]===h[2]).length===1;
   const dur=Math.max(6.5,15-r*0.75);let tries=0,solved=false;
   const fill=()=>{const traps=LV_TRAP[c].filter(x=>HZM[x]);const others=shuffle(HZ.map(x=>x[0]).filter(x=>x!==c&&!traps.includes(x)));
    const a=shuffle([c,...traps.slice(0,2),...others.slice(0,5)]),b=shuffle([traps[2]||others[5],traps[0],...others.slice(5,11)]).slice(0,8);return [a,b];};
