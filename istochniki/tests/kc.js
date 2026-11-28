@@ -61,6 +61,8 @@ async function run([vn,w,h,mob]){const log={bad:[],err:[],api:[],ok:new Set(),sa
   await overflow(p,vn+' № 2',log);await click(p,'#go');await sleep(200);}
  await sleep(400);const r2=(await p.textContent('.res')).trim();if(r2!=='10 / 12')log.bad.push('№ 2: итог '+r2+', ждали 10 / 12');
  await p.screenshot({path:`${OUT}/${vn}-5-t2res.png`,fullPage:true});
+ // тренировка 8 фаз проверяется отдельно (kc3.js) — здесь считаем её пройденной
+ await p.evaluate(()=>{const T=trS();W.forEach(w=>T.ph[w.c]=9);T.runs=1;DONE[3]='100%';keep();keepS();});
  // ===== итоги =====
  await p.evaluate(()=>location.hash='#itogi');await sleep(400);
  const z=await p.evaluate(()=>['g','y','r'].map(k=>[...document.querySelectorAll('.kc-zone.'+k+' .kc-chip')].map(e=>e.dataset.w).join('')));
@@ -80,7 +82,7 @@ async function run([vn,w,h,mob]){const log={bad:[],err:[],api:[],ok:new Set(),sa
   await p.screenshot({path:`${OUT}/${vn}-7-again.png`,fullPage:true});}
  // переделать № 2 из итогов
  await p.evaluate(()=>location.hash='#itogi');await sleep(400);
- if(await p.$('.kc-zone.y, .kc-zone.r')){if(!(await p.$('[data-again="2"]')))log.bad.push('итоги: нет «Ещё раз № 2»');else{await click(p,'[data-again="2"]');await sleep(300);if(!(await p.$('#st')))log.bad.push('итоги: «Ещё раз № 2» не открыл задание');}}
+ if(await p.$('.kc-zone.y, .kc-zone.r')){if(!(await p.$('[data-again="2"]')))log.bad.push('итоги: нет «Ещё раз № 3»');else{await click(p,'[data-again="2"]');await sleep(300);if(!(await p.$('#st')))log.bad.push('итоги: «Ещё раз № 3» не открыл задание');}}
  await sleep(800);const t1parts=[...new Set(log.saves.filter(s=>/^t1_/.test(s.part)).map(s=>s.part))];if(t1parts.length!==2)log.bad.push('в кабинет ушло попыток № 1: '+t1parts.length);
  await sleep(800);const parts=[...new Set(log.saves.map(s=>s.part))];['t1','t2','itogi'].forEach(x=>{if(!parts.includes(x))log.bad.push('в кабинет не ушло: '+x);});
  const t1=log.saves.find(s=>s.part==='t1');if(t1&&!(t1.data.res||[]).some(r=>r.ap))log.bad.push('в кабинет не ушла апелляция');
