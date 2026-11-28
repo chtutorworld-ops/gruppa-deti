@@ -40,7 +40,7 @@ const W=[
  {c:'爸',py:'bà',ru:'папа',q:'«папа»',acc:['пап','отец','отц','отеч'],ex:'我爸爸叫…',exPy:'wǒ bàba jiào…',exRu:'Моего папу зовут…',exA:'我爸爸叫',key:'父 «отец» — сверху'},
  {c:'他',py:'tā',ru:'он',q:'«он»',acc:['он','его','ему','им','нем','he'],ex:'他是我爸爸。',exPy:'tā shì wǒ bàba.',exRu:'Он мой папа.',exA:'他是我爸爸',key:'亻 «человек» — слева'},
  {c:'她',py:'tā',ru:'она',q:'«она»',acc:['она','ее','ей','нее','she'],ex:'她是我妈妈。',exPy:'tā shì wǒ māma.',exRu:'Она моя мама.',exA:'她是我妈妈',key:'女 «женщина» — слева'},
- {c:'们',py:'men',ru:'много (людей)',q:'«много (людей)» — как в словах «мы», «вы», «они»',acc:['много','множ','люд','мы','вы','они','we','plural'],ex:'你们好！',exPy:'nǐmen hǎo!',exRu:'Привет всем!',exA:'你们好',key:'亻 «человек» — слева'},
+ {c:'们',py:'men',ru:'множественное число',q:'«множественное число» — как в словах «мы», «вы», «они»',acc:['множ','мн.ч','мн. ч','мы','вы','они','plural'],ex:'你们好！',exPy:'nǐmen hǎo!',exRu:'Привет всем!',exA:'你们好',key:'亻 «человек» — слева'},
  {c:'吗',py:'ma',ru:'вопросительная частица',q:'«вопросительная частица» (в конце вопроса)',acc:['вопрос','частиц','ли'],ex:'她是你妈妈吗？',exPy:'tā shì nǐ māma ma?',exRu:'Она твоя мама?',exA:'她是你妈妈吗',key:'口 «рот» — слева'},
  {c:'是',py:'shì',ru:'являться · да',q:'«являться» (он — мой папа)',acc:['явл','быть','есть','это','да','is'],ex:'他是我爸爸。',exPy:'tā shì wǒ bàba.',exRu:'Он мой папа.',exA:'他是我爸爸',key:''},
  {c:'不',py:'bù',ru:'не',q:'«не»',acc:['не','нет','no','not'],ex:'她不是我妈妈。',exPy:'tā bú shì wǒ māma.',exRu:'Она не моя мама.',exA:'她不是我妈妈',key:''}];
@@ -216,29 +216,30 @@ const trDone=()=>W.every(w=>trS().ph[w.c]>=9);
 function t3(){const n=3,T=trS();if(trDone()&&!DONE[3]){DONE[3]='100%';keep();}
  const ph=p=>{const v=phPct(p);return `<div class="ph${v===100?' full':''}"><span class="n">${p}</span><b>${PH[p].t}</b><em>${v}%</em><div class="bar"><i style="width:${v}%"></i></div><small>${W.filter(w=>T.ph[w.c]>p).length} из ${W.length} слов</small></div>`;};
  const bp=b=>Math.round(BLK[b].p.reduce((a,p)=>a+phPct(p),0)/BLK[b].p.length);
- shell(`${backBtn}${tag(n)}<h2>🎯 Тренировка: 8 фаз</h2><div class="fz-top"><b>Всего: ${trPct()}%</b><small>Проходок: ${T.runs}</small></div>
-  ${T.runs?'':`<div class="rbox" style="--c1:#7C6FFF;--c2:#5B6BD8;margin-bottom:12px"><b>Как делать</b><div class="rr2"><span>▶ Нажми «Новая проходка» — каждое слово спросим на его фазе</span><span>✓ Верно — слово переходит на следующую фазу</span><span>🔁 Ошибся — слово вернётся ещё раз, пока не запомнишь</span><span>🏆 Цель — 100% во всех 8 фазах</span></div></div>`}
+ shell(`${backBtn}${tag(n)}<h2>🎯 Тренировка: 8 фаз</h2><div class="fz-top"><b>Всего: ${trPct()}%</b><small>Тренировок: ${T.runs}</small></div>
+  ${T.runs?'':`<div class="rbox" style="--c1:#7C6FFF;--c2:#5B6BD8;margin-bottom:12px"><b>Как делать</b><div class="rr2"><span>▶ Нажми «Начать» — каждое слово спросим на его фазе</span><span>✓ Верно — слово переходит на следующую фазу</span><span>🔁 Ошибся — слово вернётся ещё раз, пока не запомнишь</span><span>🏆 Цель — 100% во всех 8 фазах</span></div></div>`}
   ${[1,2,3].map(b=>{const lk=b===3&&!b3open();return `<div class="blk${lk?' lock':''}"><h3>${lk?'🔒 ':''}${BLK[b].t}<span>${lk?'откроется, когда все слова пройдут фазы 1–6':bp(b)+'%'}</span></h3>${BLK[b].p.map(ph).join('')}</div>`;}).join('')}
   ${trDone()?`<div class="allok">🏆 Все 12 иероглифов прошли все 8 фаз! Можно тренироваться ещё.</div>`:''}
-  <div class="row" style="justify-content:center"><button class="btn" id="go3" style="width:100%">▶ ${trDone()?'Ещё проходка (повторение)':'Новая проходка'}</button></div>
+  <div class="row" style="justify-content:center"><button class="btn" id="go3" style="width:100%">▶ ${trDone()?'Повторить (все фазы пройдены)':T.runs?'Продолжить':'Начать'}</button></div>
   ${isTest()?'<div class="row" style="justify-content:center"><button class="btn g" id="rs3">↺ Сбросить тренировку (учитель)</button></div>':''}
   ${nextBtns(n)}`);leftOn();
- $('#go3').onclick=trRun;const r=$('#rs3');if(r)r.onclick=()=>{S.tr={ph:{},runs:0};delete DONE[3];keep();keepS();t3();toast('Сброшено');};}
-function trRun(){const T=trS(),open3=b3open(),all=trDone();
+ $('#go3').onclick=()=>trRun();const r=$('#rs3');if(r)r.onclick=()=>{S.tr={ph:{},runs:0};delete DONE[3];keep();keepS();t3();toast('Сброшено');};}
+// rep — повтор той же фазы (Дарья 28.11: «Пройти ещё раз» = те же слова на тех же фазах; фаза растёт только у слов, которые ещё на ней)
+function trRun(rep){const T=trS(),open3=b3open(),all=trDone()&&!rep;
  // слова этой проходки: доступные, сначала нижние фазы; после 100% — повторение всех на фазах 7–8
  let pool=W.filter(w=>{const p=T.ph[w.c];return all||p<=6||(open3&&p<=8);});
  const q=shuffle(pool).sort((a,b)=>T.ph[a.c]-T.ph[b.c]).map(w=>({w,p:all?(Math.random()<.5?7:8):Math.min(T.ph[w.c],8),re:0}));
- const Q=shuffle(q.slice(0,12));const log=[];let k=0,prevOk=[];
- const up=(w)=>{if(!all&&T.ph[w.c]<9)T.ph[w.c]++;};
+ const Q=rep?shuffle(rep.map(([c,p])=>({w:WC[c],p,re:0}))):shuffle(q.slice(0,12));const base=Q.map(x=>[x.w.c,x.p]);const ps=[...new Set(base.map(x=>x[1]))].sort((a,b)=>a-b);const phName=ps.length===1?'Фаза '+ps[0]:'Фазы '+ps.join(', ');const log=[];let k=0,prevOk=[];
+ const up=(w,p)=>{if(!all&&T.ph[w.c]<9&&T.ph[w.c]===p)T.ph[w.c]++;};
  const fin=()=>{T.runs++;keepS();if(trDone()&&!DONE[3]){DONE[3]='100%';keep();}
-  const ok=log.filter(x=>x[2]).length;send('t3',{pct:trPct(),ph:T.ph,runs:T.runs});send('t3_'+Date.now().toString(36),{ok,of:log.length,log,pct:trPct()});
-  shell(`${backBtn}${tag(3)}<h2>🎯 Проходка готова!</h2><div class="res" style="text-align:center">${ok} / ${log.length}</div>
-   <p class="lead" style="text-align:center">Всего пройдено: <b>${trPct()}%</b>. ${ok===log.length?'Ни одной ошибки! 🏆':'Ошибки — это нормально: эти слова вернутся в следующей проходке 🙂'}</p>
+  const ok=log.filter(x=>x[2]).length;send('t3',{pct:trPct(),ph:T.ph,runs:T.runs});send('t3_'+Date.now().toString(36),{ok,of:log.length,log,pct:trPct(),rep:rep?1:0});
+  shell(`${backBtn}${tag(3)}<h2>🎯 ${phName}: готово!</h2><div class="res" style="text-align:center">${ok} / ${log.length}</div>
+   <p class="lead" style="text-align:center">Всего пройдено: <b>${trPct()}%</b>. ${ok===log.length?'Ни одной ошибки! 🏆 Можно идти на следующую фазу.':'Есть ошибки — <b>пройди эту фазу ещё раз</b>, чтобы закрепить 💪'}</p>
    <div class="kc-rl">${log.map(([c,p,o])=>`<div class="${o?'g':'b'}"><span class="zh">${c}</span><span><b>${WC[c].ru}</b><small>фаза ${p} · ${o?'верно → дальше':'ещё раз потренируем'}</small></span><i>${o?'✓':'↻'}</i></div>`).join('')}</div>
-   <div class="row" style="justify-content:center"><button class="btn" id="again3">▶ Ещё проходка</button><button class="btn g" id="bd3">📊 Мои фазы</button></div>`);
-  $('#again3').onclick=trRun;$('#bd3').onclick=t3;};
+   <div class="row" style="justify-content:center"><button class="btn g" id="bd3">📊 Все фазы</button><button class="btn${ok===log.length?' g':''}" id="rp3">↻ Пройти ещё раз</button><button class="btn${ok===log.length?'':' g'}" id="again3">Следующая фаза →</button></div>`);
+  $('#again3').onclick=()=>trRun();$('#rp3').onclick=()=>trRun(base);$('#bd3').onclick=t3;};
  const next=()=>{if(k>=Q.length)return fin();const it=Q[k];ask(it,(ok,g)=>{log.push([it.w.c,it.p,ok?1:0,String(g||'').slice(0,40)]);
-   if(ok)up(it.w);else if(it.re<2){Q.splice(Math.min(k+3,Q.length),0,{w:it.w,p:it.p,re:it.re+1});}
+   if(ok)up(it.w,it.p);else if(it.re<2){Q.splice(Math.min(k+3,Q.length),0,{w:it.w,p:it.p,re:it.re+1});}
    keepS();k++;next();});};
  const ask=(it,done)=>{const {w,p}=it;let answered=false,given='';
   const head=`${backBtn}${tag(3)}<div class="q-ph" data-c="${w.c}" data-p="${p}"><span>Вопрос ${k+1} из ${Q.length}</span><b>Фаза ${p}</b></div>`;

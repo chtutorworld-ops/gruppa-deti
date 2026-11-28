@@ -7,7 +7,7 @@ const BASE=process.argv[2]||'http://localhost:8765/kartochki/';const ONLY=proces
 const OUT=process.env.OUT||'/tmp/claude-0/tkc3';fs.mkdirSync(OUT,{recursive:true});
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const VIEWS=[['phone',390,844,true],['desk',1280,800,false]].filter(v=>!ONLY||v[0]===ONLY);
-const RU={'你':'ты','我':'я','好':'хорошо','叫':'зовут','妈':'мама','爸':'папа','他':'он','她':'она','们':'много людей','吗':'вопросительная частица','是':'являться','不':'не'};
+const RU={'你':'ты','我':'я','好':'хорошо','叫':'зовут','妈':'мама','爸':'папа','他':'он','她':'она','们':'множественное число','吗':'вопросительная частица','是':'являться','不':'не'};
 async function click(p,sel){const el=await p.waitForSelector(sel,{timeout:8000});await el.scrollIntoViewIfNeeded().catch(()=>{});await el.click();}
 async function stroke(p,c,i,reverse){const pts=await p.evaluate(([c,i])=>{const el=document.querySelector('#hw');const R=el.getBoundingClientRect();const sz=el.clientWidth;const pad=sz*.08,sc=(sz-2*pad)/1024,yo=124*sc+pad;
   return HZDATA[c].medians[i].map(([x,y])=>[R.left+pad+x*sc,R.top+sz-yo-y*sc]);},[c,i]);
@@ -21,10 +21,11 @@ async function run([vn,w,h,mob]){const log={bad:[],err:[],api:[],ok:new Set(),sa
  if(!(await p.$('[data-n="3"]')))log.bad.push('на главной нет задания № 3');
  await click(p,'[data-n="3"]');await sleep(300);await p.screenshot({path:`${OUT}/${vn}-0-fazy.png`,fullPage:true});
  if(!(await p.$('.blk.lock')))log.bad.push('блок 3 не закрыт в начале');
- let runs=0,errsMade=0,returned=0;const shots=new Set();
- while(runs<20){runs++;await click(p,runs===1?'#go3':'#again3');await sleep(250);const seen={};
+ let runs=0,errsMade=0,returned=0;const shots=new Set();let prev=null;
+ while(runs<20){runs++;if(runs>1){const bt=(await p.$$eval('.row .btn',b=>b.map(x=>x.textContent.trim()))).join('|');if(!/Все фазы.*Пройти ещё раз.*Следующая фаза/.test(bt))log.bad.push('кнопки итога: '+bt);}
+  await click(p,runs===1?'#go3':runs===2?'#rp3':'#again3');await sleep(250);const seen={};const first=[];
   while(true){const q=await p.$('.q-ph');if(!q)break;const c=await q.getAttribute('data-c'),ph=+(await q.getAttribute('data-p'));
-   seen[c]=(seen[c]||0)+1;if(seen[c]>1)returned++;
+   seen[c]=(seen[c]||0)+1;if(seen[c]>1)returned++;else first.push(c+ph);
    if(ph>=7&&!(await p.evaluate(()=>b3open())))log.bad.push('фаза 7–8 до открытия блока 3');
    const wrong=runs<=3&&errsMade<10&&seen[c]===1&&(Math.random()<.35||(ph===8&&errsMade<10));
    if(!shots.has(ph)){shots.add(ph);await p.screenshot({path:`${OUT}/${vn}-faza${ph}.png`,fullPage:true});}
@@ -46,6 +47,8 @@ async function run([vn,w,h,mob]){const log={bad:[],err:[],api:[],ok:new Set(),sa
    const v=await p.textContent('.kc-verd');if(wrong!==/Не совсем/.test(v))log.bad.push(`фаза ${ph} ${c}: вердикт «${v.trim()}», ждали ${wrong?'ошибку':'верно'}`);
    if(wrong)errsMade++;await click(p,'#nx3');await sleep(120);}
   await sleep(300);if(!(await p.$('#again3'))){log.bad.push('проходка не закончилась');break;}
+  if(runs===2&&prev&&first.slice().sort().join()!==prev.slice().sort().join())log.bad.push('«Пройти ещё раз» дал другие слова/фазы: '+first.join()+' / '+prev.join());
+  prev=first;
   if(runs===1)await p.screenshot({path:`${OUT}/${vn}-1-itog.png`,fullPage:true});
   if(await p.evaluate(()=>trPct())>=100)break;}
  await click(p,'#bd3');await sleep(300);await p.screenshot({path:`${OUT}/${vn}-2-100.png`,fullPage:true});

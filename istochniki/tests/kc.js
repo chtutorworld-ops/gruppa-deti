@@ -8,7 +8,7 @@ const ONLY=process.argv[3];
 const OUT=process.env.OUT||'/tmp/claude-0/tkc';fs.mkdirSync(OUT,{recursive:true});
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const VIEWS=[['phone',390,844,true],['land',844,390,true],['desk',1280,720,false]].filter(v=>!ONLY||v[0]===ONLY);
-const RIGHT={'你':'Ты','我':'я','好':'Хорошо','叫':'зовут','妈':'Мамочка','爸':'отец','他':'он','她':'Она','们':'много людей','吗':'вопросительная частица','是':'являться','不':'не'};const NW=12;
+const RIGHT={'你':'Ты','我':'я','好':'Хорошо','叫':'зовут','妈':'Мамочка','爸':'отец','他':'он','她':'Она','们':'множественное число','吗':'вопросительная частица','是':'являться','不':'не'};const NW=12;
 async function overflow(p,tag,log){const o=await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth);if(o>2)log.bad.push(tag+': горизонтальная прокрутка '+o+'px');}
 async function click(p,sel){const el=await p.waitForSelector(sel,{timeout:8000});await el.scrollIntoViewIfNeeded().catch(()=>{});await el.click();}
 // рисуем черту по медиане из данных черт (как это сделал бы палец)
